@@ -1,1 +1,932 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#f4f6fa" />
+  <title>DACC 장비 가동현황</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      background: #f4f6fa;
+      color: #182033;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Apple SD Gothic Neo",
+        "Noto Sans KR",
+        sans-serif;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 520px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 20px 16px 50px;
+    }
+
+    .header {
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      font-size: 12px;
+      font-weight: 800;
+      color: #4f6fe8;
+      letter-spacing: 1.5px;
+      margin-bottom: 4px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -0.7px;
+    }
+
+    .sub {
+      margin-top: 6px;
+      font-size: 13px;
+      color: #8a94a7;
+      line-height: 1.5;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #e5e9f2;
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 5px 20px rgba(26, 39, 70, 0.04);
+    }
+
+    .cardTitle {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .shiftWrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .shiftBtn {
+      height: 44px;
+      border: 1px solid #dfe4ee;
+      background: #fff;
+      color: #7b8496;
+      border-radius: 12px;
+      font-weight: 800;
+    }
+
+    .shiftBtn.active {
+      background: #edf1ff;
+      border-color: #7189ef;
+      color: #4562dc;
+    }
+
+    .uploadBox {
+      border: 2px dashed #cfd6e4;
+      border-radius: 16px;
+      padding: 24px 12px;
+      text-align: center;
+      background: #fbfcff;
+    }
+
+    .plus {
+      width: 42px;
+      height: 42px;
+      margin: 0 auto 9px;
+      border-radius: 50%;
+      background: #edf1ff;
+      color: #4f6fe8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 27px;
+      line-height: 1;
+      font-weight: 400;
+    }
+
+    .uploadTitle {
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .uploadDesc {
+      color: #9aa3b4;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .fileInput {
+      display: none;
+    }
+
+    .previewGrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .preview {
+      position: relative;
+      height: 125px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #eef1f6;
+      border: 1px solid #e0e5ee;
+    }
+
+    .preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .previewLabel {
+      position: absolute;
+      left: 7px;
+      bottom: 7px;
+      background: rgba(20, 25, 35, 0.72);
+      color: #fff;
+      font-size: 11px;
+      padding: 4px 7px;
+      border-radius: 7px;
+    }
+
+    .removeBtn {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      width: 28px;
+      height: 28px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(20, 25, 35, 0.75);
+      color: white;
+      font-size: 16px;
+    }
+
+    .primary {
+      width: 100%;
+      height: 50px;
+      border: 0;
+      border-radius: 14px;
+      background: #4f6fe8;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+      margin-top: 12px;
+    }
+
+    .primary:disabled {
+      background: #c5cbd8;
+      cursor: default;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .statusTop {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .statusCount {
+      color: #4f6fe8;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 34px 1fr auto auto;
+      align-items: center;
+      min-height: 48px;
+      border-bottom: 1px solid #eef1f5;
+      gap: 7px;
+    }
+
+    .row:last-child {
+      border-bottom: 0;
+    }
+
+    .check {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #e7f8ef;
+      color: #20a764;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .warning {
+      background: #fff4df;
+      color: #d38a11;
+    }
+
+    .equipment {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .temp {
+      font-size: 13px;
+      font-weight: 800;
+      color: #252d3e;
+    }
+
+    .state {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 7px;
+      border-radius: 7px;
+      background: #f0f3f8;
+      color: #6d778b;
+      white-space: nowrap;
+    }
+
+    .needCheck {
+      color: #d4890c;
+      background: #fff5df;
+    }
+
+    .excludedButton {
+      width: 100%;
+      min-height: 48px;
+      border: 0;
+      border-radius: 12px;
+      background: #f0f2f6;
+      color: #596274;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      margin-top: 12px;
+    }
+
+    .excludedList {
+      margin-top: 8px;
+      border-radius: 12px;
+      background: #f8f9fb;
+      overflow: hidden;
+    }
+
+    .excludedRow {
+      padding: 11px 13px;
+      border-bottom: 1px solid #e9edf3;
+      font-size: 12px;
+      color: #7b8495;
+      line-height: 1.45;
+    }
+
+    .excludedRow:last-child {
+      border-bottom: 0;
+    }
+
+    .excludedRow b {
+      color: #40495b;
+    }
+
+    .report {
+      width: 100%;
+      min-height: 440px;
+      resize: vertical;
+      border: 1px solid #e1e6ef;
+      background: #fbfcfe;
+      border-radius: 14px;
+      padding: 15px;
+      color: #222a38;
+      font-size: 13px;
+      line-height: 1.7;
+      outline: none;
+    }
+
+    .copyBtn {
+      width: 100%;
+      height: 50px;
+      margin-top: 10px;
+      border: 0;
+      border-radius: 14px;
+      background: #4f6fe8;
+      color: white;
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%);
+      background: #222938;
+      color: #fff;
+      padding: 11px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.2s;
+      z-index: 100;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    .note {
+      font-size: 11px;
+      color: #9aa3b4;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <div class="header">
+      <div class="brand">DACC</div>
+      <h1>장비 가동현황 작성</h1>
+      <div class="sub">
+        사진 2장을 추가하고 장비 현황 보고서를 작성합니다.
+      </div>
+    </div>
+
+    <section class="card">
+      <div class="cardTitle">근무 구분</div>
+
+      <div class="shiftWrap">
+        <button
+          id="dayBtn"
+          class="shiftBtn active"
+          onclick="setShift('주간')"
+        >
+          주간근무
+        </button>
+
+        <button
+          id="nightBtn"
+          class="shiftBtn"
+          onclick="setShift('야간')"
+        >
+          야간근무
+        </button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="cardTitle">사진 추가</div>
+
+      <label for="photos" class="uploadBox" id="uploadBox">
+        <div class="plus">+</div>
+        <div class="uploadTitle">사진 추가</div>
+        <div class="uploadDesc">최대 2장까지 선택할 수 있습니다.</div>
+      </label>
+
+      <input
+        id="photos"
+        class="fileInput"
+        type="file"
+        accept="image/*"
+        multiple
+      />
+
+      <div id="previewGrid" class="previewGrid"></div>
+
+      <button
+        id="analyzeBtn"
+        class="primary"
+        onclick="analyzePhotos()"
+        disabled
+      >
+        분석하기
+      </button>
+
+      <div class="note">
+        현재 1차 버전에서는 분석 화면과 보고서 생성 흐름을 먼저 확인합니다.
+      </div>
+    </section>
+
+    <section id="resultSection" class="card hidden">
+      <div class="statusTop">
+        <div class="cardTitle" style="margin:0;">분석 결과</div>
+        <div class="statusCount" id="statusCount"></div>
+      </div>
+
+      <div id="resultRows"></div>
+
+      <button class="excludedButton" onclick="toggleExcluded()">
+        <span id="excludedTitle">제외항목</span>
+        <span id="excludedArrow">▼</span>
+      </button>
+
+      <div id="excludedList" class="excludedList hidden"></div>
+
+      <button class="primary" onclick="makeReport()">
+        보고서 생성
+      </button>
+    </section>
+
+    <section id="reportSection" class="card hidden">
+      <div class="cardTitle">최종 보고서</div>
+
+      <textarea id="reportText" class="report"></textarea>
+
+      <button class="copyBtn" onclick="copyReport()">
+        전체 복사
+      </button>
+    </section>
+  </main>
+
+  <div id="toast" class="toast">복사되었습니다.</div>
+
+  <script>
+    let selectedFiles = [];
+    let shift = "주간";
+
+    /*
+      장비 번호는 실제 최신 번호표 확보 후 수정.
+      현재 예시 번호는 테스트 화면용.
+    */
+    const equipmentNumbers = {
+      TG2: "#25-17",
+      TG3: "#25-9",
+      TG4: "#25-9",
+      TG5: "#25-17",
+      TG6: "#25-15",
+      TG7: "",
+      GF1: "#25-38",
+      GF3: "#25-46",
+      GF4: "#25-30",
+      GF5: "#25-48",
+      CF1: "#25-111",
+      CF2: "#25-105",
+      CF3: "#25-65",
+      CF4: "#25-34",
+      CF5: "#25-80",
+      SMI: "",
+      "CF분위기로": "#25-49"
+    };
+
+    /*
+      테스트용 데이터.
+      다음 단계에서 실제 사진 OCR 결과로 교체.
+    */
+    let recognizedData = [
+      { name: "TG2", temp: 480, state: "승온중", note: "" },
+      { name: "TG3", temp: 644, state: "승온중", note: "" },
+      { name: "TG4", temp: 332, state: "승온중", note: "", check: true },
+      { name: "TG5", temp: 450, state: "유지중", note: "" },
+      { name: "TG6", temp: 480, state: "유지중", note: "" },
+      { name: "TG7", temp: 1015, state: "승온중", note: "" },
+
+      { name: "GF1", temp: 1208, state: "승온중", note: "" },
+      { name: "GF3", temp: 39, state: "냉각중", note: "" },
+      { name: "GF4", temp: 139, state: "냉각중", note: "" },
+      { name: "GF5", temp: 152, state: "승온중", note: "" },
+
+      { name: "CF1", temp: 76, state: "냉각중", note: "" },
+      { name: "CF2", temp: 320, state: "유지중", note: "" },
+      { name: "CF3", temp: 342, state: "승온중", note: "" },
+      { name: "CF4", temp: 151, state: "승온중", note: "" },
+      { name: "CF5", temp: 585, state: "냉각중", note: "" },
+
+      /*
+        중요 테스트:
+        100도 이하이지만 승온중이므로 반드시 표시.
+      */
+      { name: "SMI", temp: 22, state: "승온중", note: "" },
+
+      /*
+        언로딩대기는 온도와 관계없이 제외.
+      */
+      { name: "HIP3", temp: 250, state: "냉각중", note: "언로딩대기" },
+
+      { name: "CF분위기로", temp: 760, state: "유지중", note: "" }
+    ];
+
+    const dryChambers = [
+      { name: "구형 드라이챔버", temp: 120 },
+      { name: "신형 드라이챔버", temp: null }
+    ];
+
+    const tgBuildings = [
+      { name: "1동", temp: 541 },
+      { name: "3동", temp: 609 }
+    ];
+
+    function setShift(value) {
+      shift = value;
+
+      document
+        .getElementById("dayBtn")
+        .classList.toggle("active", value === "주간");
+
+      document
+        .getElementById("nightBtn")
+        .classList.toggle("active", value === "야간");
+
+      if (
+        !document
+          .getElementById("reportSection")
+          .classList.contains("hidden")
+      ) {
+        makeReport();
+      }
+    }
+
+    document
+      .getElementById("photos")
+      .addEventListener("change", function (event) {
+        const incoming = Array.from(event.target.files);
+
+        for (const file of incoming) {
+          if (selectedFiles.length >= 2) break;
+
+          const duplicate = selectedFiles.some(
+            f =>
+              f.name === file.name &&
+              f.size === file.size &&
+              f.lastModified === file.lastModified
+          );
+
+          if (!duplicate) {
+            selectedFiles.push(file);
+          }
+        }
+
+        event.target.value = "";
+        renderPreviews();
+      });
+
+    function renderPreviews() {
+      const grid = document.getElementById("previewGrid");
+      grid.innerHTML = "";
+
+      selectedFiles.forEach((file, index) => {
+        const url = URL.createObjectURL(file);
+
+        const box = document.createElement("div");
+        box.className = "preview";
+
+        const img = document.createElement("img");
+        img.src = url;
+        img.onload = () => URL.revokeObjectURL(url);
+
+        const label = document.createElement("div");
+        label.className = "previewLabel";
+        label.textContent = `사진 ${index + 1}`;
+
+        const remove = document.createElement("button");
+        remove.className = "removeBtn";
+        remove.textContent = "×";
+        remove.type = "button";
+
+        remove.onclick = function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          selectedFiles.splice(index, 1);
+          renderPreviews();
+        };
+
+        box.appendChild(img);
+        box.appendChild(label);
+        box.appendChild(remove);
+        grid.appendChild(box);
+      });
+
+      document.getElementById("analyzeBtn").disabled =
+        selectedFiles.length === 0;
+    }
+
+    function shouldExclude(item) {
+      const note = String(item.note || "").replace(/\s/g, "");
+
+      /*
+        규칙 1:
+        맨 오른쪽에 언로딩대기 → 제외
+      */
+      if (note.includes("언로딩대기")) {
+        return {
+          excluded: true,
+          reason: "언로딩대기"
+        };
+      }
+
+      /*
+        규칙 2:
+        100도 이하 + 냉각 → 제외
+      */
+      if (
+        Number(item.temp) <= 100 &&
+        String(item.state).includes("냉각")
+      ) {
+        return {
+          excluded: true,
+          reason: "100도 이하 냉각"
+        };
+      }
+
+      /*
+        규칙 3:
+        100도 이하라도 승온 → 표시
+      */
+      return {
+        excluded: false,
+        reason: ""
+      };
+    }
+
+    function analyzePhotos() {
+      const included = [];
+      const excluded = [];
+
+      recognizedData.forEach(item => {
+        const result = shouldExclude(item);
+
+        if (result.excluded) {
+          excluded.push({
+            ...item,
+            reason: result.reason
+          });
+        } else {
+          included.push(item);
+        }
+      });
+
+      renderResults(included, excluded);
+
+      const resultSection =
+        document.getElementById("resultSection");
+
+      resultSection.classList.remove("hidden");
+
+      document
+        .getElementById("reportSection")
+        .classList.add("hidden");
+
+      setTimeout(() => {
+        resultSection.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }, 100);
+    }
+
+    function renderResults(included, excluded) {
+      const rows = document.getElementById("resultRows");
+      const excludedList =
+        document.getElementById("excludedList");
+
+      rows.innerHTML = "";
+      excludedList.innerHTML = "";
+
+      included.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "row";
+
+        const check = document.createElement("div");
+        check.className =
+          "check" + (item.check ? " warning" : "");
+        check.textContent = item.check ? "!" : "✓";
+
+        const name = document.createElement("div");
+        name.className = "equipment";
+        name.textContent = item.name;
+
+        const temp = document.createElement("div");
+        temp.className = "temp";
+        temp.textContent = `${item.temp}℃`;
+
+        const state = document.createElement("div");
+        state.className =
+          "state" + (item.check ? " needCheck" : "");
+        state.textContent =
+          item.check ? "확인 필요" : item.state;
+
+        row.appendChild(check);
+        row.appendChild(name);
+        row.appendChild(temp);
+        row.appendChild(state);
+
+        rows.appendChild(row);
+      });
+
+      excluded.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "excludedRow";
+
+        row.innerHTML =
+          `<b>${item.name}</b> ` +
+          `${item.temp}℃ ${item.state || ""}` +
+          `<br>→ ${item.reason}`;
+
+        excludedList.appendChild(row);
+      });
+
+      document.getElementById("statusCount").textContent =
+        `${included.length}개 표시`;
+
+      document.getElementById("excludedTitle").textContent =
+        `제외항목 ${excluded.length}개`;
+    }
+
+    function toggleExcluded() {
+      const list =
+        document.getElementById("excludedList");
+
+      const arrow =
+        document.getElementById("excludedArrow");
+
+      const isHidden =
+        list.classList.contains("hidden");
+
+      list.classList.toggle("hidden");
+
+      arrow.textContent =
+        isHidden ? "▲" : "▼";
+    }
+
+    function getIncludedData() {
+      return recognizedData.filter(
+        item => !shouldExclude(item).excluded
+      );
+    }
+
+    function formatEquipment(item) {
+      const number =
+        equipmentNumbers[item.name] || "";
+
+      const prefix =
+        number ? number + " " : "";
+
+      return (
+        `${prefix}${item.name} ` +
+        `${item.temp}도 ${item.state}`
+      );
+    }
+
+    function getKoreanDate() {
+      const now = new Date();
+
+      const month = String(
+        now.getMonth() + 1
+      ).padStart(2, "0");
+
+      const day = String(
+        now.getDate()
+      ).padStart(2, "0");
+
+      const weekdays = [
+        "일", "월", "화", "수", "목", "금", "토"
+      ];
+
+      return `${month}월 ${day}일 (${weekdays[now.getDay()]})`;
+    }
+
+    function makeReport() {
+      const included = getIncludedData();
+
+      const lines = [];
+
+      lines.push(
+        `${getKoreanDate()} ${shift}근무자`
+      );
+
+      lines.push("진춘호 사원입니다.");
+      lines.push("");
+      lines.push('"장비가동현황"');
+
+      included.forEach(item => {
+        lines.push(formatEquipment(item));
+      });
+
+      const visibleDry = dryChambers.filter(
+        item =>
+          item.temp !== null &&
+          item.temp !== undefined &&
+          item.temp !== ""
+      );
+
+      if (visibleDry.length > 0) {
+        lines.push("");
+
+        visibleDry.forEach(item => {
+          lines.push(
+            `${item.name} ${item.temp}도`
+          );
+        });
+      }
+
+      if (tgBuildings.length > 0) {
+        lines.push("");
+        lines.push("-TG소각기-");
+
+        tgBuildings.forEach(item => {
+          lines.push(
+            `${item.name} ${item.temp}도`
+          );
+        });
+      }
+
+      lines.push("");
+      lines.push('"장비 특이사항"');
+      lines.push("");
+      lines.push("-세정집진기 ON");
+      lines.push("");
+      lines.push('"순찰중 특이사항"');
+      lines.push("없음");
+      lines.push("");
+      lines.push("LPG기화기");
+      lines.push("이상없음");
+      lines.push("");
+
+      if (shift === "주간") {
+        lines.push('"금일 야간근무자"');
+      } else {
+        lines.push('"금일 주간근무자"');
+      }
+
+      lines.push("");
+      lines.push("이상입니다.");
+
+      document.getElementById("reportText").value =
+        lines.join("\n");
+
+      const reportSection =
+        document.getElementById("reportSection");
+
+      reportSection.classList.remove("hidden");
+
+      setTimeout(() => {
+        reportSection.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }, 100);
+    }
+
+    async function copyReport() {
+      const text =
+        document.getElementById("reportText").value;
+
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("보고서가 복사되었습니다.");
+      } catch (error) {
+        const textarea =
+          document.getElementById("reportText");
+
+        textarea.focus();
+        textarea.select();
+
+        document.execCommand("copy");
+        showToast("보고서가 복사되었습니다.");
+      }
+    }
+
+    function showToast(message) {
+      const toast =
+        document.getElementById("toast");
+
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 1800);
+    }
+  </script>
+</body>
+</html>
