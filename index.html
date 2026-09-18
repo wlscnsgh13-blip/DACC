@@ -5,15 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f5f7fb">
 
-<title>DACC V4</title>
+<title>DACC V4.1</title>
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent
-}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
 body{
   margin:0;
@@ -22,9 +19,7 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif
 }
 
-button,input,textarea{
-  font:inherit
-}
+button,input,textarea{font:inherit}
 
 .app{
   max-width:520px;
@@ -39,10 +34,7 @@ button,input,textarea{
   color:#5270e8
 }
 
-h1{
-  font-size:25px;
-  margin:5px 0
-}
+h1{font-size:25px;margin:5px 0}
 
 .desc{
   font-size:13px;
@@ -59,10 +51,7 @@ h1{
   box-shadow:0 5px 22px rgba(25,35,60,.04)
 }
 
-.title{
-  font-size:16px;
-  font-weight:900
-}
+.title{font-size:16px;font-weight:900}
 
 .flex{
   display:flex;
@@ -71,13 +60,9 @@ h1{
   gap:8px
 }
 
-.rank{
-  display:flex;
-  gap:5px
-}
+.rank{display:flex;gap:5px}
 
-.rank button,
-.work button{
+.rank button,.work button{
   border:1px solid #dde3ed;
   background:#fff;
   color:#7b8495;
@@ -130,9 +115,7 @@ button.active{
   font-size:26px
 }
 
-.upload b{
-  font-size:14px
-}
+.upload b{font-size:14px}
 
 .upload small{
   display:block;
@@ -141,9 +124,7 @@ button.active{
   margin-top:5px
 }
 
-input[type=file]{
-  display:none
-}
+input[type=file]{display:none}
 
 .preview{
   height:165px;
@@ -182,9 +163,7 @@ input[type=file]{
   font-weight:900
 }
 
-.primary:disabled{
-  background:#c7cedd
-}
+.primary:disabled{background:#c7cedd}
 
 .status{
   margin-top:12px;
@@ -210,9 +189,7 @@ input[type=file]{
   transition:.2s
 }
 
-.hidden{
-  display:none!important
-}
+.hidden{display:none!important}
 
 .result{
   display:grid;
@@ -235,10 +212,7 @@ input[type=file]{
   font-weight:900
 }
 
-.main{
-  font-size:13px;
-  font-weight:900
-}
+.main{font-size:13px;font-weight:900}
 
 .sub{
   font-size:11px;
@@ -255,24 +229,22 @@ input[type=file]{
   font-weight:900
 }
 
-.warning{
+.warning,.success{
   margin-top:12px;
   padding:13px;
   border-radius:12px;
-  background:#fff7e8;
-  color:#9a6813;
   font-size:12px;
   line-height:1.6
 }
 
+.warning{
+  background:#fff7e8;
+  color:#9a6813
+}
+
 .success{
-  margin-top:12px;
-  padding:13px;
-  border-radius:12px;
   background:#eefaf3;
-  color:#238454;
-  font-size:12px;
-  line-height:1.6
+  color:#238454
 }
 
 .excludedBtn{
@@ -315,1060 +287,1205 @@ textarea{
   font-size:13px;
   line-height:1.7
 }
-
 </style>
 </head>
 
 <body>
-
 <main class="app">
 
-<div class="logo">DACC V4</div>
-
+<div class="logo">DACC V4.1</div>
 <h1>장비 가동현황 작성</h1>
-
-<p class="desc">
-순찰일지와 장비번호 사진을 분석합니다.
-</p>
-
+<p class="desc">사진 자동 보정 · 순찰일지 · 장비번호 분석</p>
 
 <section class="card">
 
 <div class="flex">
+  <div class="title">근무 구분</div>
 
-<div class="title">
-근무 구분
+  <div class="rank">
+    <button data-rank="대리">대리</button>
+    <button data-rank="주임">주임</button>
+    <button data-rank="사원" class="active">사원</button>
+  </div>
 </div>
-
-<div class="rank">
-
-<button data-rank="대리">
-대리
-</button>
-
-<button data-rank="주임">
-주임
-</button>
-
-<button
-data-rank="사원"
-class="active">
-사원
-</button>
-
-</div>
-
-</div>
-
 
 <div class="work">
-
-<button
-data-work="weekday"
-class="active">
-평일주간
-</button>
-
-<button
-data-work="holiday">
-휴일주간
-</button>
-
-<button
-data-work="night">
-야간
-</button>
-
+  <button data-work="weekday" class="active">평일주간</button>
+  <button data-work="holiday">휴일주간</button>
+  <button data-work="night">야간</button>
 </div>
 
 </section>
-
 
 <section class="card">
 
-<div class="title">
-사진 1 · 순찰일지
-</div>
+<div class="title">사진 1 · 순찰일지</div>
 
-<label
-class="upload"
-for="patrolFile">
-
-<div class="plus">
-+
-</div>
-
-<b>
-순찰일지 사진 추가
-</b>
-
-<small>
-35개 행 기준 · 온도 / 상태 / 비고 판독
-</small>
-
+<label class="upload" for="patrolFile">
+  <div class="plus">+</div>
+  <b>순찰일지 사진 추가</b>
+  <small>기울기/원근 자동 보정 후 판독</small>
 </label>
 
-<input
-id="patrolFile"
-type="file"
-accept="image/*">
+<input id="patrolFile" type="file" accept="image/*">
+<div id="patrolPreview"></div>
 
-<div id="patrolPreview">
-</div>
-
-
-<div
-class="title"
-style="margin-top:18px">
-
+<div class="title" style="margin-top:18px">
 사진 2 · 장비번호
-
 </div>
 
-<label
-class="upload"
-for="numberFile">
-
-<div class="plus">
-+
-</div>
-
-<b>
-장비번호 사진 추가
-</b>
-
-<small>
-장비명 · 26-xxx · 가동 여부 판독
-</small>
-
+<label class="upload" for="numberFile">
+  <div class="plus">+</div>
+  <b>장비번호 사진 추가</b>
+  <small>장비명 · 번호 · 가동 판독</small>
 </label>
 
-<input
-id="numberFile"
-type="file"
-accept="image/*">
+<input id="numberFile" type="file" accept="image/*">
+<div id="numberPreview"></div>
 
-<div id="numberPreview">
-</div>
-
-
-<button
-id="analyze"
-class="primary"
-disabled>
-
+<button id="analyze" class="primary" disabled>
 두 사진 분석하기
-
 </button>
 
-
-<div
-id="status"
-class="status hidden">
-
-<div id="statusText">
-</div>
-
-<div class="track">
-<div
-id="bar"
-class="bar">
-</div>
-</div>
-
+<div id="status" class="status hidden">
+  <div id="statusText"></div>
+  <div class="track">
+    <div id="bar" class="bar"></div>
+  </div>
 </div>
 
 </section>
 
-
-<section
-id="resultCard"
-class="card hidden">
+<section id="resultCard" class="card hidden">
 
 <div class="flex">
-
-<div class="title">
-분석 결과
+  <div class="title">분석 결과</div>
+  <div id="count" class="logo"></div>
 </div>
 
-<div
-id="count"
-class="logo">
-</div>
+<div id="patrolStatus" class="success hidden"></div>
+<div id="numberStatus" class="success hidden"></div>
+<div id="fatalWarning" class="warning hidden"></div>
 
-</div>
+<div id="results"></div>
 
+<div id="tg1Area" class="warning hidden"></div>
 
-<div
-id="patrolStatus"
-class="success hidden">
-</div>
-
-
-<div
-id="numberStatus"
-class="success hidden">
-</div>
-
-
-<div
-id="fatalWarning"
-class="warning hidden">
-</div>
-
-
-<div id="results">
-</div>
-
-
-<div
-id="tg1Area"
-class="warning hidden">
-</div>
-
-
-<button
-id="excludedBtn"
-class="excludedBtn">
-
-<span id="excludedCount">
-제외항목 0개
-</span>
-
-<span id="arrow">
-▼
-</span>
-
+<button id="excludedBtn" class="excludedBtn">
+  <span id="excludedCount">제외항목 0개</span>
+  <span id="arrow">▼</span>
 </button>
 
+<div id="excluded" class="excluded hidden"></div>
 
-<div
-id="excluded"
-class="excluded hidden">
-</div>
-
-
-<button
-id="makeReport"
-class="primary"
-disabled>
-
+<button id="makeReport" class="primary" disabled>
 보고서 생성
-
 </button>
 
 </section>
 
+<section id="reportCard" class="card hidden">
 
-<section
-id="reportCard"
-class="card hidden">
-
-<div
-class="title"
-style="margin-bottom:12px">
-
+<div class="title" style="margin-bottom:12px">
 최종 보고서
-
 </div>
 
-<textarea id="report">
-</textarea>
+<textarea id="report"></textarea>
 
-<button
-id="copy"
-class="primary">
-
+<button id="copy" class="primary">
 전체 복사
-
 </button>
 
 </section>
 
 </main>
 
-
 <script>
 
 /* =========================================================
-   DACC V4
+   DACC V4.1
 ========================================================= */
 
-const $ =
-id =>
-document.getElementById(id);
+const $ = id =>
+  document.getElementById(id);
 
+let workType = "weekday";
+let rank = "사원";
 
-let workType =
-"weekday";
+let patrolImage = null;
+let numberImage = null;
 
+let worker = null;
+let analysisResult = null;
 
-let rank =
-"사원";
-
-
-let patrolImage =
-null;
-
-
-let numberImage =
-null;
-
-
-let worker =
-null;
-
-
-let analysisResult =
-null;
+let cvReady = false;
+let cvLoading = false;
 
 
 /* =========================================================
-   ★ 순찰일지 고정 행
+   OpenCV 자동 로딩
 
-   핵심:
-   여기서는 장비명 OCR을 하지 않는다.
-
-   실제 종이의 행 번호가 기준.
+   별도 설치/가입/API KEY 없음
 ========================================================= */
 
+function loadOpenCV(){
 
-/*
-평일 주간
+  if(cvReady){
+    return Promise.resolve();
+  }
 
-20~24:
-사용 안 함.
-하지만 실제 종이 행 계산에서는 존재.
+  return new Promise((resolve,reject) => {
 
-31~35:
-사용 안 함.
-역시 행은 그대로 존재.
-*/
+    if(cvLoading){
+
+      const timer = setInterval(() => {
+
+        if(cvReady){
+          clearInterval(timer);
+          resolve();
+        }
+
+      },100);
+
+      setTimeout(() => {
+        clearInterval(timer);
+
+        if(!cvReady){
+          reject(
+            new Error("OpenCV 로딩 시간 초과")
+          );
+        }
+
+      },20000);
+
+      return;
+    }
+
+
+    cvLoading = true;
+
+    const script =
+      document.createElement("script");
+
+    script.async = true;
+
+    script.src =
+      "https://docs.opencv.org/4.x/opencv.js";
+
+
+    script.onload = () => {
+
+      const wait = () => {
+
+        if(
+          window.cv &&
+          typeof cv.Mat === "function"
+        ){
+
+          cvReady = true;
+          cvLoading = false;
+
+          resolve();
+          return;
+        }
+
+        setTimeout(wait,100);
+      };
+
+      wait();
+    };
+
+
+    script.onerror = () => {
+
+      cvLoading = false;
+
+      reject(
+        new Error("OpenCV.js를 불러오지 못했습니다.")
+      );
+    };
+
+
+    document.head.appendChild(
+      script
+    );
+
+  });
+}
+
+
+/* =========================================================
+   근무별 35행 고정 구조
+========================================================= */
 
 const WEEKDAY_ROWS = {
 
-1:"TG2",
-2:"TG3",
-3:"TG4",
-4:"TG5",
-5:"TG6",
-6:"TG7",
+  1:"TG2",
+  2:"TG3",
+  3:"TG4",
+  4:"TG5",
+  5:"TG6",
+  6:"TG7",
 
-7:"GF1",
-8:"GF3",
-9:"GF4",
-10:"GF5",
+  7:"GF1",
+  8:"GF3",
+  9:"GF4",
+  10:"GF5",
 
-11:"SMI",
+  11:"SMI",
 
-12:"CF1",
-13:"CF2",
-14:"CF3",
-15:"CF4",
-16:"CF5",
-17:"CF6",
+  12:"CF1",
+  13:"CF2",
+  14:"CF3",
+  15:"CF4",
+  16:"CF5",
+  17:"CF6",
 
-18:"CF분위기로",
+  18:"CF분위기로",
 
-19:"구형드라이챔버",
+  19:"구형드라이챔버",
 
-20:null,
-21:null,
-22:null,
-23:null,
-24:null,
+  20:null,
+  21:null,
+  22:null,
+  23:null,
+  24:null,
 
-25:"신형드라이챔버",
+  25:"신형드라이챔버",
 
-26:"1동소각기",
-27:"3동소각기",
+  26:"1동소각기",
+  27:"3동소각기",
 
-28:"HIP1",
-29:"HIP2",
-30:"HIP3",
+  28:"HIP1",
+  29:"HIP2",
+  30:"HIP3",
 
-31:null,
-32:null,
-33:null,
-34:null,
-35:null
-
+  31:null,
+  32:null,
+  33:null,
+  34:null,
+  35:null
 };
 
-
-/*
-야간 / 휴일주간
-
-둘은 같은 구조.
-
-19 구형 드라이챔버
-20 신형 드라이챔버
-
-21~25:
-유해화학물질부터
-생산동 메인 냉각수펌프.
-
-보고서 온도 출력 대상 아님.
-
-26 1동소각기
-27 3동소각기
-28~30 HIP
-
-31~35 미사용
-*/
 
 const NIGHT_ROWS = {
 
-1:"TG2",
-2:"TG3",
-3:"TG4",
-4:"TG5",
-5:"TG6",
-6:"TG7",
+  1:"TG2",
+  2:"TG3",
+  3:"TG4",
+  4:"TG5",
+  5:"TG6",
+  6:"TG7",
 
-7:"GF1",
-8:"GF3",
-9:"GF4",
-10:"GF5",
+  7:"GF1",
+  8:"GF3",
+  9:"GF4",
+  10:"GF5",
 
-11:"SMI",
+  11:"SMI",
 
-12:"CF1",
-13:"CF2",
-14:"CF3",
-15:"CF4",
-16:"CF5",
-17:"CF6",
+  12:"CF1",
+  13:"CF2",
+  14:"CF3",
+  15:"CF4",
+  16:"CF5",
+  17:"CF6",
 
-18:"CF분위기로",
+  18:"CF분위기로",
 
-19:"구형드라이챔버",
-20:"신형드라이챔버",
+  19:"구형드라이챔버",
+  20:"신형드라이챔버",
 
-21:null,
-22:null,
-23:null,
-24:null,
-25:null,
+  21:null,
+  22:null,
+  23:null,
+  24:null,
+  25:null,
 
-26:"1동소각기",
-27:"3동소각기",
+  26:"1동소각기",
+  27:"3동소각기",
 
-28:"HIP1",
-29:"HIP2",
-30:"HIP3",
+  28:"HIP1",
+  29:"HIP2",
+  30:"HIP3",
 
-31:null,
-32:null,
-33:null,
-34:null,
-35:null
-
+  31:null,
+  32:null,
+  33:null,
+  34:null,
+  35:null
 };
 
 
-/* =========================================================
-   현재 근무의 행 구조
-========================================================= */
-
 function getPatrolRows(){
 
-if(
-workType === "weekday"
-){
-
-return WEEKDAY_ROWS;
-
-}
-
-
-return NIGHT_ROWS;
-
+  return workType === "weekday"
+    ? WEEKDAY_ROWS
+    : NIGHT_ROWS;
 }
 
 
 /* =========================================================
-   장비번호 사진에서 찾을 장비
-========================================================= */
-
-const NUMBER_EQUIPMENT = [
-
-"TG1",
-
-"TG2",
-"TG3",
-"TG4",
-"TG5",
-"TG6",
-"TG7",
-
-"CF1",
-"CF2",
-"CF3",
-"CF4",
-"CF5",
-"CF6",
-
-"GF1",
-"GF3",
-"GF4",
-"GF5",
-
-"HIP1",
-"HIP2",
-"HIP3",
-
-"SMI",
-
-"CF분위기로",
-
-"구형드라이챔버",
-"신형드라이챔버"
-
-];
-
-
-/* =========================================================
-   일반 최종 출력 순서
+   출력 장비
 ========================================================= */
 
 const REPORT_ORDER = [
-
-"TG2",
-"TG3",
-"TG4",
-"TG5",
-"TG6",
-"TG7",
-
-"GF1",
-"GF3",
-"GF4",
-"GF5",
-
-"SMI",
-
-"CF1",
-"CF2",
-"CF3",
-"CF4",
-"CF5",
-"CF6",
-
-"CF분위기로",
-
-"HIP1",
-"HIP2",
-"HIP3"
-
+  "TG2","TG3","TG4","TG5","TG6","TG7",
+  "GF1","GF3","GF4","GF5",
+  "SMI",
+  "CF1","CF2","CF3","CF4","CF5","CF6",
+  "CF분위기로",
+  "HIP1","HIP2","HIP3"
 ];
 
 
-/* =========================================================
-   특수장비
-========================================================= */
+const NUMBER_EQUIPMENT = [
+  "TG1",
+  "TG2","TG3","TG4","TG5","TG6","TG7",
+  "GF1","GF3","GF4","GF5",
+  "SMI",
+  "CF1","CF2","CF3","CF4","CF5","CF6",
+  "CF분위기로",
+  "HIP1","HIP2","HIP3"
+];
+
 
 const DRY_EQUIPMENT = [
-
-"구형드라이챔버",
-"신형드라이챔버"
-
+  "구형드라이챔버",
+  "신형드라이챔버"
 ];
 
 
 const INCINERATOR_EQUIPMENT = [
-
-"1동소각기",
-"3동소각기"
-
+  "1동소각기",
+  "3동소각기"
 ];
 
 
 /* =========================================================
-   근무 선택
+   선택 UI
 ========================================================= */
 
 document
-.querySelectorAll(
-"[data-work]"
-)
-.forEach(
-btn => {
+.querySelectorAll("[data-work]")
+.forEach(btn => {
 
-btn.onclick =
-() => {
+  btn.onclick = () => {
 
-workType =
-btn.dataset.work;
+    workType =
+      btn.dataset.work;
+
+    document
+    .querySelectorAll("[data-work]")
+    .forEach(x => {
+
+      x.classList.toggle(
+        "active",
+        x === btn
+      );
+
+    });
+
+    resetAnalysis();
+  };
+
+});
 
 
 document
-.querySelectorAll(
-"[data-work]"
-)
-.forEach(
-x => {
+.querySelectorAll("[data-rank]")
+.forEach(btn => {
 
-x.classList.toggle(
-"active",
-x === btn
-);
+  btn.onclick = () => {
 
-}
-);
+    rank =
+      btn.dataset.rank;
 
+    document
+    .querySelectorAll("[data-rank]")
+    .forEach(x => {
 
-/*
-근무가 바뀌면
-이전 분석 결과 폐기
-*/
+      x.classList.toggle(
+        "active",
+        x === btn
+      );
 
-resetAnalysis();
+    });
 
-};
+  };
 
-}
-);
+});
 
 
 /* =========================================================
-   직급 선택
+   사진
 ========================================================= */
 
-document
-.querySelectorAll(
-"[data-rank]"
-)
-.forEach(
-btn => {
+$("patrolFile").onchange = e => {
 
-btn.onclick =
-() => {
+  patrolImage =
+    e.target.files?.[0] || null;
 
-rank =
-btn.dataset.rank;
+  showPreview(
+    "patrolPreview",
+    patrolImage,
+    "순찰일지"
+  );
 
-
-document
-.querySelectorAll(
-"[data-rank]"
-)
-.forEach(
-x => {
-
-x.classList.toggle(
-"active",
-x === btn
-);
-
-}
-);
-
-};
-
-}
-);
-
-
-/* =========================================================
-   사진 선택
-========================================================= */
-
-$("patrolFile")
-.onchange =
-e => {
-
-patrolImage =
-e.target.files?.[0] ||
-null;
-
-
-showPreview(
-"patrolPreview",
-patrolImage,
-"순찰일지"
-);
-
-
-resetAnalysis();
-
-updateAnalyzeButton();
-
+  resetAnalysis();
+  updateAnalyzeButton();
 };
 
 
-$("numberFile")
-.onchange =
-e => {
+$("numberFile").onchange = e => {
 
-numberImage =
-e.target.files?.[0] ||
-null;
+  numberImage =
+    e.target.files?.[0] || null;
 
+  showPreview(
+    "numberPreview",
+    numberImage,
+    "장비번호"
+  );
 
-showPreview(
-"numberPreview",
-numberImage,
-"장비번호"
-);
-
-
-resetAnalysis();
-
-updateAnalyzeButton();
-
+  resetAnalysis();
+  updateAnalyzeButton();
 };
 
-
-/* =========================================================
-   분석 버튼
-========================================================= */
 
 function updateAnalyzeButton(){
 
-$("analyze").disabled =
-!(
-patrolImage &&
-numberImage
-);
-
+  $("analyze").disabled =
+    !(patrolImage && numberImage);
 }
 
-
-/* =========================================================
-   사진 미리보기
-========================================================= */
 
 function showPreview(
-id,
-file,
-label
+  id,
+  file,
+  label
 ){
 
-const area =
-$(id);
+  const area = $(id);
 
+  area.innerHTML = "";
 
-area.innerHTML =
-"";
+  if(!file){
+    return;
+  }
 
+  const url =
+    URL.createObjectURL(file);
 
-if(!file){
-return;
-}
+  const box =
+    document.createElement("div");
 
+  box.className = "preview";
 
-const url =
-URL.createObjectURL(
-file
-);
+  const img =
+    document.createElement("img");
 
+  img.src = url;
 
-const box =
-document.createElement(
-"div"
-);
+  const tag =
+    document.createElement("span");
 
+  tag.textContent = label;
 
-box.className =
-"preview";
+  box.appendChild(img);
+  box.appendChild(tag);
 
-
-const img =
-document.createElement(
-"img"
-);
-
-
-img.src =
-url;
-
-
-const tag =
-document.createElement(
-"span"
-);
-
-
-tag.textContent =
-label;
-
-
-box.appendChild(
-img
-);
-
-
-box.appendChild(
-tag
-);
-
-
-area.appendChild(
-box
-);
-
+  area.appendChild(box);
 }
 
 
 /* =========================================================
-   이전 분석 초기화
+   초기화
 ========================================================= */
 
 function resetAnalysis(){
 
-analysisResult =
-null;
+  analysisResult = null;
 
+  $("resultCard")
+    .classList.add("hidden");
 
-$("resultCard")
-.classList
-.add(
-"hidden"
-);
+  $("reportCard")
+    .classList.add("hidden");
 
+  $("results").innerHTML = "";
+  $("excluded").innerHTML = "";
+  $("report").value = "";
 
-$("reportCard")
-.classList
-.add(
-"hidden"
-);
+  $("fatalWarning")
+    .classList.add("hidden");
 
+  $("patrolStatus")
+    .classList.add("hidden");
 
-$("report").value =
-"";
+  $("numberStatus")
+    .classList.add("hidden");
 
-
-$("results").innerHTML =
-"";
-
-
-$("excluded").innerHTML =
-"";
-
-
-$("fatalWarning")
-.classList
-.add(
-"hidden"
-);
-
-
-$("patrolStatus")
-.classList
-.add(
-"hidden"
-);
-
-
-$("numberStatus")
-.classList
-.add(
-"hidden"
-);
-
-
-$("makeReport").disabled =
-true;
-
+  $("makeReport").disabled = true;
 }
 
 
 /* =========================================================
-   진행 상태
+   진행률
 ========================================================= */
 
 function setStatus(
-text,
-percent
+  text,
+  percent
 ){
 
-$("status")
-.classList
-.remove(
-"hidden"
-);
+  $("status")
+    .classList.remove("hidden");
 
+  $("statusText").textContent =
+    text;
 
-$("statusText")
-.textContent =
-text;
+  if(Number.isFinite(percent)){
 
-
-if(
-Number.isFinite(
-percent
-)
-){
-
-$("bar")
-.style
-.width =
-
-Math.max(
-0,
-Math.min(
-100,
-percent
-)
-) + "%";
-
-}
-
+    $("bar").style.width =
+      Math.max(
+        0,
+        Math.min(100,percent)
+      ) + "%";
+  }
 }
 
 
 /* =========================================================
-   문자열 정리
+   문자열
 ========================================================= */
 
-function clean(
-value
-){
+function clean(value){
 
-return String(
-value ||
-""
-)
-
-.replace(
-/[‐-‒–—―]/g,
-"-"
-)
-
-.replace(
-/\s+/g,
-" "
-)
-
-.trim();
-
+  return String(value || "")
+    .replace(/[‐-‒–—―]/g,"-")
+    .replace(/\s+/g," ")
+    .trim();
 }
 
 
-function compact(
-value
-){
+function compact(value){
 
-return clean(
-value
-)
-
-.replace(
-/\s/g,
-""
-)
-
-.toUpperCase();
-
+  return clean(value)
+    .replace(/\s/g,"")
+    .toUpperCase();
 }
 
 
 /* =========================================================
-   이미지 로드 + 축소
-
-   iPhone 메모리 보호
+   사진 → Canvas
 ========================================================= */
 
 async function fileToCanvas(
-file,
-maxSide = 2400
+  file,
+  maxSide = 2400
 ){
 
-return new Promise(
-(resolve,reject) => {
+  return new Promise(
+    (resolve,reject) => {
 
-const image =
-new Image();
+      const image =
+        new Image();
 
+      const url =
+        URL.createObjectURL(file);
 
-const url =
-URL.createObjectURL(
-file
-);
+      image.onload = () => {
 
+        const scale =
+          Math.min(
+            1,
+            maxSide /
+            Math.max(
+              image.naturalWidth,
+              image.naturalHeight
+            )
+          );
 
-image.onload =
-() => {
+        const canvas =
+          document.createElement("canvas");
 
-const scale =
-Math.min(
+        canvas.width =
+          Math.round(
+            image.naturalWidth *
+            scale
+          );
 
-1,
+        canvas.height =
+          Math.round(
+            image.naturalHeight *
+            scale
+          );
 
-maxSide /
-Math.max(
-image.naturalWidth,
-image.naturalHeight
-)
+        const ctx =
+          canvas.getContext(
+            "2d",
+            {willReadFrequently:true}
+          );
 
-);
+        ctx.drawImage(
+          image,
+          0,0,
+          canvas.width,
+          canvas.height
+        );
 
+        URL.revokeObjectURL(url);
 
-const canvas =
-document.createElement(
-"canvas"
-);
+        resolve(canvas);
+      };
 
+      image.onerror = reject;
 
-canvas.width =
-Math.round(
-image.naturalWidth *
-scale
-);
-
-
-canvas.height =
-Math.round(
-image.naturalHeight *
-scale
-);
-
-
-const ctx =
-canvas.getContext(
-"2d",
-{
-willReadFrequently:true
+      image.src = url;
+    }
+  );
 }
-);
 
 
-ctx.drawImage(
+/* =========================================================
+   ★ OpenCV 문서/표 외곽 사각형 찾기
+========================================================= */
 
-image,
+function findDocumentQuad(
+  canvas
+){
 
-0,
-0,
+  const src =
+    cv.imread(canvas);
 
-canvas.width,
-canvas.height
+  const gray =
+    new cv.Mat();
 
-);
+  const blur =
+    new cv.Mat();
 
+  const edges =
+    new cv.Mat();
 
-URL.revokeObjectURL(
-url
-);
+  const contours =
+    new cv.MatVector();
 
-
-resolve(
-canvas
-);
-
-};
-
-
-image.onerror =
-reject;
+  const hierarchy =
+    new cv.Mat();
 
 
-image.src =
-url;
+  try{
+
+    cv.cvtColor(
+      src,
+      gray,
+      cv.COLOR_RGBA2GRAY
+    );
+
+
+    cv.GaussianBlur(
+      gray,
+      blur,
+      new cv.Size(5,5),
+      0,
+      0,
+      cv.BORDER_DEFAULT
+    );
+
+
+    cv.Canny(
+      blur,
+      edges,
+      45,
+      140
+    );
+
+
+    /*
+      끊긴 표 선 연결
+    */
+
+    const kernel =
+      cv.getStructuringElement(
+        cv.MORPH_RECT,
+        new cv.Size(5,5)
+      );
+
+
+    cv.morphologyEx(
+      edges,
+      edges,
+      cv.MORPH_CLOSE,
+      kernel
+    );
+
+
+    kernel.delete();
+
+
+    cv.findContours(
+      edges,
+      contours,
+      hierarchy,
+      cv.RETR_LIST,
+      cv.CHAIN_APPROX_SIMPLE
+    );
+
+
+    const imageArea =
+      canvas.width *
+      canvas.height;
+
+
+    let best = null;
+
+
+    for(
+      let i = 0;
+      i < contours.size();
+      i++
+    ){
+
+      const contour =
+        contours.get(i);
+
+
+      const perimeter =
+        cv.arcLength(
+          contour,
+          true
+        );
+
+
+      const approx =
+        new cv.Mat();
+
+
+      cv.approxPolyDP(
+        contour,
+        approx,
+        perimeter * .02,
+        true
+      );
+
+
+      const area =
+        Math.abs(
+          cv.contourArea(
+            approx
+          )
+        );
+
+
+      if(
+        approx.rows === 4 &&
+        area >
+        imageArea * .18
+      ){
+
+        if(
+          !best ||
+          area > best.area
+        ){
+
+          if(best){
+            best.approx.delete();
+          }
+
+          best = {
+            area,
+            approx
+          };
+
+        }else{
+
+          approx.delete();
+        }
+
+      }else{
+
+        approx.delete();
+      }
+
+
+      contour.delete();
+    }
+
+
+    if(!best){
+      return null;
+    }
+
+
+    const points = [];
+
+
+    for(
+      let i = 0;
+      i < 4;
+      i++
+    ){
+
+      points.push({
+
+        x:
+          best.approx
+          .intPtr(i,0)[0],
+
+        y:
+          best.approx
+          .intPtr(i,0)[1]
+
+      });
+    }
+
+
+    best.approx.delete();
+
+
+    return orderQuadPoints(
+      points
+    );
+
+
+  }finally{
+
+    src.delete();
+    gray.delete();
+    blur.delete();
+    edges.delete();
+    contours.delete();
+    hierarchy.delete();
+
+  }
 
 }
-);
 
+
+/* =========================================================
+   꼭짓점 순서
+
+   TL / TR / BR / BL
+========================================================= */
+
+function orderQuadPoints(
+  points
+){
+
+  const sums =
+    points.map(
+      p => p.x + p.y
+    );
+
+
+  const diffs =
+    points.map(
+      p => p.x - p.y
+    );
+
+
+  const tl =
+    points[
+      sums.indexOf(
+        Math.min(...sums)
+      )
+    ];
+
+
+  const br =
+    points[
+      sums.indexOf(
+        Math.max(...sums)
+      )
+    ];
+
+
+  const tr =
+    points[
+      diffs.indexOf(
+        Math.max(...diffs)
+      )
+    ];
+
+
+  const bl =
+    points[
+      diffs.indexOf(
+        Math.min(...diffs)
+      )
+    ];
+
+
+  return {
+    tl,
+    tr,
+    br,
+    bl
+  };
+}
+
+
+/* =========================================================
+   거리
+========================================================= */
+
+function pointDistance(
+  a,
+  b
+){
+
+  return Math.hypot(
+    a.x - b.x,
+    a.y - b.y
+  );
+}
+
+
+/* =========================================================
+   ★ 자동 원근 보정
+========================================================= */
+
+function perspectiveCorrect(
+  canvas,
+  quad
+){
+
+  const topWidth =
+    pointDistance(
+      quad.tl,
+      quad.tr
+    );
+
+
+  const bottomWidth =
+    pointDistance(
+      quad.bl,
+      quad.br
+    );
+
+
+  const leftHeight =
+    pointDistance(
+      quad.tl,
+      quad.bl
+    );
+
+
+  const rightHeight =
+    pointDistance(
+      quad.tr,
+      quad.br
+    );
+
+
+  let targetWidth =
+    Math.round(
+      Math.max(
+        topWidth,
+        bottomWidth
+      )
+    );
+
+
+  let targetHeight =
+    Math.round(
+      Math.max(
+        leftHeight,
+        rightHeight
+      )
+    );
+
+
+  /*
+    iPhone 메모리 보호
+  */
+
+  const maxSide = 2200;
+
+
+  const scale =
+    Math.min(
+      1,
+      maxSide /
+      Math.max(
+        targetWidth,
+        targetHeight
+      )
+    );
+
+
+  targetWidth =
+    Math.max(
+      100,
+      Math.round(
+        targetWidth *
+        scale
+      )
+    );
+
+
+  targetHeight =
+    Math.max(
+      100,
+      Math.round(
+        targetHeight *
+        scale
+      )
+    );
+
+
+  const src =
+    cv.imread(canvas);
+
+
+  const dst =
+    new cv.Mat();
+
+
+  const sourcePoints =
+    cv.matFromArray(
+      4,
+      1,
+      cv.CV_32FC2,
+      [
+        quad.tl.x,
+        quad.tl.y,
+
+        quad.tr.x,
+        quad.tr.y,
+
+        quad.br.x,
+        quad.br.y,
+
+        quad.bl.x,
+        quad.bl.y
+      ]
+    );
+
+
+  const destinationPoints =
+    cv.matFromArray(
+      4,
+      1,
+      cv.CV_32FC2,
+      [
+        0,0,
+
+        targetWidth - 1,
+        0,
+
+        targetWidth - 1,
+        targetHeight - 1,
+
+        0,
+        targetHeight - 1
+      ]
+    );
+
+
+  const matrix =
+    cv.getPerspectiveTransform(
+      sourcePoints,
+      destinationPoints
+    );
+
+
+  cv.warpPerspective(
+    src,
+    dst,
+    matrix,
+    new cv.Size(
+      targetWidth,
+      targetHeight
+    ),
+    cv.INTER_LINEAR,
+    cv.BORDER_CONSTANT,
+    new cv.Scalar(
+      255,
+      255,
+      255,
+      255
+    )
+  );
+
+
+  const output =
+    document.createElement(
+      "canvas"
+    );
+
+
+  output.width =
+    targetWidth;
+
+  output.height =
+    targetHeight;
+
+
+  cv.imshow(
+    output,
+    dst
+  );
+
+
+  src.delete();
+  dst.delete();
+  sourcePoints.delete();
+  destinationPoints.delete();
+  matrix.delete();
+
+
+  return output;
+}
+
+
+/* =========================================================
+   ★ 사진 자동 보정 전체 과정
+
+   사각형 발견:
+   → 원근 보정
+
+   사각형 못 찾음:
+   → 원본을 그대로 쓰되
+     실패 여부를 결과에 표시
+========================================================= */
+
+async function autoCorrectPhoto(
+  canvas
+){
+
+  await loadOpenCV();
+
+
+  const quad =
+    findDocumentQuad(
+      canvas
+    );
+
+
+  if(!quad){
+
+    return {
+      canvas,
+      corrected:false,
+      reason:"외곽 사각형 미검출"
+    };
+  }
+
+
+  const corrected =
+    perspectiveCorrect(
+      canvas,
+      quad
+    );
+
+
+  return {
+    canvas:corrected,
+    corrected:true,
+    reason:"자동 원근 보정 완료"
+  };
 }
 
 
@@ -1378,1172 +1495,215 @@ url;
 
 async function getWorker(){
 
-if(worker){
-return worker;
-}
+  if(worker){
+    return worker;
+  }
 
 
-setStatus(
-"OCR 엔진 준비중...",
-3
-);
+  setStatus(
+    "OCR 엔진 준비중...",
+    3
+  );
 
 
-worker =
-await Tesseract.createWorker(
+  worker =
+    await Tesseract.createWorker(
+      "kor+eng",
+      1,
+      {
+        logger:m => {
 
-"kor+eng",
+          if(
+            m.status &&
+            Number.isFinite(
+              m.progress
+            )
+          ){
 
-1,
-
-{
-
-logger:
-message => {
-
-if(
-message.status &&
-Number.isFinite(
-message.progress
-)
-){
-
-const progress =
-Math.round(
-message.progress *
-100
-);
+            $("statusText")
+            .textContent =
+              `${m.status} ${Math.round(m.progress*100)}%`;
+          }
+        }
+      }
+    );
 
 
-$("statusText")
-.textContent =
-
-`${message.status} ${progress}%`;
-
-}
-
-}
-
-}
-
-);
-
-
-return worker;
-
+  return worker;
 }
 
 
 /* =========================================================
-   Canvas 자르기
+   Canvas Crop
 ========================================================= */
 
 function cropCanvas(
-source,
-x,
-y,
-width,
-height
+  source,
+  x,
+  y,
+  width,
+  height
 ){
 
-x =
-Math.max(
-0,
-Math.round(x)
-);
+  x =
+    Math.max(
+      0,
+      Math.round(x)
+    );
 
 
-y =
-Math.max(
-0,
-Math.round(y)
-);
+  y =
+    Math.max(
+      0,
+      Math.round(y)
+    );
 
 
-width =
-Math.max(
-
-1,
-
-Math.min(
-source.width - x,
-Math.round(width)
-)
-
-);
+  width =
+    Math.max(
+      1,
+      Math.min(
+        source.width - x,
+        Math.round(width)
+      )
+    );
 
 
-height =
-Math.max(
-
-1,
-
-Math.min(
-source.height - y,
-Math.round(height)
-)
-
-);
+  height =
+    Math.max(
+      1,
+      Math.min(
+        source.height - y,
+        Math.round(height)
+      )
+    );
 
 
-const canvas =
-document.createElement(
-"canvas"
-);
+  const canvas =
+    document.createElement(
+      "canvas"
+    );
 
 
-canvas.width =
-width;
+  canvas.width = width;
+  canvas.height = height;
 
 
-canvas.height =
-height;
+  canvas
+  .getContext(
+    "2d",
+    {willReadFrequently:true}
+  )
+  .drawImage(
+    source,
+    x,y,width,height,
+    0,0,width,height
+  );
 
 
-const ctx =
-canvas.getContext(
-"2d",
-{
-willReadFrequently:true
-}
-);
-
-
-ctx.drawImage(
-
-source,
-
-x,
-y,
-width,
-height,
-
-0,
-0,
-width,
-height
-
-);
-
-
-return canvas;
-
+  return canvas;
 }
 
 
 /* =========================================================
-   grayscale
+   흑백
 ========================================================= */
 
 function grayscaleCanvas(
-source
+  source
 ){
 
-const canvas =
-document.createElement(
-"canvas"
-);
+  const canvas =
+    document.createElement(
+      "canvas"
+    );
 
 
-canvas.width =
-source.width;
+  canvas.width =
+    source.width;
+
+  canvas.height =
+    source.height;
 
 
-canvas.height =
-source.height;
+  const ctx =
+    canvas.getContext(
+      "2d",
+      {willReadFrequently:true}
+    );
 
 
-const ctx =
-canvas.getContext(
-"2d",
-{
-willReadFrequently:true
-}
-);
+  ctx.drawImage(
+    source,
+    0,
+    0
+  );
 
 
-ctx.drawImage(
-source,
-0,
-0
-);
+  const image =
+    ctx.getImageData(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
 
 
-const image =
-ctx.getImageData(
-
-0,
-0,
-
-canvas.width,
-canvas.height
-
-);
+  const data =
+    image.data;
 
 
-const data =
-image.data;
+  for(
+    let i = 0;
+    i < data.length;
+    i += 4
+  ){
+
+    const gray =
+      Math.round(
+        data[i] * .299 +
+        data[i+1] * .587 +
+        data[i+2] * .114
+      );
 
 
-for(
-let i = 0;
-i < data.length;
-i += 4
-){
-
-const gray =
-Math.round(
-
-data[i] * .299 +
-
-data[i + 1] * .587 +
-
-data[i + 2] * .114
-
-);
+    data[i] = gray;
+    data[i+1] = gray;
+    data[i+2] = gray;
+  }
 
 
-data[i] =
-gray;
+  ctx.putImageData(
+    image,
+    0,
+    0
+  );
 
 
-data[i + 1] =
-gray;
-
-
-data[i + 2] =
-gray;
-
-}
-
-
-ctx.putImageData(
-image,
-0,
-0
-);
-
-
-return canvas;
-
+  return canvas;
 }
 
 
 /* =========================================================
-   ★ V4 핵심
+   가로선 검출
 
-   순찰일지의 가로선을 이미지 픽셀로 찾는다.
-
-   OCR로 TG2/TG3를 읽어서
-   행 위치를 찾지 않는다.
+   원근 보정된 사진 기준
 ========================================================= */
 
 function detectHorizontalLines(
-source
-){
-
-const grayCanvas =
-grayscaleCanvas(
-source
-);
-
-
-const ctx =
-grayCanvas.getContext(
-"2d",
-{
-willReadFrequently:true
-}
-);
-
-
-const width =
-grayCanvas.width;
-
-
-const height =
-grayCanvas.height;
-
-
-const image =
-ctx.getImageData(
-0,
-0,
-width,
-height
-);
-
-
-const data =
-image.data;
-
-
-/*
-종이 가장자리/글씨 영향을 줄이기 위해
-중앙 영역 위주로 검사.
-*/
-
-const startX =
-Math.floor(
-width * .10
-);
-
-
-const endX =
-Math.floor(
-width * .90
-);
-
-
-const scanWidth =
-endX -
-startX;
-
-
-const scores = [];
-
-
-/*
-각 Y 줄에서
-어두운 픽셀 비율 계산
-*/
-
-for(
-let y = 0;
-y < height;
-y++
-){
-
-let dark =
-0;
-
-
-for(
-let x = startX;
-x < endX;
-x += 2
-){
-
-const index =
-(
-y * width +
-x
-) * 4;
-
-
-const value =
-data[index];
-
-
-if(
-value < 145
-){
-
-dark++;
-
-}
-
-}
-
-
-const samples =
-Math.ceil(
-scanWidth /
-2
-);
-
-
-scores.push(
-dark /
-samples
-);
-
-}
-
-
-/*
-긴 가로선 후보.
-
-글씨는 한 행 전체를 가로지르지 않지만
-표 선은 긴 영역에 걸쳐 존재.
-*/
-
-const raw = [];
-
-
-for(
-let y = 0;
-y < scores.length;
-y++
-){
-
-if(
-scores[y] >= .34
-){
-
-raw.push(
-y
-);
-
-}
-
-}
-
-
-/*
-같은 선이 2~4px 두께일 수 있으므로
-하나로 합친다.
-*/
-
-const merged = [];
-
-
-for(
-const y
-of raw
-){
-
-const last =
-merged[
-merged.length - 1
-];
-
-
-if(
-!last ||
-y -
-last.end >
-4
-){
-
-merged.push({
-start:y,
-end:y
-});
-
-}else{
-
-last.end =
-y;
-
-}
-
-}
-
-
-/*
-선 중앙값
-*/
-
-const lines =
-merged
-.map(
-item =>
-Math.round(
-(
-item.start +
-item.end
-) /
-2
-)
-);
-
-
-/*
-너무 가까운 잡음 제거
-*/
-
-const filtered = [];
-
-
-for(
-const y
-of lines
-){
-
-const previous =
-filtered[
-filtered.length - 1
-];
-
-
-if(
-previous === undefined ||
-y - previous >= 7
-){
-
-filtered.push(
-y
-);
-
-}
-
-}
-
-
-return {
-lines:
-filtered,
-
-scores
-};
-
-}
-
-
-/* =========================================================
-   표 내부의 연속 36개 경계선 찾기
-
-   35행이면
-   위/아래 경계 포함 36개 선이 필요.
-
-   행 간격이 가장 일정한 구간을 선택.
-========================================================= */
-
-function find35RowGrid(
-lineData,
-imageHeight
-){
-
-const lines =
-lineData.lines;
-
-
-if(
-lines.length < 30
-){
-
-return null;
-
-}
-
-
-let best =
-null;
-
-
-/*
-실제 사진에서는 일부 선을 놓칠 수 있으므로
-정확히 36개만 고집하지 않고
-연속적인 행 간격 패턴을 찾는다.
-*/
-
-for(
-let start = 0;
-start < lines.length - 10;
-start++
-){
-
-for(
-let end = start + 10;
-end < lines.length;
-end++
-){
-
-const segment =
-lines.slice(
-start,
-end + 1
-);
-
-
-const span =
-segment[
-segment.length - 1
-] -
-segment[0];
-
-
-if(
-span <
-imageHeight * .35
-){
-
-continue;
-
-}
-
-
-const gaps = [];
-
-
-for(
-let i = 1;
-i < segment.length;
-i++
-){
-
-gaps.push(
-segment[i] -
-segment[i - 1]
-);
-
-}
-
-
-const sorted =
-[
-...gaps
-]
-.sort(
-(a,b) =>
-a - b
-);
-
-
-const median =
-sorted[
-Math.floor(
-sorted.length /
-2
-)
-];
-
-
-if(
-median < 8
-){
-
-continue;
-
-}
-
-
-const goodGaps =
-gaps.filter(
-gap =>
-gap >
-median * .55 &&
-gap <
-median * 1.55
-);
-
-
-const consistency =
-goodGaps.length /
-gaps.length;
-
-
-/*
-35행 장비표는
-사진 아래쪽의 큰 표이므로
-행 간격 일정성과 전체 높이를 같이 평가.
-*/
-
-const score =
-
-consistency * 100 +
-
-segment.length * 2 +
-
-span /
-imageHeight *
-25;
-
-
-if(
-!best ||
-score >
-best.score
-){
-
-best = {
-segment,
-median,
-score,
-consistency
-};
-
-}
-
-}
-
-}
-
-
-if(!best){
-return null;
-}
-
-
-/*
-찾은 선들의 첫/마지막을 이용해서
-35개 행의 이상적인 경계를 다시 만든다.
-
-중간 선 몇 개가 OCR/사진 때문에 안 잡혀도
-35행 전체 위치를 복구.
-*/
-
-const top =
-best.segment[0];
-
-
-let estimatedGap =
-best.median;
-
-
-/*
-35행 전체 높이 예상
-*/
-
-let bottom =
-top +
-estimatedGap *
-35;
-
-
-/*
-사진 밖으로 나가면
-현재 감지 구간 기준 재계산
-*/
-
-if(
-bottom >
-imageHeight
-){
-
-const available =
-imageHeight -
-top;
-
-
-estimatedGap =
-available /
-35;
-
-
-bottom =
-imageHeight;
-
-}
-
-
-const boundaries = [];
-
-
-for(
-let i = 0;
-i <= 35;
-i++
-){
-
-boundaries.push(
-
-top +
-estimatedGap *
-i
-
-);
-
-}
-
-
-return {
-
-top,
-
-bottom,
-
-rowHeight:
-estimatedGap,
-
-boundaries,
-
-detectedLines:
-best.segment.length,
-
-consistency:
-best.consistency
-
-};
-
-}
-
-
-/* =========================================================
-   특정 행 위치
-
-   rowNumber = 1~35
-========================================================= */
-
-function getRowBounds(
-grid,
-rowNumber
-){
-
-const top =
-grid.boundaries[
-rowNumber - 1
-];
-
-
-const bottom =
-grid.boundaries[
-rowNumber
-];
-
-
-return {
-
-top,
-
-bottom,
-
-height:
-bottom -
-top
-
-};
-
-}
-
-
-/* =========================================================
-   셀 OCR 전 확대
-========================================================= */
-
-function enlargeCanvas(
-source,
-scale = 3
-){
-
-const canvas =
-document.createElement(
-"canvas"
-);
-
-
-canvas.width =
-Math.max(
-1,
-Math.round(
-source.width *
-scale
-)
-);
-
-
-canvas.height =
-Math.max(
-1,
-Math.round(
-source.height *
-scale
-)
-);
-
-
-const ctx =
-canvas.getContext(
-"2d",
-{
-willReadFrequently:true
-}
-);
-
-
-ctx.drawImage(
-
-source,
-
-0,
-0,
-
-canvas.width,
-canvas.height
-
-);
-
-
-return canvas;
-
-}
-
-
-/* =========================================================
-   셀 OCR
-========================================================= */
-
-async function recognizeCell(
-canvas,
-type = "text"
-){
-
-const enlarged =
-enlargeCanvas(
-canvas,
-3
-);
-
-
-const w =
-await getWorker();
-
-
-const options = {
-
-tessedit_pageseg_mode:
-Tesseract.PSM.SINGLE_LINE
-
-};
-
-
-if(
-type ===
-"temperature"
-){
-
-options.tessedit_char_whitelist =
-"0123456789OoIl|";
-
-}
-
-
-const result =
-await w.recognize(
-enlarged,
-options
-);
-
-
-return clean(
-result.data.text
-);
-
-}
-
-
-/* =========================================================
-   온도 추출
-========================================================= */
-
-function extractTemperature(
-text
-){
-
-const value =
-clean(
-text
-)
-
-.replace(
-/[Oo]/g,
-"0"
-)
-
-.replace(
-/[Il|]/g,
-"1"
-);
-
-
-const matches =
-value.match(
-/\d{1,4}/g
-) ||
-[];
-
-
-for(
-const item
-of matches
-){
-
-const number =
-Number(
-item
-);
-
-
-if(
-Number.isFinite(
-number
-) &&
-number >= 0 &&
-number <= 2000
-){
-
-return number;
-
-}
-
-}
-
-
-return null;
-
-}
-
-
-/* =========================================================
-   상태 추출
-========================================================= */
-
-function extractState(
-text,
-equipment
-){
-
-const value =
-compact(
-text
-);
-
-
-if(
-value.includes(
-"승온"
-)
-){
-
-return "승온중";
-
-}
-
-
-if(
-value.includes(
-"유지"
-)
-){
-
-return "유지중";
-
-}
-
-
-if(
-value.includes(
-"냉각"
-)
-){
-
-return "냉각중";
-
-}
-
-
-if(
-equipment.startsWith(
-"HIP"
-) &&
-value.includes(
-"가압"
-)
-){
-
-return "가압중";
-
-}
-
-
-return "";
-
-}
-
-
-/* =========================================================
-   언로딩대기 판정
-========================================================= */
-
-function isUnloadWaiting(
-text
-){
-
-const value =
-compact(
-text
-);
-
-
-return (
-
-value.includes(
-"언로딩대기"
-)
-
-||
-
-(
-value.includes(
-"언로딩"
-)
-
-&&
-
-value.includes(
-"대기"
-)
-)
-
-);
-
-}
-
-
-/* =========================================================
-   V4 PART 1 END
-========================================================= */
-  /* =========================================================
-   DACC V4 - PART 2
-========================================================= */
-
-
-/* =========================================================
-   순찰일지 열 위치
-
-   표 전체 폭 기준 비율.
-   사진 각도가 조금 달라도
-   표 전체 폭에 비례해서 셀을 자른다.
-
-   실제 테스트 후 이 3개 비율만
-   미세조정 가능.
-========================================================= */
-
-const PATROL_COLUMNS = {
-
-  temperature:{
-    x0:.40,
-    x1:.50
-  },
-
-  state:{
-    x0:.76,
-    x1:.88
-  },
-
-  remark:{
-    x0:.87,
-    x1:.995
-  }
-
-};
-
-
-/* =========================================================
-   순찰일지 표 좌우 범위
-
-   가로선이 실제로 어디서 시작/끝나는지
-   픽셀 스캔으로 추정한다.
-========================================================= */
-
-function detectTableHorizontalRange(
-  canvas,
-  grid
+  source
 ){
 
   const gray =
     grayscaleCanvas(
-      canvas
+      source
     );
 
 
   const ctx =
     gray.getContext(
       "2d",
-      {
-        willReadFrequently:true
-      }
+      {willReadFrequently:true}
     );
 
 
@@ -2568,173 +1728,98 @@ function detectTableHorizontalRange(
     image.data;
 
 
-  /*
-    장비표 중앙부 여러 Y를 검사해서
-    세로선이 반복적으로 존재하는 X를 찾는다.
-  */
-
-  const top =
-    Math.max(
-      0,
-      Math.round(
-        grid.top
-      )
+  const startX =
+    Math.floor(
+      width * .05
     );
 
 
-  const bottom =
-    Math.min(
-      height - 1,
-      Math.round(
-        grid.bottom
-      )
+  const endX =
+    Math.floor(
+      width * .95
     );
 
 
-  const scores =
-    new Array(
-      width
-    ).fill(
-      0
+  const samples =
+    Math.ceil(
+      (
+        endX -
+        startX
+      ) / 2
     );
 
 
-  let sampleCount =
-    0;
+  const scores = [];
 
-
-  /*
-    가로선 자체는 피하고
-    각 행 중앙을 샘플링
-  */
 
   for(
-    let row = 1;
-    row <= 35;
-    row += 2
+    let y = 0;
+    y < height;
+    y++
   ){
 
-    const bounds =
-      getRowBounds(
-        grid,
-        row
-      );
-
-
-    const centerY =
-      Math.round(
-        (
-          bounds.top +
-          bounds.bottom
-        ) / 2
-      );
-
-
-    const y0 =
-      Math.max(
-        top,
-        centerY - 2
-      );
-
-
-    const y1 =
-      Math.min(
-        bottom,
-        centerY + 2
-      );
+    let dark = 0;
 
 
     for(
-      let x = 0;
-      x < width;
-      x++
+      let x = startX;
+      x < endX;
+      x += 2
     ){
 
-      let dark =
-        0;
-
-
-      for(
-        let y = y0;
-        y <= y1;
-        y++
-      ){
-
-        const index =
-          (
-            y * width +
-            x
-          ) * 4;
-
-
-        if(
-          data[index] <
-          130
-        ){
-
-          dark++;
-        }
-      }
+      const index =
+        (
+          y * width +
+          x
+        ) * 4;
 
 
       if(
-        dark >= 3
+        data[index] <
+        155
       ){
 
-        scores[x]++;
+        dark++;
       }
     }
 
 
-    sampleCount++;
+    scores.push(
+      dark /
+      samples
+    );
   }
 
 
+  const raw = [];
+
+
   /*
-    여러 행에서 반복되는 세로선 후보
+    원근 보정 후라
+    V4보다 약간 완화 가능
   */
 
-  const threshold =
-    Math.max(
-      3,
-      Math.round(
-        sampleCount *
-        .30
-      )
-    );
-
-
-  const candidates = [];
-
-
   for(
-    let x = 0;
-    x < width;
-    x++
+    let y = 0;
+    y < height;
+    y++
   ){
 
     if(
-      scores[x] >=
-      threshold
+      scores[y] >= .23
     ){
 
-      candidates.push(
-        x
-      );
+      raw.push(y);
     }
   }
 
-
-  /*
-    두꺼운 선 합치기
-  */
 
   const groups = [];
 
 
   for(
-    const x
-    of candidates
+    const y
+    of raw
   ){
 
     const last =
@@ -2745,25 +1830,22 @@ function detectTableHorizontalRange(
 
     if(
       !last ||
-      x -
-      last.end >
-      4
+      y - last.end > 5
     ){
 
       groups.push({
-        start:x,
-        end:x
+        start:y,
+        end:y
       });
 
     }else{
 
-      last.end =
-        x;
+      last.end = y;
     }
   }
 
 
-  const verticalLines =
+  const lines =
     groups
     .map(
       group =>
@@ -2776,93 +1858,356 @@ function detectTableHorizontalRange(
     );
 
 
-  /*
-    표 전체 좌우 끝 추정.
+  return {
+    lines,
+    scores
+  };
+}
 
-    너무 바깥쪽 노이즈는 제외.
-  */
 
-  const usable =
-    verticalLines
-    .filter(
-      x =>
-        x >
-        width * .02 &&
-        x <
-        width * .98
-    );
+/* =========================================================
+   35행 Grid 찾기
+
+   36개 경계선을 전부 검출하지 못해도
+   반복되는 행 간격을 이용해 복원
+========================================================= */
+
+function find35RowGrid(
+  lineData,
+  imageHeight
+){
+
+  const lines =
+    lineData.lines;
 
 
   if(
-    usable.length >= 4
+    lines.length < 12
   ){
 
-    return {
-      left:
-        usable[0],
-
-      right:
-        usable[
-          usable.length - 1
-        ],
-
-      verticalLines:
-        usable
-    };
+    return null;
   }
 
 
   /*
-    세로선 검출 실패 fallback
+    인접선 간격
   */
+
+  const gaps = [];
+
+
+  for(
+    let i = 1;
+    i < lines.length;
+    i++
+  ){
+
+    const gap =
+      lines[i] -
+      lines[i-1];
+
+
+    if(
+      gap >= 7 &&
+      gap <=
+      imageHeight * .08
+    ){
+
+      gaps.push(gap);
+    }
+  }
+
+
+  if(
+    gaps.length < 6
+  ){
+
+    return null;
+  }
+
+
+  /*
+    가장 흔한 행 높이 탐색
+  */
+
+  const buckets = {};
+
+
+  for(
+    const gap
+    of gaps
+  ){
+
+    const key =
+      Math.round(
+        gap / 2
+      ) * 2;
+
+
+    buckets[key] =
+      (
+        buckets[key] ||
+        0
+      ) + 1;
+  }
+
+
+  const rowHeight =
+    Number(
+      Object.keys(
+        buckets
+      )
+      .sort(
+        (a,b) =>
+          buckets[b] -
+          buckets[a]
+      )[0]
+    );
+
+
+  if(
+    !Number.isFinite(
+      rowHeight
+    ) ||
+    rowHeight < 7
+  ){
+
+    return null;
+  }
+
+
+  /*
+    각 선을 35행 표의 시작 후보로 놓고
+    이후 예상 선과 실제 선이 얼마나 일치하는지 검사
+  */
+
+  let best = null;
+
+
+  for(
+    const top
+    of lines
+  ){
+
+    let matches = 0;
+
+
+    for(
+      let row = 0;
+      row <= 35;
+      row++
+    ){
+
+      const expected =
+        top +
+        rowHeight *
+        row;
+
+
+      if(
+        expected >
+        imageHeight
+      ){
+        break;
+      }
+
+
+      const nearest =
+        lines.some(
+          y =>
+            Math.abs(
+              y -
+              expected
+            ) <=
+            Math.max(
+              4,
+              rowHeight *
+              .25
+            )
+        );
+
+
+      if(nearest){
+        matches++;
+      }
+    }
+
+
+    if(
+      !best ||
+      matches >
+      best.matches
+    ){
+
+      best = {
+        top,
+        matches
+      };
+    }
+  }
+
+
+  if(
+    !best ||
+    best.matches < 8
+  ){
+
+    return null;
+  }
+
+
+  let top =
+    best.top;
+
+
+  /*
+    35행이 이미지 안에 들어오도록 보정
+  */
+
+  if(
+    top +
+    rowHeight * 35 >
+    imageHeight
+  ){
+
+    top =
+      Math.max(
+        0,
+        imageHeight -
+        rowHeight * 35
+      );
+  }
+
+
+  const boundaries = [];
+
+
+  for(
+    let i = 0;
+    i <= 35;
+    i++
+  ){
+
+    boundaries.push(
+      top +
+      rowHeight *
+      i
+    );
+  }
+
+
+  return {
+
+    top,
+
+    bottom:
+      top +
+      rowHeight *
+      35,
+
+    rowHeight,
+
+    boundaries,
+
+    detectedLines:
+      lines.length,
+
+    matchedLines:
+      best.matches
+
+  };
+}
+
+
+/* =========================================================
+   행 Bounds
+========================================================= */
+
+function getRowBounds(
+  grid,
+  rowNumber
+){
+
+  const top =
+    grid.boundaries[
+      rowNumber - 1
+    ];
+
+
+  const bottom =
+    grid.boundaries[
+      rowNumber
+    ];
+
+
+  return {
+    top,
+    bottom,
+    height:
+      bottom - top
+  };
+}
+
+
+/* =========================================================
+   V4.1 PART 1 END
+========================================================= */
+/* =========================================================
+   DACC V4.1 - PART 2
+   셀 판독 + 빈칸 방지 + 사진2 가동 판독
+========================================================= */
+
+
+/* =========================================================
+   순찰일지 열 위치
+
+   보정된 표 전체 폭 기준
+========================================================= */
+
+const PATROL_COLUMNS = {
+
+  temperature:{
+    x0:.40,
+    x1:.51
+  },
+
+  state:{
+    x0:.74,
+    x1:.87
+  },
+
+  remark:{
+    x0:.87,
+    x1:.995
+  }
+
+};
+
+
+/* =========================================================
+   표 좌우 범위
+========================================================= */
+
+function getTableRangeV41(
+  canvas
+){
 
   return {
     left:
-      width * .04,
+      canvas.width * .025,
 
     right:
-      width * .96,
-
-    verticalLines:[]
+      canvas.width * .985
   };
+
 }
 
 
 /* =========================================================
-   열 비율 → 실제 X 좌표
+   순찰일지 셀 자르기
 ========================================================= */
 
-function getPatrolColumnRect(
-  tableRange,
-  column
-){
-
-  const width =
-    tableRange.right -
-    tableRange.left;
-
-
-  return {
-
-    x0:
-      tableRange.left +
-      width *
-      column.x0,
-
-    x1:
-      tableRange.left +
-      width *
-      column.x1
-
-  };
-}
-
-
-/* =========================================================
-   특정 행 + 특정 열 자르기
-========================================================= */
-
-function cropPatrolCellV4(
+function cropPatrolCellV41(
   canvas,
   grid,
   rowNumber,
@@ -2877,23 +2222,41 @@ function cropPatrolCellV4(
     );
 
 
-  const rect =
-    getPatrolColumnRect(
-      tableRange,
-      column
-    );
+  const tableWidth =
+    tableRange.right -
+    tableRange.left;
+
+
+  const x0 =
+    tableRange.left +
+    tableWidth *
+    column.x0;
+
+
+  const x1 =
+    tableRange.left +
+    tableWidth *
+    column.x1;
 
 
   /*
-    표 가로선이 OCR에 들어가지 않도록
-    위/아래 약간 잘라낸다.
+    표 선 자체를 최대한 제외
   */
 
   const padY =
     Math.max(
-      1,
-      row.height *
-      .10
+      2,
+      row.height * .16
+    );
+
+
+  const padX =
+    Math.max(
+      2,
+      (
+        x1 -
+        x0
+      ) * .04
     );
 
 
@@ -2901,26 +2264,571 @@ function cropPatrolCellV4(
 
     canvas,
 
-    rect.x0,
+    x0 +
+    padX,
 
     row.top +
     padY,
 
-    rect.x1 -
-    rect.x0,
+    (
+      x1 -
+      x0
+    ) -
+    padX * 2,
 
     row.height -
     padY * 2
 
   );
+
 }
 
 
 /* =========================================================
-   순찰일지 한 행 분석
+   ★ 셀 실제 필기량 측정
+
+   단순 OCR 결과가 아니라
+   이미지 픽셀 자체를 확인.
+
+   빈 종이에 인쇄선/노이즈만 있으면
+   EMPTY 처리.
 ========================================================= */
 
-async function analyzePatrolRowV4(
+function measureCellInkV41(
+  canvas
+){
+
+  const ctx =
+    canvas.getContext(
+      "2d",
+      {
+        willReadFrequently:true
+      }
+    );
+
+
+  const image =
+    ctx.getImageData(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+
+  const data =
+    image.data;
+
+
+  let dark =
+    0;
+
+
+  let strongDark =
+    0;
+
+
+  let total =
+    0;
+
+
+  /*
+    가장자리 표 선 제외
+  */
+
+  const marginX =
+    Math.max(
+      1,
+      Math.floor(
+        canvas.width *
+        .06
+      )
+    );
+
+
+  const marginY =
+    Math.max(
+      1,
+      Math.floor(
+        canvas.height *
+        .10
+      )
+    );
+
+
+  for(
+    let y = marginY;
+    y <
+    canvas.height -
+    marginY;
+    y++
+  ){
+
+    for(
+      let x = marginX;
+      x <
+      canvas.width -
+      marginX;
+      x++
+    ){
+
+      const index =
+        (
+          y *
+          canvas.width +
+          x
+        ) * 4;
+
+
+      const gray =
+
+        data[index] *
+        .299 +
+
+        data[index + 1] *
+        .587 +
+
+        data[index + 2] *
+        .114;
+
+
+      if(
+        gray <
+        180
+      ){
+
+        dark++;
+      }
+
+
+      if(
+        gray <
+        115
+      ){
+
+        strongDark++;
+      }
+
+
+      total++;
+    }
+  }
+
+
+  return {
+
+    darkRatio:
+      total
+      ?
+      dark /
+      total
+      :
+      0,
+
+    strongDarkRatio:
+      total
+      ?
+      strongDark /
+      total
+      :
+      0
+
+  };
+
+}
+
+
+/* =========================================================
+   ★ 빈 셀 판정
+
+   빈칸이면 OCR 자체를 안 돌림.
+========================================================= */
+
+function isBlankCellV41(
+  canvas,
+  type
+){
+
+  const ink =
+    measureCellInkV41(
+      canvas
+    );
+
+
+  /*
+    온도 숫자는 필기량이 작을 수 있어서
+    상태/비고보다 조금 느슨하게.
+  */
+
+  if(
+    type ===
+    "temperature"
+  ){
+
+    return (
+
+      ink.darkRatio <
+      .010
+
+      &&
+
+      ink.strongDarkRatio <
+      .003
+
+    );
+
+  }
+
+
+  return (
+
+    ink.darkRatio <
+    .014
+
+    &&
+
+    ink.strongDarkRatio <
+    .004
+
+  );
+
+}
+
+
+/* =========================================================
+   OCR 확대
+========================================================= */
+
+function enlargeCanvasV41(
+  source,
+  scale = 3
+){
+
+  const canvas =
+    document.createElement(
+      "canvas"
+    );
+
+
+  canvas.width =
+    Math.max(
+      1,
+      Math.round(
+        source.width *
+        scale
+      )
+    );
+
+
+  canvas.height =
+    Math.max(
+      1,
+      Math.round(
+        source.height *
+        scale
+      )
+    );
+
+
+  const ctx =
+    canvas.getContext(
+      "2d",
+      {
+        willReadFrequently:true
+      }
+    );
+
+
+  ctx.drawImage(
+
+    source,
+
+    0,
+    0,
+
+    canvas.width,
+    canvas.height
+
+  );
+
+
+  return canvas;
+
+}
+
+
+/* =========================================================
+   OCR
+========================================================= */
+
+async function recognizeCellV41(
+  canvas,
+  type
+){
+
+  if(
+    isBlankCellV41(
+      canvas,
+      type
+    )
+  ){
+
+    return {
+      blank:true,
+      text:""
+    };
+
+  }
+
+
+  const enlarged =
+    enlargeCanvasV41(
+      canvas,
+      3
+    );
+
+
+  const w =
+    await getWorker();
+
+
+  const options = {
+
+    tessedit_pageseg_mode:
+      Tesseract.PSM.SINGLE_LINE
+
+  };
+
+
+  if(
+    type ===
+    "temperature"
+  ){
+
+    options.tessedit_char_whitelist =
+      "0123456789OoIl|";
+
+  }
+
+
+  const result =
+    await w.recognize(
+      enlarged,
+      options
+    );
+
+
+  return {
+
+    blank:false,
+
+    text:
+      clean(
+        result.data.text
+      )
+
+  };
+
+}
+
+
+/* =========================================================
+   온도 추출
+
+   말도 안 되는 숫자는 폐기.
+========================================================= */
+
+function extractTemperatureV41(
+  text
+){
+
+  const value =
+    clean(
+      text
+    )
+    .replace(
+      /[Oo]/g,
+      "0"
+    )
+    .replace(
+      /[Il|]/g,
+      "1"
+    );
+
+
+  const matches =
+    value.match(
+      /\d{1,4}/g
+    ) || [];
+
+
+  for(
+    const item
+    of matches
+  ){
+
+    const number =
+      Number(
+        item
+      );
+
+
+    if(
+      Number.isFinite(
+        number
+      )
+      &&
+      number >= 0
+      &&
+      number <= 1800
+    ){
+
+      return number;
+
+    }
+
+  }
+
+
+  return null;
+
+}
+
+
+/* =========================================================
+   상태 추출
+========================================================= */
+
+function extractStateV41(
+  text,
+  equipment
+){
+
+  const value =
+    compact(
+      text
+    );
+
+
+  if(
+    value.includes(
+      "승온"
+    )
+  ){
+
+    return "승온중";
+
+  }
+
+
+  if(
+    value.includes(
+      "유지"
+    )
+  ){
+
+    return "유지중";
+
+  }
+
+
+  if(
+    value.includes(
+      "냉각"
+    )
+  ){
+
+    return "냉각중";
+
+  }
+
+
+  if(
+    /^HIP[123]$/.test(
+      equipment
+    )
+    &&
+    value.includes(
+      "가압"
+    )
+  ){
+
+    return "가압중";
+
+  }
+
+
+  return "";
+
+}
+
+
+/* =========================================================
+   비고 제외 판정
+
+   냉각 / 언로딩대기
+========================================================= */
+
+function checkRemarkV41(
+  text
+){
+
+  const value =
+    compact(
+      text
+    );
+
+
+  const unload =
+
+    value.includes(
+      "언로딩대기"
+    )
+
+    ||
+
+    (
+      value.includes(
+        "언로딩"
+      )
+      &&
+      value.includes(
+        "대기"
+      )
+    );
+
+
+  const cooling =
+
+    value ===
+    "냉각"
+
+    ||
+
+    value.includes(
+      "냉각/"
+    )
+
+    ||
+
+    value.includes(
+      "/냉각"
+    );
+
+
+  return {
+    unload,
+    cooling
+  };
+
+}
+
+
+/* =========================================================
+   순찰일지 일반 장비 한 행
+========================================================= */
+
+async function analyzePatrolRowV41(
   canvas,
   grid,
   tableRange,
@@ -2933,7 +2841,7 @@ async function analyzePatrolRowV4(
   */
 
   const temperatureCell =
-    cropPatrolCellV4(
+    cropPatrolCellV41(
 
       canvas,
       grid,
@@ -2944,16 +2852,21 @@ async function analyzePatrolRowV4(
     );
 
 
-  const temperatureText =
-    await recognizeCell(
+  const temperatureOCR =
+    await recognizeCellV41(
       temperatureCell,
       "temperature"
     );
 
 
   const temperature =
-    extractTemperature(
-      temperatureText
+
+    temperatureOCR.blank
+    ?
+    null
+    :
+    extractTemperatureV41(
+      temperatureOCR.text
     );
 
 
@@ -2962,7 +2875,7 @@ async function analyzePatrolRowV4(
   */
 
   const stateCell =
-    cropPatrolCellV4(
+    cropPatrolCellV41(
 
       canvas,
       grid,
@@ -2973,16 +2886,21 @@ async function analyzePatrolRowV4(
     );
 
 
-  const stateText =
-    await recognizeCell(
+  const stateOCR =
+    await recognizeCellV41(
       stateCell,
-      "text"
+      "state"
     );
 
 
   const state =
-    extractState(
-      stateText,
+
+    stateOCR.blank
+    ?
+    ""
+    :
+    extractStateV41(
+      stateOCR.text,
       equipment
     );
 
@@ -2992,7 +2910,7 @@ async function analyzePatrolRowV4(
   */
 
   const remarkCell =
-    cropPatrolCellV4(
+    cropPatrolCellV41(
 
       canvas,
       grid,
@@ -3003,16 +2921,24 @@ async function analyzePatrolRowV4(
     );
 
 
-  const remarkText =
-    await recognizeCell(
+  const remarkOCR =
+    await recognizeCellV41(
       remarkCell,
-      "text"
+      "remark"
     );
 
 
-  const unload =
-    isUnloadWaiting(
-      remarkText
+  const remarkCheck =
+
+    remarkOCR.blank
+    ?
+    {
+      unload:false,
+      cooling:false
+    }
+    :
+    checkRemarkV41(
+      remarkOCR.text
     );
 
 
@@ -3027,33 +2953,46 @@ async function analyzePatrolRowV4(
 
     state,
 
-    remark:
-      remarkText,
+    unload:
+      remarkCheck.unload,
 
-    unload,
+    remarkCooling:
+      remarkCheck.cooling,
+
+    blank:{
+      temperature:
+        temperatureOCR.blank,
+
+      state:
+        stateOCR.blank,
+
+      remark:
+        remarkOCR.blank
+    },
 
     raw:{
       temperature:
-        temperatureText,
+        temperatureOCR.text,
 
       state:
-        stateText,
+        stateOCR.text,
 
       remark:
-        remarkText
+        remarkOCR.text
     }
 
   };
+
 }
 
 
 /* =========================================================
-   온도만 읽는 장비
+   온도 전용 행
 
    드라이챔버 / 소각기
 ========================================================= */
 
-async function analyzeTemperatureOnlyV4(
+async function analyzeTemperatureOnlyV41(
   canvas,
   grid,
   tableRange,
@@ -3062,7 +3001,7 @@ async function analyzeTemperatureOnlyV4(
 ){
 
   const cell =
-    cropPatrolCellV4(
+    cropPatrolCellV41(
 
       canvas,
       grid,
@@ -3073,8 +3012,8 @@ async function analyzeTemperatureOnlyV4(
     );
 
 
-  const text =
-    await recognizeCell(
+  const ocr =
+    await recognizeCellV41(
       cell,
       "temperature"
     );
@@ -3088,59 +3027,87 @@ async function analyzeTemperatureOnlyV4(
     equipment,
 
     temperature:
-      extractTemperature(
-        text
+      ocr.blank
+      ?
+      null
+      :
+      extractTemperatureV41(
+        ocr.text
       ),
 
+    blank:
+      ocr.blank,
+
     raw:
-      text
+      ocr.text
 
   };
+
 }
 
 
 /* =========================================================
-   사진1 전체 분석
+   ★ 사진1 전체 분석
 
-   ★ 장비명 OCR 없음
+   원본
+   ↓
+   OpenCV 자동보정
+   ↓
+   35행
+   ↓
+   빈칸 검사
+   ↓
+   OCR
 ========================================================= */
 
-async function analyzePatrolPhotoV4(
+async function analyzePatrolPhotoV41(
   file
 ){
 
   setStatus(
-    "순찰일지 표 찾는 중...",
-    8
+    "순찰일지 사진 준비중...",
+    5
   );
 
 
-  const canvas =
+  const original =
     await fileToCanvas(
       file,
       2400
     );
 
 
-  /*
-    1. 가로선 찾기
-  */
+  setStatus(
+    "순찰일지 자동 보정중...",
+    9
+  );
+
+
+  const correction =
+    await autoCorrectPhoto(
+      original
+    );
+
+
+  const canvas =
+    correction.canvas;
+
+
+  setStatus(
+    correction.corrected
+    ?
+    "사진 원근 보정 완료 · 표 찾는 중..."
+    :
+    "외곽 미검출 · 원본에서 표 찾는 중...",
+    13
+  );
+
 
   const horizontal =
     detectHorizontalLines(
       canvas
     );
 
-
-  setStatus(
-    `순찰일지 가로선 ${horizontal.lines.length}개 감지`,
-    13
-  );
-
-
-  /*
-    2. 35행 표 복구
-  */
 
   const grid =
     find35RowGrid(
@@ -3152,22 +3119,23 @@ async function analyzePatrolPhotoV4(
   if(!grid){
 
     return {
+
       fatal:true,
 
       reason:
-        `순찰일지 35행 표를 찾지 못했습니다. 감지된 가로선: ${horizontal.lines.length}개`
+        `35행 표를 찾지 못했습니다. 가로선 ${horizontal.lines.length}개 감지.`,
+
+      corrected:
+        correction.corrected
+
     };
+
   }
 
 
-  /*
-    3. 표 좌우 범위
-  */
-
   const tableRange =
-    detectTableHorizontalRange(
-      canvas,
-      grid
+    getTableRangeV41(
+      canvas
     );
 
 
@@ -3192,12 +3160,9 @@ async function analyzePatrolPhotoV4(
     0;
 
 
-  /*
-    실제 사용하는 행만 OCR.
+  let blankTemperature =
+    0;
 
-    null 행은 행 위치 계산에는 존재하지만
-    OCR 호출은 하지 않는다.
-  */
 
   const activeRows =
     Object
@@ -3233,13 +3198,13 @@ async function analyzePatrolPhotoV4(
 
     setStatus(
 
-      `순찰일지 ${rowNumber}행 확인중...`,
+      `순찰일지 ${rowNumber}행 판독중...`,
 
-      15 +
+      16 +
       Math.round(
         completed /
         activeRows.length *
-        40
+        38
       )
 
     );
@@ -3247,7 +3212,6 @@ async function analyzePatrolPhotoV4(
 
     /*
       드라이챔버
-      → 온도만
     */
 
     if(
@@ -3257,7 +3221,7 @@ async function analyzePatrolPhotoV4(
     ){
 
       const item =
-        await analyzeTemperatureOnlyV4(
+        await analyzeTemperatureOnlyV41(
 
           canvas,
           grid,
@@ -3274,6 +3238,13 @@ async function analyzePatrolPhotoV4(
       ){
 
         temperatureRead++;
+
+      }else if(
+        item.blank
+      ){
+
+        blankTemperature++;
+
       }
 
 
@@ -3283,12 +3254,12 @@ async function analyzePatrolPhotoV4(
 
 
       continue;
+
     }
 
 
     /*
       소각기
-      → 온도만
     */
 
     if(
@@ -3298,7 +3269,7 @@ async function analyzePatrolPhotoV4(
     ){
 
       const item =
-        await analyzeTemperatureOnlyV4(
+        await analyzeTemperatureOnlyV41(
 
           canvas,
           grid,
@@ -3315,6 +3286,13 @@ async function analyzePatrolPhotoV4(
       ){
 
         temperatureRead++;
+
+      }else if(
+        item.blank
+      ){
+
+        blankTemperature++;
+
       }
 
 
@@ -3324,6 +3302,7 @@ async function analyzePatrolPhotoV4(
 
 
       continue;
+
     }
 
 
@@ -3332,7 +3311,7 @@ async function analyzePatrolPhotoV4(
     */
 
     const item =
-      await analyzePatrolRowV4(
+      await analyzePatrolRowV41(
 
         canvas,
         grid,
@@ -3349,6 +3328,13 @@ async function analyzePatrolPhotoV4(
     ){
 
       temperatureRead++;
+
+    }else if(
+      item.blank.temperature
+    ){
+
+      blankTemperature++;
+
     }
 
 
@@ -3357,6 +3343,7 @@ async function analyzePatrolPhotoV4(
     ){
 
       stateRead++;
+
     }
 
 
@@ -3364,6 +3351,7 @@ async function analyzePatrolPhotoV4(
       equipment
     ] =
       item;
+
   }
 
 
@@ -3371,30 +3359,26 @@ async function analyzePatrolPhotoV4(
 
     fatal:false,
 
-    canvasWidth:
-      canvas.width,
+    corrected:
+      correction.corrected,
 
-    canvasHeight:
-      canvas.height,
+    correctionReason:
+      correction.reason,
 
     detectedLines:
       horizontal.lines.length,
 
-    gridLines:
-      grid.detectedLines,
+    matchedLines:
+      grid.matchedLines,
 
     rowHeight:
       grid.rowHeight,
 
-    consistency:
-      grid.consistency,
-
-    verticalLines:
-      tableRange.verticalLines.length,
-
     temperatureRead,
 
     stateRead,
+
+    blankTemperature,
 
     items,
 
@@ -3403,28 +3387,47 @@ async function analyzePatrolPhotoV4(
     incinerators
 
   };
+
 }
 
 
 /* =========================================================
-   사진2 OCR
+   사진2 전체 OCR
+
+   사진2 역시 자동 보정.
 ========================================================= */
 
-async function recognizeNumberPhoto(
+async function recognizeNumberPhotoV41(
   file
 ){
 
   setStatus(
-    "장비번호 사진 읽는 중...",
-    58
+    "장비번호 사진 자동 보정중...",
+    57
   );
 
 
-  const canvas =
+  const original =
     await fileToCanvas(
       file,
       2200
     );
+
+
+  const correction =
+    await autoCorrectPhoto(
+      original
+    );
+
+
+  const canvas =
+    correction.canvas;
+
+
+  setStatus(
+    "장비번호 전체 구조 읽는 중...",
+    61
+  );
 
 
   const w =
@@ -3481,10 +3484,6 @@ async function recognizeNumberPhoto(
             word.bbox.y1
           ) / 2,
 
-        height:
-          word.bbox.y1 -
-          word.bbox.y0,
-
         confidence:
           Number(
             word.confidence ||
@@ -3503,6 +3502,9 @@ async function recognizeNumberPhoto(
 
     canvas,
 
+    corrected:
+      correction.corrected,
+
     text:
       clean(
         result.data.text
@@ -3511,6 +3513,7 @@ async function recognizeNumberPhoto(
     words
 
   };
+
 }
 
 
@@ -3518,7 +3521,7 @@ async function recognizeNumberPhoto(
    사진2 장비명 정규화
 ========================================================= */
 
-function normalizeNumberEquipment(
+function normalizeEquipmentV41(
   raw
 ){
 
@@ -3541,6 +3544,7 @@ function normalizeNumberEquipment(
 
     return "TG" +
       match[1];
+
   }
 
 
@@ -3554,6 +3558,7 @@ function normalizeNumberEquipment(
 
     return "GF" +
       match[1];
+
   }
 
 
@@ -3567,6 +3572,7 @@ function normalizeNumberEquipment(
 
     return "CF" +
       match[1];
+
   }
 
 
@@ -3580,6 +3586,7 @@ function normalizeNumberEquipment(
 
     return "HIP" +
       match[1];
+
   }
 
 
@@ -3590,126 +3597,39 @@ function normalizeNumberEquipment(
   ){
 
     return "SMI";
+
   }
 
 
   if(
     value.includes(
       "CF"
-    ) &&
+    )
+    &&
     value.includes(
       "분위기"
     )
   ){
 
     return "CF분위기로";
+
   }
 
 
   return "";
+
 }
 
 
 /* =========================================================
-   장비번호 #26-xxx 추출
+   사진2 장비 앵커
 ========================================================= */
 
-function extractEquipmentNumber(
-  raw
-){
-
-  let value =
-    clean(
-      raw
-    );
-
-
-  /*
-    OCR 보정
-  */
-
-  value =
-    value
-    .replace(
-      /[Oo]/g,
-      "0"
-    )
-    .replace(
-      /[—–‐~_.]/g,
-      "-"
-    );
-
-
-  /*
-    26-45
-    26 - 45
-    #26-45
-  */
-
-  let match =
-    value.match(
-      /#?\s*26\s*-\s*(\d{1,3})/
-    );
-
-
-  if(match){
-
-    return "#26-" +
-      match[1];
-  }
-
-
-  /*
-    2645 → 26-45
-    26118 → 26-118
-  */
-
-  match =
-    value.match(
-      /(?:^|\D)26(\d{2,3})(?:\D|$)/
-    );
-
-
-  if(match){
-
-    return "#26-" +
-      match[1];
-  }
-
-
-  return "";
-}
-
-
-/* =========================================================
-   사진2 가동 판정
-========================================================= */
-
-function hasRunningText(
-  raw
-){
-
-  const value =
-    compact(
-      raw
-    );
-
-
-  return value.includes(
-    "가동"
-  );
-}
-
-
-/* =========================================================
-   사진2 장비명 앵커 찾기
-========================================================= */
-
-function findNumberAnchors(
+function findEquipmentAnchorsV41(
   ocr
 ){
 
-  const anchors = [];
+  const map = {};
 
 
   for(
@@ -3718,7 +3638,7 @@ function findNumberAnchors(
   ){
 
     const equipment =
-      normalizeNumberEquipment(
+      normalizeEquipmentV41(
         word.text
       );
 
@@ -3731,88 +3651,49 @@ function findNumberAnchors(
     ){
 
       continue;
+
     }
 
 
-    anchors.push({
-
-      equipment,
-
-      x0:
-        word.x0,
-
-      x1:
-        word.x1,
-
-      y0:
-        word.y0,
-
-      y1:
-        word.y1,
-
-      cx:
-        word.cx,
-
-      cy:
-        word.cy,
-
-      height:
-        word.height,
-
-      confidence:
-        word.confidence
-
-    });
-  }
-
-
-  /*
-    같은 장비가 중복 인식됐을 경우
-    confidence 높은 것 사용.
-  */
-
-  const map = {};
-
-
-  for(
-    const anchor
-    of anchors
-  ){
-
-    const previous =
+    const old =
       map[
-        anchor.equipment
+        equipment
       ];
 
 
     if(
-      !previous ||
-      anchor.confidence >
-      previous.confidence
+      !old ||
+      word.confidence >
+      old.confidence
     ){
 
       map[
-        anchor.equipment
-      ] =
-        anchor;
+        equipment
+      ] = {
+
+        equipment,
+
+        ...word
+
+      };
+
     }
+
   }
 
 
   return map;
+
 }
 
 
 /* =========================================================
-   장비명 기준 블록 만들기
-
-   장비 순서가 바뀌어도
-   OCR로 실제 Y 위치를 찾기 때문에 관계없음.
+   사진2 장비별 세로 영역
 ========================================================= */
 
-function buildNumberBlocks(
+function makeEquipmentBlocksV41(
   anchors,
-  imageHeight
+  height
 ){
 
   const list =
@@ -3836,7 +3717,7 @@ function buildNumberBlocks(
     i++
   ){
 
-    const current =
+    const item =
       list[i];
 
 
@@ -3852,162 +3733,253 @@ function buildNumberBlocks(
       ];
 
 
-    let top;
-
-
-    let bottom;
-
-
-    if(previous){
-
-      top =
+    const top =
+      previous
+      ?
+      (
+        previous.cy +
+        item.cy
+      ) / 2
+      :
+      Math.max(
+        0,
+        item.y0 -
         (
-          previous.cy +
-          current.cy
-        ) / 2;
-
-    }else{
-
-      top =
-        Math.max(
-          0,
-          current.y0 -
-          current.height
-        );
-    }
+          item.y1 -
+          item.y0
+        )
+      );
 
 
-    if(next){
-
-      bottom =
+    const bottom =
+      next
+      ?
+      (
+        item.cy +
+        next.cy
+      ) / 2
+      :
+      Math.min(
+        height,
+        item.y1 +
         (
-          current.cy +
-          next.cy
-        ) / 2;
-
-    }else{
-
-      bottom =
-        Math.min(
-          imageHeight,
-          current.y1 +
-          current.height *
-          3
-        );
-    }
+          item.y1 -
+          item.y0
+        ) * 3
+      );
 
 
     blocks[
-      current.equipment
+      item.equipment
     ] = {
 
-      ...current,
-
+      ...item,
       top,
-
       bottom
 
     };
+
   }
 
 
   return blocks;
+
 }
 
 
 /* =========================================================
-   사진2 한 장비 블록 분석
+   장비번호 추출
 ========================================================= */
 
-function analyzeNumberBlockV4(
-  ocr,
+function extractEquipmentNumberV41(
+  raw
+){
+
+  let value =
+    clean(
+      raw
+    )
+    .replace(
+      /[Oo]/g,
+      "0"
+    )
+    .replace(
+      /[—–‐~_.]/g,
+      "-"
+    );
+
+
+  let match =
+    value.match(
+      /#?\s*26\s*-\s*(\d{1,3})/
+    );
+
+
+  if(match){
+
+    return "#26-" +
+      match[1];
+
+  }
+
+
+  match =
+    value.match(
+      /(?:^|\D)26(\d{2,3})(?:\D|$)/
+    );
+
+
+  if(match){
+
+    return "#26-" +
+      match[1];
+
+  }
+
+
+  return "";
+
+}
+
+
+/* =========================================================
+   ★ 사진2 장비 행 직접 Crop
+
+   전체 OCR에서 '가동'을 찾는 것만으로 끝내지 않고
+   해당 장비 행 자체를 잘라서 한 번 더 읽는다.
+========================================================= */
+
+function cropNumberEquipmentRowV41(
+  canvas,
   block
 ){
 
-  const words =
-    ocr.words
-    .filter(
-      word => {
-
-        const insideY =
-          word.cy >=
-          block.top
-          &&
-          word.cy <
-          block.bottom;
-
-
-        /*
-          장비명 오른쪽 영역.
-          번호와 가동이 있는 부분.
-        */
-
-        const right =
-          word.cx >
-          block.x1;
-
-
-        return (
-          insideY &&
-          right
-        );
-      }
-    )
-    .sort(
-      (a,b) => {
-
-        if(
-          Math.abs(
-            a.cy -
-            b.cy
-          ) <
-          8
-        ){
-
-          return (
-            a.x0 -
-            b.x0
-          );
-        }
-
-
-        return (
-          a.cy -
-          b.cy
-        );
-      }
+  const height =
+    Math.max(
+      10,
+      block.bottom -
+      block.top
     );
 
 
-  const raw =
-    words
-    .map(
-      word =>
-        word.text
-    )
-    .join(
-      " "
+  /*
+    장비명 오른쪽부터 사진 끝까지.
+    번호 + 가동 셀이 포함됨.
+  */
+
+  const x =
+    Math.max(
+      0,
+      block.x1 -
+      canvas.width *
+      .01
     );
 
 
-  return {
+  return cropCanvas(
 
-    equipment:
-      block.equipment,
+    canvas,
 
-    number:
-      extractEquipmentNumber(
-        raw
-      ),
+    x,
 
-    running:
-      hasRunningText(
-        raw
-      ),
+    block.top,
 
-    raw
+    canvas.width -
+    x,
 
-  };
+    height
+
+  );
+
+}
+
+
+/* =========================================================
+   사진2 행 OCR
+========================================================= */
+
+async function recognizeNumberRowV41(
+  canvas
+){
+
+  const enlarged =
+    enlargeCanvasV41(
+      canvas,
+      2.5
+    );
+
+
+  const w =
+    await getWorker();
+
+
+  const result =
+    await w.recognize(
+
+      enlarged,
+
+      {
+        tessedit_pageseg_mode:
+          Tesseract.PSM.SINGLE_BLOCK
+      }
+
+    );
+
+
+  return clean(
+    result.data.text
+  );
+
+}
+
+
+/* =========================================================
+   ★ 가동 판정 보정
+
+   OCR 흔한 오인식도 일부 허용.
+========================================================= */
+
+function isRunningV41(
+  text
+){
+
+  const value =
+    compact(
+      text
+    );
+
+
+  if(
+    value.includes(
+      "가동"
+    )
+  ){
+
+    return true;
+
+  }
+
+
+  /*
+    '가동'의 '가' 일부가 깨져
+    '동'만 살아남는 경우.
+    단, 한 글자 '동'만 보고 무조건 판단하지 않고
+    번호가 있는 행에서만 PART 아래 로직에서 사용.
+  */
+
+  if(
+    /(?:기|7|ㄱ)?동/.test(
+      value
+    )
+  ){
+
+    return true;
+
+  }
+
+
+  return false;
+
 }
 
 
@@ -4015,42 +3987,69 @@ function analyzeNumberBlockV4(
    사진2 전체 분석
 ========================================================= */
 
-async function analyzeNumberPhotoV4(
+async function analyzeNumberPhotoV41(
   file
 ){
 
   const ocr =
-    await recognizeNumberPhoto(
+    await recognizeNumberPhotoV41(
       file
     );
 
 
-  setStatus(
-    "장비번호 장비명 연결중...",
-    72
-  );
-
-
   const anchors =
-    findNumberAnchors(
+    findEquipmentAnchorsV41(
       ocr
     );
 
 
   const blocks =
-    buildNumberBlocks(
+    makeEquipmentBlocksV41(
+
       anchors,
+
       ocr.canvas.height
+
     );
 
 
   const items = {};
 
 
+  let processed =
+    0;
+
+
+  const equipmentList =
+    Object.keys(
+      blocks
+    );
+
+
   for(
     const equipment
-    of NUMBER_EQUIPMENT
+    of equipmentList
   ){
+
+    processed++;
+
+
+    setStatus(
+
+      `장비번호 ${equipment} 확인중...`,
+
+      65 +
+      Math.round(
+        processed /
+        Math.max(
+          1,
+          equipmentList.length
+        ) *
+        20
+      )
+
+    );
+
 
     const block =
       blocks[
@@ -4058,7 +4057,114 @@ async function analyzeNumberPhotoV4(
       ];
 
 
-    if(!block){
+    /*
+      먼저 전체 OCR word를 같은 행에서 합침
+    */
+
+    const rowWords =
+      ocr.words
+      .filter(
+        word =>
+          word.cy >=
+          block.top
+          &&
+          word.cy <
+          block.bottom
+      )
+      .sort(
+        (a,b) =>
+          a.x0 -
+          b.x0
+      )
+      .map(
+        word =>
+          word.text
+      )
+      .join(
+        " "
+      );
+
+
+    /*
+      행 자체를 다시 OCR
+    */
+
+    const rowCanvas =
+      cropNumberEquipmentRowV41(
+
+        ocr.canvas,
+
+        block
+
+      );
+
+
+    const directText =
+      await recognizeNumberRowV41(
+        rowCanvas
+      );
+
+
+    const combined =
+      clean(
+        rowWords +
+        " " +
+        directText
+      );
+
+
+    const number =
+      extractEquipmentNumberV41(
+        combined
+      );
+
+
+    /*
+      번호가 있는 행에서만
+      가동 판정을 사용
+    */
+
+    const running =
+      !!number &&
+      isRunningV41(
+        combined
+      );
+
+
+    items[
+      equipment
+    ] = {
+
+      equipment,
+
+      found:true,
+
+      number,
+
+      running,
+
+      raw:
+        combined
+
+    };
+
+  }
+
+
+  /*
+    못 찾은 장비도 명시
+  */
+
+  for(
+    const equipment
+    of NUMBER_EQUIPMENT
+  ){
+
+    if(
+      !items[
+        equipment
+      ]
+    ){
 
       items[
         equipment
@@ -4076,27 +4182,8 @@ async function analyzeNumberPhotoV4(
 
       };
 
-
-      continue;
     }
 
-
-    const parsed =
-      analyzeNumberBlockV4(
-        ocr,
-        block
-      );
-
-
-    items[
-      equipment
-    ] = {
-
-      ...parsed,
-
-      found:true
-
-    };
   }
 
 
@@ -4131,7 +4218,7 @@ async function analyzeNumberPhotoV4(
     )
     .filter(
       item =>
-        item.number &&
+        !!item.number &&
         item.running
     )
     .length;
@@ -4139,35 +4226,27 @@ async function analyzeNumberPhotoV4(
 
   return {
 
+    corrected:
+      ocr.corrected,
+
     items,
 
     foundCount,
 
     numberCount,
 
-    runningCount,
-
-    rawText:
-      ocr.text
+    runningCount
 
   };
+
 }
 
 
 /* =========================================================
-   일반 장비 제외 판정
-
-   확정 규칙:
-   - 번호 있어야 함
-   - 가동이어야 함
-   - 온도 있어야 함
-   - 승온/유지/냉각/HIP 가압 상태 있어야 함
-   - 비고 언로딩대기 제외
-   - 100도 이하 + 냉각 제외
-   - HIP 냉각 제외
+   제외 규칙
 ========================================================= */
 
-function getExcludeReasonV4(
+function getExcludeReasonV41(
   equipment,
   patrol,
   number
@@ -4179,6 +4258,7 @@ function getExcludeReasonV4(
   ){
 
     return "장비번호 사진에서 장비명 미인식";
+
   }
 
 
@@ -4187,6 +4267,7 @@ function getExcludeReasonV4(
   ){
 
     return "장비번호 없음";
+
   }
 
 
@@ -4195,14 +4276,14 @@ function getExcludeReasonV4(
   ){
 
     return "가동 확인 안 됨";
+
   }
 
 
-  if(
-    !patrol
-  ){
+  if(!patrol){
 
     return "순찰일지 데이터 없음";
+
   }
 
 
@@ -4211,7 +4292,12 @@ function getExcludeReasonV4(
     null
   ){
 
-    return "온도 인식 실패";
+    return patrol.blank?.temperature
+      ?
+      "순찰일지 온도 빈칸"
+      :
+      "온도 인식 실패";
+
   }
 
 
@@ -4219,13 +4305,17 @@ function getExcludeReasonV4(
     !patrol.state
   ){
 
-    return "상태 인식 실패";
+    return patrol.blank?.state
+      ?
+      "순찰일지 상태 빈칸"
+      :
+      "상태 인식 실패";
+
   }
 
 
   /*
-    비고란:
-    냉각 / 언로딩대기면 제외
+    비고 냉각 / 언로딩대기
   */
 
   if(
@@ -4233,6 +4323,16 @@ function getExcludeReasonV4(
   ){
 
     return "언로딩대기";
+
+  }
+
+
+  if(
+    patrol.remarkCooling
+  ){
+
+    return "비고 냉각";
+
   }
 
 
@@ -4250,11 +4350,11 @@ function getExcludeReasonV4(
   ){
 
     return "HIP 냉각";
+
   }
 
 
   /*
-    일반 장비
     100도 이하 냉각 제외
   */
 
@@ -4267,18 +4367,20 @@ function getExcludeReasonV4(
   ){
 
     return "100도 이하 냉각";
+
   }
 
 
   return "";
+
 }
 
 
 /* =========================================================
-   사진1 + 사진2 합치기
+   두 사진 합치기
 ========================================================= */
 
-function mergeV4(
+function mergeV41(
   patrol,
   number
 ){
@@ -4307,7 +4409,7 @@ function mergeV4(
 
 
     const reason =
-      getExcludeReasonV4(
+      getExcludeReasonV41(
 
         equipment,
 
@@ -4336,6 +4438,7 @@ function mergeV4(
 
 
       continue;
+
     }
 
 
@@ -4353,19 +4456,17 @@ function mergeV4(
         patrolItem.state
 
     });
+
   }
 
 
   /*
-    TG1
-
-    순찰일지에는 없음.
-    사진2에서 번호 + 가동 확인 시
-    번호 + TG1만 출력.
+    TG1:
+    순찰일지에 없음.
+    번호 + 가동이면 출력.
   */
 
-  let tg1 =
-    null;
+  let tg1 = null;
 
 
   const tg1Number =
@@ -4376,28 +4477,25 @@ function mergeV4(
 
   if(
     tg1Number &&
-    tg1Number.found &&
     tg1Number.number &&
     tg1Number.running
   ){
 
     tg1 = {
 
-      equipment:
-        "TG1",
+      equipment:"TG1",
 
       number:
         tg1Number.number
 
     };
+
   }
 
 
   /*
-    드라이챔버
-
-    번호 사용 X.
-    사진1에서 읽은 온도만.
+    드라이챔버:
+    온도만
   */
 
   const dry =
@@ -4410,10 +4508,8 @@ function mergeV4(
 
 
   /*
-    소각기
-
-    번호 사용 X.
-    온도만 별도 출력.
+    소각기:
+    온도만
   */
 
   const incinerators =
@@ -4438,16 +4534,15 @@ function mergeV4(
     incinerators
 
   };
+
 }
 
 
 /* =========================================================
-   분석 신뢰성 검증
-
-   0개 결과를 정상 처리하지 않는다.
+   검증
 ========================================================= */
 
-function validateV4(
+function validateV41(
   patrol,
   number,
   merged
@@ -4456,24 +4551,17 @@ function validateV4(
   const problems = [];
 
 
-  /*
-    표 자체
-  */
-
   if(
-    patrol.detectedLines <
-    20
+    patrol.matchedLines <
+    8
   ){
 
     problems.push(
-      `순찰일지 표 선이 ${patrol.detectedLines}개만 감지됐습니다.`
+      `순찰일지 표 일치선이 ${patrol.matchedLines}개뿐입니다.`
     );
+
   }
 
-
-  /*
-    장비번호 사진 장비명
-  */
 
   if(
     number.foundCount <
@@ -4483,40 +4571,30 @@ function validateV4(
     problems.push(
       `장비번호 사진에서 장비명을 ${number.foundCount}개만 찾았습니다.`
     );
+
   }
 
 
   /*
-    사진2에 실제 가동 후보가 있는데
-    최종 0개라면 실패
+    사진2에서 번호는 읽었는데
+    가동이 하나도 없다면 경고.
+
+    단, 사용자가 실제로 전부 미가동인 사진일 수도 있으므로
+    분석 자체를 무조건 실패시키지는 않는다.
   */
 
   if(
-    number.runningCount >
+    number.numberCount >
     0
     &&
-    merged.included.length ===
+    number.runningCount ===
     0
   ){
 
     problems.push(
-      `가동 장비 ${number.runningCount}개를 찾았지만 순찰일지 값과 매칭되지 않았습니다.`
+      `장비번호 ${number.numberCount}개를 읽었지만 '가동'을 확인하지 못했습니다.`
     );
-  }
 
-
-  /*
-    순찰일지 온도를 하나도 못 읽은 경우
-  */
-
-  if(
-    patrol.temperatureRead ===
-    0
-  ){
-
-    problems.push(
-      "순찰일지에서 온도를 하나도 읽지 못했습니다."
-    );
   }
 
 
@@ -4529,14 +4607,15 @@ function validateV4(
     problems
 
   };
+
 }
 
 
 /* =========================================================
-   결과 한 줄 UI
+   결과 UI
 ========================================================= */
 
-function createResultRow(
+function createResultRowV41(
   item
 ){
 
@@ -4552,9 +4631,7 @@ function createResultRow(
 
   div.innerHTML = `
 
-    <div class="check">
-      ✓
-    </div>
+    <div class="check">✓</div>
 
     <div>
 
@@ -4576,6 +4653,7 @@ function createResultRow(
 
 
   return div;
+
 }
 
 
@@ -4583,20 +4661,15 @@ function createResultRow(
    분석 결과 표시
 ========================================================= */
 
-function renderV4(
+function renderV41(
   patrol,
   number,
   merged,
   validation
 ){
 
-  $("results").innerHTML =
-    "";
+  $("results").innerHTML = "";
 
-
-  /*
-    사진1 상태
-  */
 
   $("patrolStatus")
   .classList
@@ -4610,18 +4683,16 @@ function renderV4(
 
     `<b>사진 1 · 순찰일지</b><br>` +
 
-    `표 감지 ✓ · ` +
+    `${patrol.corrected ? "자동보정 ✓" : "원본 사용"} · ` +
 
     `가로선 ${patrol.detectedLines}개 · ` +
+
+    `표 일치 ${patrol.matchedLines}개 · ` +
 
     `온도 ${patrol.temperatureRead}개 · ` +
 
     `상태 ${patrol.stateRead}개`;
 
-
-  /*
-    사진2 상태
-  */
 
   $("numberStatus")
   .classList
@@ -4635,16 +4706,14 @@ function renderV4(
 
     `<b>사진 2 · 장비번호</b><br>` +
 
+    `${number.corrected ? "자동보정 ✓" : "원본 사용"} · ` +
+
     `장비명 ${number.foundCount}개 · ` +
 
     `번호 ${number.numberCount}개 · ` +
 
     `가동 ${number.runningCount}개`;
 
-
-  /*
-    최종 검증
-  */
 
   if(
     validation.valid
@@ -4684,12 +4753,9 @@ function renderV4(
     $("makeReport")
     .disabled =
       true;
+
   }
 
-
-  /*
-    포함 장비
-  */
 
   for(
     const item
@@ -4698,10 +4764,11 @@ function renderV4(
 
     $("results")
     .appendChild(
-      createResultRow(
+      createResultRowV41(
         item
       )
     );
+
   }
 
 
@@ -4711,16 +4778,21 @@ function renderV4(
   ){
 
     $("results")
-    .innerHTML =
+    .innerHTML = `
 
-      `<div style="
+      <div style="
         padding:22px 4px;
         text-align:center;
         color:#8d96a8;
         font-size:13px
       ">
+
         자동 확정된 일반 장비가 없습니다.
-      </div>`;
+
+      </div>
+
+    `;
+
   }
 
 
@@ -4743,7 +4815,8 @@ function renderV4(
     .innerHTML =
 
       `<b>${merged.tg1.number} TG1</b><br>` +
-      `TG1은 순찰일지에 없어 번호와 장비명만 표시됩니다.`;
+
+      `순찰일지 미등록 장비 · 번호/가동 확인`;
 
   }else{
 
@@ -4752,11 +4825,12 @@ function renderV4(
     .add(
       "hidden"
     );
+
   }
 
 
   /*
-    제외
+    제외목록
   */
 
   $("excludedCount")
@@ -4766,8 +4840,7 @@ function renderV4(
 
 
   $("excluded")
-  .innerHTML =
-    "";
+  .innerHTML = "";
 
 
   for(
@@ -4786,39 +4859,38 @@ function renderV4(
       "번호 없음";
 
 
-    const temperature =
-      item.patrol?.temperature;
-
-
-    const state =
-      item.patrol?.state ||
-      "";
-
-
-    let detail =
-      "";
+    let detail = "";
 
 
     if(
-      temperature !== null &&
-      temperature !== undefined
+      item.patrol?.temperature !==
+      null
+      &&
+      item.patrol?.temperature !==
+      undefined
     ){
 
       detail +=
-        `${temperature}도 `;
+        `${item.patrol.temperature}도 `;
+
     }
 
 
-    if(state){
+    if(
+      item.patrol?.state
+    ){
 
       detail +=
-        state;
+        item.patrol.state;
+
     }
 
 
     div.innerHTML =
 
-      `<b>${numberText} ${item.equipment}</b>` +
+      `<b>${numberText} ${item.equipment}</b>`
+
+      +
 
       (
         detail
@@ -4826,7 +4898,9 @@ function renderV4(
         `<br>${detail}`
         :
         ""
-      ) +
+      )
+
+      +
 
       `<br>→ ${item.reason}`;
 
@@ -4835,6 +4909,7 @@ function renderV4(
     .appendChild(
       div
     );
+
   }
 
 
@@ -4854,11 +4929,9 @@ function renderV4(
   $("resultCard")
   .scrollIntoView({
 
-    behavior:
-      "smooth",
+    behavior:"smooth",
 
-    block:
-      "start"
+    block:"start"
 
   });
 
@@ -4866,12 +4939,11 @@ function renderV4(
 
 
 /* =========================================================
-   제외 목록 열기/닫기
+   제외목록
 ========================================================= */
 
 $("excludedBtn")
-.onclick =
-() => {
+.onclick = () => {
 
   $("excluded")
   .classList
@@ -4897,7 +4969,7 @@ $("excludedBtn")
 
 
 /* =========================================================
-   ★ 실제 분석 실행
+   ★ 분석 실행
 ========================================================= */
 
 $("analyze")
@@ -4910,11 +4982,11 @@ async () => {
   ){
 
     return;
+
   }
 
 
-  $("analyze")
-  .disabled =
+  $("analyze").disabled =
     true;
 
 
@@ -4923,12 +4995,21 @@ async () => {
 
   try{
 
+    setStatus(
+      "영상 분석 엔진 준비중...",
+      2
+    );
+
+
+    await loadOpenCV();
+
+
     /*
       사진1
     */
 
     const patrol =
-      await analyzePatrolPhotoV4(
+      await analyzePatrolPhotoV41(
         patrolImage
       );
 
@@ -4940,6 +5021,7 @@ async () => {
       throw new Error(
         patrol.reason
       );
+
     }
 
 
@@ -4948,34 +5030,26 @@ async () => {
     */
 
     const number =
-      await analyzeNumberPhotoV4(
+      await analyzeNumberPhotoV41(
         numberImage
       );
 
 
     setStatus(
       "두 사진 대조중...",
-      88
+      90
     );
 
 
-    /*
-      합치기
-    */
-
     const merged =
-      mergeV4(
+      mergeV41(
         patrol,
         number
       );
 
 
-    /*
-      검증
-    */
-
     const validation =
-      validateV4(
+      validateV41(
         patrol,
         number,
         merged
@@ -5008,7 +5082,7 @@ async () => {
     );
 
 
-    renderV4(
+    renderV41(
 
       patrol,
       number,
@@ -5065,17 +5139,6 @@ async () => {
     );
 
 
-    $("resultCard")
-    .scrollIntoView({
-
-      behavior:
-        "smooth",
-
-      block:
-        "start"
-
-    });
-
   }finally{
 
     updateAnalyzeButton();
@@ -5086,11 +5149,11 @@ async () => {
 
 
 /* =========================================================
-   V4 PART 2 END
+   V4.1 PART 2 END
 ========================================================= */
-  /* =========================================================
-   DACC V4 - PART 3
-   최종 보고서
+/* =========================================================
+   DACC V4.1 - PART 3
+   최종 보고서 + 복사 + 마무리
 ========================================================= */
 
 
@@ -5098,7 +5161,7 @@ async () => {
    날짜
 ========================================================= */
 
-function getTodayV4(){
+function getTodayV41(){
 
   const now =
     new Date();
@@ -5147,7 +5210,7 @@ function getTodayV4(){
    근무명
 ========================================================= */
 
-function getWorkNameV4(){
+function getWorkNameV41(){
 
   if(
     workType ===
@@ -5175,10 +5238,38 @@ function getWorkNameV4(){
 
 
 /* =========================================================
-   일반 장비 정렬
+   번호 표시
+
+   내부:
+   #26-118
+
+   보고서:
+   26-118
 ========================================================= */
 
-function sortReportItemsV4(
+function displayNumberV41(
+  number
+){
+
+  return String(
+    number || ""
+  )
+  .replace(
+    /^#/,
+    ""
+  );
+
+}
+
+
+/* =========================================================
+   일반 장비 정렬
+
+   사진2에서 장비 순서가 바뀌어 있어도
+   최종 보고서는 우리가 정한 순서로 출력.
+========================================================= */
+
+function sortReportItemsV41(
   items
 ){
 
@@ -5200,10 +5291,7 @@ function sortReportItemsV4(
         );
 
 
-      return (
-        ai -
-        bi
-      );
+      return ai - bi;
 
     }
   );
@@ -5212,42 +5300,19 @@ function sortReportItemsV4(
 
 
 /* =========================================================
-   장비번호 표시
-
-   내부에서는 #26-45로 저장하지만
-   최종 보고서에서는 # 제거.
+   일반 장비 한 줄
 
    예:
-   26-45 CF6 530도 유지중
+   26-118 CF5 530도 유지중
 ========================================================= */
 
-function displayNumberV4(
-  number
-){
-
-  return String(
-    number ||
-    ""
-  )
-  .replace(
-    /^#/,
-    ""
-  );
-
-}
-
-
-/* =========================================================
-   일반 장비 한 줄
-========================================================= */
-
-function makeEquipmentLineV4(
+function makeEquipmentLineV41(
   item
 ){
 
   return (
 
-    displayNumberV4(
+    displayNumberV41(
       item.number
     )
 
@@ -5269,10 +5334,45 @@ function makeEquipmentLineV4(
 
 
 /* =========================================================
-   드라이챔버 표시명
+   TG1
+
+   순찰일지에는 없음.
+
+   사진2에서
+   번호 + 가동 확인된 경우만:
+
+   26-xxx TG1
 ========================================================= */
 
-function dryDisplayNameV4(
+function makeTG1LineV41(
+  tg1
+){
+
+  if(!tg1){
+
+    return "";
+
+  }
+
+
+  return (
+
+    displayNumberV41(
+      tg1.number
+    )
+
+    + " TG1"
+
+  );
+
+}
+
+
+/* =========================================================
+   드라이챔버 표시
+========================================================= */
+
+function dryDisplayNameV41(
   equipment
 ){
 
@@ -5302,10 +5402,10 @@ function dryDisplayNameV4(
 
 
 /* =========================================================
-   소각기 표시명
+   소각기 표시
 ========================================================= */
 
-function incineratorDisplayNameV4(
+function incineratorDisplayNameV41(
   equipment
 ){
 
@@ -5335,48 +5435,10 @@ function incineratorDisplayNameV4(
 
 
 /* =========================================================
-   TG1 출력
-
-   순찰일지에는 아직 없으므로
-
-   장비번호 + TG1
-
-   이것만 출력.
-========================================================= */
-
-function makeTG1LineV4(
-  tg1
-){
-
-  if(!tg1){
-
-    return "";
-
-  }
-
-
-  return (
-
-    displayNumberV4(
-      tg1.number
-    )
-
-    + " TG1"
-
-  );
-
-}
-
-
-/* =========================================================
    최종 보고서 생성
-
-   중요:
-   OCR에서 확정되지 않은 장비는
-   임의로 만들어 넣지 않는다.
 ========================================================= */
 
-function buildFinalReportV4(){
+function buildFinalReportV41(){
 
   if(
     !analysisResult
@@ -5401,18 +5463,18 @@ function buildFinalReportV4(){
 
 
   const today =
-    getTodayV4();
+    getTodayV41();
 
 
   const workName =
-    getWorkNameV4();
+    getWorkNameV41();
 
 
   const lines = [];
 
 
 /* ---------------------------------------------------------
-   상단
+   보고자
 --------------------------------------------------------- */
 
   lines.push(
@@ -5442,7 +5504,7 @@ function buildFinalReportV4(){
 
 
   const sorted =
-    sortReportItemsV4(
+    sortReportItemsV41(
       merged.included
     );
 
@@ -5454,7 +5516,7 @@ function buildFinalReportV4(){
 
     lines.push(
 
-      makeEquipmentLineV4(
+      makeEquipmentLineV41(
         item
       )
 
@@ -5466,9 +5528,10 @@ function buildFinalReportV4(){
 /* ---------------------------------------------------------
    TG1
 
-   요청대로 일반 장비들보다 맨 아래.
+   일반 장비 목록의 맨 마지막.
 
-   단, 드라이챔버/소각기 별도영역 전.
+   순찰일지에는 없으므로
+   온도/상태 붙이지 않음.
 --------------------------------------------------------- */
 
   if(
@@ -5477,7 +5540,7 @@ function buildFinalReportV4(){
 
     lines.push(
 
-      makeTG1LineV4(
+      makeTG1LineV41(
         merged.tg1
       )
 
@@ -5489,11 +5552,9 @@ function buildFinalReportV4(){
 /* ---------------------------------------------------------
    드라이챔버
 
-   번호 없음.
-   상태 없음.
-   사진에서 읽은 온도만 출력.
-
-   온도 인식 실패 장비는 mergeV4에서 이미 제외.
+   번호 없음
+   상태 없음
+   온도만 출력
 --------------------------------------------------------- */
 
   if(
@@ -5512,7 +5573,7 @@ function buildFinalReportV4(){
 
       lines.push(
 
-        `${dryDisplayNameV4(
+        `${dryDisplayNameV41(
           item.equipment
         )} ${item.temperature}도`
 
@@ -5524,12 +5585,11 @@ function buildFinalReportV4(){
 
 
 /* ---------------------------------------------------------
-   소각기 별도 출력
+   소각기
 
-   1동 / 3동
-   번호 없음.
-   상태 없음.
-   온도만.
+   별도 출력
+   번호 없음
+   온도만 출력
 --------------------------------------------------------- */
 
   if(
@@ -5545,14 +5605,49 @@ function buildFinalReportV4(){
     );
 
 
+    /*
+      1동 → 3동 순서 고정
+    */
+
+    const incinerators =
+      [
+        ...merged.incinerators
+      ]
+      .sort(
+        (a,b) => {
+
+          const order = [
+            "1동소각기",
+            "3동소각기"
+          ];
+
+
+          return (
+
+            order.indexOf(
+              a.equipment
+            )
+
+            -
+
+            order.indexOf(
+              b.equipment
+            )
+
+          );
+
+        }
+      );
+
+
     for(
       const item
-      of merged.incinerators
+      of incinerators
     ){
 
       lines.push(
 
-        `${incineratorDisplayNameV4(
+        `${incineratorDisplayNameV41(
           item.equipment
         )} ${item.temperature}도`
 
@@ -5571,7 +5666,7 @@ function buildFinalReportV4(){
 
 
 /* =========================================================
-   보고서 생성 버튼
+   보고서 생성
 ========================================================= */
 
 $("makeReport")
@@ -5596,7 +5691,7 @@ $("makeReport")
   ){
 
     alert(
-      "사진 인식 결과에 오류가 있어 보고서를 생성할 수 없습니다."
+      "인식 결과를 먼저 확인해주세요."
     );
 
     return;
@@ -5605,12 +5700,10 @@ $("makeReport")
 
 
   const report =
-    buildFinalReportV4();
+    buildFinalReportV41();
 
 
-  if(
-    !report
-  ){
+  if(!report){
 
     alert(
       "보고서를 생성할 수 없습니다."
@@ -5647,6 +5740,62 @@ $("makeReport")
 
 
 /* =========================================================
+   iPhone 복사 fallback
+========================================================= */
+
+function fallbackCopyV41(){
+
+  const textarea =
+    $("report");
+
+
+  textarea.focus();
+
+
+  textarea.select();
+
+
+  textarea.setSelectionRange(
+    0,
+    textarea.value.length
+  );
+
+
+  return document.execCommand(
+    "copy"
+  );
+
+}
+
+
+/* =========================================================
+   복사 버튼 문구
+========================================================= */
+
+function showCopiedV41(){
+
+  const button =
+    $("copy");
+
+
+  button.textContent =
+    "복사 완료 ✓";
+
+
+  setTimeout(
+    () => {
+
+      button.textContent =
+        "전체 복사";
+
+    },
+    1300
+  );
+
+}
+
+
+/* =========================================================
    전체 복사
 ========================================================= */
 
@@ -5665,86 +5814,81 @@ async () => {
   }
 
 
-  const button =
-    $("copy");
-
-
   try{
 
-    await navigator
-    .clipboard
-    .writeText(
-      text
-    );
+    /*
+      HTTPS + 지원 브라우저
+    */
+
+    if(
+      navigator.clipboard &&
+      navigator.clipboard.writeText
+    ){
+
+      await navigator
+      .clipboard
+      .writeText(
+        text
+      );
 
 
-    button.textContent =
-      "복사 완료 ✓";
+      showCopiedV41();
+
+      return;
+
+    }
 
 
-    setTimeout(
-      () => {
+    /*
+      구형 iPhone Safari
+    */
 
-        button.textContent =
-          "전체 복사";
+    const success =
+      fallbackCopyV41();
 
-      },
-      1200
+
+    if(success){
+
+      showCopiedV41();
+
+      return;
+
+    }
+
+
+    throw new Error(
+      "clipboard unavailable"
     );
 
 
   }catch(error){
 
-
-    /*
-      iPhone Safari fallback
-    */
-
-    const textarea =
-      $("report");
-
-
-    textarea.focus();
-
-
-    textarea.select();
-
-
-    textarea.setSelectionRange(
-      0,
-      textarea.value.length
-    );
-
-
     try{
 
-      document.execCommand(
-        "copy"
-      );
+      const success =
+        fallbackCopyV41();
 
 
-      button.textContent =
-        "복사 완료 ✓";
+      if(success){
 
+        showCopiedV41();
 
-      setTimeout(
-        () => {
+        return;
 
-          button.textContent =
-            "전체 복사";
-
-        },
-        1200
-      );
-
+      }
 
     }catch(copyError){
 
-      alert(
-        "자동 복사가 차단됐습니다. 보고서 내용을 길게 눌러 복사해주세요."
+      console.warn(
+        copyError
       );
 
     }
+
+
+    alert(
+      "자동 복사가 차단됐습니다. 보고서 내용을 길게 눌러 복사해주세요."
+    );
 
   }
 
@@ -5752,7 +5896,44 @@ async () => {
 
 
 /* =========================================================
-   페이지 종료 시 OCR Worker 종료
+   OpenCV 사전 로딩
+
+   페이지 열자마자 백그라운드에서 준비.
+
+   사용자가 사진 선택하는 동안 로딩됨.
+========================================================= */
+
+setTimeout(
+  () => {
+
+    loadOpenCV()
+    .then(
+      () => {
+
+        console.log(
+          "OpenCV READY"
+        );
+
+      }
+    )
+    .catch(
+      error => {
+
+        console.warn(
+          "OpenCV preload:",
+          error
+        );
+
+      }
+    );
+
+  },
+  500
+);
+
+
+/* =========================================================
+   OCR Worker 종료
 ========================================================= */
 
 window.addEventListener(
@@ -5768,7 +5949,8 @@ window.addEventListener(
 
     try{
 
-      await worker.terminate();
+      await worker
+      .terminate();
 
     }catch(error){
 
@@ -5794,8 +5976,13 @@ updateAnalyzeButton();
 
 
 console.log(
-  "DACC V4 READY"
+  "DACC V4.1 READY"
 );
+
+
+/* =========================================================
+   V4.1 END
+========================================================= */
 
 </script>
 
