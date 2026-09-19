@@ -711,6 +711,14 @@ button {
   </section>
 
 
+
+  <!-- DACC TrOCR 우회 테스트 -->
+  <section class="card" id="trocrTestCard">
+    <div class="cardTitle">TrOCR 손글씨 온도 테스트</div>
+    <button type="button" class="primary" id="trocrTestBtn">순찰일지 TrOCR 테스트</button>
+    <div id="trocrTestStatus" style="margin-top:12px;white-space:pre-wrap;font-size:13px;line-height:1.55"></div>
+  </section>
+
   <!-- ===============================================
        분석 결과
   ================================================ -->
@@ -8729,6 +8737,64 @@ console.log(
    DACC PART 3 / 3 END
 ========================================================= */
 
+</script>
+
+
+<script type="module">
+// DACC FIXED13 - TrOCR 우회 테스트. 기존 분석 로직은 변경하지 않음.
+import { pipeline } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1';
+
+const DACC_TROCR_ROWS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,29,30];
+const DACC_TROCR_TRUTH = ['571','741','597','827','580','688','2400','2200','704','1302','1126','54','136','33','319','682','654','700','700'];
+const DACC_TROCR_NAMES = ['TG2호기','TG3호기','TG4호기','TG5호기','TG6호기','TG7호기','GF1','GF3','GF4','GF5','SMI','CF1','CF2','CF3','CF4','CF5','CF6','HIP-2','HIP-3'];
+const DACC_Y = [335,364,393,423,452,482,512,542,572,602,633,663,693,724,755,786,816,848,880,908,942,972,1004,1036,1066,1098,1130,1162,1194,1226,1258];
+let daccTrocr = null;
+
+function daccTempCrop(img,row){
+  const sx=560, sw=66;
+  const y0=DACC_Y[row-1], y1=DACC_Y[row];
+  const pad=4;
+  const c=document.createElement('canvas');
+  c.width=sw*6; c.height=(y1-y0+pad*2)*6;
+  const x=c.getContext('2d',{alpha:false});
+  x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height);
+  x.imageSmoothingEnabled=true; x.imageSmoothingQuality='high';
+  x.drawImage(img,sx,y0-pad,sw,(y1-y0)+pad*2,0,0,c.width,c.height);
+  return c;
+}
+function digitsOnly(v){ return String(v||'').replace(/[^0-9]/g,''); }
+
+async function runDaccTrocr(){
+  const btn=document.getElementById('trocrTestBtn');
+  const status=document.getElementById('trocrTestStatus');
+  const img=document.getElementById('patrolPreviewImage');
+  if(!img || !img.src){ status.textContent='순찰일지 사진을 먼저 넣어주세요.'; return; }
+  btn.disabled=true;
+  try{
+    status.textContent='TrOCR 모델 로딩중… (첫 실행은 다운로드 때문에 오래 걸릴 수 있음)';
+    if(!daccTrocr){
+      daccTrocr=await pipeline('image-to-text','Xenova/trocr-small-handwritten',{dtype:'q8'});
+    }
+    let ok=0, lines=[];
+    for(let i=0;i<DACC_TROCR_ROWS.length;i++){
+      const row=DACC_TROCR_ROWS[i];
+      status.textContent=`TrOCR 테스트 ${i+1}/19…\n현재 ${ok}개 일치`;
+      const crop=daccTempCrop(img,row);
+      const out=await daccTrocr(crop.toDataURL('image/png'),{max_new_tokens:12});
+      const raw=out?.[0]?.generated_text||'';
+      const got=digitsOnly(raw);
+      const truth=DACC_TROCR_TRUTH[i];
+      const pass=got===truth; if(pass) ok++;
+      lines.push(`${pass?'OK':'FAIL'}  ${DACC_TROCR_NAMES[i]}  정답 ${truth} → ${got||'(미인식)'}  [${raw}]`);
+    }
+    const pct=(ok/19*100).toFixed(1);
+    status.textContent=`TrOCR 결과: ${ok}/19 (${pct}%)\n\n`+lines.join('\n');
+  }catch(e){
+    status.textContent='TrOCR 오류: '+(e?.message||String(e));
+  }finally{ btn.disabled=false; }
+}
+
+document.getElementById('trocrTestBtn')?.addEventListener('click',runDaccTrocr);
 </script>
 
 </body>
