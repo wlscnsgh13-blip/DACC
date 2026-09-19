@@ -2201,6 +2201,22 @@ function daccScaleCanvas(
    OpenCV Gray
 ========================================================= */
 
+
+/* OCR 입력 전용 흰색 패딩 */
+function daccPadCanvas(source, ratio = 0.10) {
+  const padX = Math.max(8, Math.round(source.width * ratio));
+  const padY = Math.max(8, Math.round(source.height * ratio));
+  const canvas = document.createElement("canvas");
+  canvas.width = source.width + padX * 2;
+  canvas.height = source.height + padY * 2;
+  const ctx = canvas.getContext("2d", { alpha:false });
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(source, padX, padY);
+  return canvas;
+}
+
+
 function daccGray(
   source,
   scale = 4
@@ -2866,6 +2882,9 @@ async function daccReadNumber(
   source
 ) {
 
+  const padded =
+    daccPadCanvas(source, 0.10);
+
   const variants = [
 
     daccScaleCanvas(
@@ -2904,7 +2923,7 @@ async function daccReadNumber(
         variant,
         {
           tessedit_pageseg_mode:
-            Tesseract.PSM.SINGLE_LINE,
+            Tesseract.PSM.SINGLE_WORD,
 
           tessedit_char_whitelist:
             "0123456789-#"
@@ -3064,6 +3083,9 @@ async function daccReadRunning(
   source
 ) {
 
+  const padded =
+    daccPadCanvas(source, 0.12);
+
   const variants = [
 
     daccScaleCanvas(
@@ -3200,6 +3222,9 @@ async function daccReadRunning(
 async function daccReadTemperature(
   source
 ) {
+
+  const padded =
+    daccPadCanvas(source, 0.10);
 
   const variants = [
 
@@ -3383,6 +3408,9 @@ async function daccReadTemperature(
 async function daccReadState(
   source
 ) {
+
+  const padded =
+    daccPadCanvas(source, 0.12);
 
   const variants = [
 
@@ -4280,14 +4308,12 @@ function daccCropNumberRow(
     left,
 
     top +
-    rowHeight *
-    0.04,
+    rowHeight * 0.10,
 
     right -
     left,
 
-    rowHeight *
-    0.92
+    rowHeight * 0.80
   );
 }
 
@@ -4307,51 +4333,34 @@ function daccSplitNumberCell(
   source
 ) {
 
+  /*
+    번호/가동 경계를 일부 겹치게 유지하면서
+    좌우/상하 끝부분의 표선을 덜 포함한다.
+  */
   const number =
     daccCrop(
-
       source,
-
-      0,
-
-      0,
-
-      source.width,
-
-      source.height *
-      0.67
+      source.width * 0.03,
+      source.height * 0.02,
+      source.width * 0.94,
+      source.height * 0.62
     );
-
 
   const running =
     daccCrop(
-
       source,
-
-      0,
-
-      source.height *
-      0.32,
-
-      source.width,
-
-      source.height *
-      0.68
+      source.width * 0.03,
+      source.height * 0.36,
+      source.width * 0.94,
+      source.height * 0.62
     );
 
-
   return {
-
     number,
-
     running
   };
 }
 
-
-/* =========================================================
-   사진2 24행 분석
-========================================================= */
 
 async function daccAnalyzeNumberPhoto(
   file,
@@ -4620,14 +4629,12 @@ function daccCropPatrolCell(
     left,
 
     top +
-    rowHeight *
-    0.04,
+    rowHeight * 0.10,
 
     right -
     left,
 
-    rowHeight *
-    0.92
+    rowHeight * 0.80
   );
 }
 
