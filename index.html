@@ -2888,22 +2888,22 @@ async function daccReadNumber(
   const variants = [
 
     daccScaleCanvas(
-      source,
+      padded,
       5
     ),
 
     daccGray(
-      source,
+      padded,
       5
     ),
 
     daccOtsu(
-      source,
+      padded,
       5
     ),
 
     daccAdaptive(
-      source,
+      padded,
       5
     )
 
@@ -3089,22 +3089,22 @@ async function daccReadRunning(
   const variants = [
 
     daccScaleCanvas(
-      source,
+      padded,
       5
     ),
 
     daccGray(
-      source,
+      padded,
       5
     ),
 
     daccOtsu(
-      source,
+      padded,
       5
     ),
 
     daccAdaptive(
-      source,
+      padded,
       5
     )
 
@@ -3229,22 +3229,22 @@ async function daccReadTemperature(
   const variants = [
 
     daccScaleCanvas(
-      source,
+      padded,
       5
     ),
 
     daccGray(
-      source,
+      padded,
       5
     ),
 
     daccOtsu(
-      source,
+      padded,
       5
     ),
 
     daccAdaptive(
-      source,
+      padded,
       5
     )
 
@@ -3946,297 +3946,110 @@ function daccFindFixedGrid(
   imageHeight
 ) {
 
-  if (
-    !Array.isArray(
-      lines
-    ) ||
-    lines.length < 8
-  ) {
-
+  if (!Array.isArray(lines) || lines.length < 8) {
     return null;
   }
 
+  const clean = [...new Set(
+    lines
+      .filter(y => Number.isFinite(y) && y >= 0 && y <= imageHeight)
+      .map(y => Math.round(y))
+  )].sort((a,b) => a - b);
 
-  const gaps = [];
-
-
-  for (
-    let i = 1;
-    i <
-    lines.length;
-    i++
-  ) {
-
-    const gap =
-      lines[i] -
-      lines[i - 1];
-
-
-    if (
-      gap >= 8 &&
-      gap <
-      imageHeight *
-      0.08
-    ) {
-
-      gaps.push(
-        gap
-      );
-    }
-  }
-
-
-  if (
-    gaps.length < 6
-  ) {
-
+  if (clean.length < 8) {
     return null;
   }
-
-
-  const sortedGaps =
-    [...gaps]
-    .sort(
-      (a,b) =>
-        a - b
-    );
-
 
   /*
-    큰 헤더 간격을 제외하고
-    작은 쪽 70%로 행높이 추정.
+    FIXED 11
+    - 이전 방식처럼 위에서부터 rowHeight를 누적하지 않는다.
+    - 시작/끝 앵커 후보를 먼저 잡고 전체 24/35행을 한 번에 등분한다.
+    - 실제 가로선은 예상 위치의 ±35% 안에서만 snap한다.
+    - 한 선을 두 경계가 공유하지 못하게 해서 HIP1 이후 누적 밀림을 차단한다.
   */
-
-  const usable =
-    sortedGaps.slice(
-
-      0,
-
-      Math.max(
-        6,
-        Math.ceil(
-          sortedGaps.length *
-          0.70
-        )
-      )
-    );
-
-
-  const rowHeight =
-    daccMedian(
-      usable
-    );
-
-
-  if (
-    !Number.isFinite(
-      rowHeight
-    ) ||
-    rowHeight < 8
-  ) {
-
-    return null;
-  }
-
-
   let best = null;
 
+  const minStep = Math.max(8, imageHeight * 0.012);
+  const maxStep = imageHeight * 0.055;
 
-  for (
-    const start
-    of lines
-  ) {
+  for (let a = 0; a < clean.length - 1; a++) {
+    const start = clean[a];
 
-    const estimatedEnd =
-      start +
-      rowHeight *
-      rowCount;
+    for (let b = a + 1; b < clean.length; b++) {
+      const end = clean[b];
+      const step = (end - start) / rowCount;
 
+      if (step < minStep || step > maxStep) {
+        continue;
+      }
 
-    /*
-      표가 이미지 바깥으로
-      너무 크게 넘어가면 제외.
-    */
+      const boundaries = [];
+      let matches = 0;
+      let error = 0;
+      let previous = -Infinity;
 
-    if (
-      estimatedEnd >
-      imageHeight +
-      rowHeight *
-      1.5
-    ) {
+      for (let i = 0; i <= rowCount; i++) {
+        const expected = start + step * i;
+        const tolerance = Math.max(3, step * 0.35);
+        let nearest = null;
+        let distance = Infinity;
 
-      continue;
-    }
-
-
-    const boundaries = [];
-
-    let matches = 0;
-    let error = 0;
-
-
-    for (
-      let row = 0;
-      row <= rowCount;
-      row++
-    ) {
-
-      const expected =
-        start +
-        rowHeight *
-        row;
-
-
-      let nearest =
-        null;
-
-
-      let distance =
-        Infinity;
-
-
-      for (
-        const line
-        of lines
-      ) {
-
-        const currentDistance =
-          Math.abs(
-            line -
-            expected
-          );
-
-
-        if (
-          currentDistance <
-          distance
-        ) {
-
-          distance =
-            currentDistance;
-
-          nearest =
-            line;
+        for (const line of clean) {
+          if (line <= previous) continue;
+          const d = Math.abs(line - expected);
+          if (d < distance) {
+            nearest = line;
+            distance = d;
+          }
         }
+
+        let y = expected;
+        if (nearest !== null && distance <= tolerance) {
+          y = nearest;
+          matches++;
+          error += distance;
+        }
+
+        if (y <= previous) {
+          y = previous + Math.max(1, step * 0.65);
+        }
+
+        boundaries.push(y);
+        previous = y;
       }
 
+      const matchRatio = matches / (rowCount + 1);
+      const spanRatio = (end - start) / imageHeight;
 
-      const tolerance =
-        rowHeight *
-        0.42;
+      // 실제 양식은 사진 높이의 큰 부분을 차지한다. 짧은 가짜 표 후보 억제.
+      if (spanRatio < 0.42) continue;
 
+      const score =
+        matches * 1000 -
+        error * 3 +
+        spanRatio * 100;
 
-      if (
-        nearest !==
-        null &&
-        distance <=
-        tolerance
-      ) {
-
-        boundaries.push(
-          nearest
-        );
-
-
-        matches++;
-
-
-        error +=
-          distance;
-
-      } else {
-
-        /*
-          실제 선이 한두 개 누락된 경우
-          예상 위치로 보간.
-        */
-
-        boundaries.push(
-          expected
-        );
+      if (!best || score > best.score) {
+        best = {
+          boundaries,
+          rowHeight: step,
+          matches,
+          matchRatio,
+          score,
+          start: boundaries[0],
+          end: boundaries[boundaries.length - 1],
+          source: "fixed11-global-anchor"
+        };
       }
-    }
-
-
-    /*
-      경계가 역전되거나
-      같은 값이 반복되는 문제 방지.
-    */
-
-    for (
-      let i = 1;
-      i <
-      boundaries.length;
-      i++
-    ) {
-
-      if (
-        boundaries[i] <=
-        boundaries[i - 1]
-      ) {
-
-        boundaries[i] =
-          boundaries[
-            i - 1
-          ] +
-          rowHeight;
-      }
-    }
-
-
-    const matchRatio =
-      matches /
-      (
-        rowCount +
-        1
-      );
-
-
-    /*
-      매칭 수 우선,
-      오차는 감점.
-    */
-
-    const score =
-      matches *
-      1000 -
-      error;
-
-
-    if (
-      !best ||
-      score >
-      best.score
-    ) {
-
-      best = {
-
-        boundaries,
-
-        rowHeight,
-
-        matches,
-
-        matchRatio,
-
-        score,
-
-        start:
-          boundaries[0],
-
-        end:
-          boundaries[
-            boundaries.length -
-            1
-          ]
-      };
     }
   }
 
+  if (!best) {
+    return null;
+  }
 
   return best;
 }
-
 
 /* =========================================================
    사진2 열 위치
@@ -4505,19 +4318,331 @@ function daccColumnX(
 }
 
 
+
+/* =========================================================
+   FIXED 10 - 사진2 번호/가동 열 실제 수직선 검출
+
+   원본 테스트 결과:
+   교대 업무일지의 주요 세로 경계선은
+   표 내부에서 안정적으로 검출 가능.
+
+   구조:
+   장비명 | 번호/가동 | 제품명 | 주간/야간
+
+   Primary:
+   grid 영역에서 실제 수직선을 검출하여
+   번호/가동 열의 좌/우 경계를 직접 사용.
+
+   Fallback:
+   검출 실패 시 FIXED 8 좌표 사용.
+========================================================= */
+
+function daccDetectNumberColumn(
+  canvas,
+  grid
+) {
+
+  const src = cv.imread(canvas);
+  const gray = new cv.Mat();
+  const binary = new cv.Mat();
+  const vertical = new cv.Mat();
+  const contours = new cv.MatVector();
+  const hierarchy = new cv.Mat();
+
+  const kernelHeight =
+    Math.max(
+      24,
+      Math.round(
+        grid.rowHeight * 4
+      )
+    );
+
+  const kernel =
+    cv.getStructuringElement(
+      cv.MORPH_RECT,
+      new cv.Size(
+        1,
+        kernelHeight
+      )
+    );
+
+  const candidates = [];
+
+  try {
+
+    cv.cvtColor(
+      src,
+      gray,
+      cv.COLOR_RGBA2GRAY
+    );
+
+    cv.adaptiveThreshold(
+      gray,
+      binary,
+      255,
+      cv.ADAPTIVE_THRESH_GAUSSIAN_C,
+      cv.THRESH_BINARY_INV,
+      31,
+      11
+    );
+
+    cv.morphologyEx(
+      binary,
+      vertical,
+      cv.MORPH_OPEN,
+      kernel
+    );
+
+    cv.findContours(
+      vertical,
+      contours,
+      hierarchy,
+      cv.RETR_EXTERNAL,
+      cv.CHAIN_APPROX_SIMPLE
+    );
+
+    const top =
+      Math.max(
+        0,
+        grid.start -
+        grid.rowHeight
+      );
+
+    const bottom =
+      Math.min(
+        canvas.height,
+        grid.end +
+        grid.rowHeight
+      );
+
+    for (
+      let i = 0;
+      i < contours.size();
+      i++
+    ) {
+
+      const contour =
+        contours.get(i);
+
+      try {
+
+        const rect =
+          cv.boundingRect(
+            contour
+          );
+
+        const cy =
+          rect.y +
+          rect.height / 2;
+
+        if (
+          cy < top ||
+          cy > bottom
+        ) {
+          continue;
+        }
+
+        /*
+          글자 획 제거.
+          최소 4행 이상 이어지는 수직선만 사용.
+        */
+        if (
+          rect.height <
+          grid.rowHeight * 4
+        ) {
+          continue;
+        }
+
+        const x =
+          rect.x +
+          rect.width / 2;
+
+        /*
+          번호 열은 문서 왼쪽 절반에 존재.
+          사진 가장자리/우측 주간·야간 영역 제거.
+        */
+        if (
+          x <
+          canvas.width * 0.02 ||
+          x >
+          canvas.width * 0.55
+        ) {
+          continue;
+        }
+
+        candidates.push(
+          Math.round(x)
+        );
+
+      } finally {
+
+        contour.delete();
+      }
+    }
+
+  } finally {
+
+    src.delete();
+    gray.delete();
+    binary.delete();
+    vertical.delete();
+    contours.delete();
+    hierarchy.delete();
+    kernel.delete();
+  }
+
+
+  candidates.sort(
+    (a,b) => a - b
+  );
+
+
+  /*
+    같은 세로선이 여러 contour로 잡힌 경우 병합.
+  */
+  const merged = [];
+
+  for (
+    const x of candidates
+  ) {
+
+    const last =
+      merged[
+        merged.length - 1
+      ];
+
+    if (
+      last === undefined ||
+      x - last > 7
+    ) {
+
+      merged.push(x);
+
+    } else {
+
+      merged[
+        merged.length - 1
+      ] =
+        Math.round(
+          (last + x) / 2
+        );
+    }
+  }
+
+
+  function nearestTo(
+    targetRatio
+  ) {
+
+    let best = null;
+    let bestDistance = Infinity;
+
+    const target =
+      canvas.width *
+      targetRatio;
+
+    for (
+      const x of merged
+    ) {
+
+      const distance =
+        Math.abs(
+          x - target
+        );
+
+      if (
+        distance <
+        bestDistance
+      ) {
+
+        best = x;
+        bestDistance = distance;
+      }
+    }
+
+    return best;
+  }
+
+
+  /*
+    원본 두 사진에서 확인한 고정 양식:
+    장비명 오른쪽 경계 ≈ 17~18%
+    번호/가동 오른쪽 경계 ≈ 27~29%
+
+    비율 자체로 crop하지 않고,
+    이 위치 근처에서 '실제로 검출된 선'을 선택한다.
+  */
+  const left =
+    nearestTo(0.175);
+
+  const right =
+    nearestTo(0.280);
+
+
+  const width =
+    (
+      Number.isFinite(left) &&
+      Number.isFinite(right)
+    )
+      ? right - left
+      : 0;
+
+
+  const valid =
+    Number.isFinite(left) &&
+    Number.isFinite(right) &&
+    right > left &&
+    width >
+      canvas.width * 0.07 &&
+    width <
+      canvas.width * 0.16 &&
+    Math.abs(
+      left -
+      canvas.width * 0.175
+    ) <
+      canvas.width * 0.055 &&
+    Math.abs(
+      right -
+      canvas.width * 0.280
+    ) <
+      canvas.width * 0.055;
+
+
+  if (!valid) {
+
+    return {
+      ok:false,
+      left:
+        canvas.width *
+        NUMBER_COLUMN.fallbackLeft,
+      right:
+        canvas.width *
+        NUMBER_COLUMN.fallbackRight,
+      source:
+        "fixed8-fallback",
+      lines:
+        merged
+    };
+  }
+
+
+  return {
+    ok:true,
+    left,
+    right,
+    source:
+      "detected-vertical-lines",
+    lines:
+      merged
+  };
+}
+
+
 const NUMBER_COLUMN = {
 
   /*
-    실제 표 기준:
-    첫 열 = 장비명
-    두 번째 열 = 번호/가동
-  */
-  tableLeft: 0.14,
-  tableRight: 0.275,
-
-  /*
-    표 프레임 검출 실패 시
-    FIXED 8 좌표 그대로 사용.
+    실제 수직선 검출 실패 시에만 사용하는
+    FIXED 8 안전망.
   */
   fallbackLeft: 0.115,
   fallbackRight: 0.245
@@ -4532,7 +4657,7 @@ function daccCropNumberRow(
   canvas,
   grid,
   rowNumber,
-  frame = null
+  columnBounds = null
 ) {
 
   const index =
@@ -4557,20 +4682,28 @@ function daccCropNumberRow(
     top;
 
 
-  const columnX =
-    daccColumnX(
-      canvas,
-      frame,
-      NUMBER_COLUMN
-    );
-
-
   const left =
-    columnX.left;
+    (
+      columnBounds &&
+      Number.isFinite(
+        columnBounds.left
+      )
+    )
+      ? columnBounds.left
+      : canvas.width *
+        NUMBER_COLUMN.fallbackLeft;
 
 
   const right =
-    columnX.right;
+    (
+      columnBounds &&
+      Number.isFinite(
+        columnBounds.right
+      )
+    )
+      ? columnBounds.right
+      : canvas.width *
+        NUMBER_COLUMN.fallbackRight;
 
 
   return daccCrop(
@@ -4668,16 +4801,16 @@ async function daccAnalyzeNumberPhoto(
   }
 
 
-  const tableFrame =
-    daccDetectTableFrame(
+  const numberColumn =
+    daccDetectNumberColumn(
       canvas,
       grid
     );
 
 
   console.log(
-    "DACC 사진2 표 프레임",
-    tableFrame
+    "DACC 사진2 번호/가동 열",
+    numberColumn
   );
 
 
@@ -4713,7 +4846,7 @@ async function daccAnalyzeNumberPhoto(
         canvas,
         grid,
         rowNumber,
-        tableFrame
+        numberColumn
       );
 
 
@@ -4816,7 +4949,7 @@ async function daccAnalyzeNumberPhoto(
       grid.matchRatio,
 
 
-    tableFrame,
+    numberColumn,
 
     rowHeight:
       grid.rowHeight
@@ -5175,19 +5308,12 @@ async function daccAnalyzePatrolPhoto(
     );
   }
 
-
+  /* FIXED 11: 표 외곽 프레임을 우선 사용하고 실패 시 기존 비율 fallback */
   const tableFrame =
     daccDetectTableFrame(
       canvas,
       grid
     );
-
-
-  console.log(
-    "DACC 사진1 표 프레임",
-    tableFrame
-  );
-
 
   const rows = [];
 
@@ -5304,7 +5430,9 @@ async function daccAnalyzePatrolPhoto(
 
         rowNumber,
 
-        equipment
+        equipment,
+
+        tableFrame
       );
 
 
