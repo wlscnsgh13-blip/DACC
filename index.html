@@ -712,11 +712,19 @@ button {
 
 
 
-  <!-- DACC TrOCR 우회 테스트 -->
-  <section class="card" id="trocrTestCard">
-    <div class="cardTitle">TrOCR 숫자전용 최종 테스트</div>
-    <button type="button" class="primary" id="trocrTestBtn">숫자전용 TrOCR 테스트</button>
-    <div id="trocrTestStatus" style="margin-top:12px;white-space:pre-wrap;font-size:13px;line-height:1.55"></div>
+  <!-- DACC OpenRouter 무료 Vision 실전 테스트 -->
+  <section class="card" id="visionTestCard">
+    <div class="cardTitle">무료 Vision 실전 테스트</div>
+    <div style="margin-top:10px">
+      <input id="openRouterKey" type="password" autocomplete="off"
+        placeholder="OpenRouter API Key (이 기기에 저장하지 않음)"
+        style="width:100%;padding:12px;border:1px solid #d8deea;border-radius:12px;background:#fff">
+    </div>
+    <button type="button" class="primary" id="visionTestBtn" style="margin-top:10px">
+      오늘 사진 Vision 테스트
+    </button>
+    <div id="visionTestStatus"
+      style="margin-top:12px;white-space:pre-wrap;font-size:13px;line-height:1.55"></div>
   </section>
 
   <!-- ===============================================
@@ -8740,83 +8748,143 @@ console.log(
 </script>
 
 
-<script type="module">
-// DACC FIXED13 - TrOCR 우회 테스트. 기존 분석 로직은 변경하지 않음.
-import { pipeline } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1';
+<script>
+/* =========================================================
+   DACC OPENROUTER FREE VISION TEST
+   - 기존 DACC 분석 로직은 변경하지 않는다.
+   - API key는 코드/로컬스토리지에 저장하지 않는다.
+   - 테스트 정답은 채점에만 사용하며 Vision 프롬프트에는 전달하지 않는다.
+========================================================= */
 
-const DACC_TROCR_ROWS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,29,30];
-const DACC_TROCR_TRUTH = ['571','741','597','827','580','688','2400','2200','704','1302','1126','54','136','33','319','682','654','700','700'];
-const DACC_TROCR_NAMES = ['TG2호기','TG3호기','TG4호기','TG5호기','TG6호기','TG7호기','GF1','GF3','GF4','GF5','SMI','CF1','CF2','CF3','CF4','CF5','CF6','HIP-2','HIP-3'];
-const DACC_Y = [335,364,393,423,452,482,512,542,572,602,633,663,693,724,755,786,816,848,880,908,942,972,1004,1036,1066,1098,1130,1162,1194,1226,1258];
-let daccTrocr = null;
+const DACC_VISION_TEST_NAMES = [
+  "TG2호기","TG3호기","TG4호기","TG5호기","TG6호기","TG7호기",
+  "GF1","GF3","GF4","GF5","SMI","CF1","CF2","CF3","CF4","CF5","CF6",
+  "CF분위기로","드라이챔버","폐가스소각기1동","폐가스소각기3동"
+];
 
-function daccTempCrop(img,row){
-  const sx=560, sw=66;
-  const y0=DACC_Y[row-1], y1=DACC_Y[row];
-  const pad=4;
-  const c=document.createElement('canvas');
-  c.width=sw*6; c.height=(y1-y0+pad*2)*6;
-  const x=c.getContext('2d',{alpha:false});
-  x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height);
-  x.imageSmoothingEnabled=true; x.imageSmoothingQuality='high';
-  x.drawImage(img,sx,y0-pad,sw,(y1-y0)+pad*2,0,0,c.width,c.height);
-  return c;
+// 오늘자 블라인드 테스트 정답. 실제 DACC 자동생성에는 사용하지 않는다.
+const DACC_VISION_TEST_TRUTH = [
+  "610","780","676","859","980","719","805","975","424","764","225",
+  "41","320","27","678","31","1000","26","120","542","713"
+];
+
+function daccVisionImageDataURL(img){
+  const maxSide=2200;
+  const scale=Math.min(1,maxSide/Math.max(img.naturalWidth||img.width,img.naturalHeight||img.height));
+  const w=Math.max(1,Math.round((img.naturalWidth||img.width)*scale));
+  const h=Math.max(1,Math.round((img.naturalHeight||img.height)*scale));
+  const c=document.createElement("canvas");
+  c.width=w; c.height=h;
+  const x=c.getContext("2d",{alpha:false});
+  x.fillStyle="#fff"; x.fillRect(0,0,w,h);
+  x.imageSmoothingEnabled=true; x.imageSmoothingQuality="high";
+  x.drawImage(img,0,0,w,h);
+  return c.toDataURL("image/jpeg",0.94);
 }
-function digitsOnly(v){ return String(v||'').replace(/[^0-9]/g,''); }
 
-async function runDaccTrocr(){
-  const btn=document.getElementById('trocrTestBtn');
-  const status=document.getElementById('trocrTestStatus');
-  const img=document.getElementById('patrolPreviewImage');
-  if(!img || !img.src){ status.textContent='순찰일지 사진을 먼저 넣어주세요.'; return; }
+function daccExtractJSON(text){
+  let t=String(text||"").trim();
+  t=t.replace(/^```(?:json)?\s*/i,"").replace(/\s*```$/,"");
+  const a=t.indexOf("{"), b=t.lastIndexOf("}");
+  if(a>=0 && b>a) t=t.slice(a,b+1);
+  return JSON.parse(t);
+}
+
+async function runDaccFreeVisionTest(){
+  const btn=document.getElementById("visionTestBtn");
+  const status=document.getElementById("visionTestStatus");
+  const key=document.getElementById("openRouterKey")?.value?.trim();
+  const img=document.getElementById("patrolPreviewImage");
+
+  if(!key){
+    status.textContent="OpenRouter API Key를 입력해주세요.";
+    return;
+  }
+  if(!img || !img.src){
+    status.textContent="사진 1 · 순찰일지에 오늘 사진을 먼저 넣어주세요.";
+    return;
+  }
+
   btn.disabled=true;
   try{
-    status.textContent='TrOCR 모델 로딩중… (첫 실행은 다운로드 때문에 오래 걸릴 수 있음)';
-    if(!daccTrocr){
-      daccTrocr=await pipeline('image-to-text','Xenova/trocr-small-handwritten',{dtype:'q8'});
+    status.textContent="무료 Vision이 원본 순찰일지를 읽는 중…";
+
+    const image=daccVisionImageDataURL(img);
+
+    // 정답값은 절대 프롬프트에 포함하지 않는다.
+    const prompt=`이 이미지는 DACC 순찰일지 원본 사진이다.
+표의 장비명 순서와 행을 직접 확인하고, 아래 21개 장비의 '온도' 열 손글씨 숫자를 읽어라.
+장비 순서는 다음과 같다:
+TG2호기,TG3호기,TG4호기,TG5호기,TG6호기,TG7호기,GF1,GF3,GF4,GF5,SMI,CF1,CF2,CF3,CF4,CF5,CF6,CF분위기로,드라이챔버,폐가스소각기1동,폐가스소각기3동.
+
+중요:
+- 제품명, 가스유량, 판넬전원 숫자를 온도로 읽지 마라.
+- 온도는 사진에 실제로 적힌 손글씨만 읽고 추측하지 마라.
+- 각 행의 승온/냉각/유지 상태도 보이면 읽어라.
+- 상태는 승온중/냉각중/유지중/확인필요 중 하나만 사용한다.
+- 반드시 JSON만 출력한다. 설명이나 마크다운을 붙이지 마라.
+형식:
+{"items":[{"name":"TG2호기","temperature":"숫자 또는 빈문자열","state":"승온중|냉각중|유지중|확인필요"}]}
+
+items는 위 장비 순서 그대로 정확히 21개를 반환하라.`;
+
+    const res=await fetch("https://openrouter.ai/api/v1/chat/completions",{
+      method:"POST",
+      headers:{
+        "Authorization":"Bearer "+key,
+        "Content-Type":"application/json",
+        "HTTP-Referer":location.origin,
+        "X-Title":"DACC Vision Test"
+      },
+      body:JSON.stringify({
+        model:"openrouter/free",
+        messages:[{
+          role:"user",
+          content:[
+            {type:"text",text:prompt},
+            {type:"image_url",image_url:{url:image}}
+          ]
+        }],
+        temperature:0,
+        max_tokens:1800
+      })
+    });
+
+    const data=await res.json();
+    if(!res.ok){
+      throw new Error(data?.error?.message || ("HTTP "+res.status));
     }
 
-    // FINAL TrOCR experiment: allow only digit tokens + EOS/PAD/BOS.
-    // We derive token IDs from the model tokenizer itself, so there are no guessed IDs.
-    const tok=daccTrocr.tokenizer;
-    const allowed=new Set([0,1,2]);
-    for(const d of '0123456789'){
-      for(const sample of [d, ' '+d]){
-        try{
-          const enc=await tok(sample,{add_special_tokens:false});
-          const ids=enc?.input_ids?.data ? Array.from(enc.input_ids.data) : Array.from(enc?.input_ids||[]).flat(Infinity);
-          ids.forEach(id=>allowed.add(Number(id)));
-        }catch(_){ }
-      }
-    }
-    const vocabSize=Number(
-      daccTrocr?.model?.config?.decoder?.vocab_size ||
-      daccTrocr?.model?.config?.vocab_size || 64044
-    );
-    const suppress=[];
-    for(let id=0; id<vocabSize; id++) if(!allowed.has(id)) suppress.push(id);
-    status.textContent=`숫자 토큰 제한 완료 (${allowed.size}개 허용)\n19개 셀 테스트 시작…`;
+    const raw=data?.choices?.[0]?.message?.content;
+    const parsed=daccExtractJSON(raw);
+    const items=Array.isArray(parsed?.items)?parsed.items:[];
 
-    let ok=0, lines=[];
-    for(let i=0;i<DACC_TROCR_ROWS.length;i++){
-      const row=DACC_TROCR_ROWS[i];
-      status.textContent=`TrOCR 테스트 ${i+1}/19…\n현재 ${ok}개 일치`;
-      const crop=daccTempCrop(img,row);
-      const out=await daccTrocr(crop.toDataURL('image/png'),{max_new_tokens:5,min_new_tokens:1,suppress_tokens:suppress,renormalize_logits:true,do_sample:false,num_beams:1});
-      const raw=out?.[0]?.generated_text||'';
-      const got=digitsOnly(raw);
-      const truth=DACC_TROCR_TRUTH[i];
-      const pass=got===truth; if(pass) ok++;
-      lines.push(`${pass?'OK':'FAIL'}  ${DACC_TROCR_NAMES[i]}  정답 ${truth} → ${got||'(미인식)'}  [${raw}]`);
+    let ok=0;
+    const lines=[];
+    for(let i=0;i<DACC_VISION_TEST_NAMES.length;i++){
+      const expected=DACC_VISION_TEST_TRUTH[i];
+      const item=items.find(v=>String(v?.name||"").replace(/\s/g,"")===DACC_VISION_TEST_NAMES[i].replace(/\s/g,""))
+        || items[i] || {};
+      const got=String(item.temperature??"").replace(/[^0-9]/g,"");
+      const pass=got===expected;
+      if(pass) ok++;
+      lines.push(`${pass?"OK":"FAIL"}  ${DACC_VISION_TEST_NAMES[i]}  정답 ${expected} → ${got||"(미인식)"}  / ${item.state||"확인필요"}`);
     }
-    const pct=(ok/19*100).toFixed(1);
-    status.textContent=`숫자전용 TrOCR 결과: ${ok}/19 (${pct}%)\n\n`+lines.join('\n');
+
+    const pct=(ok/21*100).toFixed(1);
+    status.textContent=
+      `OpenRouter 무료 Vision 결과: ${ok}/21 (${pct}%)\n`+
+      `사용 모델: ${data?.model||"openrouter/free"}\n\n`+
+      lines.join("\n");
+
   }catch(e){
-    status.textContent='숫자전용 TrOCR 오류: '+(e?.message||String(e));
-  }finally{ btn.disabled=false; }
+    status.textContent="무료 Vision 오류: "+(e?.message||String(e));
+  }finally{
+    btn.disabled=false;
+  }
 }
 
-document.getElementById('trocrTestBtn')?.addEventListener('click',runDaccTrocr);
+document.getElementById("visionTestBtn")?.addEventListener("click",runDaccFreeVisionTest);
 </script>
 
 </body>
