@@ -6002,6 +6002,72 @@ function daccProcessIncinerator(
 }
 
 
+
+/* =========================================================
+   장비명 기준 사진1 ↔ 사진2 매핑 조회
+
+   중요:
+   두 사진의 같은 배열 index를 직접 연결하지 않는다.
+   반드시 EQUIPMENT_MAP의 실제 행번호를 기준으로 찾는다.
+========================================================= */
+
+function daccGetMappedPair(
+  equipment,
+  patrolResult,
+  numberResult
+) {
+
+  const map =
+    EQUIPMENT_MAP?.[equipment] || null;
+
+
+  if (!map) {
+
+    return {
+      equipment,
+      patrol: null,
+      number: null,
+      patrolRow: null,
+      numberRow: null
+    };
+  }
+
+
+  /*
+    items가 정상 생성되어 있으면 장비명으로 우선 조회.
+    혹시 items가 없더라도 실제 행번호로 안전하게 fallback.
+  */
+
+  const patrol =
+    patrolResult?.items?.[equipment]
+    ??
+    patrolResult?.rows?.[
+      map.patrolRow - 1
+    ]
+    ??
+    null;
+
+
+  const number =
+    numberResult?.items?.[equipment]
+    ??
+    numberResult?.rows?.[
+      map.numberRow - 1
+    ]
+    ??
+    null;
+
+
+  return {
+    equipment,
+    patrol,
+    number,
+    patrolRow: map.patrolRow,
+    numberRow: map.numberRow
+  };
+}
+
+
 /* =========================================================
    전체 결과 병합
 
