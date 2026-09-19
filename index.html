@@ -8846,7 +8846,7 @@ items는 위 장비 순서 그대로 정확히 21개를 반환하라.`;
           ]
         }],
         temperature:0,
-        max_tokens:1800
+        max_tokens:3000
       })
     });
 
@@ -8856,8 +8856,34 @@ items는 위 장비 순서 그대로 정확히 21개를 반환하라.`;
     }
 
     const raw=data?.choices?.[0]?.message?.content;
-    const parsed=daccExtractJSON(raw);
-    const items=Array.isArray(parsed?.items)?parsed.items:[];
+
+    // 무료 라우터가 JSON을 중간에 잘라 반환하는 경우가 있어
+    // JSON 파싱에 의존하지 않고 완성된 item 객체를 직접 회수한다.
+    let items=[];
+    try{
+      const parsed=daccExtractJSON(raw);
+      items=Array.isArray(parsed?.items)?parsed.items:[];
+    }catch(parseError){
+      const text=String(raw||"")
+        .replace(/^```(?:json)?\\s*/i,"")
+        .replace(/```[\\s\\S]*$/,"");
+
+      const objectRe=/\\{\\s*"name"\\s*:\\s*"([^"]+)"\\s*,\\s*"temperature"\\s*:\\s*"([^"]*)"\\s*,\\s*"state"\\s*:\\s*"([^"]*)"\\s*\\}/g;
+      let m;
+      while((m=objectRe.exec(text))!==null){
+        items.push({
+          name:m[1],
+          temperature:m[2],
+          state:m[3]
+        });
+      }
+
+      if(!items.length){
+        throw new Error(
+          "무료 모델 응답이 중간에 잘렸습니다. 다시 한 번 눌러주세요."
+        );
+      }
+    }
 
     let ok=0;
     const lines=[];
