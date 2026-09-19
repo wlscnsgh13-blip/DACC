@@ -172,7 +172,13 @@ TG2호기,TG3호기,TG4호기,TG5호기,TG6호기,TG7호기,GF1,GF3,GF4,GF5,SMI,
   }
 }
 
-document.getElementById("visionCompareBtn")?.addEventListener("click",runDaccVisionCompare);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("visionCompareBtn")?.addEventListener("click", runDaccVisionCompare);
+  }, { once:true });
+} else {
+  document.getElementById("visionCompareBtn")?.addEventListener("click", runDaccVisionCompare);
+}
 
 </script>
 
