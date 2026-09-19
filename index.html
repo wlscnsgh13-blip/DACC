@@ -4737,33 +4737,28 @@ function daccCropNumberRow(
 function daccSplitNumberCell(
   source
 ) {
-
   /*
-    번호/가동 경계를 일부 겹치게 유지하면서
-    좌우/상하 끝부분의 표선을 덜 포함한다.
+    FIXED 13
+    교대일지에서는 장비명 OCR을 하지 않는다.
+    행 번호로 장비명을 확정하고 26-XX / 가동만 읽는다.
   */
-  const number =
-    daccCrop(
-      source,
-      source.width * 0.03,
-      source.height * 0.02,
-      source.width * 0.94,
-      source.height * 0.62
-    );
+  const number = daccCrop(
+    source,
+    source.width * 0.03,
+    source.height * 0.00,
+    source.width * 0.94,
+    source.height * 0.60
+  );
 
-  const running =
-    daccCrop(
-      source,
-      source.width * 0.03,
-      source.height * 0.36,
-      source.width * 0.94,
-      source.height * 0.62
-    );
+  const running = daccCrop(
+    source,
+    source.width * 0.03,
+    source.height * 0.40,
+    source.width * 0.94,
+    source.height * 0.60
+  );
 
-  return {
-    number,
-    running
-  };
+  return { number, running };
 }
 
 
@@ -4976,33 +4971,31 @@ async function daccAnalyzeNumberPhoto(
 ========================================================= */
 
 const PATROL_COLUMNS = {
-
   /*
-    실제 순찰일지 표 기준 상대 위치.
-    FIXED 8의 전체사진 비율이 아니라
-    검출된 표 left/right 안에서 계산한다.
+    FIXED 13
+    순찰일지는 장비명 OCR을 하지 않는다.
+    행 번호로 장비명을 확정하고 사진에서는
+    온도 / 승온·냉각 두 칸만 읽는다.
+
+    표 외곽 검출 오차가 X축 OCR을 무너뜨렸으므로
+    검출 frame 대신 전체 사진 기준 고정 양식 비율을 사용한다.
   */
-
   temperature:{
-    tableLeft: 0.465,
-    tableRight: 0.555,
-    fallbackLeft: 0.375,
-    fallbackRight: 0.475
+    tableLeft: 0.525,
+    tableRight: 0.606,
+    fallbackLeft: 0.525,
+    fallbackRight: 0.606
   },
-
-
   state:{
-    tableLeft: 0.795,
-    tableRight: 0.885,
-    fallbackLeft: 0.755,
-    fallbackRight: 0.850
+    tableLeft: 0.856,
+    tableRight: 0.925,
+    fallbackLeft: 0.856,
+    fallbackRight: 0.925
   },
-
-
   remark:{
-    tableLeft: 0.900,
+    tableLeft: 0.930,
     tableRight: 0.995,
-    fallbackLeft: 0.865,
+    fallbackLeft: 0.930,
     fallbackRight: 0.995
   }
 };
@@ -5019,58 +5012,21 @@ function daccCropPatrolCell(
   column,
   frame = null
 ) {
+  const index = rowNumber - 1;
+  const top = grid.boundaries[index];
+  const bottom = grid.boundaries[index + 1];
+  const rowHeight = bottom - top;
 
-  const index =
-    rowNumber -
-    1;
-
-
-  const top =
-    grid.boundaries[
-      index
-    ];
-
-
-  const bottom =
-    grid.boundaries[
-      index + 1
-    ];
-
-
-  const rowHeight =
-    bottom -
-    top;
-
-
-  const columnX =
-    daccColumnX(
-      canvas,
-      frame,
-      column
-    );
-
-
-  const left =
-    columnX.left;
-
-
-  const right =
-    columnX.right;
-
+  /* FIXED 13: X축은 검출 frame을 사용하지 않는다. */
+  const left = canvas.width * column.fallbackLeft;
+  const right = canvas.width * column.fallbackRight;
 
   return daccCrop(
-
     canvas,
-
     left,
-
-    top +
-    rowHeight * 0.10,
-
-    right -
-    left,
-
-    rowHeight * 0.80
+    top + rowHeight * 0.08,
+    right - left,
+    rowHeight * 0.84
   );
 }
 
