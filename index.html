@@ -3961,7 +3961,7 @@ function daccFindFixedGrid(
   }
 
   /*
-    FIXED 11
+    FIXED 12
     - 이전 방식처럼 위에서부터 rowHeight를 누적하지 않는다.
     - 시작/끝 앵커 후보를 먼저 잡고 전체 24/35행을 한 번에 등분한다.
     - 실제 가로선은 예상 위치의 ±35% 안에서만 snap한다.
@@ -4038,7 +4038,7 @@ function daccFindFixedGrid(
           score,
           start: boundaries[0],
           end: boundaries[boundaries.length - 1],
-          source: "fixed11-global-anchor"
+          source: "fixed12-global-anchor"
         };
       }
     }
@@ -4644,8 +4644,8 @@ const NUMBER_COLUMN = {
     실제 수직선 검출 실패 시에만 사용하는
     FIXED 8 안전망.
   */
-  fallbackLeft: 0.115,
-  fallbackRight: 0.245
+  fallbackLeft: 0.168,
+  fallbackRight: 0.277
 };
 
 
@@ -4801,11 +4801,18 @@ async function daccAnalyzeNumberPhoto(
   }
 
 
-  const numberColumn =
-    daccDetectNumberColumn(
-      canvas,
-      grid
-    );
+  /*
+    FIXED 12
+    교대업무일지는 고정 양식이므로 세로선 morphology를 사용하지 않는다.
+    실제 원본에서 검증한 가동여부 열(26-xx + 가동)만 읽는다.
+    전체 사진 너비 기준 약 16.8% ~ 27.7%.
+  */
+  const numberColumn = {
+    ok:true,
+    left: canvas.width * 0.168,
+    right: canvas.width * 0.277,
+    source:"fixed12-tested-ratio"
+  };
 
 
   console.log(
@@ -4962,9 +4969,10 @@ async function daccAnalyzeNumberPhoto(
 
    필요한 열만 사용.
 
-   temperature = 온도체크
+   FIXED 12 OCR 대상은 딱 2개 열만 사용.
+   temperature = 온도
    state       = 승온/냉각
-   remark      = 비고
+   장비명은 고정 35행 매핑으로 사용.
 ========================================================= */
 
 const PATROL_COLUMNS = {
@@ -4985,9 +4993,9 @@ const PATROL_COLUMNS = {
 
   state:{
     tableLeft: 0.795,
-    tableRight: 0.900,
+    tableRight: 0.885,
     fallbackLeft: 0.755,
-    fallbackRight: 0.865
+    fallbackRight: 0.850
   },
 
 
@@ -5200,29 +5208,10 @@ async function daccReadPatrolRow(
     );
 
 
-  const remarkCell =
-    daccCropPatrolCell(
-
-      canvas,
-
-      grid,
-
-      rowNumber,
-
-      PATROL_COLUMNS.remark,
-      frame
-    );
-
-
+  /* FIXED 12: 순찰일지는 장비명 / 온도 / 승온·냉각만 판독 */
   const stateResult =
     await daccReadState(
       stateCell
-    );
-
-
-  const remarkResult =
-    await daccReadRemark(
-      remarkCell
     );
 
 
@@ -5249,12 +5238,10 @@ async function daccReadPatrolRow(
       stateResult.ambiguous,
 
 
-    remarkCooling:
-      remarkResult.cooling,
+    remarkCooling:false,
 
 
-    unload:
-      remarkResult.unload,
+    unload:false,
 
 
     temperatureAttempts:
@@ -5308,7 +5295,7 @@ async function daccAnalyzePatrolPhoto(
     );
   }
 
-  /* FIXED 11: 표 외곽 프레임을 우선 사용하고 실패 시 기존 비율 fallback */
+  /* FIXED 12: 표 외곽 프레임을 우선 사용하고 실패 시 기존 비율 fallback */
   const tableFrame =
     daccDetectTableFrame(
       canvas,
