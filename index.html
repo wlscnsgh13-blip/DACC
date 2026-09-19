@@ -519,9 +519,6 @@ button {
         사진 1 · 순찰일지
       </div>
 
-      <div class="brand">
-        35행
-      </div>
 
     </div>
 
@@ -597,9 +594,6 @@ button {
         사진 2 · 교대 업무일지
       </div>
 
-      <div class="brand">
-        24행
-      </div>
 
     </div>
 
@@ -934,6 +928,10 @@ daccPreviewPatrolInput
   "change",
   () => {
 
+    daccPatrolFile =
+      daccPreviewPatrolInput.files?.[0] ||
+      null;
+
     daccPreviewFile(
 
       daccPreviewPatrolInput,
@@ -949,6 +947,13 @@ daccPreviewPatrolInput
       "patrol"
 
     );
+
+    if (
+      typeof daccUpdateAnalyzeButton ===
+      "function"
+    ) {
+      daccUpdateAnalyzeButton();
+    }
   }
 );
 
@@ -957,6 +962,10 @@ daccPreviewNumberInput
 ?.addEventListener(
   "change",
   () => {
+
+    daccNumberFile =
+      daccPreviewNumberInput.files?.[0] ||
+      null;
 
     daccPreviewFile(
 
@@ -973,6 +982,13 @@ daccPreviewNumberInput
       "number"
 
     );
+
+    if (
+      typeof daccUpdateAnalyzeButton ===
+      "function"
+    ) {
+      daccUpdateAnalyzeButton();
+    }
   }
 );
 
