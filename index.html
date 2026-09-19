@@ -5475,9 +5475,32 @@ function daccSetProgress(
 
   if (box) {
 
+    /*
+      progressBox는 HTML에서 처음에 hidden 상태다.
+      hidden은 display:none !important 이므로
+      show만 추가하면 게이지가 절대 보이지 않는다.
+    */
+    box.classList.remove(
+      "hidden"
+    );
+
     box.classList.add(
       "show"
     );
+
+    /*
+      모바일에서 게이지가 버튼 아래 화면 밖에 숨어
+      무반응처럼 보이지 않도록 즉시 게이지 위치를 보여준다.
+    */
+    if (
+      percent > 0 &&
+      typeof box.scrollIntoView === "function"
+    ) {
+      box.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
+    }
   }
 
 
@@ -7357,8 +7380,16 @@ if (daccAnalyzeButton) {
     }
 
 
+    /*
+      iPhone에서는 분석 시작 직후 버튼을 disabled 처리하면
+      화면상 회색 버튼만 남아 무반응처럼 보일 수 있다.
+      분석 시작 여부는 진행 게이지로 표시하고 버튼은 유지한다.
+    */
     daccAnalyzeButton.disabled =
-      true;
+      false;
+
+    daccAnalyzeButton.textContent =
+      "분석 중...";
 
 
     daccFinalResult =
@@ -7602,6 +7633,9 @@ if (daccAnalyzeButton) {
       );
 
     } finally {
+
+      daccAnalyzeButton.textContent =
+        "두 사진 분석하기";
 
       daccUpdateAnalyzeButton();
     }
