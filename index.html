@@ -4248,14 +4248,279 @@ function daccFindFixedGrid(
    가동여부 열만 Crop.
 ========================================================= */
 
+
+/* =========================================================
+   FIXED 9 - 실제 표 프레임 검출
+
+   고정행 grid가 이미 잡힌 뒤,
+   해당 Y구간에서 긴 가로선들의 좌/우 끝점을 모아
+   실제 표의 left/right를 계산한다.
+
+   성공: table frame 기준 상대좌표 사용
+   실패: 기존 전체사진 비율 fallback
+========================================================= */
+
+function daccDetectTableFrame(
+  canvas,
+  grid
+) {
+
+  const src =
+    cv.imread(canvas);
+
+  const gray =
+    new cv.Mat();
+
+  const binary =
+    new cv.Mat();
+
+  const horizontal =
+    new cv.Mat();
+
+  const contours =
+    new cv.MatVector();
+
+  const hierarchy =
+    new cv.Mat();
+
+  const kernel =
+    cv.getStructuringElement(
+      cv.MORPH_RECT,
+      new cv.Size(
+        Math.max(
+          30,
+          Math.round(canvas.width * 0.16)
+        ),
+        1
+      )
+    );
+
+  const lefts = [];
+  const rights = [];
+
+  try {
+
+    cv.cvtColor(
+      src,
+      gray,
+      cv.COLOR_RGBA2GRAY
+    );
+
+    cv.adaptiveThreshold(
+      gray,
+      binary,
+      255,
+      cv.ADAPTIVE_THRESH_GAUSSIAN_C,
+      cv.THRESH_BINARY_INV,
+      31,
+      11
+    );
+
+    cv.morphologyEx(
+      binary,
+      horizontal,
+      cv.MORPH_OPEN,
+      kernel
+    );
+
+    cv.findContours(
+      horizontal,
+      contours,
+      hierarchy,
+      cv.RETR_EXTERNAL,
+      cv.CHAIN_APPROX_SIMPLE
+    );
+
+    const top =
+      Math.max(
+        0,
+        grid.start -
+        grid.rowHeight * 1.5
+      );
+
+    const bottom =
+      Math.min(
+        canvas.height,
+        grid.end +
+        grid.rowHeight * 1.5
+      );
+
+    for (
+      let i = 0;
+      i < contours.size();
+      i++
+    ) {
+
+      const contour =
+        contours.get(i);
+
+      try {
+
+        const rect =
+          cv.boundingRect(contour);
+
+        const cy =
+          rect.y +
+          rect.height / 2;
+
+        if (
+          cy < top ||
+          cy > bottom
+        ) {
+          continue;
+        }
+
+        if (
+          rect.width <
+          canvas.width * 0.45
+        ) {
+          continue;
+        }
+
+        lefts.push(rect.x);
+
+        rights.push(
+          rect.x +
+          rect.width
+        );
+
+      } finally {
+
+        contour.delete();
+      }
+    }
+
+  } finally {
+
+    src.delete();
+    gray.delete();
+    binary.delete();
+    horizontal.delete();
+    contours.delete();
+    hierarchy.delete();
+    kernel.delete();
+  }
+
+
+  if (
+    lefts.length < 4 ||
+    rights.length < 4
+  ) {
+
+    return {
+      ok:false,
+      left:0,
+      right:canvas.width,
+      width:canvas.width,
+      source:"full-image-fallback"
+    };
+  }
+
+
+  const left =
+    Math.max(
+      0,
+      Math.round(
+        daccMedian(lefts)
+      )
+    );
+
+  const right =
+    Math.min(
+      canvas.width,
+      Math.round(
+        daccMedian(rights)
+      )
+    );
+
+  const width =
+    right - left;
+
+
+  if (
+    width <
+    canvas.width * 0.55 ||
+    width >
+    canvas.width * 0.99
+  ) {
+
+    return {
+      ok:false,
+      left:0,
+      right:canvas.width,
+      width:canvas.width,
+      source:"full-image-fallback"
+    };
+  }
+
+
+  return {
+    ok:true,
+    left,
+    right,
+    width,
+    source:"detected-table-frame"
+  };
+}
+
+
+/* =========================================================
+   표 프레임 기준 X좌표 계산
+========================================================= */
+
+function daccColumnX(
+  canvas,
+  frame,
+  column
+) {
+
+  if (
+    frame &&
+    frame.ok
+  ) {
+
+    return {
+      left:
+        frame.left +
+        frame.width *
+        column.tableLeft,
+
+      right:
+        frame.left +
+        frame.width *
+        column.tableRight
+    };
+  }
+
+
+  return {
+    left:
+      canvas.width *
+      column.fallbackLeft,
+
+    right:
+      canvas.width *
+      column.fallbackRight
+  };
+}
+
+
 const NUMBER_COLUMN = {
 
-  left:
-    0.115,
+  /*
+    실제 표 기준:
+    첫 열 = 장비명
+    두 번째 열 = 번호/가동
+  */
+  tableLeft: 0.14,
+  tableRight: 0.275,
 
-  right:
-    0.245
-
+  /*
+    표 프레임 검출 실패 시
+    FIXED 8 좌표 그대로 사용.
+  */
+  fallbackLeft: 0.115,
+  fallbackRight: 0.245
 };
 
 
@@ -4266,7 +4531,8 @@ const NUMBER_COLUMN = {
 function daccCropNumberRow(
   canvas,
   grid,
-  rowNumber
+  rowNumber,
+  frame = null
 ) {
 
   const index =
@@ -4291,14 +4557,20 @@ function daccCropNumberRow(
     top;
 
 
+  const columnX =
+    daccColumnX(
+      canvas,
+      frame,
+      NUMBER_COLUMN
+    );
+
+
   const left =
-    canvas.width *
-    NUMBER_COLUMN.left;
+    columnX.left;
 
 
   const right =
-    canvas.width *
-    NUMBER_COLUMN.right;
+    columnX.right;
 
 
   return daccCrop(
@@ -4396,6 +4668,19 @@ async function daccAnalyzeNumberPhoto(
   }
 
 
+  const tableFrame =
+    daccDetectTableFrame(
+      canvas,
+      grid
+    );
+
+
+  console.log(
+    "DACC 사진2 표 프레임",
+    tableFrame
+  );
+
+
   const rows = [];
 
 
@@ -4427,7 +4712,8 @@ async function daccAnalyzeNumberPhoto(
       daccCropNumberRow(
         canvas,
         grid,
-        rowNumber
+        rowNumber,
+        tableFrame
       );
 
 
@@ -4530,6 +4816,8 @@ async function daccAnalyzeNumberPhoto(
       grid.matchRatio,
 
 
+    tableFrame,
+
     rowHeight:
       grid.rowHeight
   };
@@ -4548,33 +4836,33 @@ async function daccAnalyzeNumberPhoto(
 
 const PATROL_COLUMNS = {
 
+  /*
+    실제 순찰일지 표 기준 상대 위치.
+    FIXED 8의 전체사진 비율이 아니라
+    검출된 표 left/right 안에서 계산한다.
+  */
+
   temperature:{
-
-    left:
-      0.375,
-
-    right:
-      0.475
+    tableLeft: 0.465,
+    tableRight: 0.555,
+    fallbackLeft: 0.375,
+    fallbackRight: 0.475
   },
 
 
   state:{
-
-    left:
-      0.755,
-
-    right:
-      0.865
+    tableLeft: 0.795,
+    tableRight: 0.900,
+    fallbackLeft: 0.755,
+    fallbackRight: 0.865
   },
 
 
   remark:{
-
-    left:
-      0.865,
-
-    right:
-      0.995
+    tableLeft: 0.900,
+    tableRight: 0.995,
+    fallbackLeft: 0.865,
+    fallbackRight: 0.995
   }
 };
 
@@ -4587,7 +4875,8 @@ function daccCropPatrolCell(
   canvas,
   grid,
   rowNumber,
-  column
+  column,
+  frame = null
 ) {
 
   const index =
@@ -4612,14 +4901,20 @@ function daccCropPatrolCell(
     top;
 
 
+  const columnX =
+    daccColumnX(
+      canvas,
+      frame,
+      column
+    );
+
+
   const left =
-    canvas.width *
-    column.left;
+    columnX.left;
 
 
   const right =
-    canvas.width *
-    column.right;
+    columnX.right;
 
 
   return daccCrop(
@@ -4647,7 +4942,8 @@ async function daccReadPatrolRow(
   canvas,
   grid,
   rowNumber,
-  equipment
+  equipment,
+  frame = null
 ) {
 
   const temperatureCell =
@@ -4659,7 +4955,8 @@ async function daccReadPatrolRow(
 
       rowNumber,
 
-      PATROL_COLUMNS.temperature
+      PATROL_COLUMNS.temperature,
+      frame
     );
 
 
@@ -4765,7 +5062,8 @@ async function daccReadPatrolRow(
 
       rowNumber,
 
-      PATROL_COLUMNS.state
+      PATROL_COLUMNS.state,
+      frame
     );
 
 
@@ -4778,7 +5076,8 @@ async function daccReadPatrolRow(
 
       rowNumber,
 
-      PATROL_COLUMNS.remark
+      PATROL_COLUMNS.remark,
+      frame
     );
 
 
@@ -4875,6 +5174,19 @@ async function daccAnalyzePatrolPhoto(
       "순찰일지 35행 표 인식 실패"
     );
   }
+
+
+  const tableFrame =
+    daccDetectTableFrame(
+      canvas,
+      grid
+    );
+
+
+  console.log(
+    "DACC 사진1 표 프레임",
+    tableFrame
+  );
 
 
   const rows = [];
@@ -5024,6 +5336,8 @@ async function daccAnalyzePatrolPhoto(
     matchRatio:
       grid.matchRatio,
 
+
+    tableFrame,
 
     rowHeight:
       grid.rowHeight
