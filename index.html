@@ -407,6 +407,35 @@ button {
   display:none !important;
 }
 
+
+  .progressBox{
+    display:none;
+    margin-top:18px;
+    padding:18px 20px;
+    border-radius:20px;
+    background:#f5f7fb;
+  }
+  .progressBox.show{display:block;}
+  .statusText{
+    margin-bottom:14px;
+    font-size:15px;
+    color:#7b879d;
+  }
+  .progressTrack{
+    width:100%;
+    height:8px;
+    overflow:hidden;
+    border-radius:999px;
+    background:#dfe5f0;
+  }
+  .progressBar{
+    width:0%;
+    height:100%;
+    border-radius:999px;
+    background:#4f6fed;
+    transition:width .25s ease;
+  }
+
 </style>
 </head>
 
@@ -659,7 +688,6 @@ button {
       type="button"
       class="primary"
       id="analyze"
-      disabled
     >
       두 사진 분석하기
     </button>
@@ -821,6 +849,7 @@ button {
 
 
 <script>
+console.log("DACC UI FIX 4 loaded");
 
 
 /* =========================================================
@@ -5546,35 +5575,20 @@ if (daccNumberInput) {
 function daccUpdateAnalyzeButton() {
 
   const button =
-    daccEl(
-      "analyze"
-    );
-
+    daccEl("analyze");
 
   if (!button) {
     return;
   }
 
+  /*
+    iPhone/Safari에서 file input 상태와
+    JS 파일 참조가 엇갈려 버튼이 계속 disabled 되는 문제 방지.
 
-  const patrol =
-    daccPatrolFile ||
-    daccPatrolInput
-      ?.files?.[0] ||
-    null;
-
-
-  const number =
-    daccNumberFile ||
-    daccNumberInput
-      ?.files?.[0] ||
-    null;
-
-
-  button.disabled =
-    !(
-      patrol &&
-      number
-    );
+    버튼은 항상 누를 수 있게 두고,
+    실제 사진 2장 존재 여부는 클릭 시 검사한다.
+  */
+  button.disabled = false;
 }
 
 
