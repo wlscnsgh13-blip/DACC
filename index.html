@@ -8822,11 +8822,14 @@ TG2호기,TG3호기,TG4호기,TG5호기,TG6호기,TG7호기,GF1,GF3,GF4,GF5,SMI,
 - 온도는 사진에 실제로 적힌 손글씨만 읽고 추측하지 마라.
 - 각 행의 승온/냉각/유지 상태도 보이면 읽어라.
 - 상태는 승온중/냉각중/유지중/확인필요 중 하나만 사용한다.
-- 반드시 JSON만 출력한다. 설명이나 마크다운을 붙이지 마라.
-형식:
-{"items":[{"name":"TG2호기","temperature":"숫자 또는 빈문자열","state":"승온중|냉각중|유지중|확인필요"}]}
-
-items는 위 장비 순서 그대로 정확히 21개를 반환하라.`;
+- JSON을 사용하지 마라.
+- 설명, 마크다운, 코드블록을 절대 출력하지 마라.
+- 정확히 21줄만 출력한다.
+- 각 줄 형식은 장비명|온도|상태 이다.
+- 예: TG2호기|610|승온중
+- 온도를 못 읽으면 온도 자리는 비운다.
+- 상태는 승온중/냉각중/유지중/확인필요 중 하나만 쓴다.
+- 위 장비 순서 그대로 정확히 21줄을 반환하라.`;
 
     const res=await fetch("https://openrouter.ai/api/v1/chat/completions",{
       method:"POST",
@@ -8846,7 +8849,7 @@ items는 위 장비 순서 그대로 정확히 21개를 반환하라.`;
           ]
         }],
         temperature:0,
-        max_tokens:3000
+        max_tokens:1200
       })
     });
 
@@ -8855,34 +8858,37 @@ items는 위 장비 순서 그대로 정확히 21개를 반환하라.`;
       throw new Error(data?.error?.message || ("HTTP "+res.status));
     }
 
-    const raw=data?.choices?.[0]?.message?.content;
+    let raw=data?.choices?.[0]?.message?.content;
 
-    // 무료 라우터가 JSON을 중간에 잘라 반환하는 경우가 있어
-    // JSON 파싱에 의존하지 않고 완성된 item 객체를 직접 회수한다.
-    let items=[];
-    try{
-      const parsed=daccExtractJSON(raw);
-      items=Array.isArray(parsed?.items)?parsed.items:[];
-    }catch(parseError){
-      const text=String(raw||"")
-        .replace(/^```(?:json)?\\s*/i,"")
-        .replace(/```[\\s\\S]*$/,"");
+    // 일부 OpenRouter 모델은 content를 배열 형태로 반환할 수 있다.
+    if(Array.isArray(raw)){
+      raw=raw.map(v=>typeof v==="string" ? v : (v?.text||v?.content||"")).join("\n");
+    }
 
-      const objectRe=/\\{\\s*"name"\\s*:\\s*"([^"]+)"\\s*,\\s*"temperature"\\s*:\\s*"([^"]*)"\\s*,\\s*"state"\\s*:\\s*"([^"]*)"\\s*\\}/g;
-      let m;
-      while((m=objectRe.exec(text))!==null){
-        items.push({
-          name:m[1],
-          temperature:m[2],
-          state:m[3]
-        });
-      }
+    // JSON 대신 단순한 "장비|온도|상태" 21줄을 파싱한다.
+    // 닫는 괄호가 없어 생기던 Unexpected EOF / Expected ] 문제를 원천 제거.
+    const items=[];
+    const text=String(raw||"")
+      .replace(/```(?:text|plaintext)?/gi,"")
+      .replace(/```/g,"")
+      .trim();
 
-      if(!items.length){
-        throw new Error(
-          "무료 모델 응답이 중간에 잘렸습니다. 다시 한 번 눌러주세요."
-        );
-      }
+    for(const line of text.split(/\r?\n/)){
+      const clean=line
+        .replace(/^\s*[-*]\s*/,"")
+        .replace(/^\s*\d+[.)]\s*/,"")
+        .trim();
+      if(!clean.includes("|")) continue;
+      const parts=clean.split("|").map(v=>v.trim());
+      if(parts.length<2) continue;
+      const name=parts[0];
+      const temperature=String(parts[1]||"").replace(/[^0-9]/g,"");
+      const state=parts[2]||"확인필요";
+      if(name) items.push({name,temperature,state});
+    }
+
+    if(!items.length){
+      throw new Error("Vision 응답 형식을 읽지 못했습니다. 다시 한 번 눌러주세요.");
     }
 
     let ok=0;
