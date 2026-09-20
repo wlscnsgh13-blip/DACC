@@ -168,7 +168,8 @@ function buildColumnModel(ws,anchors){
  return{centers,eqY}
 }
 function bounds(model,row){
- let c=model.centers.get(row);if(c==null)return null,p=model.centers.get(row-1),n=model.centers.get(row+1);
+ let c=model.centers.get(row);
+ if(c==null)return null;
  let p=model.centers.get(row-1),n=model.centers.get(row+1);
  return{c,left:p!=null?(p+c)/2:n!=null?c-(n-c)/2:c-60,right:n!=null?(c+n)/2:p!=null?c+(c-p)/2:c+60}
 }
