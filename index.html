@@ -878,8 +878,8 @@ button {
         placeholder="OpenRouter API Key (이 기기에 저장하지 않음)"
         style="width:100%;padding:12px;border:1px solid #d8deea;border-radius:12px;background:#fff">
     </div>
-    <button type="button" class="primary" id="visionCompareBtn" onclick="runDaccVisionCompare()" style="margin-top:10px">
-      무료 Vision 3모델 한번에 비교 1
+    <button type="button" class="primary" id="visionCompareBtn" style="margin-top:10px">
+      무료 Vision 3모델 한번에 비교 2
     </button>
     <div id="visionTestStatus"
       style="margin-top:12px;white-space:pre-wrap;font-size:13px;line-height:1.55"></div>
@@ -9071,6 +9071,25 @@ TG2호기,TG3호기,TG4호기,TG5호기,TG6호기,TG7호기,GF1,GF3,GF4,GF5,SMI,
 }
 
 document.getElementById("visionTestBtn")?.addEventListener("click",runDaccFreeVisionTest);
+</script>
+
+
+<script>
+document.addEventListener("click", function(event) {
+  const b = event.target && event.target.closest ? event.target.closest("#visionCompareBtn") : null;
+  if (!b) return;
+  event.preventDefault();
+  const status=document.getElementById("visionTestStatus");
+  if(status) status.textContent="비교 버튼 정상 작동 · 3모델 테스트 시작…";
+  try {
+    const r=runDaccVisionCompare();
+    if(r && typeof r.catch==="function") r.catch(function(err){
+      if(status) status.textContent="비교 실행 오류: "+(err?.message||String(err));
+    });
+  } catch(err) {
+    if(status) status.textContent="비교 실행 오류: "+(err?.message||String(err));
+  }
+}, true);
 </script>
 
 </body>
