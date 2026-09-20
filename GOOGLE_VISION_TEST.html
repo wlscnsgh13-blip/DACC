@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#070b14" />
-  <title>DACC · Google Vision Test v10</title>
+  <title>DACC · Google Vision Test v11</title>
 
   <style>
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -70,7 +70,7 @@
 
 <body>
 <div class="wrap">
-  <h1>DACC · Google Vision TEST v10</h1>
+  <h1>DACC · Google Vision TEST v11</h1>
   <div class="sub">
     순찰일지와 교대업무일지를 각각 1장씩 선택하고 한 번에 분석합니다.
     사진1에서 온도/상태, 사진2에서 장비가동번호를 읽어 장비명 기준으로 병합합니다.
@@ -600,203 +600,311 @@
   }
 
   /*
-    v10 핵심
-    기존 v9의 UI / 사진선택 / 자동병합 / 교대업무일지 / 디버그는 그대로 유지한다.
-
-    순찰일지만 Strict 2D Cell 방식으로 변경:
-    - X축 = 장비별 열 영역
-    - Y축 = 온도/상태가 실제로 반복되는 데이터 행
-    - X열 ∩ Y행 안의 값만 인정
-    - 셀이 비어 있으면 다른 Y행을 찾아 내려가지 않는다(Fallback 금지)
+    v11 핵심
+    - v10에서 성공한 Strict Cell / Fallback 금지 유지
+    - 온도/상태를 "하나의 전역 band"로 고정하지 않고,
+      OCR에서 검출된 여러 데이터 band의 기하 구조를 사용
+    - 장비별 X-cell은 인접 장비 anchor 중점으로만 결정
+    - 온도/상태는 반드시 자기 X-cell 내부 값만 사용
+    - 다른 장비 열의 값은 절대 가져오지 않음
+    - 특정 온도 숫자 하드코딩 없음
   */
+
   function buildPhoto1Rows(words) {
     const anchors = reconstructPhoto1Anchors(words);
     if (!anchors.length) return [];
 
+    /*
+      장비들이 사진에서 X축 방향으로 배치되어 있으므로
+      X순으로 정렬한 뒤 인접 장비 anchor의 중점을
+      각 장비 cell의 좌/우 경계로 사용한다.
+    */
     const xAnchors = [...anchors].sort((a, b) => a.x - b.x);
 
-    function bounds(anchor) {
-      const i = xAnchors.findIndex(a => a.row === anchor.row);
+    const xIndexByRow = new Map();
+    xAnchors.forEach((a, i) => xIndexByRow.set(a.row, i));
+
+    function getCellXBounds(anchor) {
+      const i = xIndexByRow.get(anchor.row);
       const prev = xAnchors[i - 1];
       const next = xAnchors[i + 1];
 
-      return {
-        left: prev
-          ? (prev.x + anchor.x) / 2
-          : anchor.x - (next ? (next.x - anchor.x) / 2 : 60),
+      let left;
+      let right;
 
-        right: next
-          ? (anchor.x + next.x) / 2
-          : anchor.x + (prev ? (anchor.x - prev.x) / 2 : 60)
-      };
+      if (prev) {
+        left = (prev.x + anchor.x) / 2;
+      } else if (next) {
+        left = anchor.x - (next.x - anchor.x) / 2;
+      } else {
+        left = anchor.x - 60;
+      }
+
+      if (next) {
+        right = (anchor.x + next.x) / 2;
+      } else if (prev) {
+        right = anchor.x + (anchor.x - prev.x) / 2;
+      } else {
+        right = anchor.x + 60;
+      }
+
+      return { left, right };
     }
 
     /*
-      온도로 사용할 수 있는 숫자 후보.
-      26-XXX, 시간/날짜형 값은 제외한다.
-      STEP3에서는 20~1500을 유지하고,
-      최종 문자보고에서 기존 규칙대로 100도 미만을 제외한다.
+      숫자 후보.
+      날짜/시간/26-XXX는 제거한다.
+      STEP3 진단에서는 기존처럼 20~1500 허용.
+      최종 문자보고의 100도 미만 제외 규칙은 mergeResults에서 유지.
     */
-    const nums = words.map(w => {
+    const numericWords = words.map(w => {
       const raw = String(w.text || "").trim();
 
-      if (
-        /26\s*[-–—−]\s*\d+/.test(raw) ||
-        /[:/.]/.test(raw)
-      ) return null;
+      if (!raw) return null;
+      if (/26\s*[-–—−]\s*\d+/.test(raw)) return null;
+      if (/[:/.]/.test(raw)) return null;
 
       const clean = raw.replace(/[^\d]/g, "");
-      if (!/^\d{2,4}$/.test(clean)) return null;
+      if (!/^\d{1,4}$/.test(clean)) return null;
 
       const value = Number(clean);
+      if (!Number.isFinite(value)) return null;
       if (value < 20 || value > 1500) return null;
 
       return {
         value,
+        raw,
         x: w.x,
         y: w.y,
-        text: raw
+        confidence: w.confidence
       };
     }).filter(Boolean);
 
     /*
-      사진의 실제 방향 기준:
-      장비들이 X축으로 배열되어 있으므로
-      같은 데이터 행에 있는 숫자들은 Y가 비슷하다.
-
-      여기서 "온도 행" 하나만 먼저 확정한다.
-      이후 각 장비에서 다른 숫자 행을 재탐색하지 않는다.
+      Y band 생성.
+      같은 표 데이터 행에 있는 숫자들은 Y가 비슷하므로
+      기존 clusterY를 그대로 이용하되,
+      특정 band 하나만 전역 선택하지 않는다.
     */
-    const tempBands = clusterY(nums, 42)
-      .map(g => {
-        const spread = g.items.length
-          ? Math.max(...g.items.map(v => v.x)) -
-            Math.min(...g.items.map(v => v.x))
+    const numericBands = clusterY(numericWords, 44)
+      .map((band, index) => {
+        const xs = band.items.map(v => v.x);
+        const spread = xs.length
+          ? Math.max(...xs) - Math.min(...xs)
           : 0;
 
-        const highCount = g.items.filter(v => v.value >= 100).length;
-        const lowCount = g.items.filter(v => v.value < 100).length;
+        const highCount =
+          band.items.filter(v => v.value >= 100).length;
+
+        const lowCount =
+          band.items.filter(v => v.value < 100).length;
 
         /*
-          실제 온도행은 여러 장비에 걸쳐 넓게 퍼지고
-          100도 이상 값이 다수 존재한다.
-          행번호 20~34 같은 행은 lowCount 비중이 커서 감점한다.
+          실제 온도행은 일반적으로:
+          - 여러 장비 열에 걸쳐 있음
+          - 100도 이상 값이 여러 개 있음
+          - X spread가 충분히 큼
+
+          행번호 20~34 같은 행은 lowCount가 많아 감점.
         */
         const score =
-          (highCount * 8) +
-          (g.items.length * 2) +
-          (spread / 120) -
-          (lowCount * 2);
+          highCount * 10 +
+          band.items.length * 2 +
+          spread / 100 -
+          lowCount * 3;
 
         return {
-          ...g,
+          ...band,
+          index,
           spread,
           highCount,
           lowCount,
           score
         };
       })
-      .filter(g =>
-        g.items.length >= 4 &&
-        g.spread >= 350 &&
-        g.highCount >= 2
+      .filter(b =>
+        b.items.length >= 3 &&
+        b.spread >= 250 &&
+        b.highCount >= 2
       )
       .sort((a, b) => b.score - a.score);
 
     /*
-      가장 가능성이 높은 온도행 딱 하나만 사용.
-      TG7 온도 셀이 비어 있거나 OCR이 실패해도
-      가스유량 150이 있는 다른 행으로 내려가지 않는다.
-    */
-    const temperatureBand = tempBands[0] || null;
+      가장 강한 온도행을 primary로 잡는다.
+      단, 장비 cell에 primary 값이 없을 때
+      아무 숫자나 fallback하지 않는다.
 
-    const states = words.map(w => ({
-      state: normalizeState(w.text),
-      x: w.x,
-      y: w.y,
-      text: String(w.text || "")
-    })).filter(v => v.state);
+      대신 "다른 장비에서도 반복적으로 온도행으로 보이는
+      검증된 secondary band"만 후보가 될 수 있다.
+    */
+    const primaryTempBand = numericBands[0] || null;
 
     /*
-      상태 역시 가장 강한 상태행 하나만 확정.
-      CF5 상태 셀이 비어 있으면 다른 상태행에서
-      '유지중'을 끌어오지 않는다.
+      primary와 지나치게 먼 Y행은 온도 후보로 사용하지 않는다.
+      촬영 기울기/곡률 때문에 온도행이 약간 휘어져
+      Vision에서 둘 이상의 band로 갈라진 경우만 허용한다.
     */
-    const stateBands = clusterY(states, 48)
-      .map(g => ({
-        ...g,
-        spread: g.items.length
-          ? Math.max(...g.items.map(v => v.x)) -
-            Math.min(...g.items.map(v => v.x))
-          : 0,
-        score:
-          (g.items.length * 5) +
-          (
-            g.items.length
-              ? (
-                  Math.max(...g.items.map(v => v.x)) -
-                  Math.min(...g.items.map(v => v.x))
-                ) / 120
-              : 0
+    let allowedTempBands = [];
+
+    if (primaryTempBand) {
+      const yTolerance = 95;
+
+      allowedTempBands = numericBands
+        .filter(b =>
+          Math.abs(b.y - primaryTempBand.y) <= yTolerance
+        )
+        .slice(0, 3);
+    }
+
+    /*
+      같은 X-cell 안에서만 온도 선택.
+      1순위: primary band
+      2순위: primary와 가까운 검증된 temperature band
+
+      "다른 Y행의 가장 가까운 숫자" 검색은 하지 않는다.
+    */
+    function pickTemperature(anchor) {
+      const { left, right } = getCellXBounds(anchor);
+
+      const inCellFromBand = band => {
+        if (!band) return [];
+
+        return band.items
+          .filter(v =>
+            v.x >= left &&
+            v.x < right
           )
-      }))
-      .filter(g => g.items.length >= 2)
-      .sort((a, b) => b.score - a.score);
+          .sort((a, b) =>
+            Math.abs(a.x - anchor.x) -
+            Math.abs(b.x - anchor.x)
+          );
+      };
 
-    const stateBand = stateBands[0] || null;
+      const primaryHits = inCellFromBand(primaryTempBand);
 
-    function pickTempStrict(anchor) {
-      if (!temperatureBand) return "";
+      if (primaryHits.length) {
+        return primaryHits[0].value;
+      }
 
-      const { left, right } = bounds(anchor);
+      /*
+        primary에 값이 없을 때만 secondary 검사.
+        secondary 자체가 여러 장비에 걸쳐 검증된 band여야 한다.
+      */
+      for (const band of allowedTempBands) {
+        if (band === primaryTempBand) continue;
 
-      const hits = temperatureBand.items
+        const hits = inCellFromBand(band);
+
+        if (hits.length) {
+          return hits[0].value;
+        }
+      }
+
+      return "";
+    }
+
+    /*
+      상태 후보.
+      normalizeState가 실제로 승온/냉각/유지로 읽은 word만 사용.
+    */
+    const stateWords = words.map(w => {
+      const state = normalizeState(w.text);
+      if (!state) return null;
+
+      return {
+        state,
+        raw: String(w.text || ""),
+        x: w.x,
+        y: w.y,
+        confidence: w.confidence
+      };
+    }).filter(Boolean);
+
+    /*
+      상태는 v10처럼 하나의 Y-band만 선택하면
+      '승온중' 묶음이 별도 band로 갈라졌을 때 전부 탈락한다.
+
+      v11에서는 상태로 확실히 OCR된 word라면
+      자기 장비 X-cell 안에서만 인정한다.
+      즉 CF5 cell 안에 상태 word가 없으면 반드시 공란이다.
+    */
+    function pickState(anchor) {
+      const { left, right } = getCellXBounds(anchor);
+
+      const hits = stateWords
         .filter(v =>
           v.x >= left &&
           v.x < right
         )
-        .sort((a, b) =>
-          Math.abs(a.x - anchor.x) -
-          Math.abs(b.x - anchor.x)
-        );
-
-      /*
-        STRICT:
-        현재 장비열 ∩ 확정 온도행 안에 값이 없으면 공란.
-        다른 Y행 탐색 금지.
-      */
-      return hits.length ? hits[0].value : "";
-    }
-
-    function pickStateStrict(anchor) {
-      if (!stateBand) return "";
-
-      const { left, right } = bounds(anchor);
-
-      const hits = stateBand.items
+        .map(v => ({
+          ...v,
+          /*
+            장비명 자체와 너무 가까운 곳의 우연한 OCR을 피하고,
+            기존 순찰표 구조처럼 장비명 위쪽 데이터만 허용.
+          */
+          dy: anchor.y - v.y
+        }))
         .filter(v =>
-          v.x >= left &&
-          v.x < right
-        )
-        .sort((a, b) =>
-          Math.abs(a.x - anchor.x) -
-          Math.abs(b.x - anchor.x)
+          v.dy > 40 &&
+          v.dy < 1800
         );
 
+      if (!hits.length) return "";
+
       /*
-        STRICT:
-        현재 장비열 ∩ 확정 상태행 안에 값이 없으면 공란.
-        주변 장비 상태 Fallback 금지.
+        상태 후보가 한 개면 그대로 사용.
+        여러 개면 여러 장비에서 가장 많이 형성되는 상태 Y-band에
+        가까운 후보를 선택한다.
       */
-      return hits.length ? hits[0].state : "";
+      if (hits.length === 1) {
+        return hits[0].state;
+      }
+
+      const stateBands = clusterY(stateWords, 55)
+        .map(b => ({
+          ...b,
+          count: b.items.length,
+          spread: b.items.length
+            ? Math.max(...b.items.map(v => v.x)) -
+              Math.min(...b.items.map(v => v.x))
+            : 0
+        }))
+        .sort((a, b) => {
+          if (b.count !== a.count) return b.count - a.count;
+          return b.spread - a.spread;
+        });
+
+      const dominantYs =
+        stateBands.slice(0, 3).map(b => b.y);
+
+      hits.sort((a, b) => {
+        const da = dominantYs.length
+          ? Math.min(...dominantYs.map(y => Math.abs(a.y - y)))
+          : 0;
+
+        const db = dominantYs.length
+          ? Math.min(...dominantYs.map(y => Math.abs(b.y - y)))
+          : 0;
+
+        return da - db;
+      });
+
+      return hits[0].state;
     }
 
+    /*
+      소각기/드라이챔버를 포함한 모든 장비에
+      동일한 X-cell 원칙을 적용한다.
+
+      소각기 1동과 3동 사이 경계 역시
+      두 anchor X의 중점이므로 한쪽 값이 다른 쪽으로 넘어가지 않는다.
+    */
     return anchors.map(anchor => ({
       row: anchor.row,
       key: anchor.key,
       equipment: anchor.name,
-      temperature: pickTempStrict(anchor),
-      state: pickStateStrict(anchor),
+      temperature: pickTemperature(anchor),
+      state: pickState(anchor),
       reconstructed: !!anchor.reconstructed
     })).sort((a, b) => a.row - b.row);
   }
