@@ -263,21 +263,30 @@ copyBtn.onclick=()=>copyText(finalText,copyBtn);
 document.querySelectorAll(".dbg").forEach(b=>b.onclick=()=>copyText($(b.dataset.id).textContent,b));
 
 function saveRawJson(){
- if(!rawPatrol||!rawShift)return;
- const payload={
-  exportedAt:new Date().toISOString(),
-  patrol:{fileName:patrolFile?.name||"",visionResponse:rawPatrol},
-  shift:{fileName:shiftFile?.name||"",visionResponse:rawShift}
- };
- const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json;charset=utf-8"});
- const url=URL.createObjectURL(blob);
- const a=document.createElement("a");
- a.href=url;
- a.download="DACC_Vision_RAW_JSON.json";
- document.body.appendChild(a);
- a.click();
- a.remove();
- setTimeout(()=>URL.revokeObjectURL(url),1500);
+ try{
+  if(!rawPatrol||!rawShift){
+   setStatus("Raw JSON 저장 실패\n사진 2장의 Vision 원본 응답이 모두 준비되지 않았습니다.","err");
+   return;
+  }
+  const payload={
+   exportedAt:new Date().toISOString(),
+   patrol:{fileName:patrolFile?.name||"",visionResponse:rawPatrol},
+   shift:{fileName:shiftFile?.name||"",visionResponse:rawShift}
+  };
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="DACC_Vision_RAW_JSON.json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),3000);
+  setStatus("Raw JSON 파일 저장 요청 완료\nDACC_Vision_RAW_JSON.json","ok");
+ }catch(e){
+  console.error(e);
+  setStatus("Raw JSON 저장 실패\n"+(e?.message||String(e)),"err");
+ }
 }
 $("saveRawBtn").onclick=saveRawJson;
 
@@ -287,10 +296,13 @@ runBtn.onclick=async()=>{
  let t=performance.now();
  try{
   setStatus("사진1/2 순찰일지 Google Vision 분석 중...");let p=await vision(patrolFile,key);
-  $("rawJson1").textContent=JSON.stringify(p.raw,null,2);
+  rawPatrol=p.raw;
+  $("rawJson1").textContent=JSON.stringify(rawPatrol,null,2);
   $("detect").textContent="사진1 순찰일지 완료\n사진2 교대업무일지 분석 중...";setStatus("사진1 완료\n사진2/2 교대업무일지 Google Vision 분석 중...");$("sum2").textContent="분석 중...";$("rawJson2").textContent="분석 중...";
   let s=await vision(shiftFile,key);
-  $("rawJson2").textContent=JSON.stringify(s.raw,null,2);
+  rawShift=s.raw;
+  $("rawJson2").textContent=JSON.stringify(rawShift,null,2);
+  $("saveRawBtn").disabled=!(rawPatrol&&rawShift);
   let r1=buildPhoto1(p.words),r2=buildPhoto2(s.words);
   render1(r1);render2(r2);merge(r1,r2);$("full1").textContent=p.text||"(OCR 텍스트 없음)";$("full2").textContent=s.text||"(OCR 텍스트 없음)";$("box1").textContent=debug(p.words);$("box2").textContent=debug(s.words);
   $("detect").textContent=`사진 2장 분석 완료\n\n사진1 · 순찰일지: ${p.fileName}\n사진2 · 교대업무일지: ${s.fileName}`;
