@@ -721,7 +721,7 @@ button {
         style="width:100%;padding:12px;border:1px solid #d8deea;border-radius:12px;background:#fff">
     </div>
     <button type="button" class="primary" id="visionCompareBtn" style="margin-top:10px">
-      Ling 최종 연결 테스트 14
+      Ling 최종 연결 테스트 15
     </button>
     <div id="visionTestStatus"
       style="margin-top:12px;white-space:pre-wrap;font-size:13px;line-height:1.55"></div>
@@ -5230,6 +5230,71 @@ async function daccReadPatrolRow(
 }
 
 
+
+/* =========================================================
+   사진1 전용 35행 fallback
+   - 기존 strict grid가 실패했을 때만 사용
+   - 사진2/기존 detector는 변경하지 않음
+========================================================= */
+function daccFindPatrolGridFallback(lines,imageHeight){
+  if(!Array.isArray(lines)||lines.length<2) return null;
+
+  const clean=[...new Set(
+    lines.filter(y=>Number.isFinite(y)&&y>=0&&y<=imageHeight)
+         .map(y=>Math.round(y))
+  )].sort((a,b)=>a-b);
+
+  let best=null;
+  for(let a=0;a<clean.length-1;a++){
+    for(let b=a+1;b<clean.length;b++){
+      const start=clean[a], end=clean[b];
+      const span=end-start;
+      const spanRatio=span/imageHeight;
+      if(spanRatio<0.30||spanRatio>0.92) continue;
+
+      const step=span/35;
+      if(step<Math.max(6,imageHeight*0.008)||step>imageHeight*0.055) continue;
+
+      let matches=0,error=0;
+      const boundaries=[];
+      let previous=-Infinity;
+
+      for(let i=0;i<=35;i++){
+        const expected=start+step*i;
+        const tolerance=Math.max(4,step*0.60);
+        let nearest=null,distance=Infinity;
+        for(const line of clean){
+          if(line<=previous) continue;
+          const d=Math.abs(line-expected);
+          if(d<distance){ nearest=line; distance=d; }
+        }
+        let y=expected;
+        if(nearest!==null&&distance<=tolerance){
+          y=nearest; matches++; error+=distance;
+        }
+        if(y<=previous) y=previous+Math.max(1,step*0.60);
+        boundaries.push(y);
+        previous=y;
+      }
+
+      const score=matches*1000-error*2+spanRatio*100;
+      if(!best||score>best.score){
+        best={
+          boundaries,
+          rowHeight:step,
+          matches,
+          matchRatio:matches/36,
+          score,
+          start:boundaries[0],
+          end:boundaries[35],
+          source:"patrol35-relaxed-fallback"
+        };
+      }
+    }
+  }
+  return best;
+}
+
 /* =========================================================
    사진1 35행 분석
 ========================================================= */
@@ -5254,16 +5319,24 @@ async function daccAnalyzePatrolPhoto(
     );
 
 
-  const grid =
+  let grid =
     daccFindFixedGrid(
       lines,
       35,
       canvas.height
     );
 
+  /* Ling 온도 확보 후에도 기존 strict 35행 검출이 실패하는 사진을 위해
+     사진1에만 relaxed fallback을 한 번 적용한다. */
+  if (!grid) {
+    grid =
+      daccFindPatrolGridFallback(
+        lines,
+        canvas.height
+      );
+  }
 
   if (!grid) {
-
     throw new Error(
       "순찰일지 35행 표 인식 실패"
     );
