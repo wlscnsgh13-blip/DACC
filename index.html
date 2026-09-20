@@ -721,7 +721,7 @@ button {
         style="width:100%;padding:12px;border:1px solid #d8deea;border-radius:12px;background:#fff">
     </div>
     <button type="button" class="primary" id="visionCompareBtn" style="margin-top:10px">
-      무료 Vision 결승 3모델 비교 5
+      Ling RAW 원문 테스트 6
     </button>
     <div id="visionTestStatus"
       style="margin-top:12px;white-space:pre-wrap;font-size:13px;line-height:1.55"></div>
@@ -9071,7 +9071,7 @@ document.addEventListener("click", function(event) {
   const status=document.getElementById("visionTestStatus");
   if(status) status.textContent="비교 버튼 정상 작동 · 3모델 테스트 시작…";
   try {
-    const r=runDaccVisionCompare();
+    const r=runDaccLingRawTest();
     if(r && typeof r.catch==="function") r.catch(function(err){
       if(status) status.textContent="비교 실행 오류: "+(err?.message||String(err));
     });
@@ -9079,6 +9079,46 @@ document.addEventListener("click", function(event) {
     if(status) status.textContent="비교 실행 오류: "+(err?.message||String(err));
   }
 }, true);
+
+async function runDaccLingRawTest(){
+  const btn=document.getElementById("visionCompareBtn");
+  const status=document.getElementById("visionTestStatus");
+  const key=document.getElementById("openRouterKey")?.value?.trim();
+  const img=document.getElementById("patrolPreviewImage");
+  if(!key){ status.textContent="OpenRouter API Key를 입력해주세요."; return; }
+  if(!img||!img.src){ status.textContent="사진 1 · 순찰일지에 오늘 사진을 먼저 넣어주세요."; return; }
+  btn.disabled=true;
+  try{
+    status.textContent="Ling RAW 원문 요청 중…";
+    const image=daccVisionImageDataURL(img);
+    const prompt=`이 이미지는 DACC 순찰일지 원본 사진이다.
+아래 순서 21개 장비의 온도 열 손글씨 숫자만 현재 이미지에서 직접 읽어라:
+TG2호기,TG3호기,TG4호기,TG5호기,TG6호기,TG7호기,GF1,GF3,GF4,GF5,SMI,CF1,CF2,CF3,CF4,CF5,CF6,CF분위기로,드라이챔버,폐가스소각기1동,폐가스소각기3동.
+제품명/가스유량/판넬전원 숫자는 제외하라. 가능하면 21개 값을 | 로 구분해 한 줄로 출력하라.`;
+    const t=performance.now();
+    const res=await fetch("https://openrouter.ai/api/v1/chat/completions",{
+      method:"POST",
+      headers:{"Authorization":"Bearer "+key,"Content-Type":"application/json","HTTP-Referer":location.origin,"X-Title":"DACC Ling RAW"},
+      body:JSON.stringify({
+        model:"inclusionai/ling-3.0-flash-vl:free",
+        messages:[{role:"user",content:[{type:"text",text:prompt},{type:"image_url",image_url:{url:image}}]}],
+        temperature:0,max_tokens:1200
+      })
+    });
+    const data=await res.json();
+    if(!res.ok) throw new Error(data?.error?.message||("HTTP "+res.status));
+    let raw=data?.choices?.[0]?.message?.content;
+    if(Array.isArray(raw)) raw=raw.map(v=>typeof v==="string"?v:(v?.text||v?.content||JSON.stringify(v))).join("\\n");
+    status.textContent=`Ling RAW 테스트 완료 · ${Math.round(performance.now()-t)}ms
+실제 모델: ${data?.model||"inclusionai/ling-3.0-flash-vl:free"}
+
+===== RAW 시작 =====
+${String(raw??"")||"(빈 응답)"}
+===== RAW 끝 =====`;
+  }catch(e){ status.textContent="Ling RAW 오류: "+(e?.message||String(e)); }
+  finally{ btn.disabled=false; }
+}
+
 </script>
 
 </body>
