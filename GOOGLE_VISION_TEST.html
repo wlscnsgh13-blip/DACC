@@ -164,7 +164,7 @@
   "use strict";
 
   const API_KEY_STORAGE = "dacc_google_vision_api_key";
-  const FINAL_STORAGE = "dacc_google_final_result_v8";
+  const FINAL_STORAGE = "dacc_google_final_result_v9";
 
   const apiKey = document.getElementById("apiKey");
   const patrolInput = document.getElementById("patrolInput");
@@ -534,117 +534,181 @@
       }
     }
 
-    const detectedByRow = new Map(detected.map(a => [a.row, a]));
-    const reconstructed = [...detected];
+    const byRow = new Map(detected.map(a => [a.row, a]));
+    const result = [];
 
     for (let row = 1; row <= EQUIPMENT.length; row++) {
-      if (detectedByRow.has(row)) continue;
+      if (byRow.has(row)) {
+        result.push(byRow.get(row));
+        continue;
+      }
 
-      let leftAnchor = null;
-      let rightAnchor = null;
+      let left = null;
+      let right = null;
 
-      for (let l = row - 1; l >= 1; l--) {
-        if (detectedByRow.has(l)) {
-          leftAnchor = detectedByRow.get(l);
+      for (let r = row - 1; r >= 1; r--) {
+        if (byRow.has(r)) {
+          left = byRow.get(r);
           break;
         }
       }
 
       for (let r = row + 1; r <= EQUIPMENT.length; r++) {
-        if (detectedByRow.has(r)) {
-          rightAnchor = detectedByRow.get(r);
+        if (byRow.has(r)) {
+          right = byRow.get(r);
           break;
         }
       }
 
-      if (!leftAnchor || !rightAnchor) continue;
+      if (!left || !right) continue;
 
-      const rowDistance = rightAnchor.row - leftAnchor.row;
-      if (rowDistance <= 0) continue;
+      const ratio =
+        (row - left.row) /
+        (right.row - left.row);
 
-      const ratio = (row - leftAnchor.row) / rowDistance;
-      const equipment = EQUIPMENT[row - 1];
-
-      reconstructed.push({
-        ...equipment,
-        x: leftAnchor.x + (rightAnchor.x - leftAnchor.x) * ratio,
-        y: leftAnchor.y + (rightAnchor.y - leftAnchor.y) * ratio,
+      result.push({
+        ...EQUIPMENT[row - 1],
+        x: left.x + (right.x - left.x) * ratio,
+        y: left.y + (right.y - left.y) * ratio,
         reconstructed: true
       });
     }
 
-    return reconstructed.sort((a, b) => a.x - b.x);
+    return result.sort((x, y) => x.row - y.row);
+  }
+
+  function clusterY(items, tolerance = 42) {
+    const groups = [];
+
+    for (const item of [...items].sort((a,b) => a.y-b.y)) {
+      let group = groups.find(g =>
+        Math.abs(g.centerY - item.y) <= tolerance
+      );
+
+      if (!group) {
+        group = { items: [], centerY: item.y };
+        groups.push(group);
+      }
+
+      group.items.push(item);
+      group.centerY =
+        group.items.reduce((sum,v)=>sum+v.y,0) /
+        group.items.length;
+    }
+
+    return groups;
   }
 
   function buildPhoto1Rows(words) {
     const anchors = reconstructPhoto1Anchors(words);
-    const rows = [];
+    if (!anchors.length) return [];
 
-    for (let i = 0; i < anchors.length; i++) {
-      const anchor = anchors[i];
-      const previous = anchors[i - 1];
-      const next = anchors[i + 1];
+    const xAnchors = [...anchors].sort((a,b)=>a.x-b.x);
 
-      const left = previous
-        ? (previous.x + anchor.x) / 2
-        : next ? anchor.x - (next.x - anchor.x) / 2 : anchor.x - 60;
+    function bounds(anchor) {
+      const i = xAnchors.findIndex(a => a.row === anchor.row);
+      const prev = xAnchors[i-1];
+      const next = xAnchors[i+1];
 
-      const right = next
-        ? (anchor.x + next.x) / 2
-        : previous ? anchor.x + (anchor.x - previous.x) / 2 : anchor.x + 60;
-
-      const columnWords = words.filter(w => w.x >= left && w.x < right);
-
-      const plausibleTemps = columnWords
-        .filter(w => w.y < anchor.y)
-        .map(w => {
-          const clean = String(w.text).replace(/[^\d]/g, "");
-          if (!/^\d{2,4}$/.test(clean)) return null;
-
-          const value = Number(clean);
-          const distance = anchor.y - w.y;
-
-          if (!Number.isFinite(value) || value < 20 || value > 1500) return null;
-          if (!(distance > 400 && distance < 1500)) return null;
-
-          return { value, y: w.y, distance };
-        })
-        .filter(Boolean);
-
-      let temperature = "";
-
-      if (plausibleTemps.length) {
-        /*
-          값 자체는 절대 하드코딩하지 않는다.
-          현재 사진에서 OCR된 후보만 사용한다.
-        */
-        temperature = [...plausibleTemps]
-          .sort((a, b) => b.y - a.y)[0].value;
-      }
-
-      let state = "";
-
-      if (!NO_STATE_KEYS.has(anchor.key)) {
-        const stateCandidates = columnWords
-          .filter(w => w.y < anchor.y)
-          .map(w => ({ state: normalizeState(w.text), y: w.y }))
-          .filter(v => v.state)
-          .sort((a, b) => b.y - a.y);
-
-        if (stateCandidates.length) state = stateCandidates[0].state;
-      }
-
-      rows.push({
-        row: anchor.row,
-        key: anchor.key,
-        equipment: anchor.name,
-        temperature,
-        state,
-        reconstructed: !!anchor.reconstructed
-      });
+      return {
+        left: prev
+          ? (prev.x + anchor.x) / 2
+          : anchor.x - (next ? (next.x-anchor.x)/2 : 60),
+        right: next
+          ? (anchor.x + next.x) / 2
+          : anchor.x + (prev ? (anchor.x-prev.x)/2 : 60)
+      };
     }
 
-    return rows.sort((a, b) => a.row - b.row);
+    /*
+      v9 핵심:
+      장비 열 안의 아무 숫자를 온도로 쓰지 않는다.
+      사진 전체 숫자를 Y행으로 먼저 묶어
+      여러 장비에 걸쳐 존재하는 실제 데이터 행만 사용한다.
+    */
+    const nums = words.map(w => {
+      const raw = String(w.text || "").trim();
+
+      if (
+        /26\s*[-–—−]\s*\d+/.test(raw) ||
+        /[:/.]/.test(raw)
+      ) return null;
+
+      const clean = raw.replace(/[^\d]/g,"");
+      if (!/^\d{2,4}$/.test(clean)) return null;
+
+      const value = Number(clean);
+      if (value < 20 || value > 1500) return null;
+
+      return { value, x:w.x, y:w.y };
+    }).filter(Boolean);
+
+    const tempBands = clusterY(nums, 42)
+      .map(g => ({
+        ...g,
+        spread: g.items.length
+          ? Math.max(...g.items.map(v=>v.x)) -
+            Math.min(...g.items.map(v=>v.x))
+          : 0
+      }))
+      .filter(g =>
+        g.items.length >= 4 &&
+        g.spread >= 350
+      )
+      .sort((a,b)=>b.items.length-a.items.length);
+
+    const states = words.map(w => ({
+      state: normalizeState(w.text),
+      x:w.x,
+      y:w.y
+    })).filter(v=>v.state);
+
+    const stateBands = clusterY(states, 48)
+      .filter(g=>g.items.length >= 2)
+      .sort((a,b)=>b.items.length-a.items.length);
+
+    function pickTemp(anchor) {
+      const {left,right}=bounds(anchor);
+
+      for (const band of tempBands) {
+        const hit = band.items
+          .filter(v=>v.x>=left && v.x<right)
+          .sort((a,b)=>
+            Math.abs(a.x-anchor.x) -
+            Math.abs(b.x-anchor.x)
+          )[0];
+
+        if (hit) return hit.value;
+      }
+
+      return "";
+    }
+
+    function pickState(anchor) {
+      const {left,right}=bounds(anchor);
+
+      for (const band of stateBands) {
+        const hit = band.items
+          .filter(v=>v.x>=left && v.x<right)
+          .sort((a,b)=>
+            Math.abs(a.x-anchor.x) -
+            Math.abs(b.x-anchor.x)
+          )[0];
+
+        if (hit) return hit.state;
+      }
+
+      return "";
+    }
+
+    return anchors.map(anchor => ({
+      row: anchor.row,
+      key: anchor.key,
+      equipment: anchor.name,
+      temperature: pickTemp(anchor),
+      state: pickState(anchor),
+      reconstructed: !!anchor.reconstructed
+    })).sort((a,b)=>a.row-b.row);
   }
 
   function buildPhoto2Rows(words) {
@@ -843,47 +907,69 @@
     const operationMap = new Map();
 
     for (const row of photo2Rows) {
-      if (!row.key) continue;
-      operationMap.set(row.key, {
-        number: row.operationNumber || "",
-        operation: row.operation || ""
-      });
+      if (row.key) {
+        operationMap.set(row.key, row.operationNumber || "");
+      }
     }
 
-    const normalLines = [];
-    const specialLines = [];
+    const normal = [];
 
     for (const row of photo1Rows) {
-      if ((row.row >= 21 && row.row <= 25) || (row.row >= 31 && row.row <= 35)) continue;
-      if (row.temperature === "" || row.temperature == null) continue;
+      if (
+        (row.row >= 21 && row.row <= 25) ||
+        (row.row >= 31 && row.row <= 35)
+      ) continue;
 
       const temperature = Number(row.temperature);
-      if (!Number.isFinite(temperature) || temperature < 100) continue;
+
+      if (
+        row.temperature === "" ||
+        !Number.isFinite(temperature) ||
+        temperature < 100
+      ) continue;
 
       /*
-        드라이챔버/신형 드라이챔버/소각기 1동/3동:
-        가동번호 없음, 상태 없음, 온도만 출력.
+        드라이챔버 / 소각기는 일반 장비 출력에서 제외.
+        번호와 상태를 절대 붙이지 않는다.
       */
-      if (NO_OPERATION_NUMBER_KEYS.has(row.key)) {
-        specialLines.push(`${row.equipment} | ${temperature}도`);
+      if ([
+        "드라이챔버",
+        "신형드라이챔버",
+        "소각기1",
+        "소각기3"
+      ].includes(row.key)) {
         continue;
       }
 
-      const op = operationMap.get(row.key);
-      const number = op?.number || "번호미인식";
-      const state = row.state || "상태미인식";
-
-      normalLines.push(
-        `${number} | ${row.equipment} | ${temperature}도 | ${state}`
+      normal.push(
+        `${operationMap.get(row.key) || "번호미인식"} | ` +
+        `${row.equipment} | ${temperature}도 | ` +
+        `${row.state || "상태미인식"}`
       );
     }
 
-    const lines = [...normalLines];
+    const specials = [];
 
-    if (specialLines.length) {
-      if (lines.length) lines.push("");
-      lines.push(...specialLines);
+    function special(key, label) {
+      const row = photo1Rows.find(r=>r.key===key);
+      if (!row || row.temperature === "") return;
+
+      const temp = Number(row.temperature);
+      if (!Number.isFinite(temp) || temp < 100) return;
+
+      specials.push(`${label} | ${temp}도`);
     }
+
+    special("소각기1", "공정 폐가스 소각기(1동)");
+    special("소각기3", "공정 폐가스 소각기(3동)");
+    special("드라이챔버", "구형드라이챔버");
+    special("신형드라이챔버", "신형드라이챔버");
+
+    const lines = [
+      ...normal,
+      ...(normal.length && specials.length ? [""] : []),
+      ...specials
+    ];
 
     if (!lines.length) {
       finalText = "";
