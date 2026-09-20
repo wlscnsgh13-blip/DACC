@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#070b14" />
+  <title>DACC · Google Vision Test</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      background: #070b14;
+      color: #f8fafc;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Apple SD Gothic Neo",
+        "Noto Sans KR",
+        sans-serif;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 24px 16px 80px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 27px;
+      letter-spacing: -0.8px;
+    }
+
+    .sub {
+      color: #94a3b8;
+      margin-top: 8px;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .card {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 22px;
+      background: #0d1423;
+      border: 1px solid #26344c;
+    }
+
+    .step {
+      display: inline-flex;
+      padding: 6px 11px;
+      border: 1px solid #334155;
+      border-radius: 999px;
+      color: #94a3b8;
+      font-size: 12px;
+      margin-bottom: 14px;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      color: #a8b4c8;
+      font-size: 14px;
+      margin: 14px 0 7px;
+    }
+
+    input[type="password"],
+    select {
+      width: 100%;
+      min-height: 54px;
+      border-radius: 15px;
+      border: 1px solid #334155;
+      background: #080e18;
+      color: white;
+      padding: 0 14px;
+      outline: none;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      color: #cbd5e1;
+      padding: 15px 0;
+    }
+
+    .btn {
+      width: 100%;
+      min-height: 56px;
+      border: 0;
+      border-radius: 16px;
+      margin-top: 14px;
+      font-weight: 800;
+      font-size: 17px;
+      color: white;
+      background: #4f6bed;
+    }
+
+    .btn:disabled {
+      opacity: .42;
+    }
+
+    .btn.secondary {
+      background: #172033;
+      border: 1px solid #334155;
+    }
+
+    .status {
+      margin-top: 14px;
+      padding: 13px 14px;
+      border-radius: 14px;
+      background: #080e18;
+      border: 1px solid #1e293b;
+      color: #cbd5e1;
+      white-space: pre-wrap;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .status.ok {
+      border-color: #166534;
+      color: #86efac;
+    }
+
+    .status.err {
+      border-color: #7f1d1d;
+      color: #fca5a5;
+    }
+
+    .preview {
+      display: none;
+      width: 100%;
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid #334155;
+    }
+
+    .resultTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 13px;
+    }
+
+    .resultTable th,
+    .resultTable td {
+      border-bottom: 1px solid #253044;
+      padding: 10px 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .resultTable th {
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .raw {
+      margin-top: 12px;
+      background: #050911;
+      border: 1px solid #253044;
+      border-radius: 14px;
+      padding: 13px;
+      color: #dbeafe;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      max-height: 420px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    details {
+      margin-top: 14px;
+    }
+
+    summary {
+      cursor: pointer;
+      color: #a5b4fc;
+      font-weight: 700;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #172033;
+      color: #a5b4fc;
+      font-size: 11px;
+      margin: 3px;
+    }
+
+    .warn {
+      color: #fbbf24;
+    }
+
+    .good {
+      color: #86efac;
+    }
+
+    .small {
+      color: #64748b;
+      font-size: 12px;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <h1>DACC · Google Vision TEST</h1>
+  <div class="sub">
+    DACC 본체와 분리된 Google Cloud Vision OCR 실측 페이지입니다.
+    사진1/사진2를 각각 테스트하고 결과를 자동 저장합니다.
+  </div>
+
+  <!-- API -->
+  <section class="card">
+    <div class="step">STEP 1 · API</div>
+    <div class="title">Google Cloud Vision</div>
+
+    <label for="apiKey">Cloud Vision API Key · 자동저장</label>
+    <input
+      id="apiKey"
+      type="password"
+      autocomplete="off"
+      placeholder="AIza..."
+    />
+
+    <div class="small">
+      키는 이 HTML 코드에 포함되지 않습니다.
+      입력한 값은 현재 브라우저의 localStorage에 저장됩니다.
+    </div>
+
+    <button class="btn secondary" id="clearKeyBtn">
+      저장된 API Key 삭제
+    </button>
+  </section>
+
+  <!-- IMAGE -->
+  <section class="card">
+    <div class="step">STEP 2 · 사진</div>
+    <div class="title">실측 이미지 선택</div>
+
+    <label for="photoType">사진 종류</label>
+    <select id="photoType">
+      <option value="photo1">사진1 · 순찰일지 35행</option>
+      <option value="photo2">사진2 · 교대업무일지</option>
+    </select>
+
+    <label for="imageInput">원본 사진</label>
+    <input
+      id="imageInput"
+      type="file"
+      accept="image/*"
+    />
+
+    <img id="preview" class="preview" alt="preview" />
+
+    <button class="btn" id="runBtn" disabled>
+      Google Vision 분석 시작
+    </button>
+
+    <div id="status" class="status">
+      API Key와 사진을 준비해주세요.
+    </div>
+  </section>
+
+  <!-- STRUCTURED -->
+  <section class="card">
+    <div class="step">STEP 3 · 구조화 결과</div>
+    <div class="title">DACC 추출 테스트</div>
+
+    <div id="summary">
+      아직 분석 결과가 없습니다.
+    </div>
+
+    <div style="overflow-x:auto">
+      <table class="resultTable">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>장비</th>
+          <th>온도</th>
+          <th>상태</th>
+          <th>26-XXX</th>
+          <th>가동</th>
+        </tr>
+        </thead>
+        <tbody id="resultBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- OCR -->
+  <section class="card">
+    <div class="step">STEP 4 · OCR</div>
+    <div class="title">Google 전체 OCR</div>
+
+    <div id="fullText" class="raw">
+      대기
+    </div>
+
+    <details>
+      <summary>단어 + Bounding Box 보기</summary>
+      <div id="wordBoxes" class="raw">대기</div>
+    </details>
+
+    <details>
+      <summary>Google RAW JSON 보기</summary>
+      <div id="rawJson" class="raw">대기</div>
+    </details>
+  </section>
+
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const STORAGE_KEY = "dacc_google_vision_api_key";
+  const RESULT_KEY = "dacc_google_vision_last_result";
+
+  const apiKey = document.getElementById("apiKey");
+  const photoType = document.getElementById("photoType");
+  const imageInput = document.getElementById("imageInput");
+  const preview = document.getElementById("preview");
+  const runBtn = document.getElementById("runBtn");
+  const statusBox = document.getElementById("status");
+  const fullText = document.getElementById("fullText");
+  const wordBoxes = document.getElementById("wordBoxes");
+  const rawJson = document.getElementById("rawJson");
+  const resultBody = document.getElementById("resultBody");
+  const summary = document.getElementById("summary");
+  const clearKeyBtn = document.getElementById("clearKeyBtn");
+
+  let selectedFile = null;
+
+  const PHOTO1_EQUIPMENT = [
+    "TG2호기",
+    "TG3호기",
+    "TG4호기",
+    "TG5호기",
+    "TG6호기",
+    "TG7호기",
+    "GF1",
+    "GF3",
+    "GF4",
+    "GF5",
+    "SMI",
+    "CF1",
+    "CF2",
+    "CF3",
+    "CF4",
+    "CF5",
+    "CF6",
+    "CF분위기로",
+    "드라이챔버",
+    "신형 드라이챔버",
+    "유해화학물질 누액 감지기",
+    "세정집진기",
+    "백필터",
+    "생산동 메인 냉각탑",
+    "생산동 메인 냉각수펌프",
+    "공정 폐가스 소각기(1동)",
+    "공정 폐가스 소각기(3동)",
+    "HIP-1",
+    "HIP-2",
+    "HIP-3",
+    "생산동 천장 환풍기",
+    "SIC-CVD",
+    "SIC LINE",
+    "자동차 다이나모",
+    "전기 다이나모"
+  ];
+
+  const savedKey = localStorage.getItem(STORAGE_KEY);
+  if (savedKey) {
+    apiKey.value = savedKey;
+  }
+
+  apiKey.addEventListener("input", () => {
+    const value = apiKey.value.trim();
+
+    if (value) {
+      localStorage.setItem(STORAGE_KEY, value);
+    } else {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+
+    updateButton();
+  });
+
+  clearKeyBtn.addEventListener("click", () => {
+    localStorage.removeItem(STORAGE_KEY);
+    apiKey.value = "";
+    updateButton();
+    setStatus("저장된 API Key를 삭제했습니다.");
+  });
+
+  imageInput.addEventListener("change", () => {
+    selectedFile = imageInput.files?.[0] || null;
+
+    if (!selectedFile) {
+      preview.style.display = "none";
+      preview.removeAttribute("src");
+      updateButton();
+      return;
+    }
+
+    const url = URL.createObjectURL(selectedFile);
+    preview.src = url;
+    preview.style.display = "block";
+
+    setStatus(
+      `사진 준비 완료\n` +
+      `${selectedFile.name}\n` +
+      `${Math.round(selectedFile.size / 1024)} KB`
+    );
+
+    updateButton();
+  });
+
+  function updateButton() {
+    runBtn.disabled = !(
+      apiKey.value.trim() &&
+      selectedFile
+    );
+  }
+
+  function setStatus(message, type = "") {
+    statusBox.className = "status" + (type ? " " + type : "");
+    statusBox.textContent = message;
+  }
+
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const result = String(reader.result || "");
+        const comma = result.indexOf(",");
+
+        if (comma < 0) {
+          reject(new Error("이미지 Base64 변환 실패"));
+          return;
+        }
+
+        resolve(result.slice(comma + 1));
+      };
+
+      reader.onerror = () => {
+        reject(new Error("이미지 파일 읽기 실패"));
+      };
+
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function normalizeState(text) {
+    const s = String(text || "")
+      .replace(/\s+/g, "")
+      .trim();
+
+    if (!s) return "";
+
+    if (
+      /승온/.test(s) ||
+      /승은/.test(s) ||
+      /승옹/.test(s) ||
+      /승욘/.test(s)
+    ) {
+      return "승온";
+    }
+
+    if (
+      /냉각/.test(s) ||
+      /냉갹/.test(s) ||
+      /냉각/.test(s)
+    ) {
+      return "냉각";
+    }
+
+    if (
+      /유지/.test(s) ||
+      /유즤/.test(s)
+    ) {
+      return "유지";
+    }
+
+    return "";
+  }
+
+  function getVertices(poly) {
+    const vs = poly?.vertices || [];
+
+    return vs.map(v => ({
+      x: Number(v.x || 0),
+      y: Number(v.y || 0)
+    }));
+  }
+
+  function centerOf(poly) {
+    const vertices = getVertices(poly);
+
+    if (!vertices.length) {
+      return { x: 0, y: 0 };
+    }
+
+    const x =
+      vertices.reduce((sum, v) => sum + v.x, 0) /
+      vertices.length;
+
+    const y =
+      vertices.reduce((sum, v) => sum + v.y, 0) /
+      vertices.length;
+
+    return { x, y };
+  }
+
+  function extractWords(response) {
+    const words = [];
+
+    const pages =
+      response?.fullTextAnnotation?.pages || [];
+
+    for (const page of pages) {
+      for (const block of page.blocks || []) {
+        for (const paragraph of block.paragraphs || []) {
+          for (const word of paragraph.words || []) {
+
+            const text = (word.symbols || [])
+              .map(s => s.text || "")
+              .join("");
+
+            const center = centerOf(word.boundingBox);
+
+            words.push({
+              text,
+              x: Math.round(center.x),
+              y: Math.round(center.y),
+              confidence:
+                typeof word.confidence === "number"
+                  ? word.confidence
+                  : null,
+              vertices: getVertices(word.boundingBox)
+            });
+          }
+        }
+      }
+    }
+
+    return words;
+  }
+
+  function displayWordBoxes(words) {
+    if (!words.length) {
+      wordBoxes.textContent =
+        "Word bounding box 데이터 없음";
+      return;
+    }
+
+    const lines = words
+      .sort((a, b) => {
+        if (Math.abs(a.y - b.y) < 10) {
+          return a.x - b.x;
+        }
+        return a.y - b.y;
+      })
+      .map((w, i) => {
+        const conf =
+          w.confidence == null
+            ? ""
+            : ` conf=${w.confidence.toFixed(3)}`;
+
+        return (
+          `${String(i + 1).padStart(3, "0")} ` +
+          `x=${w.x} y=${w.y}${conf}  ${w.text}`
+        );
+      });
+
+    wordBoxes.textContent = lines.join("\n");
+  }
+
+  /*
+    현재 단계의 구조화는 "Google이 실제로 무엇을 읽는지"
+    확인하기 위한 보수적 테스트다.
+
+    아직 사진별 정확한 열 경계값을 하드코딩하지 않는다.
+    API 실측 성공 후 bounding box를 기준으로
+    35행/사진2 행 좌표를 확정한다.
+  */
+  function buildPreliminaryRows(words, type) {
+    if (type === "photo1") {
+      return buildPhoto1Preview(words);
+    }
+
+    return buildPhoto2Preview(words);
+  }
+
+  function buildPhoto1Preview(words) {
+    /*
+      장비명을 기준점(anchor)으로 사용해
+      근처 Y좌표의 숫자/상태 후보를 보여준다.
+      최종 열 좌표 확정 전 진단용.
+    */
+
+    const anchors = [];
+
+    for (const equipment of PHOTO1_EQUIPMENT) {
+      const compactTarget =
+        equipment.replace(/\s+/g, "").toUpperCase();
+
+      const hit = words.find(w => {
+        const compact =
+          w.text.replace(/\s+/g, "").toUpperCase();
+
+        return (
+          compact === compactTarget ||
+          compact.includes(compactTarget) ||
+          compactTarget.includes(compact)
+        );
+      });
+
+      if (hit) {
+        anchors.push({
+          equipment,
+          y: hit.y
+        });
+      }
+    }
+
+    const rows = anchors.map((anchor, index) => {
+      const near = words.filter(w =>
+        Math.abs(w.y - anchor.y) <= 18
+      );
+
+      const states = near
+        .map(w => normalizeState(w.text))
+        .filter(Boolean);
+
+      const numbers = near
+        .map(w => w.text.replace(/[^\d]/g, ""))
+        .filter(v =>
+          /^\d{2,4}$/.test(v)
+        )
+        .map(Number)
+        .filter(v =>
+          v >= 0 && v <= 3000
+        );
+
+      return {
+        row: index + 1,
+        equipment: anchor.equipment,
+        temperature:
+          numbers.length
+            ? numbers.join(" / ")
+            : "",
+        state:
+          [...new Set(states)].join(" / "),
+        operationNumber: "",
+        operation: ""
+      };
+    });
+
+    return rows;
+  }
+
+  function buildPhoto2Preview(words) {
+    const numberRegex = /^26[-–—]\d{1,3}$/;
+
+    const operationNumbers =
+      words.filter(w =>
+        numberRegex.test(
+          w.text.replace(/\s+/g, "")
+        )
+      );
+
+    return operationNumbers.map((num, index) => {
+      const near = words.filter(w =>
+        Math.abs(w.y - num.y) <= 20
+      );
+
+      const operation = near.find(w =>
+        /가동|냉각|준비|수리/.test(w.text)
+      );
+
+      const equipment = near
+        .filter(w => w.x > num.x)
+        .sort((a, b) => a.x - b.x)
+        .find(w =>
+          !numberRegex.test(w.text) &&
+          !/가동|냉각|준비|수리/.test(w.text)
+        );
+
+      return {
+        row: index + 1,
+        equipment: equipment?.text || "",
+        temperature: "",
+        state: "",
+        operationNumber: num.text,
+        operation: operation?.text || ""
+      };
+    });
+  }
+
+  function renderRows(rows, type) {
+    resultBody.innerHTML = "";
+
+    if (!rows.length) {
+      summary.innerHTML =
+        `<span class="warn">구조화 후보 0개</span><br>` +
+        `RAW OCR과 Bounding Box부터 확인하세요.`;
+      return;
+    }
+
+    for (const row of rows) {
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>${escapeHtml(row.row)}</td>
+        <td>${escapeHtml(row.equipment)}</td>
+        <td>${escapeHtml(row.temperature)}</td>
+        <td>${escapeHtml(row.state)}</td>
+        <td>${escapeHtml(row.operationNumber)}</td>
+        <td>${escapeHtml(row.operation)}</td>
+      `;
+
+      resultBody.appendChild(tr);
+    }
+
+    if (type === "photo1") {
+      const tempCount =
+        rows.filter(r => r.temperature).length;
+
+      const stateCount =
+        rows.filter(r => r.state).length;
+
+      summary.innerHTML =
+        `<span class="good">사진1 OCR 성공</span><br>` +
+        `장비 anchor ${rows.length}개 · ` +
+        `온도 후보 ${tempCount}개 · ` +
+        `상태 후보 ${stateCount}개`;
+    } else {
+      summary.innerHTML =
+        `<span class="good">사진2 OCR 성공</span><br>` +
+        `26-XXX 후보 ${rows.length}개`;
+    }
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  runBtn.addEventListener("click", async () => {
+    const key = apiKey.value.trim();
+
+    if (!key) {
+      setStatus("Google API Key가 없습니다.", "err");
+      return;
+    }
+
+    if (!selectedFile) {
+      setStatus("사진을 선택해주세요.", "err");
+      return;
+    }
+
+    runBtn.disabled = true;
+
+    fullText.textContent = "분석 중...";
+    wordBoxes.textContent = "분석 중...";
+    rawJson.textContent = "분석 중...";
+    resultBody.innerHTML = "";
+    summary.textContent = "Google Vision 호출 중...";
+
+    const started = performance.now();
+
+    try {
+      setStatus(
+        "Google Cloud Vision 호출 중...\n" +
+        "DOCUMENT_TEXT_DETECTION"
+      );
+
+      const base64 = await fileToBase64(selectedFile);
+
+      const requestBody = {
+        requests: [
+          {
+            image: {
+              content: base64
+            },
+            features: [
+              {
+                type: "DOCUMENT_TEXT_DETECTION",
+                maxResults: 1
+              }
+            ],
+            imageContext: {
+              languageHints: ["ko", "en"]
+            }
+          }
+        ]
+      };
+
+      const endpoint =
+        "https://vision.googleapis.com/v1/images:annotate?key=" +
+        encodeURIComponent(key);
+
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      const json = await res.json();
+
+      if (!res.ok) {
+        const message =
+          json?.error?.message ||
+          `HTTP ${res.status}`;
+
+        throw new Error(message);
+      }
+
+      const response = json?.responses?.[0];
+
+      if (!response) {
+        throw new Error(
+          "Google 응답에 responses[0]이 없습니다."
+        );
+      }
+
+      if (response.error) {
+        throw new Error(
+          response.error.message ||
+          "Google Vision 처리 오류"
+        );
+      }
+
+      const text =
+        response?.fullTextAnnotation?.text ||
+        response?.textAnnotations?.[0]?.description ||
+        "";
+
+      const words = extractWords(response);
+
+      const type = photoType.value;
+
+      const rows =
+        buildPreliminaryRows(words, type);
+
+      fullText.textContent =
+        text || "(OCR 텍스트 없음)";
+
+      displayWordBoxes(words);
+
+      rawJson.textContent =
+        JSON.stringify(json, null, 2);
+
+      renderRows(rows, type);
+
+      const elapsed =
+        Math.round(performance.now() - started);
+
+      const saved = {
+        savedAt: new Date().toISOString(),
+        photoType: type,
+        elapsed,
+        text,
+        words,
+        rows
+      };
+
+      localStorage.setItem(
+        RESULT_KEY,
+        JSON.stringify(saved)
+      );
+
+      setStatus(
+        `Google Vision 성공 · ${elapsed}ms\n` +
+        `OCR 단어 ${words.length}개\n` +
+        `결과 자동저장 완료`,
+        "ok"
+      );
+
+    } catch (error) {
+      console.error(error);
+
+      const message =
+        error?.message ||
+        String(error);
+
+      setStatus(
+        "Google Vision 실패\n" + message,
+        "err"
+      );
+
+      fullText.textContent =
+        "실패: " + message;
+
+      summary.innerHTML =
+        `<span class="warn">분석 실패</span>`;
+
+    } finally {
+      runBtn.disabled = false;
+    }
+  });
+
+  /*
+    이전 결과 복원
+  */
+  try {
+    const previous =
+      JSON.parse(
+        localStorage.getItem(RESULT_KEY) || "null"
+      );
+
+    if (previous) {
+      fullText.textContent =
+        previous.text || "저장된 OCR 텍스트 없음";
+
+      if (Array.isArray(previous.words)) {
+        displayWordBoxes(previous.words);
+      }
+
+      if (Array.isArray(previous.rows)) {
+        renderRows(
+          previous.rows,
+          previous.photoType || "photo1"
+        );
+      }
+
+      statusBox.textContent =
+        "이전 테스트 결과 복원됨\n" +
+        (previous.savedAt || "");
+    }
+  } catch (e) {
+    console.warn(
+      "이전 결과 복원 실패",
+      e
+    );
+  }
+
+  updateButton();
+})();
+</script>
+
+</body>
+</html>
