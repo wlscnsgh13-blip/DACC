@@ -39,6 +39,8 @@
 <div id="finalResult" class="final">사진 2장을 분석하면 자동 병합됩니다.</div><button class="btn copy" id="copyBtn" disabled>결과 전체 복사</button></section>
 
 <section class="card"><div class="step">STEP 6 · OCR 진단</div><div class="title">Google 전체 OCR</div>
+<button class="btn copy" id="saveRawBtn" disabled>Raw JSON 파일 저장</button>
+<div class="small">분석 완료 후 버튼을 누르면 순찰일지 + 교대업무일지의 Google Vision 원본 응답을 하나의 JSON 파일로 저장합니다. 이 파일만 ChatGPT에 첨부하면 됩니다.</div>
 <details><summary>순찰일지 전체 OCR</summary><div id="full1" class="raw">대기</div><button class="btn copy dbg" data-id="full1">순찰일지 OCR 전체 복사</button></details>
 <details><summary>교대업무일지 전체 OCR</summary><div id="full2" class="raw">대기</div><button class="btn copy dbg" data-id="full2">교대일지 OCR 전체 복사</button></details>
 <details><summary>순찰일지 Bounding Box</summary><div id="box1" class="raw">대기</div><button class="btn copy dbg" data-id="box1">순찰 Bounding Box 전체 복사</button></details>
@@ -53,7 +55,7 @@
 const $=id=>document.getElementById(id);
 const KEY="dacc_google_vision_api_key", FINAL="dacc_google_final_result_v13";
 const apiKey=$("apiKey"),patrolInput=$("patrolInput"),shiftInput=$("shiftInput"),runBtn=$("runBtn"),copyBtn=$("copyBtn");
-let patrolFile=null,shiftFile=null,finalText="",u1="",u2="";
+let patrolFile=null,shiftFile=null,finalText="",u1="",u2="",rawPatrol=null,rawShift=null;
 
 const EQ=[
 [1,"TG2","TG2호기"],[2,"TG3","TG3호기"],[3,"TG4","TG4호기"],[4,"TG5","TG5호기"],[5,"TG6","TG6호기"],[6,"TG7","TG7호기"],
@@ -260,9 +262,28 @@ async function copyText(text,btn){if(!text||text==="대기"||text==="분석 중.
 copyBtn.onclick=()=>copyText(finalText,copyBtn);
 document.querySelectorAll(".dbg").forEach(b=>b.onclick=()=>copyText($(b.dataset.id).textContent,b));
 
+function saveRawJson(){
+ if(!rawPatrol||!rawShift)return;
+ const payload={
+  exportedAt:new Date().toISOString(),
+  patrol:{fileName:patrolFile?.name||"",visionResponse:rawPatrol},
+  shift:{fileName:shiftFile?.name||"",visionResponse:rawShift}
+ };
+ const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json;charset=utf-8"});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;
+ a.download="DACC_Vision_RAW_JSON.json";
+ document.body.appendChild(a);
+ a.click();
+ a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+$("saveRawBtn").onclick=saveRawJson;
+
 runBtn.onclick=async()=>{
  let key=apiKey.value.trim();if(!key||!patrolFile||!shiftFile)return;
- runBtn.disabled=true;copyBtn.disabled=true;finalText="";$("body1").innerHTML="";$("body2").innerHTML="";$("sum1").textContent="분석 중...";$("sum2").textContent="대기 중...";$("finalResult").textContent="분석 중...";$("full1").textContent="분석 중...";$("box1").textContent="분석 중...";$("rawJson1").textContent="분석 중...";$("rawJson2").textContent="대기";
+ runBtn.disabled=true;copyBtn.disabled=true;$("saveRawBtn").disabled=true;rawPatrol=null;rawShift=null;finalText="";$("body1").innerHTML="";$("body2").innerHTML="";$("sum1").textContent="분석 중...";$("sum2").textContent="대기 중...";$("finalResult").textContent="분석 중...";$("full1").textContent="분석 중...";$("box1").textContent="분석 중...";$("rawJson1").textContent="분석 중...";$("rawJson2").textContent="대기";
  let t=performance.now();
  try{
   setStatus("사진1/2 순찰일지 Google Vision 분석 중...");let p=await vision(patrolFile,key);
