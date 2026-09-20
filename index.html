@@ -721,7 +721,7 @@ button {
         style="width:100%;padding:12px;border:1px solid #d8deea;border-radius:12px;background:#fff">
     </div>
     <button type="button" class="primary" id="visionCompareBtn" style="margin-top:10px">
-      Ling 구조개선 테스트 16
+      Ling 구조개선 테스트 17
     </button>
     <div id="visionTestStatus"
       style="margin-top:12px;white-space:pre-wrap;font-size:13px;line-height:1.55"></div>
@@ -5464,17 +5464,23 @@ async function daccAnalyzePatrolPhoto(
     );
 
 
+  /* 사진1은 Ling 실행 여부와 무관하게 검증된 production grid를 먼저 사용한다.
+     따라서 API 호출 없이 '분석 시작'만으로 35행/상태 OCR을 검증할 수 있다. */
   let grid =
-    daccLingTemperatures
-      ? daccFindPatrolProductionGrid(
-          lines,
-          canvas.height
-        )
-      : daccFindFixedGrid(
-          lines,
-          35,
-          canvas.height
-        );
+    daccFindPatrolProductionGrid(
+      lines,
+      canvas.height
+    );
+
+  /* production grid가 정말 잡히지 않을 때만 기존 strict detector를 보조로 사용 */
+  if (!grid) {
+    grid =
+      daccFindFixedGrid(
+        lines,
+        35,
+        canvas.height
+      );
+  }
 
   /* Ling 온도 확보 후에도 기존 strict 35행 검출이 실패하는 사진을 위해
      사진1에만 relaxed fallback을 한 번 적용한다. */
