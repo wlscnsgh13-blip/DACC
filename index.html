@@ -721,7 +721,7 @@ button {
         style="width:100%;padding:12px;border:1px solid #d8deea;border-radius:12px;background:#fff">
     </div>
     <button type="button" class="primary" id="visionCompareBtn" style="margin-top:10px">
-      Ling 구조개선 테스트 17
+      Ling 구조개선 테스트 18
     </button>
     <div id="visionTestStatus"
       style="margin-top:12px;white-space:pre-wrap;font-size:13px;line-height:1.55"></div>
@@ -3713,7 +3713,7 @@ function daccDeskewPatrolCanvas(canvas){
     ctx.fillStyle="#fff";
     ctx.fillRect(0,0,out.width,out.height);
     ctx.translate(out.width/2,out.height/2);
-    ctx.rotate(angle*Math.PI/180);
+    ctx.rotate(-angle*Math.PI/180);
     ctx.drawImage(canvas,-canvas.width/2,-canvas.height/2);
     return out;
   }finally{
@@ -5494,7 +5494,7 @@ async function daccAnalyzePatrolPhoto(
 
   if (!grid) {
     throw new Error(
-      "순찰일지 35행 표 인식 실패"
+      `순찰일지 35행 표 인식 실패 · 검출 가로선 ${lines.length}개 · 이미지 ${canvas.width}x${canvas.height}`
     );
   }
 
