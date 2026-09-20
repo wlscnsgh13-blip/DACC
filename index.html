@@ -721,7 +721,7 @@ button {
         style="width:100%;padding:12px;border:1px solid #d8deea;border-radius:12px;background:#fff">
     </div>
     <button type="button" class="primary" id="visionCompareBtn" style="margin-top:10px">
-      Ling 구조개선 테스트 18
+      상태 OCR 진단 테스트 19
     </button>
     <div id="visionTestStatus"
       style="margin-top:12px;white-space:pre-wrap;font-size:13px;line-height:1.55"></div>
@@ -5045,6 +5045,8 @@ async function daccAnalyzeNumberPhoto(
    장비명은 고정 35행 매핑으로 사용.
 ========================================================= */
 
+let daccStateDebug=[];
+
 const PATROL_COLUMNS = {
   /*
     FIXED 13
@@ -5263,6 +5265,18 @@ async function daccReadPatrolRow(
     await daccReadState(
       stateCell
     );
+
+  daccStateDebug.push({
+    equipment,
+    rowNumber,
+    crop:`${stateCell.width}x${stateCell.height}`,
+    parsed:stateResult.state||"",
+    attempts:(stateResult.attempts||[]).map(a=>({
+      text:String(a.text||"").replace(/\s+/g," ").trim(),
+      state:a.state||"",
+      confidence:Number(a.confidence||0).toFixed(0)
+    }))
+  });
 
 
   return {
@@ -7574,7 +7588,16 @@ function daccRenderResult(
     patrolStatus.textContent =
       `사진 1 · 고정행 35 · ` +
       `온도 ${validation.patrolCount.temperatureCount} · ` +
-      `상태 ${validation.patrolCount.stateCount}`;
+      `상태 ${validation.patrolCount.stateCount}` +
+      (daccStateDebug.length
+        ? `\n상태 OCR RAW · ` +
+          daccStateDebug.map(v=>{
+            const best=(v.attempts||[])
+              .map(a=>`${a.text||"∅"}(${a.confidence})`)
+              .join("/");
+            return `${v.equipment}:${best||"∅"}→${v.parsed||"?"}`;
+          }).join(" | ")
+        : "");
   }
 
 
