@@ -10,7 +10,7 @@
 </style>
 </head>
 <body><div class="wrap">
-<h1>DACC · Google Vision TEST v13 FIX3</h1>
+<h1>DACC · Google Vision TEST v13 FIX4</h1>
 <div class="sub">모바일 전용 · 순찰일지의 표 열(Column)을 기준으로 온도/상태를 연결하고, 교대업무일지의 장비명 행과 가동번호 행 기울기를 각각 보정합니다.</div>
 
 <section class="card"><div class="step">STEP 1 · API</div><div class="title">Google Cloud Vision</div>
@@ -170,46 +170,112 @@ function bounds(model,row){
 }
 
 function buildPhoto1(ws){
- let anchors=makeColumns(ws);if(!anchors.length)return[];
- let model=buildColumnModel(ws,anchors);
- let numeric=ws.map(w=>{let raw=String(w.text||"").trim();if(!raw||/26\s*[-–—−]\s*\d+/.test(raw)||/[:/.]/.test(raw))return null;let s=raw.replace(/[^\d]/g,"");if(!/^\d{1,4}$/.test(s))return null;let v=+s;if(v<20||v>1500)return null;return{v,x:w.x,y:w.y}}).filter(Boolean);
+ /* FIX4 핵심: 장비명 OCR을 열 기준으로 쓰지 않는다.
+    실제 Bounding Box에서 1~35 번호행이 가장 안정적이므로 번호행을 Column Master로 사용한다. */
+ let rn=rowNumberColumns(ws);if(!rn)return[];
+ let centers=new Map;
+ for(const [n,v] of rn.map)centers.set(n,v.x);
 
- let bands=[];
- for(const v of [...numeric].sort((a,b)=>a.y-b.y)){let g=bands.find(g=>Math.abs(g.y-v.y)<=45);if(!g){g={y:v.y,a:[]};bands.push(g)}g.a.push(v);g.y=g.a.reduce((s,z)=>s+z.y,0)/g.a.length}
- bands=bands.map(g=>{let xs=g.a.map(z=>z.x),hi=g.a.filter(z=>z.v>=100).length,lo=g.a.length-hi,spread=xs.length?Math.max(...xs)-Math.min(...xs):0;return{...g,hi,spread,score:hi*12+g.a.length*2+spread/100-lo*3}}).filter(g=>g.a.length>=3&&g.hi>=2&&g.spread>=250).sort((a,b)=>b.score-a.score);
- let primary=bands[0],allowed=primary?bands.filter(g=>Math.abs(g.y-primary.y)<=110).slice(0,4):[];
+ /* 누락 번호(실데이터의 4,5,33,35 등)는 양옆 번호로 보간한다. */
+ let known=[...centers.keys()].sort((a,b)=>a-b);
+ let steps=[];
+ for(let i=1;i<known.length;i++){
+  let a=known[i-1],b=known[i],d=(centers.get(b)-centers.get(a))/(b-a);
+  if(d>40&&d<180)steps.push(d);
+ }
+ let step=med(steps)||100;
+ for(let row=1;row<=35;row++)if(!centers.has(row)){
+  let L=null,R=null;
+  for(let i=row-1;i>=1;i--)if(centers.has(i)){L=i;break}
+  for(let i=row+1;i<=35;i++)if(centers.has(i)){R=i;break}
+  if(L!=null&&R!=null)centers.set(row,centers.get(L)+(centers.get(R)-centers.get(L))*(row-L)/(R-L));
+  else if(L!=null)centers.set(row,centers.get(L)+(row-L)*step);
+  else if(R!=null)centers.set(row,centers.get(R)-(R-row)*step);
+ }
+ let model={centers,eqY:rn.y};
 
- let tempFit=primary?lineFit(primary.a.map(z=>({x:z.y,y:z.x})).map(z=>({x:z.y,y:z.x}))):null;
- function fitYofX(a){if(a.length<2)return null;let n=a.length,sx=0,sy=0,sxx=0,sxy=0;for(const p of a){sx+=p.x;sy+=p.y;sxx+=p.x*p.x;sxy+=p.x*p.y}let d=n*sxx-sx*sx;if(!d)return null;let A=(n*sxy-sx*sy)/d;return{a:A,b:(sy-A*sx)/n}}
- let yfit=primary?fitYofX(primary.a):null;
+ function fitYofX(a){
+  if(a.length<2)return null;let n=a.length,sx=0,sy=0,sxx=0,sxy=0;
+  for(const p of a){sx+=p.x;sy+=p.y;sxx+=p.x*p.x;sxy+=p.x*p.y}
+  let d=n*sxx-sx*sx;if(Math.abs(d)<1e-9)return null;
+  let A=(n*sxy-sx*sy)/d;return{a:A,b:(sy-A*sx)/n}
+ }
+
+ /* FIX4: 온도 band를 숫자 밀집도로 추측하지 않는다.
+    실제 순찰일지의 '온도' 라벨을 먼저 찾고 그 Y 주변 숫자만 온도로 인정한다. */
+ let tempLabels=ws.filter(w=>compact(w.text).includes("온도"));
+ let tempLabel=tempLabels.length?[...tempLabels].sort((a,b)=>b.y-a.y)[0]:null;
+ let numeric=ws.map(w=>{
+  let raw=String(w.text||"").trim();
+  if(!raw||/26\s*[-–—−]\s*\d+/.test(raw)||/[:/.]/.test(raw))return null;
+  if(!/^\d{1,4}$/.test(raw))return null;
+  let v=+raw;if(v<20||v>1500)return null;
+  return{v,x:w.x,y:w.y};
+ }).filter(Boolean);
+
+ let tempPool=[];
+ if(tempLabel){
+  /* 실데이터: 온도 label y=1507, 실제 온도는 약 y=1470~1520. */
+  tempPool=numeric.filter(z=>Math.abs(z.y-tempLabel.y)<=95);
+ }
+ if(tempPool.length<5){
+  /* 라벨 OCR 실패 때만 fallback. 1~17 열에 넓게 퍼진 숫자 band를 찾는다. */
+  let bands=[];
+  for(const v of [...numeric].sort((a,b)=>a.y-b.y)){
+   let g=bands.find(g=>Math.abs(g.y-v.y)<=35);
+   if(!g){g={y:v.y,a:[]};bands.push(g)}g.a.push(v);g.y=med(g.a.map(z=>z.y));
+  }
+  let left=centers.get(1)-step,right=centers.get(17)+step;
+  bands=bands.map(g=>{
+   let a=g.a.filter(z=>z.x>=left&&z.x<=right),cols=new Set;
+   for(const z of a)for(let r=1;r<=17;r++){let b=bounds(model,r);if(b&&z.x>=b.left&&z.x<b.right){cols.add(r);break}}
+   return{...g,a,score:cols.size*20+a.length};
+  }).filter(g=>g.a.length>=5).sort((a,b)=>b.score-a.score);
+  tempPool=bands[0]?.a||[];
+ }
+ let yfit=fitYofX(tempPool);
 
  function temp(row){
   let b=bounds(model,row);if(!b)return"";
-  let cand=[];
-  for(const g of allowed)for(const z of g.a)if(z.x>=b.left&&z.x<b.right)cand.push(z);
-  if(!cand.length)return"";
-  cand.sort((a,b2)=>{
-   let ea=yfit?Math.abs(a.y-(yfit.a*a.x+yfit.b)):Math.abs(a.y-primary.y);
-   let eb=yfit?Math.abs(b2.y-(yfit.a*b2.x+yfit.b)):Math.abs(b2.y-primary.y);
-   return ea-eb||Math.abs(a.x-b.c)-Math.abs(b2.x-b.c)
+  let h=tempPool.filter(z=>z.x>=b.left&&z.x<b.right);
+  if(!h.length)return"";
+  h.sort((a,z)=>{
+   let ea=yfit?Math.abs(a.y-(yfit.a*a.x+yfit.b)):0;
+   let ez=yfit?Math.abs(z.y-(yfit.a*z.x+yfit.b)):0;
+   return ea-ez||Math.abs(a.x-b.c)-Math.abs(z.x-b.c);
   });
-  return cand[0].v
+  return h[0].v;
  }
 
+ /* 상태는 인식과 출력 필터를 분리. 1~17만 귀속하며 24/25의 '냉각' 설명은 절대 상태로 쓰지 않는다. */
  let sw=ws.map(w=>{let s=state(w.text);return s?{s,x:w.x,y:w.y}:null}).filter(Boolean);
- let syfit=fitYofX(sw);
- function st(row){
-  if(row < 1 || row > 17) return "";
-  let b=bounds(model,row);if(!b)return"";
-  let h=sw.filter(z=>z.x>=b.left&&z.x<b.right);
-  if(!h.length)return"";
-  h.sort((a,b2)=>{
-   let ea=syfit?Math.abs(a.y-(syfit.a*a.x+syfit.b)):0,eb=syfit?Math.abs(b2.y-(syfit.a*b2.x+syfit.b)):0;
-   return ea-eb||Math.abs(a.x-b.c)-Math.abs(b2.x-b.c)
-  });
-  return h[0].s
+ let stateBands=[];
+ for(const z of [...sw].sort((a,b)=>a.y-b.y)){
+  let g=stateBands.find(g=>Math.abs(g.y-z.y)<=70);
+  if(!g){g={y:z.y,a:[]};stateBands.push(g)}g.a.push(z);g.y=med(g.a.map(v=>v.y));
  }
- return EQ.map(e=>({row:e.row,key:e.key,equipment:e.name,temperature:temp(e.row),state:st(e.row),reconstructed:!anchors.some(a=>a.row===e.row&&!a.reconstructed)}))
+ /* 장비 표 상단부에서 여러 상태가 함께 검출된 band만 사용 */
+ let sb=stateBands.filter(g=>g.a.length>=3&&g.y<rn.y-300).sort((a,b)=>b.a.length-a.a.length)[0];
+ let statePool=sb?sb.a:[];
+ let syfit=fitYofX(statePool);
+ function st(row){
+  if(row<1||row>17||!statePool.length)return"";
+  let b=bounds(model,row);if(!b)return"";
+  /* 상태행은 원근 때문에 번호행보다 좌우 폭을 조금 넓게 허용하되 인접열 중앙을 넘기지 않는다. */
+  let h=statePool.filter(z=>z.x>=b.left&&z.x<b.right);
+  if(!h.length)return"";
+  h.sort((a,z)=>{
+   let ea=syfit?Math.abs(a.y-(syfit.a*a.x+syfit.b)):0,ez=syfit?Math.abs(z.y-(syfit.a*z.x+syfit.b)):0;
+   return ea-ez||Math.abs(a.x-b.c)-Math.abs(z.x-b.c);
+  });
+  return h[0].s;
+ }
+
+ return EQ.map(e=>({
+  row:e.row,key:e.key,equipment:e.name,
+  temperature:temp(e.row),state:st(e.row),
+  reconstructed:!rn.map.has(e.row)
+ }));
 }
 
 function buildPhoto2(ws){
