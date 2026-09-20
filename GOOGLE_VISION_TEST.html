@@ -12,21 +12,15 @@
       margin: 0; background: #070b14; color: #f8fafc;
       font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
     }
-    button, input, select { font: inherit; }
+    button, input { font: inherit; }
     .wrap { width: 100%; max-width: 760px; margin: 0 auto; padding: 24px 16px 80px; }
     h1 { margin: 0; font-size: 27px; letter-spacing: -0.8px; }
     .sub { color: #94a3b8; margin-top: 8px; line-height: 1.55; font-size: 14px; }
-    .card {
-      margin-top: 18px; padding: 18px; border-radius: 22px;
-      background: #0d1423; border: 1px solid #26344c;
-    }
-    .step {
-      display: inline-flex; padding: 6px 11px; border: 1px solid #334155;
-      border-radius: 999px; color: #94a3b8; font-size: 12px; margin-bottom: 14px;
-    }
+    .card { margin-top: 18px; padding: 18px; border-radius: 22px; background: #0d1423; border: 1px solid #26344c; }
+    .step { display: inline-flex; padding: 6px 11px; border: 1px solid #334155; border-radius: 999px; color: #94a3b8; font-size: 12px; margin-bottom: 14px; }
     .title { font-size: 20px; font-weight: 800; margin-bottom: 14px; }
     label { display: block; color: #a8b4c8; font-size: 14px; margin: 14px 0 7px; }
-    input[type="password"], select {
+    input[type="password"] {
       width: 100%; min-height: 54px; border-radius: 15px; border: 1px solid #334155;
       background: #080e18; color: white; padding: 0 14px; outline: none;
     }
@@ -37,30 +31,35 @@
     }
     .btn:disabled { opacity: .42; }
     .btn.secondary { background: #172033; border: 1px solid #334155; }
-    .btn.copy { background: #16a34a; }
+    .btn.copy { background: #6d5dfc; }
     .status {
       margin-top: 14px; padding: 13px 14px; border-radius: 14px; background: #080e18;
-      border: 1px solid #1e293b; color: #cbd5e1; white-space: pre-wrap;
-      line-height: 1.5; font-size: 14px;
+      border: 1px solid #1e293b; color: #cbd5e1; white-space: pre-wrap; line-height: 1.5; font-size: 14px;
     }
     .status.ok { border-color: #166534; color: #86efac; }
     .status.err { border-color: #7f1d1d; color: #fca5a5; }
-    .preview {
-      display: none; width: 100%; margin-top: 14px; border-radius: 16px;
-      border: 1px solid #334155;
+    .uploadBox {
+      margin-top: 14px; padding: 14px; border: 1px solid #253044; border-radius: 16px; background: #080e18;
     }
+    .uploadTitle { font-weight: 800; font-size: 15px; }
+    .previewGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+    .previewItem { display: none; }
+    .previewItem.show { display: block; }
+    .previewLabel { margin-bottom: 7px; color: #94a3b8; font-size: 12px; }
+    .preview { width: 100%; border-radius: 14px; border: 1px solid #334155; display: block; }
     .resultTable { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; min-width: 650px; }
-    .resultTable th, .resultTable td {
-      border-bottom: 1px solid #253044; padding: 10px 6px; text-align: left; vertical-align: top;
-    }
+    .resultTable th, .resultTable td { border-bottom: 1px solid #253044; padding: 10px 6px; text-align: left; vertical-align: top; }
     .resultTable th { color: #94a3b8; font-weight: 600; }
     .raw, .finalBox {
       margin-top: 12px; background: #050911; border: 1px solid #253044; border-radius: 14px;
       padding: 13px; color: #dbeafe; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 12px; line-height: 1.5; max-height: 420px; overflow: auto;
-      white-space: pre-wrap; word-break: break-word;
+      font-size: 12px; line-height: 1.5; max-height: 420px; overflow: auto; white-space: pre-wrap; word-break: break-word;
     }
-    .finalBox { border-color: #334155; color: #e2e8f0; font-size: 13px; line-height: 1.7; }
+    .finalBox { border-color: #334155; color: #e2e8f0; font-size: 13px; line-height: 1.7; max-height: none; }
+    .detectBox {
+      margin-top: 12px; padding: 12px; border-radius: 14px; background: #080e18;
+      border: 1px solid #253044; color: #cbd5e1; font-size: 13px; line-height: 1.6; white-space: pre-wrap;
+    }
     details { margin-top: 14px; }
     summary { cursor: pointer; color: #a5b4fc; font-weight: 700; }
     .warn { color: #fbbf24; }
@@ -73,8 +72,8 @@
 <div class="wrap">
   <h1>DACC · Google Vision TEST</h1>
   <div class="sub">
-    사진1 순찰일지 + 사진2 교대업무일지를 장비명 기준으로 결합합니다.
-    온도/상태/가동번호는 현재 사진 OCR값만 사용합니다.
+    순찰일지와 교대업무일지를 각각 1장씩 선택하고 한 번에 분석합니다.
+    사진1에서 온도/상태, 사진2에서 장비가동번호를 읽어 장비명 기준으로 병합합니다.
   </div>
 
   <section class="card">
@@ -87,45 +86,76 @@
   </section>
 
   <section class="card">
-    <div class="step">STEP 2 · 사진</div>
-    <div class="title">실측 이미지 선택</div>
-    <label for="photoType">사진 종류</label>
-    <select id="photoType">
-      <option value="photo1">사진1 · 순찰일지</option>
-      <option value="photo2">사진2 · 교대업무일지</option>
-    </select>
-    <label for="imageInput">원본 사진</label>
-    <input id="imageInput" type="file" accept="image/*" />
-    <img id="preview" class="preview" alt="preview" />
-    <button class="btn" id="runBtn" disabled>Google Vision 분석 시작</button>
-    <div id="status" class="status">API Key와 사진을 준비해주세요.</div>
+    <div class="step">STEP 2 · 사진 2장</div>
+    <div class="title">순찰일지 + 교대업무일지</div>
+
+    <div class="uploadBox">
+      <div class="uploadTitle">사진1 · 순찰일지</div>
+      <label for="patrolInput">온도 / 상태가 적힌 순찰일지</label>
+      <input id="patrolInput" type="file" accept="image/*" />
+    </div>
+
+    <div class="uploadBox">
+      <div class="uploadTitle">사진2 · 교대업무일지</div>
+      <label for="shiftInput">26-XXX / 가동이 적힌 교대업무일지</label>
+      <input id="shiftInput" type="file" accept="image/*" />
+    </div>
+
+    <div class="previewGrid">
+      <div id="previewItem1" class="previewItem">
+        <div id="previewLabel1" class="previewLabel">사진1 · 순찰일지</div>
+        <img id="preview1" class="preview" alt="순찰일지 미리보기" />
+      </div>
+      <div id="previewItem2" class="previewItem">
+        <div id="previewLabel2" class="previewLabel">사진2 · 교대업무일지</div>
+        <img id="preview2" class="preview" alt="교대업무일지 미리보기" />
+      </div>
+    </div>
+
+    <button class="btn" id="runBtn" disabled>사진 2장 분석 시작</button>
+
+    <div id="status" class="status">API Key와 사진 2장을 준비해주세요.</div>
+    <div id="detectResult" class="detectBox">사진1 = 순찰일지 / 사진2 = 교대업무일지</div>
   </section>
 
   <section class="card">
-    <div class="step">STEP 3 · 구조화 결과</div>
-    <div class="title">DACC 추출 테스트</div>
-    <div id="summary">아직 분석 결과가 없습니다.</div>
+    <div class="step">STEP 3 · 순찰일지</div>
+    <div class="title">온도 · 상태 추출</div>
+    <div id="photo1Summary">아직 분석 결과가 없습니다.</div>
     <div style="overflow-x:auto">
       <table class="resultTable">
-        <thead><tr><th>#</th><th>장비</th><th>온도</th><th>상태</th><th>26-XXX</th><th>가동</th></tr></thead>
-        <tbody id="resultBody"></tbody>
+        <thead><tr><th>#</th><th>장비</th><th>온도</th><th>상태</th></tr></thead>
+        <tbody id="photo1Body"></tbody>
       </table>
     </div>
   </section>
 
   <section class="card">
-    <div class="step">STEP 4 · 최종 병합</div>
-    <div class="title">문자보고용 장비 결과</div>
-    <div id="finalResult" class="finalBox">사진1과 사진2를 각각 분석하면 자동 병합됩니다.</div>
-    <button class="btn copy" id="copyBtn">최종 결과 복사</button>
+    <div class="step">STEP 4 · 교대업무일지</div>
+    <div class="title">장비가동번호 추출</div>
+    <div id="photo2Summary">아직 분석 결과가 없습니다.</div>
+    <div style="overflow-x:auto">
+      <table class="resultTable">
+        <thead><tr><th>#</th><th>장비</th><th>26-XXX</th><th>가동</th></tr></thead>
+        <tbody id="photo2Body"></tbody>
+      </table>
+    </div>
   </section>
 
   <section class="card">
-    <div class="step">STEP 5 · OCR</div>
+    <div class="step">STEP 5 · 최종 병합</div>
+    <div class="title">장비가동번호 · 장비명 · 온도 · 상태</div>
+    <div id="finalResult" class="finalBox">사진 2장을 분석하면 자동 병합됩니다.</div>
+    <button class="btn copy" id="copyBtn" disabled>결과 전체 복사</button>
+  </section>
+
+  <section class="card">
+    <div class="step">STEP 6 · OCR 진단</div>
     <div class="title">Google 전체 OCR</div>
-    <div id="fullText" class="raw">대기</div>
-    <details><summary>단어 + Bounding Box 보기</summary><div id="wordBoxes" class="raw">대기</div></details>
-    <details><summary>Google RAW JSON 보기</summary><div id="rawJson" class="raw">대기</div></details>
+    <details><summary>순찰일지 전체 OCR</summary><div id="photo1FullText" class="raw">대기</div></details>
+    <details><summary>교대업무일지 전체 OCR</summary><div id="photo2FullText" class="raw">대기</div></details>
+    <details><summary>순찰일지 Bounding Box</summary><div id="photo1Boxes" class="raw">대기</div></details>
+    <details><summary>교대업무일지 Bounding Box</summary><div id="photo2Boxes" class="raw">대기</div></details>
   </section>
 </div>
 
@@ -134,45 +164,77 @@
   "use strict";
 
   const API_KEY_STORAGE = "dacc_google_vision_api_key";
-  const PHOTO1_STORAGE = "dacc_google_photo1_result_v7";
-  const PHOTO2_STORAGE = "dacc_google_photo2_result_v7";
+  const FINAL_STORAGE = "dacc_google_final_result_v8";
 
   const apiKey = document.getElementById("apiKey");
-  const photoType = document.getElementById("photoType");
-  const imageInput = document.getElementById("imageInput");
-  const preview = document.getElementById("preview");
+  const patrolInput = document.getElementById("patrolInput");
+  const shiftInput = document.getElementById("shiftInput");
   const runBtn = document.getElementById("runBtn");
-  const statusBox = document.getElementById("status");
-  const fullText = document.getElementById("fullText");
-  const wordBoxes = document.getElementById("wordBoxes");
-  const rawJson = document.getElementById("rawJson");
-  const resultBody = document.getElementById("resultBody");
-  const summary = document.getElementById("summary");
-  const finalResult = document.getElementById("finalResult");
-  const clearKeyBtn = document.getElementById("clearKeyBtn");
   const copyBtn = document.getElementById("copyBtn");
+  const clearKeyBtn = document.getElementById("clearKeyBtn");
+  const statusBox = document.getElementById("status");
+  const detectResult = document.getElementById("detectResult");
 
-  let selectedFile = null;
+  const previewItem1 = document.getElementById("previewItem1");
+  const previewItem2 = document.getElementById("previewItem2");
+  const preview1 = document.getElementById("preview1");
+  const preview2 = document.getElementById("preview2");
+  const previewLabel1 = document.getElementById("previewLabel1");
+  const previewLabel2 = document.getElementById("previewLabel2");
+
+  const photo1Summary = document.getElementById("photo1Summary");
+  const photo2Summary = document.getElementById("photo2Summary");
+  const photo1Body = document.getElementById("photo1Body");
+  const photo2Body = document.getElementById("photo2Body");
+  const finalResult = document.getElementById("finalResult");
+
+  const photo1FullText = document.getElementById("photo1FullText");
+  const photo2FullText = document.getElementById("photo2FullText");
+  const photo1Boxes = document.getElementById("photo1Boxes");
+  const photo2Boxes = document.getElementById("photo2Boxes");
+
+  let patrolFile = null;
+  let shiftFile = null;
+  let finalText = "";
+  let patrolPreviewUrl = "";
+  let shiftPreviewUrl = "";
 
   const EQUIPMENT = [
-    { row:1,key:"TG2",name:"TG2호기" }, { row:2,key:"TG3",name:"TG3호기" },
-    { row:3,key:"TG4",name:"TG4호기" }, { row:4,key:"TG5",name:"TG5호기" },
-    { row:5,key:"TG6",name:"TG6호기" }, { row:6,key:"TG7",name:"TG7호기" },
-    { row:7,key:"GF1",name:"GF1" }, { row:8,key:"GF3",name:"GF3" },
-    { row:9,key:"GF4",name:"GF4" }, { row:10,key:"GF5",name:"GF5" },
-    { row:11,key:"SMI",name:"SMI" }, { row:12,key:"CF1",name:"CF1" },
-    { row:13,key:"CF2",name:"CF2" }, { row:14,key:"CF3",name:"CF3" },
-    { row:15,key:"CF4",name:"CF4" }, { row:16,key:"CF5",name:"CF5" },
-    { row:17,key:"CF6",name:"CF6" }, { row:18,key:"CF분위기로",name:"CF분위기로" },
-    { row:19,key:"드라이챔버",name:"드라이챔버" }, { row:20,key:"신형드라이챔버",name:"신형 드라이챔버" },
-    { row:21,key:"누액감지기",name:"유해화학물질 누액 감지기" }, { row:22,key:"세정집진기",name:"세정집진기" },
-    { row:23,key:"백필터",name:"백필터" }, { row:24,key:"냉각탑",name:"생산동 메인 냉각탑" },
-    { row:25,key:"냉각수펌프",name:"생산동 메인 냉각수펌프" }, { row:26,key:"소각기1",name:"공정 폐가스 소각기(1동)" },
-    { row:27,key:"소각기3",name:"공정 폐가스 소각기(3동)" }, { row:28,key:"HIP1",name:"HIP-1" },
-    { row:29,key:"HIP2",name:"HIP-2" }, { row:30,key:"HIP3",name:"HIP-3" },
-    { row:31,key:"환풍기",name:"생산동 천장 환풍기" }, { row:32,key:"SICCVD",name:"SIC-CVD" },
-    { row:33,key:"SICLINE",name:"SIC LINE" }, { row:34,key:"자동차다이나모",name:"자동차 다이나모" },
-    { row:35,key:"전기다이나모",name:"전기 다이나모" }
+    { row: 1, key: "TG2", name: "TG2호기" },
+    { row: 2, key: "TG3", name: "TG3호기" },
+    { row: 3, key: "TG4", name: "TG4호기" },
+    { row: 4, key: "TG5", name: "TG5호기" },
+    { row: 5, key: "TG6", name: "TG6호기" },
+    { row: 6, key: "TG7", name: "TG7호기" },
+    { row: 7, key: "GF1", name: "GF1" },
+    { row: 8, key: "GF3", name: "GF3" },
+    { row: 9, key: "GF4", name: "GF4" },
+    { row: 10, key: "GF5", name: "GF5" },
+    { row: 11, key: "SMI", name: "SMI" },
+    { row: 12, key: "CF1", name: "CF1" },
+    { row: 13, key: "CF2", name: "CF2" },
+    { row: 14, key: "CF3", name: "CF3" },
+    { row: 15, key: "CF4", name: "CF4" },
+    { row: 16, key: "CF5", name: "CF5" },
+    { row: 17, key: "CF6", name: "CF6" },
+    { row: 18, key: "CF분위기로", name: "CF분위기로" },
+    { row: 19, key: "드라이챔버", name: "드라이챔버" },
+    { row: 20, key: "신형드라이챔버", name: "신형 드라이챔버" },
+    { row: 21, key: "누액감지기", name: "유해화학물질 누액 감지기" },
+    { row: 22, key: "세정집진기", name: "세정집진기" },
+    { row: 23, key: "백필터", name: "백필터" },
+    { row: 24, key: "냉각탑", name: "생산동 메인 냉각탑" },
+    { row: 25, key: "냉각수펌프", name: "생산동 메인 냉각수펌프" },
+    { row: 26, key: "소각기1", name: "공정 폐가스 소각기(1동)" },
+    { row: 27, key: "소각기3", name: "공정 폐가스 소각기(3동)" },
+    { row: 28, key: "HIP1", name: "HIP-1" },
+    { row: 29, key: "HIP2", name: "HIP-2" },
+    { row: 30, key: "HIP3", name: "HIP-3" },
+    { row: 31, key: "환풍기", name: "생산동 천장 환풍기" },
+    { row: 32, key: "SICCVD", name: "SIC-CVD" },
+    { row: 33, key: "SICLINE", name: "SIC LINE" },
+    { row: 34, key: "자동차다이나모", name: "자동차 다이나모" },
+    { row: 35, key: "전기다이나모", name: "전기 다이나모" }
   ];
 
   const SHIFT_EQUIPMENT = [
@@ -180,6 +242,20 @@
     "CF1","CF2","CF3","CF4","CF5","CF6",
     "GF1","GF3","GF4","GF5","HIP1","HIP2","HIP3","SMI"
   ];
+
+  const NO_OPERATION_NUMBER_KEYS = new Set([
+    "드라이챔버",
+    "신형드라이챔버",
+    "소각기1",
+    "소각기3"
+  ]);
+
+  const NO_STATE_KEYS = new Set([
+    "드라이챔버",
+    "신형드라이챔버",
+    "소각기1",
+    "소각기3"
+  ]);
 
   const savedKey = localStorage.getItem(API_KEY_STORAGE);
   if (savedKey) apiKey.value = savedKey;
@@ -198,53 +274,116 @@
     setStatus("저장된 API Key를 삭제했습니다.");
   });
 
-  imageInput.addEventListener("change", () => {
-    selectedFile = imageInput.files?.[0] || null;
-    if (!selectedFile) {
-      preview.style.display = "none";
-      preview.removeAttribute("src");
-      updateButton();
-      return;
+  patrolInput.addEventListener("change", () => {
+    patrolFile = patrolInput.files?.[0] || null;
+
+    if (patrolPreviewUrl) URL.revokeObjectURL(patrolPreviewUrl);
+
+    if (patrolFile) {
+      patrolPreviewUrl = URL.createObjectURL(patrolFile);
+      preview1.src = patrolPreviewUrl;
+      previewLabel1.textContent = "사진1 · 순찰일지 · " + patrolFile.name;
+      previewItem1.classList.add("show");
+    } else {
+      previewItem1.classList.remove("show");
     }
-    const url = URL.createObjectURL(selectedFile);
-    preview.src = url;
-    preview.style.display = "block";
-    setStatus(`사진 준비 완료\n${selectedFile.name}\n${Math.round(selectedFile.size / 1024)} KB`);
+
+    updateSelectionStatus();
     updateButton();
   });
 
-  copyBtn.addEventListener("click", async () => {
-    const text = finalResult.textContent.trim();
-    if (!text || text.includes("분석하면") || text.includes("먼저 분석")) {
-      setStatus("복사할 최종 결과가 없습니다.", "err");
-      return;
+  shiftInput.addEventListener("change", () => {
+    shiftFile = shiftInput.files?.[0] || null;
+
+    if (shiftPreviewUrl) URL.revokeObjectURL(shiftPreviewUrl);
+
+    if (shiftFile) {
+      shiftPreviewUrl = URL.createObjectURL(shiftFile);
+      preview2.src = shiftPreviewUrl;
+      previewLabel2.textContent = "사진2 · 교대업무일지 · " + shiftFile.name;
+      previewItem2.classList.add("show");
+    } else {
+      previewItem2.classList.remove("show");
     }
-    try {
-      await navigator.clipboard.writeText(text);
-      setStatus("최종 결과를 복사했습니다.", "ok");
-    } catch {
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      ta.style.position = "fixed";
-      ta.style.opacity = "0";
-      document.body.appendChild(ta);
-      ta.focus();
-      ta.select();
-      document.execCommand("copy");
-      ta.remove();
-      setStatus("최종 결과를 복사했습니다.", "ok");
-    }
+
+    updateSelectionStatus();
+    updateButton();
   });
 
-  function updateButton() { runBtn.disabled = !(apiKey.value.trim() && selectedFile); }
-  function setStatus(message, type="") {
+  function updateSelectionStatus() {
+    if (patrolFile && shiftFile) {
+      setStatus(
+        "사진 2장 준비 완료\n" +
+        "사진1 순찰일지: " + patrolFile.name + "\n" +
+        "사진2 교대업무일지: " + shiftFile.name
+      );
+    } else if (patrolFile) {
+      setStatus("순찰일지 준비 완료\n교대업무일지를 선택해주세요.");
+    } else if (shiftFile) {
+      setStatus("교대업무일지 준비 완료\n순찰일지를 선택해주세요.");
+    } else {
+      setStatus("API Key와 사진 2장을 준비해주세요.");
+    }
+  }
+
+  function updateButton() {
+    runBtn.disabled = !(apiKey.value.trim() && patrolFile && shiftFile);
+  }
+
+  function setStatus(message, type = "") {
     statusBox.className = "status" + (type ? " " + type : "");
     statusBox.textContent = message;
   }
+
   function escapeHtml(value) {
-    return String(value ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;")
-      .replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
   }
+
+  function compact(text) {
+    return String(text || "")
+      .toUpperCase()
+      .replace(/\s+/g, "")
+      .replace(/[._·•]/g, "")
+      .trim();
+  }
+
+  function canonicalSimple(text) {
+    let s = compact(text).replace(/호기/g, "").replace(/-/g, "");
+    if (/^TG[1-7]$/.test(s)) return s;
+    if (/^GF[1345]$/.test(s)) return s;
+    if (/^CF[1-6]$/.test(s)) return s;
+    if (/^HIP[123]$/.test(s)) return s;
+    if (s === "SMI") return "SMI";
+    return "";
+  }
+
+  function normalizeState(text) {
+    const s = compact(text);
+    if (!s) return "";
+    if (/승온|승은|승옹|승욘|숭온/.test(s)) return "승온중";
+    if (/냉각|냉갹|넹각/.test(s)) return "냉각중";
+    if (/유지|유즤|유치/.test(s)) return "유지중";
+    return "";
+  }
+
+  function normalizeOperationNumber(text) {
+    const s = String(text || "").replace(/\s+/g, "").replace(/[–—−]/g, "-");
+    const match = s.match(/^26-(\d{1,3})$/);
+    return match ? `26-${match[1]}` : "";
+  }
+
+  function median(values) {
+    if (!values.length) return 0;
+    const sorted = [...values].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+  }
+
   function fileToBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -258,372 +397,630 @@
       reader.readAsDataURL(file);
     });
   }
+
   function getVertices(poly) {
-    return (poly?.vertices || []).map(v => ({x:Number(v.x||0), y:Number(v.y||0)}));
+    return (poly?.vertices || []).map(v => ({
+      x: Number(v.x || 0),
+      y: Number(v.y || 0)
+    }));
   }
+
   function centerOf(poly) {
-    const v = getVertices(poly);
-    if (!v.length) return {x:0,y:0};
+    const vertices = getVertices(poly);
+    if (!vertices.length) return { x: 0, y: 0 };
     return {
-      x:v.reduce((s,p)=>s+p.x,0)/v.length,
-      y:v.reduce((s,p)=>s+p.y,0)/v.length
+      x: vertices.reduce((sum, v) => sum + v.x, 0) / vertices.length,
+      y: vertices.reduce((sum, v) => sum + v.y, 0) / vertices.length
     };
   }
+
   function extractWords(response) {
     const words = [];
-    for (const page of response?.fullTextAnnotation?.pages || [])
-      for (const block of page.blocks || [])
-        for (const paragraph of block.paragraphs || [])
+    for (const page of response?.fullTextAnnotation?.pages || []) {
+      for (const block of page.blocks || []) {
+        for (const paragraph of block.paragraphs || []) {
           for (const word of paragraph.words || []) {
-            const text = (word.symbols || []).map(s=>s.text||"").join("");
-            const c = centerOf(word.boundingBox);
+            const text = (word.symbols || []).map(s => s.text || "").join("");
+            const center = centerOf(word.boundingBox);
             words.push({
-              text, x:Math.round(c.x), y:Math.round(c.y),
-              confidence:typeof word.confidence==="number"?word.confidence:null,
-              vertices:getVertices(word.boundingBox)
+              text,
+              x: Math.round(center.x),
+              y: Math.round(center.y),
+              confidence: typeof word.confidence === "number" ? word.confidence : null,
+              vertices: getVertices(word.boundingBox)
             });
           }
+        }
+      }
+    }
     return words;
   }
-  function displayWordBoxes(words) {
-    if (!words.length) { wordBoxes.textContent = "Word bounding box 데이터 없음"; return; }
-    const sorted = [...words].sort((a,b)=>Math.abs(a.y-b.y)<10?a.x-b.x:a.y-b.y);
-    wordBoxes.textContent = sorted.map((w,i)=>{
-      const conf = w.confidence==null?"":` conf=${w.confidence.toFixed(3)}`;
-      return `${String(i+1).padStart(3,"0")} x=${w.x} y=${w.y}${conf}  ${w.text}`;
-    }).join("\n");
+
+  function wordsToDebugText(words) {
+    return [...words]
+      .sort((a, b) => Math.abs(a.y - b.y) < 10 ? a.x - b.x : a.y - b.y)
+      .map((w, i) => {
+        const conf = w.confidence == null ? "" : ` conf=${w.confidence.toFixed(3)}`;
+        return `${String(i + 1).padStart(3, "0")} x=${w.x} y=${w.y}${conf}  ${w.text}`;
+      })
+      .join("\n");
   }
-  function compact(text) {
-    return String(text||"").toUpperCase().replace(/\s+/g,"").replace(/[._·•]/g,"").trim();
-  }
-  function canonicalSimple(text) {
-    let s = compact(text).replace(/호기/g,"").replace(/-/g,"");
-    if (/^TG[1-7]$/.test(s)) return s;
-    if (/^GF[1345]$/.test(s)) return s;
-    if (/^CF[1-6]$/.test(s)) return s;
-    if (/^HIP[123]$/.test(s)) return s;
-    if (s==="SMI") return "SMI";
-    return "";
-  }
-  function normalizeState(text) {
-    const s = compact(text);
-    if (/승온|승은|승옹|승욘|숭온/.test(s)) return "승온중";
-    if (/냉각|냉갹|넹각/.test(s)) return "냉각중";
-    if (/유지|유즤|유치/.test(s)) return "유지중";
-    return "";
-  }
-  function normalizeOperationNumber(text) {
-    const s = String(text||"").replace(/\s+/g,"").replace(/[–—−]/g,"-");
-    const m = s.match(/^26-(\d{1,3})$/);
-    return m ? `26-${m[1]}` : "";
-  }
-  function median(values) {
-    if (!values.length) return 0;
-    const a=[...values].sort((x,y)=>x-y), m=Math.floor(a.length/2);
-    return a.length%2?a[m]:(a[m-1]+a[m])/2;
+
+  async function callGoogleVision(file, key) {
+    const base64 = await fileToBase64(file);
+
+    const requestBody = {
+      requests: [{
+        image: { content: base64 },
+        features: [{ type: "DOCUMENT_TEXT_DETECTION", maxResults: 1 }],
+        imageContext: { languageHints: ["ko", "en"] }
+      }]
+    };
+
+    const endpoint =
+      "https://vision.googleapis.com/v1/images:annotate?key=" + encodeURIComponent(key);
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestBody)
+    });
+
+    const json = await res.json();
+
+    if (!res.ok) throw new Error(json?.error?.message || `HTTP ${res.status}`);
+
+    const response = json?.responses?.[0];
+    if (!response) throw new Error("Google 응답에 responses[0]이 없습니다.");
+    if (response.error) throw new Error(response.error.message || "Google Vision 처리 오류");
+
+    return {
+      fileName: file.name,
+      text:
+        response?.fullTextAnnotation?.text ||
+        response?.textAnnotations?.[0]?.description ||
+        "",
+      words: extractWords(response),
+      response
+    };
   }
 
   function findPhoto1Anchor(words, equipment) {
     let hits = words.filter(w => canonicalSimple(w.text) === equipment.key);
+
     if (!hits.length) {
       const sKey = compact(equipment.name);
+
       hits = words.filter(w => {
-        const s=compact(w.text);
+        const s = compact(w.text);
         if (!s) return false;
-        if (equipment.key==="CF분위기로" && s.includes("분위기")) return true;
-        if (equipment.key==="드라이챔버" && s.includes("드라이") && !s.includes("신형")) return true;
-        if (equipment.key==="신형드라이챔버" && s.includes("신형")) return true;
-        return s===sKey || sKey.includes(s);
+
+        if (equipment.key === "CF분위기로" && s.includes("분위기")) return true;
+
+        if (
+          equipment.key === "드라이챔버" &&
+          (s.includes("드라이") || s.includes("챔버")) &&
+          !s.includes("신형")
+        ) return true;
+
+        if (
+          equipment.key === "신형드라이챔버" &&
+          (s.includes("신형") || (s.includes("드라이") && s.includes("신형")))
+        ) return true;
+
+        if (equipment.key === "소각기1" && s.includes("소각") && /1/.test(s)) return true;
+        if (equipment.key === "소각기3" && s.includes("소각") && /3/.test(s)) return true;
+
+        return s === sKey || (s.length >= 3 && sKey.includes(s));
       });
     }
-    return hits.length ? [...hits].sort((a,b)=>b.y-a.y)[0] : null;
+
+    if (!hits.length) return null;
+    return [...hits].sort((a, b) => b.y - a.y)[0];
+  }
+
+  function reconstructPhoto1Anchors(words) {
+    const detected = [];
+
+    for (const equipment of EQUIPMENT) {
+      const anchor = findPhoto1Anchor(words, equipment);
+      if (anchor) {
+        detected.push({
+          ...equipment,
+          x: anchor.x,
+          y: anchor.y,
+          reconstructed: false
+        });
+      }
+    }
+
+    const detectedByRow = new Map(detected.map(a => [a.row, a]));
+    const reconstructed = [...detected];
+
+    for (let row = 1; row <= EQUIPMENT.length; row++) {
+      if (detectedByRow.has(row)) continue;
+
+      let leftAnchor = null;
+      let rightAnchor = null;
+
+      for (let l = row - 1; l >= 1; l--) {
+        if (detectedByRow.has(l)) {
+          leftAnchor = detectedByRow.get(l);
+          break;
+        }
+      }
+
+      for (let r = row + 1; r <= EQUIPMENT.length; r++) {
+        if (detectedByRow.has(r)) {
+          rightAnchor = detectedByRow.get(r);
+          break;
+        }
+      }
+
+      if (!leftAnchor || !rightAnchor) continue;
+
+      const rowDistance = rightAnchor.row - leftAnchor.row;
+      if (rowDistance <= 0) continue;
+
+      const ratio = (row - leftAnchor.row) / rowDistance;
+      const equipment = EQUIPMENT[row - 1];
+
+      reconstructed.push({
+        ...equipment,
+        x: leftAnchor.x + (rightAnchor.x - leftAnchor.x) * ratio,
+        y: leftAnchor.y + (rightAnchor.y - leftAnchor.y) * ratio,
+        reconstructed: true
+      });
+    }
+
+    return reconstructed.sort((a, b) => a.x - b.x);
   }
 
   function buildPhoto1Rows(words) {
-    const anchors=[];
-    for (const equipment of EQUIPMENT) {
-      const a=findPhoto1Anchor(words,equipment);
-      if (a) anchors.push({...equipment,x:a.x,y:a.y});
-    }
-    anchors.sort((a,b)=>a.x-b.x);
-    const rows=[];
+    const anchors = reconstructPhoto1Anchors(words);
+    const rows = [];
 
-    for (let i=0;i<anchors.length;i++) {
-      const a=anchors[i], prev=anchors[i-1], next=anchors[i+1];
-      const left=prev?(prev.x+a.x)/2:(next?a.x-(next.x-a.x)/2:a.x-50);
-      const right=next?(a.x+next.x)/2:(prev?a.x+(a.x-prev.x)/2:a.x+50);
-      const col=words.filter(w=>w.x>=left&&w.x<right);
+    for (let i = 0; i < anchors.length; i++) {
+      const anchor = anchors[i];
+      const previous = anchors[i - 1];
+      const next = anchors[i + 1];
 
-      const temperatureCandidates =
-        col
-          .filter(w => w.y < a.y)
-          .map(w => {
-            const clean = String(w.text).replace(/[^\d]/g, "");
+      const left = previous
+        ? (previous.x + anchor.x) / 2
+        : next ? anchor.x - (next.x - anchor.x) / 2 : anchor.x - 60;
 
-            if (!/^\d{2,4}$/.test(clean)) {
-              return null;
-            }
+      const right = next
+        ? (anchor.x + next.x) / 2
+        : previous ? anchor.x + (anchor.x - previous.x) / 2 : anchor.x + 60;
 
-            const value = Number(clean);
+      const columnWords = words.filter(w => w.x >= left && w.x < right);
 
-            if (
-              !Number.isFinite(value) ||
-              value < 20 ||
-              value > 1500
-            ) {
-              return null;
-            }
+      const plausibleTemps = columnWords
+        .filter(w => w.y < anchor.y)
+        .map(w => {
+          const clean = String(w.text).replace(/[^\d]/g, "");
+          if (!/^\d{2,4}$/.test(clean)) return null;
 
-            return {
-              value,
-              x: w.x,
-              y: w.y
-            };
-          })
-          .filter(Boolean);
+          const value = Number(clean);
+          const distance = anchor.y - w.y;
 
-      const plausibleTemps =
-        temperatureCandidates.filter(t => {
-          const distance = a.y - t.y;
+          if (!Number.isFinite(value) || value < 20 || value > 1500) return null;
+          if (!(distance > 400 && distance < 1500)) return null;
 
-          return (
-            distance > 400 &&
-            distance < 1500
-          );
-        });
+          return { value, y: w.y, distance };
+        })
+        .filter(Boolean);
 
       let temperature = "";
 
       if (plausibleTemps.length) {
-        const best =
-          [...plausibleTemps]
-            .sort((x, y) => y.y - x.y)[0];
-
-        temperature = best.value;
+        /*
+          값 자체는 절대 하드코딩하지 않는다.
+          현재 사진에서 OCR된 후보만 사용한다.
+        */
+        temperature = [...plausibleTemps]
+          .sort((a, b) => b.y - a.y)[0].value;
       }
-
-      const stateCandidates =
-        col
-          .map(w => ({
-            state: normalizeState(w.text),
-            y: w.y
-          }))
-          .filter(v => v.state);
 
       let state = "";
 
-      if (stateCandidates.length) {
-        const validStates =
-          stateCandidates
-            .filter(v => v.y < a.y)
-            .sort((x, y) => y.y - x.y);
+      if (!NO_STATE_KEYS.has(anchor.key)) {
+        const stateCandidates = columnWords
+          .filter(w => w.y < anchor.y)
+          .map(w => ({ state: normalizeState(w.text), y: w.y }))
+          .filter(v => v.state)
+          .sort((a, b) => b.y - a.y);
 
-        if (validStates.length) {
-          state = validStates[0].state;
-        }
+        if (stateCandidates.length) state = stateCandidates[0].state;
       }
 
       rows.push({
-        row: a.row,
-        key: a.key,
-        equipment: a.name,
+        row: anchor.row,
+        key: anchor.key,
+        equipment: anchor.name,
         temperature,
         state,
-        operationNumber: "",
-        operation: "",
-        anchorX: a.x
+        reconstructed: !!anchor.reconstructed
       });
     }
 
-    rows.sort((a,b)=>a.row-b.row);
-    return rows;
+    return rows.sort((a, b) => a.row - b.row);
   }
 
   function buildPhoto2Rows(words) {
-    const anchors=[];
+    const anchors = [];
+
     for (const expected of SHIFT_EQUIPMENT) {
-      const hits=words.filter(w=>canonicalSimple(w.text)===expected);
+      const hits = words.filter(w => canonicalSimple(w.text) === expected);
       if (!hits.length) continue;
-      const best=[...hits].sort((a,b)=>b.y-a.y)[0];
-      anchors.push({key:expected,x:best.x,y:best.y});
-    }
-    anchors.sort((a,b)=>a.x-b.x);
 
-    const gaps=[];
-    for (let i=1;i<anchors.length;i++) {
-      const g=anchors[i].x-anchors[i-1].x;
-      if (g>40&&g<400) gaps.push(g);
-    }
-    const typicalGap=median(gaps)||155;
-    const reconstructed=[];
+      const best = [...hits].sort((a, b) => b.y - a.y)[0];
 
-    for (let i=0;i<anchors.length;i++) {
-      reconstructed.push(anchors[i]);
-      const cur=anchors[i], next=anchors[i+1];
-      if (!next) continue;
-      const ci=SHIFT_EQUIPMENT.indexOf(cur.key), ni=SHIFT_EQUIPMENT.indexOf(next.key);
-      if (ci<0||ni<0||ni<=ci+1) continue;
-      const missing=ni-ci-1, total=next.x-cur.x;
-      if (total<typicalGap*(missing+0.7)) continue;
-      const step=total/(missing+1);
-      for (let m=1;m<=missing;m++) {
-        reconstructed.push({
-          key:SHIFT_EQUIPMENT[ci+m],x:cur.x+step*m,y:(cur.y+next.y)/2,reconstructed:true
-        });
+      anchors.push({
+        key: expected,
+        x: best.x,
+        y: best.y,
+        reconstructed: false
+      });
+    }
+
+    anchors.sort((a, b) => a.x - b.x);
+
+    const gaps = [];
+
+    for (let i = 1; i < anchors.length; i++) {
+      const current = anchors[i - 1];
+      const next = anchors[i];
+      const currentIndex = SHIFT_EQUIPMENT.indexOf(current.key);
+      const nextIndex = SHIFT_EQUIPMENT.indexOf(next.key);
+
+      if (nextIndex - currentIndex === 1) {
+        const gap = next.x - current.x;
+        if (gap > 40 && gap < 400) gaps.push(gap);
       }
     }
 
-    const map=new Map();
-    for (const a of reconstructed) {
-      if (!map.has(a.key)||map.get(a.key).reconstructed&&!a.reconstructed) map.set(a.key,a);
-    }
-    const finalAnchors=[...map.values()].sort((a,b)=>a.x-b.x);
-    const rows=[];
+    const typicalGap = median(gaps) || 155;
+    const detectedMap = new Map(anchors.map(a => [a.key, a]));
+    const reconstructed = [...anchors];
 
-    for (let i=0;i<finalAnchors.length;i++) {
-      const a=finalAnchors[i], prev=finalAnchors[i-1], next=finalAnchors[i+1];
-      const left=prev?(prev.x+a.x)/2:a.x-typicalGap/2;
-      const right=next?(a.x+next.x)/2:a.x+typicalGap/2;
-      const col=words.filter(w=>w.x>=left&&w.x<right);
+    for (let targetIndex = 0; targetIndex < SHIFT_EQUIPMENT.length; targetIndex++) {
+      const targetKey = SHIFT_EQUIPMENT[targetIndex];
+      if (detectedMap.has(targetKey)) continue;
 
-      const nums=col.map(w=>({value:normalizeOperationNumber(w.text),y:w.y}))
-        .filter(v=>v.value)
-        .sort((x,y)=>Math.abs(x.y-a.y)-Math.abs(y.y-a.y));
+      let left = null;
+      let right = null;
 
-      const ops=col.filter(w=>/가동|냉각|준비|수리/.test(String(w.text)))
-        .sort((x,y)=>Math.abs(x.y-a.y)-Math.abs(y.y-a.y));
+      for (let l = targetIndex - 1; l >= 0; l--) {
+        const key = SHIFT_EQUIPMENT[l];
+        if (detectedMap.has(key)) {
+          left = { index: l, anchor: detectedMap.get(key) };
+          break;
+        }
+      }
 
-      rows.push({
-        key:a.key,equipment:a.key,temperature:"",state:"",
-        operationNumber:nums[0]?.value||"",operation:ops[0]?.text||"",
-        anchorX:Math.round(a.x),reconstructed:!!a.reconstructed
+      for (let r = targetIndex + 1; r < SHIFT_EQUIPMENT.length; r++) {
+        const key = SHIFT_EQUIPMENT[r];
+        if (detectedMap.has(key)) {
+          right = { index: r, anchor: detectedMap.get(key) };
+          break;
+        }
+      }
+
+      let x = null;
+      let y = null;
+
+      if (left && right) {
+        const totalSteps = right.index - left.index;
+        const targetSteps = targetIndex - left.index;
+        const step = (right.anchor.x - left.anchor.x) / totalSteps;
+        x = left.anchor.x + step * targetSteps;
+        y = (left.anchor.y + right.anchor.y) / 2;
+      } else if (left) {
+        x = left.anchor.x + typicalGap * (targetIndex - left.index);
+        y = left.anchor.y;
+      } else if (right) {
+        x = right.anchor.x - typicalGap * (right.index - targetIndex);
+        y = right.anchor.y;
+      }
+
+      if (x == null || y == null) continue;
+
+      reconstructed.push({
+        key: targetKey,
+        x,
+        y,
+        reconstructed: true
       });
     }
+
+    const finalAnchors = reconstructed.sort((a, b) => a.x - b.x);
+    const rows = [];
+
+    for (let i = 0; i < finalAnchors.length; i++) {
+      const anchor = finalAnchors[i];
+      const previous = finalAnchors[i - 1];
+      const next = finalAnchors[i + 1];
+
+      const left = previous
+        ? (previous.x + anchor.x) / 2
+        : anchor.x - typicalGap / 2;
+
+      const right = next
+        ? (anchor.x + next.x) / 2
+        : anchor.x + typicalGap / 2;
+
+      const columnWords = words.filter(w => w.x >= left && w.x < right);
+
+      const numberCandidates = columnWords
+        .map(w => ({
+          value: normalizeOperationNumber(w.text),
+          y: w.y
+        }))
+        .filter(v => v.value);
+
+      let operationNumber = "";
+
+      if (numberCandidates.length) {
+        operationNumber = [...numberCandidates]
+          .sort((a, b) =>
+            Math.abs(a.y - anchor.y) - Math.abs(b.y - anchor.y)
+          )[0].value;
+      }
+
+      const operationCandidates = columnWords.filter(w =>
+        /가동|냉각|준비|수리/.test(String(w.text))
+      );
+
+      let operation = "";
+
+      if (operationCandidates.length) {
+        operation = [...operationCandidates]
+          .sort((a, b) =>
+            Math.abs(a.y - anchor.y) - Math.abs(b.y - anchor.y)
+          )[0].text;
+      }
+
+      rows.push({
+        key: anchor.key,
+        equipment: anchor.key,
+        operationNumber,
+        operation,
+        anchorX: Math.round(anchor.x),
+        reconstructed: !!anchor.reconstructed
+      });
+    }
+
     return rows;
   }
 
-  function renderRows(rows,type) {
-    resultBody.innerHTML="";
-    if (!rows.length) { summary.innerHTML='<span class="warn">구조화 후보 0개</span>'; return; }
-    rows.forEach((row,i)=>{
-      const tr=document.createElement("tr");
-      tr.innerHTML=`<td>${escapeHtml(row.row||i+1)}</td><td>${escapeHtml(row.equipment)}</td>
-        <td>${escapeHtml(row.temperature)}</td><td>${escapeHtml(row.state)}</td>
-        <td>${escapeHtml(row.operationNumber)}</td><td>${escapeHtml(row.operation)}</td>`;
-      resultBody.appendChild(tr);
+  function renderPhoto1(rows) {
+    photo1Body.innerHTML = "";
+
+    for (const row of rows) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${escapeHtml(row.row)}</td>
+        <td>${escapeHtml(row.equipment)}</td>
+        <td>${escapeHtml(row.temperature)}</td>
+        <td>${escapeHtml(row.state)}</td>
+      `;
+      photo1Body.appendChild(tr);
+    }
+
+    const tempCount = rows.filter(r => r.temperature !== "" && r.temperature != null).length;
+    const stateCount = rows.filter(r => r.state).length;
+    const reconstructedCount = rows.filter(r => r.reconstructed).length;
+
+    photo1Summary.innerHTML =
+      `<span class="good">순찰일지 OCR 성공</span><br>` +
+      `장비 ${rows.length}개 · 온도 ${tempCount}개 · 상태 ${stateCount}개 · 복원열 ${reconstructedCount}개`;
+  }
+
+  function renderPhoto2(rows) {
+    photo2Body.innerHTML = "";
+
+    rows.forEach((row, index) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${escapeHtml(row.equipment)}</td>
+        <td>${escapeHtml(row.operationNumber)}</td>
+        <td>${escapeHtml(row.operation)}</td>
+      `;
+      photo2Body.appendChild(tr);
     });
-    if (type==="photo1") {
-      summary.innerHTML=`<span class="good">사진1 OCR 성공</span><br>장비 ${rows.length}개 · 온도 ${rows.filter(r=>r.temperature!==""&&r.temperature!=null).length}개 · 상태 ${rows.filter(r=>r.state).length}개`;
-    } else {
-      summary.innerHTML=`<span class="good">사진2 OCR 성공</span><br>장비 ${rows.length}개 · 가동번호 ${rows.filter(r=>r.operationNumber).length}개 · 복원 anchor ${rows.filter(r=>r.reconstructed).length}개`;
-    }
+
+    const numberCount = rows.filter(r => r.operationNumber).length;
+    const reconstructedCount = rows.filter(r => r.reconstructed).length;
+
+    photo2Summary.innerHTML =
+      `<span class="good">교대업무일지 OCR 성공</span><br>` +
+      `장비 ${rows.length}개 · 가동번호 ${numberCount}개 · 복원열 ${reconstructedCount}개`;
   }
 
-  function mergeResults() {
-    let photo1=null, photo2=null;
-    try { photo1=JSON.parse(localStorage.getItem(PHOTO1_STORAGE)||"null"); } catch {}
-    try { photo2=JSON.parse(localStorage.getItem(PHOTO2_STORAGE)||"null"); } catch {}
+  function mergeResults(photo1Rows, photo2Rows) {
+    const operationMap = new Map();
 
-    if (!photo1?.rows) { finalResult.textContent="사진1 순찰일지를 먼저 분석해주세요."; return; }
-    if (!photo2?.rows) { finalResult.textContent="사진1 저장 완료.\n사진2 교대업무일지를 분석하면 자동 병합됩니다."; return; }
-
-    const operationMap=new Map();
-    for (const r of photo2.rows) if (r.key) operationMap.set(r.key,{number:r.operationNumber||"",operation:r.operation||""});
-
-    const normal=[];
-    const special=[];
-
-    for (const row of photo1.rows) {
-      if ((row.row>=21&&row.row<=25)||(row.row>=31&&row.row<=35)) continue;
-      if (row.temperature===""||row.temperature==null) continue;
-      const temp=Number(row.temperature);
-      if (!Number.isFinite(temp)||temp<100) continue;
-
-      // 소각기/드라이챔버는 가동번호와 상태를 절대 붙이지 않는다.
-      if (row.key==="소각기1") { special.push(`1동 ${temp}도`); continue; }
-      if (row.key==="소각기3") { special.push(`3동 ${temp}도`); continue; }
-      if (row.key==="드라이챔버") { special.push(`구형드라이챔버 ${temp}도`); continue; }
-      if (row.key==="신형드라이챔버") { special.push(`신형드라이챔버 ${temp}도`); continue; }
-
-      const op=operationMap.get(row.key);
-      const number=op?.number||"번호미인식";
-      const state=row.state||"상태미인식";
-      const shortName=row.equipment.replace("호기","");
-      normal.push(`${number==="번호미인식"?"":("#"+number+" ")}${shortName} ${temp}도 ${state}`.trim());
+    for (const row of photo2Rows) {
+      if (!row.key) continue;
+      operationMap.set(row.key, {
+        number: row.operationNumber || "",
+        operation: row.operation || ""
+      });
     }
 
-    let out=normal.join("\n");
-    const inc1=special.find(x=>x.startsWith("1동 "));
-    const inc3=special.find(x=>x.startsWith("3동 "));
-    const oldDry=special.find(x=>x.startsWith("구형드라이챔버 "));
-    const newDry=special.find(x=>x.startsWith("신형드라이챔버 "));
+    const normalLines = [];
+    const specialLines = [];
 
-    if (inc1||inc3) {
-      out += `${out?"\n\n":""}-TG소각기-\n${[inc1,inc3].filter(Boolean).join("\n")}`;
+    for (const row of photo1Rows) {
+      if ((row.row >= 21 && row.row <= 25) || (row.row >= 31 && row.row <= 35)) continue;
+      if (row.temperature === "" || row.temperature == null) continue;
+
+      const temperature = Number(row.temperature);
+      if (!Number.isFinite(temperature) || temperature < 100) continue;
+
+      /*
+        드라이챔버/신형 드라이챔버/소각기 1동/3동:
+        가동번호 없음, 상태 없음, 온도만 출력.
+      */
+      if (NO_OPERATION_NUMBER_KEYS.has(row.key)) {
+        specialLines.push(`${row.equipment} | ${temperature}도`);
+        continue;
+      }
+
+      const op = operationMap.get(row.key);
+      const number = op?.number || "번호미인식";
+      const state = row.state || "상태미인식";
+
+      normalLines.push(
+        `${number} | ${row.equipment} | ${temperature}도 | ${state}`
+      );
     }
-    if (oldDry) out += `${out?"\n\n":""}${oldDry}`;
-    if (newDry) out += `${out?"\n":""}${newDry}`;
 
-    finalResult.textContent=out||"최종 출력 대상 장비가 없습니다.";
+    const lines = [...normalLines];
+
+    if (specialLines.length) {
+      if (lines.length) lines.push("");
+      lines.push(...specialLines);
+    }
+
+    if (!lines.length) {
+      finalText = "";
+      finalResult.textContent = "최종 출력 대상 장비가 없습니다.";
+      copyBtn.disabled = true;
+      return;
+    }
+
+    finalText = lines.join("\n");
+    finalResult.textContent = finalText;
+    copyBtn.disabled = false;
+    localStorage.setItem(FINAL_STORAGE, finalText);
   }
 
-  runBtn.addEventListener("click", async () => {
-    const key=apiKey.value.trim();
-    if (!key) return setStatus("Google API Key가 없습니다.","err");
-    if (!selectedFile) return setStatus("사진을 선택해주세요.","err");
+  copyBtn.addEventListener("click", async () => {
+    if (!finalText) return;
 
-    runBtn.disabled=true;
-    fullText.textContent=wordBoxes.textContent=rawJson.textContent="분석 중...";
-    resultBody.innerHTML="";
-    summary.textContent="Google Vision 호출 중...";
-    const started=performance.now();
+    const done = () => {
+      copyBtn.textContent = "복사 완료";
+      setTimeout(() => {
+        copyBtn.textContent = "결과 전체 복사";
+      }, 1400);
+    };
 
     try {
-      setStatus("Google Cloud Vision 호출 중...\nDOCUMENT_TEXT_DETECTION");
-      const base64=await fileToBase64(selectedFile);
-      const requestBody={requests:[{
-        image:{content:base64},
-        features:[{type:"DOCUMENT_TEXT_DETECTION",maxResults:1}],
-        imageContext:{languageHints:["ko","en"]}
-      }]};
+      await navigator.clipboard.writeText(finalText);
+      done();
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = finalText;
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      textarea.style.top = "0";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
 
-      const endpoint="https://vision.googleapis.com/v1/images:annotate?key="+encodeURIComponent(key);
-      const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(requestBody)});
-      const json=await res.json();
-      if (!res.ok) throw new Error(json?.error?.message||`HTTP ${res.status}`);
+      try {
+        document.execCommand("copy");
+        done();
+      } catch {
+        alert("복사에 실패했습니다.");
+      }
 
-      const response=json?.responses?.[0];
-      if (!response) throw new Error("Google 응답에 responses[0]이 없습니다.");
-      if (response.error) throw new Error(response.error.message||"Google Vision 처리 오류");
+      textarea.remove();
+    }
+  });
 
-      const text=response?.fullTextAnnotation?.text||response?.textAnnotations?.[0]?.description||"";
-      const words=extractWords(response);
-      const type=photoType.value;
-      const rows=type==="photo1"?buildPhoto1Rows(words):buildPhoto2Rows(words);
+  runBtn.addEventListener("click", async () => {
+    const key = apiKey.value.trim();
 
-      fullText.textContent=text||"(OCR 텍스트 없음)";
-      displayWordBoxes(words);
-      rawJson.textContent=JSON.stringify(json,null,2);
-      renderRows(rows,type);
+    if (!key) {
+      setStatus("Google API Key가 없습니다.", "err");
+      return;
+    }
 
-      const elapsed=Math.round(performance.now()-started);
-      const saved={savedAt:new Date().toISOString(),photoType:type,elapsed,text,words,rows};
-      localStorage.setItem(type==="photo1"?PHOTO1_STORAGE:PHOTO2_STORAGE,JSON.stringify(saved));
+    if (!patrolFile || !shiftFile) {
+      setStatus("순찰일지와 교대업무일지 사진을 각각 선택해주세요.", "err");
+      return;
+    }
 
-      mergeResults();
-      setStatus(`Google Vision 성공 · ${elapsed}ms\nOCR 단어 ${words.length}개\n${type==="photo1"?"사진1":"사진2"} 결과 저장 완료`,"ok");
-    } catch(error) {
+    runBtn.disabled = true;
+    copyBtn.disabled = true;
+    finalText = "";
+
+    photo1Body.innerHTML = "";
+    photo2Body.innerHTML = "";
+    photo1Summary.textContent = "분석 중...";
+    photo2Summary.textContent = "대기 중...";
+    finalResult.textContent = "분석 중...";
+    detectResult.textContent = "사진1 순찰일지 분석 중...";
+    photo1FullText.textContent = "분석 중...";
+    photo2FullText.textContent = "대기";
+    photo1Boxes.textContent = "분석 중...";
+    photo2Boxes.textContent = "대기";
+
+    const started = performance.now();
+
+    try {
+      setStatus("사진1/2 순찰일지 Google Vision 분석 중...");
+
+      const patrol = await callGoogleVision(patrolFile, key);
+
+      photo1Summary.textContent = "OCR 완료 · 구조화 중...";
+      photo2Summary.textContent = "분석 중...";
+      detectResult.textContent = "사진1 순찰일지 완료\n사진2 교대업무일지 분석 중...";
+      setStatus("사진1 완료\n사진2/2 교대업무일지 Google Vision 분석 중...");
+
+      const shift = await callGoogleVision(shiftFile, key);
+
+      detectResult.textContent =
+        "사진 2장 분석 완료\n\n" +
+        "사진1 · 순찰일지: " + patrol.fileName + "\n" +
+        "사진2 · 교대업무일지: " + shift.fileName;
+
+      const patrolRows = buildPhoto1Rows(patrol.words);
+      const shiftRows = buildPhoto2Rows(shift.words);
+
+      renderPhoto1(patrolRows);
+      renderPhoto2(shiftRows);
+      mergeResults(patrolRows, shiftRows);
+
+      photo1FullText.textContent = patrol.text || "(OCR 텍스트 없음)";
+      photo2FullText.textContent = shift.text || "(OCR 텍스트 없음)";
+      photo1Boxes.textContent = wordsToDebugText(patrol.words);
+      photo2Boxes.textContent = wordsToDebugText(shift.words);
+
+      const elapsed = Math.round(performance.now() - started);
+
+      setStatus(
+        `분석 완료 · ${elapsed}ms\n` +
+        `순찰일지 OCR ${patrol.words.length}단어\n` +
+        `교대업무일지 OCR ${shift.words.length}단어\n` +
+        `자동 병합 완료`,
+        "ok"
+      );
+    } catch (error) {
       console.error(error);
-      const message=error?.message||String(error);
-      setStatus("Google Vision 실패\n"+message,"err");
-      fullText.textContent="실패: "+message;
-      summary.innerHTML='<span class="warn">분석 실패</span>';
+
+      const message = error?.message || String(error);
+
+      setStatus("Google Vision 실패\n" + message, "err");
+      detectResult.textContent = "분석 실패";
+      finalResult.textContent = "분석 실패: " + message;
     } finally {
       updateButton();
     }
   });
 
-  mergeResults();
+  const previousFinal = localStorage.getItem(FINAL_STORAGE);
+
+  if (previousFinal) {
+    finalText = previousFinal;
+    finalResult.textContent = previousFinal;
+    copyBtn.disabled = false;
+  }
+
   updateButton();
 })();
 </script>
