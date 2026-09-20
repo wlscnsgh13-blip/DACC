@@ -7,427 +7,126 @@
   <title>DACC · Google Vision Test</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body {
-      margin: 0;
-      background: #070b14;
-      color: #f8fafc;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Apple SD Gothic Neo",
-        "Noto Sans KR",
-        sans-serif;
+      margin: 0; background: #070b14; color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
     }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    .wrap {
-      width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 24px 16px 80px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 27px;
-      letter-spacing: -0.8px;
-    }
-
-    .sub {
-      color: #94a3b8;
-      margin-top: 8px;
-      line-height: 1.55;
-      font-size: 14px;
-    }
-
+    button, input, select { font: inherit; }
+    .wrap { width: 100%; max-width: 760px; margin: 0 auto; padding: 24px 16px 80px; }
+    h1 { margin: 0; font-size: 27px; letter-spacing: -0.8px; }
+    .sub { color: #94a3b8; margin-top: 8px; line-height: 1.55; font-size: 14px; }
     .card {
-      margin-top: 18px;
-      padding: 18px;
-      border-radius: 22px;
-      background: #0d1423;
-      border: 1px solid #26344c;
+      margin-top: 18px; padding: 18px; border-radius: 22px;
+      background: #0d1423; border: 1px solid #26344c;
     }
-
     .step {
-      display: inline-flex;
-      padding: 6px 11px;
-      border: 1px solid #334155;
-      border-radius: 999px;
-      color: #94a3b8;
-      font-size: 12px;
-      margin-bottom: 14px;
+      display: inline-flex; padding: 6px 11px; border: 1px solid #334155;
+      border-radius: 999px; color: #94a3b8; font-size: 12px; margin-bottom: 14px;
     }
-
-    .title {
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 14px;
+    .title { font-size: 20px; font-weight: 800; margin-bottom: 14px; }
+    label { display: block; color: #a8b4c8; font-size: 14px; margin: 14px 0 7px; }
+    input[type="password"], select {
+      width: 100%; min-height: 54px; border-radius: 15px; border: 1px solid #334155;
+      background: #080e18; color: white; padding: 0 14px; outline: none;
     }
-
-    label {
-      display: block;
-      color: #a8b4c8;
-      font-size: 14px;
-      margin: 14px 0 7px;
-    }
-
-    input[type="password"] {
-      width: 100%;
-      min-height: 54px;
-      border-radius: 15px;
-      border: 1px solid #334155;
-      background: #080e18;
-      color: white;
-      padding: 0 14px;
-      outline: none;
-    }
-
-    input[type="file"] {
-      width: 100%;
-      color: #cbd5e1;
-      padding: 15px 0;
-    }
-
+    input[type="file"] { width: 100%; color: #cbd5e1; padding: 15px 0; }
     .btn {
-      width: 100%;
-      min-height: 56px;
-      border: 0;
-      border-radius: 16px;
-      margin-top: 14px;
-      font-weight: 800;
-      font-size: 17px;
-      color: white;
-      background: #4f6bed;
+      width: 100%; min-height: 56px; border: 0; border-radius: 16px; margin-top: 14px;
+      font-weight: 800; font-size: 17px; color: white; background: #4f6bed;
     }
-
-    .btn:disabled {
-      opacity: .42;
-    }
-
-    .btn.secondary {
-      background: #172033;
-      border: 1px solid #334155;
-    }
-
-    .btn.copy {
-      background: #6d5dfc;
-    }
-
+    .btn:disabled { opacity: .42; }
+    .btn.secondary { background: #172033; border: 1px solid #334155; }
+    .btn.copy { background: #16a34a; }
     .status {
-      margin-top: 14px;
-      padding: 13px 14px;
-      border-radius: 14px;
-      background: #080e18;
-      border: 1px solid #1e293b;
-      color: #cbd5e1;
-      white-space: pre-wrap;
-      line-height: 1.5;
-      font-size: 14px;
+      margin-top: 14px; padding: 13px 14px; border-radius: 14px; background: #080e18;
+      border: 1px solid #1e293b; color: #cbd5e1; white-space: pre-wrap;
+      line-height: 1.5; font-size: 14px;
     }
-
-    .status.ok {
-      border-color: #166534;
-      color: #86efac;
-    }
-
-    .status.err {
-      border-color: #7f1d1d;
-      color: #fca5a5;
-    }
-
-    .previewGrid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .previewItem {
-      display: none;
-    }
-
-    .previewItem.show {
-      display: block;
-    }
-
-    .previewLabel {
-      margin-bottom: 7px;
-      color: #94a3b8;
-      font-size: 12px;
-    }
-
+    .status.ok { border-color: #166534; color: #86efac; }
+    .status.err { border-color: #7f1d1d; color: #fca5a5; }
     .preview {
-      width: 100%;
-      border-radius: 14px;
+      display: none; width: 100%; margin-top: 14px; border-radius: 16px;
       border: 1px solid #334155;
-      display: block;
     }
-
-    .resultTable {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-      font-size: 13px;
-      min-width: 650px;
+    .resultTable { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; min-width: 650px; }
+    .resultTable th, .resultTable td {
+      border-bottom: 1px solid #253044; padding: 10px 6px; text-align: left; vertical-align: top;
     }
-
-    .resultTable th,
-    .resultTable td {
-      border-bottom: 1px solid #253044;
-      padding: 10px 6px;
-      text-align: left;
-      vertical-align: top;
+    .resultTable th { color: #94a3b8; font-weight: 600; }
+    .raw, .finalBox {
+      margin-top: 12px; background: #050911; border: 1px solid #253044; border-radius: 14px;
+      padding: 13px; color: #dbeafe; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px; line-height: 1.5; max-height: 420px; overflow: auto;
+      white-space: pre-wrap; word-break: break-word;
     }
-
-    .resultTable th {
-      color: #94a3b8;
-      font-weight: 600;
-    }
-
-    .raw {
-      margin-top: 12px;
-      background: #050911;
-      border: 1px solid #253044;
-      border-radius: 14px;
-      padding: 13px;
-      color: #dbeafe;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 12px;
-      line-height: 1.5;
-      max-height: 420px;
-      overflow: auto;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .finalBox {
-      margin-top: 12px;
-      background: #050911;
-      border: 1px solid #334155;
-      border-radius: 14px;
-      padding: 14px;
-      color: #e2e8f0;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 13px;
-      line-height: 1.7;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .detectBox {
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 14px;
-      background: #080e18;
-      border: 1px solid #253044;
-      color: #cbd5e1;
-      font-size: 13px;
-      line-height: 1.6;
-      white-space: pre-wrap;
-    }
-
-    details {
-      margin-top: 14px;
-    }
-
-    summary {
-      cursor: pointer;
-      color: #a5b4fc;
-      font-weight: 700;
-    }
-
-    .warn {
-      color: #fbbf24;
-    }
-
-    .good {
-      color: #86efac;
-    }
-
-    .small {
-      color: #64748b;
-      font-size: 12px;
-      margin-top: 10px;
-      line-height: 1.5;
-    }
+    .finalBox { border-color: #334155; color: #e2e8f0; font-size: 13px; line-height: 1.7; }
+    details { margin-top: 14px; }
+    summary { cursor: pointer; color: #a5b4fc; font-weight: 700; }
+    .warn { color: #fbbf24; }
+    .good { color: #86efac; }
+    .small { color: #64748b; font-size: 12px; margin-top: 10px; line-height: 1.5; }
   </style>
 </head>
 
 <body>
 <div class="wrap">
-
   <h1>DACC · Google Vision TEST</h1>
-
   <div class="sub">
-    순찰일지 + 교대업무일지 사진 2장을 한 번에 선택합니다.
-    사진 순서는 상관없으며 OCR 결과를 기준으로 자동 판별 후 병합합니다.
+    사진1 순찰일지 + 사진2 교대업무일지를 장비명 기준으로 결합합니다.
+    온도/상태/가동번호는 현재 사진 OCR값만 사용합니다.
   </div>
 
   <section class="card">
     <div class="step">STEP 1 · API</div>
     <div class="title">Google Cloud Vision</div>
-
     <label for="apiKey">Cloud Vision API Key · 자동저장</label>
-
-    <input
-      id="apiKey"
-      type="password"
-      autocomplete="off"
-      placeholder="AIza..."
-    />
-
-    <div class="small">
-      API Key는 HTML 코드에 포함되지 않고 현재 브라우저 localStorage에 저장됩니다.
-    </div>
-
-    <button class="btn secondary" id="clearKeyBtn">
-      저장된 API Key 삭제
-    </button>
+    <input id="apiKey" type="password" autocomplete="off" placeholder="AIza..." />
+    <div class="small">API Key는 HTML 코드에 포함되지 않고 현재 브라우저 localStorage에 저장됩니다.</div>
+    <button class="btn secondary" id="clearKeyBtn">저장된 API Key 삭제</button>
   </section>
 
   <section class="card">
-    <div class="step">STEP 2 · 사진 2장</div>
-    <div class="title">순찰일지 + 교대업무일지</div>
-
-    <label for="imageInput">사진 2장 선택</label>
-
-    <input
-      id="imageInput"
-      type="file"
-      accept="image/*"
-      multiple
-    />
-
-    <div class="small">
-      정확히 2장을 선택하세요. 순서는 상관없습니다.
-    </div>
-
-    <div class="previewGrid">
-      <div id="previewItem1" class="previewItem">
-        <div id="previewLabel1" class="previewLabel">사진 1</div>
-        <img id="preview1" class="preview" alt="preview1" />
-      </div>
-
-      <div id="previewItem2" class="previewItem">
-        <div id="previewLabel2" class="previewLabel">사진 2</div>
-        <img id="preview2" class="preview" alt="preview2" />
-      </div>
-    </div>
-
-    <button
-      class="btn"
-      id="runBtn"
-      disabled
-    >
-      사진 2장 자동 분석
-    </button>
-
-    <div id="status" class="status">
-      API Key와 사진 2장을 준비해주세요.
-    </div>
-
-    <div id="detectResult" class="detectBox">
-      사진 자동 판별 대기
-    </div>
+    <div class="step">STEP 2 · 사진</div>
+    <div class="title">실측 이미지 선택</div>
+    <label for="photoType">사진 종류</label>
+    <select id="photoType">
+      <option value="photo1">사진1 · 순찰일지</option>
+      <option value="photo2">사진2 · 교대업무일지</option>
+    </select>
+    <label for="imageInput">원본 사진</label>
+    <input id="imageInput" type="file" accept="image/*" />
+    <img id="preview" class="preview" alt="preview" />
+    <button class="btn" id="runBtn" disabled>Google Vision 분석 시작</button>
+    <div id="status" class="status">API Key와 사진을 준비해주세요.</div>
   </section>
 
   <section class="card">
-    <div class="step">STEP 3 · 순찰일지</div>
-    <div class="title">온도 · 상태 추출</div>
-
-    <div id="photo1Summary">
-      아직 분석 결과가 없습니다.
-    </div>
-
+    <div class="step">STEP 3 · 구조화 결과</div>
+    <div class="title">DACC 추출 테스트</div>
+    <div id="summary">아직 분석 결과가 없습니다.</div>
     <div style="overflow-x:auto">
       <table class="resultTable">
-        <thead>
-        <tr>
-          <th>#</th>
-          <th>장비</th>
-          <th>온도</th>
-          <th>상태</th>
-        </tr>
-        </thead>
-        <tbody id="photo1Body"></tbody>
+        <thead><tr><th>#</th><th>장비</th><th>온도</th><th>상태</th><th>26-XXX</th><th>가동</th></tr></thead>
+        <tbody id="resultBody"></tbody>
       </table>
     </div>
   </section>
 
   <section class="card">
-    <div class="step">STEP 4 · 교대업무일지</div>
-    <div class="title">장비가동번호 추출</div>
-
-    <div id="photo2Summary">
-      아직 분석 결과가 없습니다.
-    </div>
-
-    <div style="overflow-x:auto">
-      <table class="resultTable">
-        <thead>
-        <tr>
-          <th>#</th>
-          <th>장비</th>
-          <th>26-XXX</th>
-          <th>가동</th>
-        </tr>
-        </thead>
-        <tbody id="photo2Body"></tbody>
-      </table>
-    </div>
+    <div class="step">STEP 4 · 최종 병합</div>
+    <div class="title">문자보고용 장비 결과</div>
+    <div id="finalResult" class="finalBox">사진1과 사진2를 각각 분석하면 자동 병합됩니다.</div>
+    <button class="btn copy" id="copyBtn">최종 결과 복사</button>
   </section>
 
   <section class="card">
-    <div class="step">STEP 5 · 최종 병합</div>
-    <div class="title">장비가동번호 · 장비명 · 온도 · 상태</div>
-
-    <div id="finalResult" class="finalBox">
-      사진 2장을 분석하면 자동 병합됩니다.
-    </div>
-
-    <button
-      class="btn copy"
-      id="copyBtn"
-      disabled
-    >
-      결과 전체 복사
-    </button>
-  </section>
-
-  <section class="card">
-    <div class="step">STEP 6 · OCR 진단</div>
+    <div class="step">STEP 5 · OCR</div>
     <div class="title">Google 전체 OCR</div>
-
-    <details>
-      <summary>순찰일지 전체 OCR</summary>
-      <div id="photo1FullText" class="raw">대기</div>
-    </details>
-
-    <details>
-      <summary>교대업무일지 전체 OCR</summary>
-      <div id="photo2FullText" class="raw">대기</div>
-    </details>
-
-    <details>
-      <summary>순찰일지 Bounding Box</summary>
-      <div id="photo1Boxes" class="raw">대기</div>
-    </details>
-
-    <details>
-      <summary>교대업무일지 Bounding Box</summary>
-      <div id="photo2Boxes" class="raw">대기</div>
-    </details>
+    <div id="fullText" class="raw">대기</div>
+    <details><summary>단어 + Bounding Box 보기</summary><div id="wordBoxes" class="raw">대기</div></details>
+    <details><summary>Google RAW JSON 보기</summary><div id="rawJson" class="raw">대기</div></details>
   </section>
-
 </div>
 
 <script>
@@ -435,121 +134,60 @@
   "use strict";
 
   const API_KEY_STORAGE = "dacc_google_vision_api_key";
-  const FINAL_STORAGE = "dacc_google_final_result_v6";
+  const PHOTO1_STORAGE = "dacc_google_photo1_result_v6";
+  const PHOTO2_STORAGE = "dacc_google_photo2_result_v6";
 
   const apiKey = document.getElementById("apiKey");
+  const photoType = document.getElementById("photoType");
   const imageInput = document.getElementById("imageInput");
+  const preview = document.getElementById("preview");
   const runBtn = document.getElementById("runBtn");
-  const copyBtn = document.getElementById("copyBtn");
-  const clearKeyBtn = document.getElementById("clearKeyBtn");
-
   const statusBox = document.getElementById("status");
-  const detectResult = document.getElementById("detectResult");
-
-  const previewItem1 = document.getElementById("previewItem1");
-  const previewItem2 = document.getElementById("previewItem2");
-  const preview1 = document.getElementById("preview1");
-  const preview2 = document.getElementById("preview2");
-  const previewLabel1 = document.getElementById("previewLabel1");
-  const previewLabel2 = document.getElementById("previewLabel2");
-
-  const photo1Summary = document.getElementById("photo1Summary");
-  const photo2Summary = document.getElementById("photo2Summary");
-  const photo1Body = document.getElementById("photo1Body");
-  const photo2Body = document.getElementById("photo2Body");
-
+  const fullText = document.getElementById("fullText");
+  const wordBoxes = document.getElementById("wordBoxes");
+  const rawJson = document.getElementById("rawJson");
+  const resultBody = document.getElementById("resultBody");
+  const summary = document.getElementById("summary");
   const finalResult = document.getElementById("finalResult");
+  const clearKeyBtn = document.getElementById("clearKeyBtn");
+  const copyBtn = document.getElementById("copyBtn");
 
-  const photo1FullText = document.getElementById("photo1FullText");
-  const photo2FullText = document.getElementById("photo2FullText");
-  const photo1Boxes = document.getElementById("photo1Boxes");
-  const photo2Boxes = document.getElementById("photo2Boxes");
-
-  let selectedFiles = [];
-  let finalText = "";
-
-  /*
-    장비 순서/명칭만 고정.
-    온도 / 상태 / 가동번호는 절대 고정하지 않는다.
-  */
+  let selectedFile = null;
 
   const EQUIPMENT = [
-    { row: 1,  key: "TG2", name: "TG2호기" },
-    { row: 2,  key: "TG3", name: "TG3호기" },
-    { row: 3,  key: "TG4", name: "TG4호기" },
-    { row: 4,  key: "TG5", name: "TG5호기" },
-    { row: 5,  key: "TG6", name: "TG6호기" },
-    { row: 6,  key: "TG7", name: "TG7호기" },
-    { row: 7,  key: "GF1", name: "GF1" },
-    { row: 8,  key: "GF3", name: "GF3" },
-    { row: 9,  key: "GF4", name: "GF4" },
-    { row: 10, key: "GF5", name: "GF5" },
-    { row: 11, key: "SMI", name: "SMI" },
-    { row: 12, key: "CF1", name: "CF1" },
-    { row: 13, key: "CF2", name: "CF2" },
-    { row: 14, key: "CF3", name: "CF3" },
-    { row: 15, key: "CF4", name: "CF4" },
-    { row: 16, key: "CF5", name: "CF5" },
-    { row: 17, key: "CF6", name: "CF6" },
-    { row: 18, key: "CF분위기로", name: "CF분위기로" },
-    { row: 19, key: "드라이챔버", name: "드라이챔버" },
-    { row: 20, key: "신형드라이챔버", name: "신형 드라이챔버" },
-    { row: 21, key: "누액감지기", name: "유해화학물질 누액 감지기" },
-    { row: 22, key: "세정집진기", name: "세정집진기" },
-    { row: 23, key: "백필터", name: "백필터" },
-    { row: 24, key: "냉각탑", name: "생산동 메인 냉각탑" },
-    { row: 25, key: "냉각수펌프", name: "생산동 메인 냉각수펌프" },
-    { row: 26, key: "소각기1", name: "공정 폐가스 소각기(1동)" },
-    { row: 27, key: "소각기3", name: "공정 폐가스 소각기(3동)" },
-    { row: 28, key: "HIP1", name: "HIP-1" },
-    { row: 29, key: "HIP2", name: "HIP-2" },
-    { row: 30, key: "HIP3", name: "HIP-3" },
-    { row: 31, key: "환풍기", name: "생산동 천장 환풍기" },
-    { row: 32, key: "SICCVD", name: "SIC-CVD" },
-    { row: 33, key: "SICLINE", name: "SIC LINE" },
-    { row: 34, key: "자동차다이나모", name: "자동차 다이나모" },
-    { row: 35, key: "전기다이나모", name: "전기 다이나모" }
+    { row:1,key:"TG2",name:"TG2호기" }, { row:2,key:"TG3",name:"TG3호기" },
+    { row:3,key:"TG4",name:"TG4호기" }, { row:4,key:"TG5",name:"TG5호기" },
+    { row:5,key:"TG6",name:"TG6호기" }, { row:6,key:"TG7",name:"TG7호기" },
+    { row:7,key:"GF1",name:"GF1" }, { row:8,key:"GF3",name:"GF3" },
+    { row:9,key:"GF4",name:"GF4" }, { row:10,key:"GF5",name:"GF5" },
+    { row:11,key:"SMI",name:"SMI" }, { row:12,key:"CF1",name:"CF1" },
+    { row:13,key:"CF2",name:"CF2" }, { row:14,key:"CF3",name:"CF3" },
+    { row:15,key:"CF4",name:"CF4" }, { row:16,key:"CF5",name:"CF5" },
+    { row:17,key:"CF6",name:"CF6" }, { row:18,key:"CF분위기로",name:"CF분위기로" },
+    { row:19,key:"드라이챔버",name:"드라이챔버" }, { row:20,key:"신형드라이챔버",name:"신형 드라이챔버" },
+    { row:21,key:"누액감지기",name:"유해화학물질 누액 감지기" }, { row:22,key:"세정집진기",name:"세정집진기" },
+    { row:23,key:"백필터",name:"백필터" }, { row:24,key:"냉각탑",name:"생산동 메인 냉각탑" },
+    { row:25,key:"냉각수펌프",name:"생산동 메인 냉각수펌프" }, { row:26,key:"소각기1",name:"공정 폐가스 소각기(1동)" },
+    { row:27,key:"소각기3",name:"공정 폐가스 소각기(3동)" }, { row:28,key:"HIP1",name:"HIP-1" },
+    { row:29,key:"HIP2",name:"HIP-2" }, { row:30,key:"HIP3",name:"HIP-3" },
+    { row:31,key:"환풍기",name:"생산동 천장 환풍기" }, { row:32,key:"SICCVD",name:"SIC-CVD" },
+    { row:33,key:"SICLINE",name:"SIC LINE" }, { row:34,key:"자동차다이나모",name:"자동차 다이나모" },
+    { row:35,key:"전기다이나모",name:"전기 다이나모" }
   ];
 
   const SHIFT_EQUIPMENT = [
-    "TG1",
-    "TG2",
-    "TG3",
-    "TG4",
-    "TG5",
-    "TG6",
-    "TG7",
-    "CF1",
-    "CF2",
-    "CF3",
-    "CF4",
-    "CF5",
-    "CF6",
-    "GF1",
-    "GF3",
-    "GF4",
-    "GF5",
-    "HIP1",
-    "HIP2",
-    "HIP3",
-    "SMI"
+    "TG1","TG2","TG3","TG4","TG5","TG6","TG7",
+    "CF1","CF2","CF3","CF4","CF5","CF6",
+    "GF1","GF3","GF4","GF5","HIP1","HIP2","HIP3","SMI"
   ];
 
   const savedKey = localStorage.getItem(API_KEY_STORAGE);
-
-  if (savedKey) {
-    apiKey.value = savedKey;
-  }
+  if (savedKey) apiKey.value = savedKey;
 
   apiKey.addEventListener("input", () => {
     const value = apiKey.value.trim();
-
-    if (value) {
-      localStorage.setItem(API_KEY_STORAGE, value);
-    } else {
-      localStorage.removeItem(API_KEY_STORAGE);
-    }
-
+    if (value) localStorage.setItem(API_KEY_STORAGE, value);
+    else localStorage.removeItem(API_KEY_STORAGE);
     updateButton();
   });
 
@@ -561,1512 +199,400 @@
   });
 
   imageInput.addEventListener("change", () => {
-    selectedFiles = Array.from(imageInput.files || []);
-
-    previewItem1.classList.remove("show");
-    previewItem2.classList.remove("show");
-
-    if (selectedFiles[0]) {
-      preview1.src = URL.createObjectURL(selectedFiles[0]);
-      previewLabel1.textContent = "사진 1 · " + selectedFiles[0].name;
-      previewItem1.classList.add("show");
+    selectedFile = imageInput.files?.[0] || null;
+    if (!selectedFile) {
+      preview.style.display = "none";
+      preview.removeAttribute("src");
+      updateButton();
+      return;
     }
-
-    if (selectedFiles[1]) {
-      preview2.src = URL.createObjectURL(selectedFiles[1]);
-      previewLabel2.textContent = "사진 2 · " + selectedFiles[1].name;
-      previewItem2.classList.add("show");
-    }
-
-    if (selectedFiles.length !== 2) {
-      setStatus(
-        `현재 ${selectedFiles.length}장 선택됨\n정확히 2장을 선택해주세요.`,
-        selectedFiles.length > 2 ? "err" : ""
-      );
-    } else {
-      setStatus(
-        "사진 2장 준비 완료\n" +
-        selectedFiles[0].name + "\n" +
-        selectedFiles[1].name
-      );
-    }
-
+    const url = URL.createObjectURL(selectedFile);
+    preview.src = url;
+    preview.style.display = "block";
+    setStatus(`사진 준비 완료\n${selectedFile.name}\n${Math.round(selectedFile.size / 1024)} KB`);
     updateButton();
   });
 
-  function updateButton() {
-    runBtn.disabled = !(
-      apiKey.value.trim() &&
-      selectedFiles.length === 2
-    );
-  }
+  copyBtn.addEventListener("click", async () => {
+    const text = finalResult.textContent.trim();
+    if (!text || text.includes("분석하면") || text.includes("먼저 분석")) {
+      setStatus("복사할 최종 결과가 없습니다.", "err");
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(text);
+      setStatus("최종 결과를 복사했습니다.", "ok");
+    } catch {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+      setStatus("최종 결과를 복사했습니다.", "ok");
+    }
+  });
 
-  function setStatus(message, type = "") {
+  function updateButton() { runBtn.disabled = !(apiKey.value.trim() && selectedFile); }
+  function setStatus(message, type="") {
     statusBox.className = "status" + (type ? " " + type : "");
     statusBox.textContent = message;
   }
-
   function escapeHtml(value) {
-    return String(value ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+    return String(value ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;")
+      .replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
   }
-
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = String(reader.result || "");
+        const comma = result.indexOf(",");
+        if (comma < 0) return reject(new Error("이미지 Base64 변환 실패"));
+        resolve(result.slice(comma + 1));
+      };
+      reader.onerror = () => reject(new Error("이미지 파일 읽기 실패"));
+      reader.readAsDataURL(file);
+    });
+  }
+  function getVertices(poly) {
+    return (poly?.vertices || []).map(v => ({x:Number(v.x||0), y:Number(v.y||0)}));
+  }
+  function centerOf(poly) {
+    const v = getVertices(poly);
+    if (!v.length) return {x:0,y:0};
+    return {
+      x:v.reduce((s,p)=>s+p.x,0)/v.length,
+      y:v.reduce((s,p)=>s+p.y,0)/v.length
+    };
+  }
+  function extractWords(response) {
+    const words = [];
+    for (const page of response?.fullTextAnnotation?.pages || [])
+      for (const block of page.blocks || [])
+        for (const paragraph of block.paragraphs || [])
+          for (const word of paragraph.words || []) {
+            const text = (word.symbols || []).map(s=>s.text||"").join("");
+            const c = centerOf(word.boundingBox);
+            words.push({
+              text, x:Math.round(c.x), y:Math.round(c.y),
+              confidence:typeof word.confidence==="number"?word.confidence:null,
+              vertices:getVertices(word.boundingBox)
+            });
+          }
+    return words;
+  }
+  function displayWordBoxes(words) {
+    if (!words.length) { wordBoxes.textContent = "Word bounding box 데이터 없음"; return; }
+    const sorted = [...words].sort((a,b)=>Math.abs(a.y-b.y)<10?a.x-b.x:a.y-b.y);
+    wordBoxes.textContent = sorted.map((w,i)=>{
+      const conf = w.confidence==null?"":` conf=${w.confidence.toFixed(3)}`;
+      return `${String(i+1).padStart(3,"0")} x=${w.x} y=${w.y}${conf}  ${w.text}`;
+    }).join("\n");
+  }
   function compact(text) {
-    return String(text || "")
-      .toUpperCase()
-      .replace(/\s+/g, "")
-      .replace(/[._·•]/g, "")
-      .trim();
+    return String(text||"").toUpperCase().replace(/\s+/g,"").replace(/[._·•]/g,"").trim();
   }
-
   function canonicalSimple(text) {
-    let s = compact(text);
-
-    s = s
-      .replace(/호기/g, "")
-      .replace(/-/g, "");
-
+    let s = compact(text).replace(/호기/g,"").replace(/-/g,"");
     if (/^TG[1-7]$/.test(s)) return s;
     if (/^GF[1345]$/.test(s)) return s;
     if (/^CF[1-6]$/.test(s)) return s;
     if (/^HIP[123]$/.test(s)) return s;
-    if (s === "SMI") return "SMI";
-
+    if (s==="SMI") return "SMI";
     return "";
   }
-
   function normalizeState(text) {
     const s = compact(text);
-
-    if (!s) return "";
-
-    if (
-      /승온/.test(s) ||
-      /승은/.test(s) ||
-      /승옹/.test(s) ||
-      /승욘/.test(s) ||
-      /숭온/.test(s)
-    ) {
-      return "승온중";
-    }
-
-    if (
-      /냉각/.test(s) ||
-      /냉갹/.test(s) ||
-      /넹각/.test(s)
-    ) {
-      return "냉각중";
-    }
-
-    if (
-      /유지/.test(s) ||
-      /유즤/.test(s) ||
-      /유치/.test(s)
-    ) {
-      return "유지중";
-    }
-
+    if (/승온|승은|승옹|승욘|숭온/.test(s)) return "승온중";
+    if (/냉각|냉갹|넹각/.test(s)) return "냉각중";
+    if (/유지|유즤|유치/.test(s)) return "유지중";
     return "";
   }
-
   function normalizeOperationNumber(text) {
-    const s = String(text || "")
-      .replace(/\s+/g, "")
-      .replace(/[–—−]/g, "-");
-
-    const match = s.match(/^26-(\d{1,3})$/);
-
-    if (!match) return "";
-
-    return `26-${match[1]}`;
+    const s = String(text||"").replace(/\s+/g,"").replace(/[–—−]/g,"-");
+    const m = s.match(/^26-(\d{1,3})$/);
+    return m ? `26-${m[1]}` : "";
   }
-
   function median(values) {
     if (!values.length) return 0;
-
-    const sorted = [...values].sort((a, b) => a - b);
-    const mid = Math.floor(sorted.length / 2);
-
-    if (sorted.length % 2) {
-      return sorted[mid];
-    }
-
-    return (sorted[mid - 1] + sorted[mid]) / 2;
+    const a=[...values].sort((x,y)=>x-y), m=Math.floor(a.length/2);
+    return a.length%2?a[m]:(a[m-1]+a[m])/2;
   }
-
-  function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        const result = String(reader.result || "");
-        const comma = result.indexOf(",");
-
-        if (comma < 0) {
-          reject(new Error("이미지 Base64 변환 실패"));
-          return;
-        }
-
-        resolve(result.slice(comma + 1));
-      };
-
-      reader.onerror = () => {
-        reject(new Error("이미지 파일 읽기 실패"));
-      };
-
-      reader.readAsDataURL(file);
-    });
-  }
-
-  function getVertices(poly) {
-    const vs = poly?.vertices || [];
-
-    return vs.map(v => ({
-      x: Number(v.x || 0),
-      y: Number(v.y || 0)
-    }));
-  }
-
-  function centerOf(poly) {
-    const vertices = getVertices(poly);
-
-    if (!vertices.length) {
-      return { x: 0, y: 0 };
-    }
-
-    return {
-      x:
-        vertices.reduce((sum, v) => sum + v.x, 0) /
-        vertices.length,
-
-      y:
-        vertices.reduce((sum, v) => sum + v.y, 0) /
-        vertices.length
-    };
-  }
-
-  function extractWords(response) {
-    const words = [];
-    const pages = response?.fullTextAnnotation?.pages || [];
-
-    for (const page of pages) {
-      for (const block of page.blocks || []) {
-        for (const paragraph of block.paragraphs || []) {
-          for (const word of paragraph.words || []) {
-            const text = (word.symbols || [])
-              .map(s => s.text || "")
-              .join("");
-
-            const center = centerOf(word.boundingBox);
-
-            words.push({
-              text,
-              x: Math.round(center.x),
-              y: Math.round(center.y),
-              confidence:
-                typeof word.confidence === "number"
-                  ? word.confidence
-                  : null,
-              vertices: getVertices(word.boundingBox)
-            });
-          }
-        }
-      }
-    }
-
-    return words;
-  }
-
-  function wordsToDebugText(words) {
-    const sorted = [...words].sort((a, b) => {
-      if (Math.abs(a.y - b.y) < 10) {
-        return a.x - b.x;
-      }
-
-      return a.y - b.y;
-    });
-
-    return sorted.map((w, i) => {
-      const conf =
-        w.confidence == null
-          ? ""
-          : ` conf=${w.confidence.toFixed(3)}`;
-
-      return (
-        `${String(i + 1).padStart(3, "0")} ` +
-        `x=${w.x} y=${w.y}${conf}  ${w.text}`
-      );
-    }).join("\n");
-  }
-
-  async function callGoogleVision(file, key) {
-    const base64 = await fileToBase64(file);
-
-    const requestBody = {
-      requests: [
-        {
-          image: {
-            content: base64
-          },
-          features: [
-            {
-              type: "DOCUMENT_TEXT_DETECTION",
-              maxResults: 1
-            }
-          ],
-          imageContext: {
-            languageHints: ["ko", "en"]
-          }
-        }
-      ]
-    };
-
-    const endpoint =
-      "https://vision.googleapis.com/v1/images:annotate?key=" +
-      encodeURIComponent(key);
-
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(requestBody)
-    });
-
-    const json = await res.json();
-
-    if (!res.ok) {
-      throw new Error(
-        json?.error?.message ||
-        `HTTP ${res.status}`
-      );
-    }
-
-    const response = json?.responses?.[0];
-
-    if (!response) {
-      throw new Error("Google 응답에 responses[0]이 없습니다.");
-    }
-
-    if (response.error) {
-      throw new Error(
-        response.error.message ||
-        "Google Vision 처리 오류"
-      );
-    }
-
-    const text =
-      response?.fullTextAnnotation?.text ||
-      response?.textAnnotations?.[0]?.description ||
-      "";
-
-    const words = extractWords(response);
-
-    return {
-      fileName: file.name,
-      text,
-      words,
-      response
-    };
-  }
-
-  /*
-    사진 자동 판별.
-
-    순찰일지:
-    온도 / 공정 / 장비 / 체크 / 도달 등의 문자가 많이 존재.
-
-    교대업무일지:
-    26-XXX와 가동 문자가 다수 존재.
-
-    단순 파일 순서를 사용하지 않는다.
-  */
-
-  function scoreDocument(result) {
-    const text = result.text || "";
-    const words = result.words || [];
-
-    let patrolScore = 0;
-    let shiftScore = 0;
-
-    const operationNumbers =
-      words.filter(w =>
-        normalizeOperationNumber(w.text)
-      ).length;
-
-    const operationWords =
-      words.filter(w =>
-        /가동|준비|수리/.test(String(w.text))
-      ).length;
-
-    const stateWords =
-      words.filter(w =>
-        normalizeState(w.text)
-      ).length;
-
-    const tempSymbols =
-      words.filter(w =>
-        /℃|°C|C/.test(String(w.text))
-      ).length;
-
-    const patrolKeywords = [
-      "온도",
-      "공정",
-      "도달",
-      "장비",
-      "체크",
-      "유량",
-      "압력"
-    ];
-
-    const shiftKeywords = [
-      "교대",
-      "제품명",
-      "사업",
-      "가동",
-      "냉각",
-      "준비"
-    ];
-
-    for (const keyword of patrolKeywords) {
-      if (text.includes(keyword)) {
-        patrolScore += 2;
-      }
-    }
-
-    for (const keyword of shiftKeywords) {
-      if (text.includes(keyword)) {
-        shiftScore += 1;
-      }
-    }
-
-    patrolScore += stateWords * 3;
-    patrolScore += tempSymbols;
-
-    shiftScore += operationNumbers * 5;
-    shiftScore += operationWords;
-
-    return {
-      patrolScore,
-      shiftScore,
-      operationNumbers,
-      stateWords
-    };
-  }
-
-  function classifyDocuments(resultA, resultB) {
-    const scoreA = scoreDocument(resultA);
-    const scoreB = scoreDocument(resultB);
-
-    /*
-      가장 강력한 판별 기준은 26-XXX 개수.
-    */
-
-    if (
-      scoreA.operationNumbers >
-      scoreB.operationNumbers
-    ) {
-      return {
-        photo1: resultB,
-        photo2: resultA,
-        score1: scoreB,
-        score2: scoreA
-      };
-    }
-
-    if (
-      scoreB.operationNumbers >
-      scoreA.operationNumbers
-    ) {
-      return {
-        photo1: resultA,
-        photo2: resultB,
-        score1: scoreA,
-        score2: scoreB
-      };
-    }
-
-    /*
-      동률이면 점수 사용.
-    */
-
-    if (
-      scoreA.shiftScore >
-      scoreB.shiftScore
-    ) {
-      return {
-        photo1: resultB,
-        photo2: resultA,
-        score1: scoreB,
-        score2: scoreA
-      };
-    }
-
-    return {
-      photo1: resultA,
-      photo2: resultB,
-      score1: scoreA,
-      score2: scoreB
-    };
-  }
-
-  /*
-    ================================
-    사진1 · 순찰일지
-    ================================
-  */
 
   function findPhoto1Anchor(words, equipment) {
-    let hits = words.filter(w =>
-      canonicalSimple(w.text) === equipment.key
-    );
-
+    let hits = words.filter(w => canonicalSimple(w.text) === equipment.key);
     if (!hits.length) {
       const sKey = compact(equipment.name);
-
       hits = words.filter(w => {
-        const s = compact(w.text);
-
+        const s=compact(w.text);
         if (!s) return false;
+        if (equipment.key==="CF분위기로" && s.includes("분위기")) return true;
+        if (equipment.key==="드라이챔버" && s.includes("드라이") && !s.includes("신형")) return true;
+        if (equipment.key==="신형드라이챔버" && s.includes("신형")) return true;
+        return s===sKey || sKey.includes(s);
+      });
+    }
+    return hits.length ? [...hits].sort((a,b)=>b.y-a.y)[0] : null;
+  }
 
-        if (
-          equipment.key === "CF분위기로" &&
-          s.includes("분위기")
-        ) {
-          return true;
-        }
+  function buildPhoto1Rows(words) {
+    const anchors=[];
+    for (const equipment of EQUIPMENT) {
+      const a=findPhoto1Anchor(words,equipment);
+      if (a) anchors.push({...equipment,x:a.x,y:a.y});
+    }
+    anchors.sort((a,b)=>a.x-b.x);
+    const rows=[];
 
-        if (
-          equipment.key === "드라이챔버" &&
-          s.includes("드라이") &&
-          !s.includes("신형")
-        ) {
-          return true;
-        }
+    for (let i=0;i<anchors.length;i++) {
+      const a=anchors[i], prev=anchors[i-1], next=anchors[i+1];
+      const left=prev?(prev.x+a.x)/2:(next?a.x-(next.x-a.x)/2:a.x-50);
+      const right=next?(a.x+next.x)/2:(prev?a.x+(a.x-prev.x)/2:a.x+50);
+      const col=words.filter(w=>w.x>=left&&w.x<right);
 
-        if (
-          equipment.key === "신형드라이챔버" &&
-          s.includes("신형")
-        ) {
-          return true;
-        }
+      const tempCandidates=col.map(w=>{
+        const clean=String(w.text).replace(/[^\d]/g,"");
+        if (!/^\d{2,4}$/.test(clean)) return null;
+        const value=Number(clean);
+        if (!Number.isFinite(value)||value<20||value>1500) return null;
+        return {value,y:w.y};
+      }).filter(Boolean);
 
-        return (
-          s === sKey ||
-          (
-            s.length >= 3 &&
-            sKey.includes(s)
-          )
-        );
+      // 표의 온도값은 여러 행에 섞일 수 있으므로, 장비 anchor보다 위에 있는
+      // 후보 중 주변 장비들과 공통으로 형성되는 Y-band를 아래에서 한 번 더 정제한다.
+      rows.push({
+        row:a.row,key:a.key,equipment:a.name,temperature:"",
+        state:"",operationNumber:"",operation:"",anchorX:a.x,anchorY:a.y,
+        _tempCandidates:tempCandidates,
+        _stateCandidates:col.map(w=>({state:normalizeState(w.text),y:w.y})).filter(v=>v.state)
       });
     }
 
-    if (!hits.length) {
-      return null;
+    // 온도 후보들의 Y를 90px 단위로 묶고, 가장 많은 장비가 참여한 band를 온도행으로 사용.
+    const bands=new Map();
+    for (const r of rows) {
+      for (const t of r._tempCandidates) {
+        if (t.y>=r.anchorY) continue;
+        const bucket=Math.round(t.y/90)*90;
+        if (!bands.has(bucket)) bands.set(bucket,new Set());
+        bands.get(bucket).add(r.key);
+      }
+    }
+    const bestTempBand=[...bands.entries()]
+      .sort((a,b)=>b[1].size-a[1].size)[0]?.[0] ?? null;
+
+    for (const r of rows) {
+      if (bestTempBand!=null) {
+        const c=r._tempCandidates
+          .filter(t=>Math.abs(t.y-bestTempBand)<=120)
+          .sort((a,b)=>Math.abs(a.y-bestTempBand)-Math.abs(b.y-bestTempBand));
+        if (c.length) r.temperature=c[0].value;
+      }
+
+      // 상태는 장비별 OCR에서 실제 승온/냉각/유지 단어가 잡힌 경우만 사용.
+      const states=r._stateCandidates.filter(v=>v.y<r.anchorY).sort((a,b)=>b.y-a.y);
+      if (states.length) r.state=states[0].state;
+
+      delete r._tempCandidates;
+      delete r._stateCandidates;
+      delete r.anchorY;
     }
 
-    return [...hits]
-      .sort((a, b) => b.y - a.y)[0];
+    rows.sort((a,b)=>a.row-b.row);
+    return rows;
   }
 
-  function reconstructPhoto1Anchors(words) {
-    const detected = [];
+  function buildPhoto2Rows(words) {
+    const anchors=[];
+    for (const expected of SHIFT_EQUIPMENT) {
+      const hits=words.filter(w=>canonicalSimple(w.text)===expected);
+      if (!hits.length) continue;
+      const best=[...hits].sort((a,b)=>b.y-a.y)[0];
+      anchors.push({key:expected,x:best.x,y:best.y});
+    }
+    anchors.sort((a,b)=>a.x-b.x);
 
-    for (const equipment of EQUIPMENT) {
-      const anchor =
-        findPhoto1Anchor(words, equipment);
+    const gaps=[];
+    for (let i=1;i<anchors.length;i++) {
+      const g=anchors[i].x-anchors[i-1].x;
+      if (g>40&&g<400) gaps.push(g);
+    }
+    const typicalGap=median(gaps)||155;
+    const reconstructed=[];
 
-      if (anchor) {
-        detected.push({
-          ...equipment,
-          x: anchor.x,
-          y: anchor.y,
-          reconstructed: false
+    for (let i=0;i<anchors.length;i++) {
+      reconstructed.push(anchors[i]);
+      const cur=anchors[i], next=anchors[i+1];
+      if (!next) continue;
+      const ci=SHIFT_EQUIPMENT.indexOf(cur.key), ni=SHIFT_EQUIPMENT.indexOf(next.key);
+      if (ci<0||ni<0||ni<=ci+1) continue;
+      const missing=ni-ci-1, total=next.x-cur.x;
+      if (total<typicalGap*(missing+0.7)) continue;
+      const step=total/(missing+1);
+      for (let m=1;m<=missing;m++) {
+        reconstructed.push({
+          key:SHIFT_EQUIPMENT[ci+m],x:cur.x+step*m,y:(cur.y+next.y)/2,reconstructed:true
         });
       }
     }
 
-    detected.sort((a, b) => a.x - b.x);
-
-    /*
-      단순 장비 OCR 누락 시,
-      앞/뒤 장비의 고정 순서를 이용해서
-      "열 위치"만 복원한다.
-
-      온도와 상태는 절대 복원/추정하지 않는다.
-      실제 OCR 단어가 해당 열에 있어야만 값이 들어간다.
-    */
-
-    const detectedByRow = new Map();
-
-    for (const anchor of detected) {
-      detectedByRow.set(anchor.row, anchor);
+    const map=new Map();
+    for (const a of reconstructed) {
+      if (!map.has(a.key)||map.get(a.key).reconstructed&&!a.reconstructed) map.set(a.key,a);
     }
+    const finalAnchors=[...map.values()].sort((a,b)=>a.x-b.x);
+    const rows=[];
 
-    const reconstructed = [...detected];
+    for (let i=0;i<finalAnchors.length;i++) {
+      const a=finalAnchors[i], prev=finalAnchors[i-1], next=finalAnchors[i+1];
+      const left=prev?(prev.x+a.x)/2:a.x-typicalGap/2;
+      const right=next?(a.x+next.x)/2:a.x+typicalGap/2;
+      const col=words.filter(w=>w.x>=left&&w.x<right);
 
-    for (let row = 1; row <= EQUIPMENT.length; row++) {
-      if (detectedByRow.has(row)) {
-        continue;
-      }
+      const nums=col.map(w=>({value:normalizeOperationNumber(w.text),y:w.y}))
+        .filter(v=>v.value)
+        .sort((x,y)=>Math.abs(x.y-a.y)-Math.abs(y.y-a.y));
 
-      let leftAnchor = null;
-      let rightAnchor = null;
-
-      for (let l = row - 1; l >= 1; l--) {
-        if (detectedByRow.has(l)) {
-          leftAnchor = detectedByRow.get(l);
-          break;
-        }
-      }
-
-      for (let r = row + 1; r <= EQUIPMENT.length; r++) {
-        if (detectedByRow.has(r)) {
-          rightAnchor = detectedByRow.get(r);
-          break;
-        }
-      }
-
-      if (!leftAnchor || !rightAnchor) {
-        continue;
-      }
-
-      const rowDistance =
-        rightAnchor.row -
-        leftAnchor.row;
-
-      if (rowDistance <= 0) {
-        continue;
-      }
-
-      const ratio =
-        (row - leftAnchor.row) /
-        rowDistance;
-
-      const x =
-        leftAnchor.x +
-        (
-          rightAnchor.x -
-          leftAnchor.x
-        ) * ratio;
-
-      const y =
-        leftAnchor.y +
-        (
-          rightAnchor.y -
-          leftAnchor.y
-        ) * ratio;
-
-      const equipment =
-        EQUIPMENT[row - 1];
-
-      reconstructed.push({
-        ...equipment,
-        x,
-        y,
-        reconstructed: true
-      });
-    }
-
-    return reconstructed.sort((a, b) => a.x - b.x);
-  }
-
-  function buildPhoto1Rows(words) {
-    const anchors =
-      reconstructPhoto1Anchors(words);
-
-    const rows = [];
-
-    for (let i = 0; i < anchors.length; i++) {
-      const anchor = anchors[i];
-      const previous = anchors[i - 1];
-      const next = anchors[i + 1];
-
-      let left;
-      let right;
-
-      if (previous) {
-        left = (previous.x + anchor.x) / 2;
-      } else if (next) {
-        left =
-          anchor.x -
-          (next.x - anchor.x) / 2;
-      } else {
-        left = anchor.x - 60;
-      }
-
-      if (next) {
-        right = (anchor.x + next.x) / 2;
-      } else if (previous) {
-        right =
-          anchor.x +
-          (anchor.x - previous.x) / 2;
-      } else {
-        right = anchor.x + 60;
-      }
-
-      const columnWords =
-        words.filter(w =>
-          w.x >= left &&
-          w.x < right
-        );
-
-      /*
-        온도 후보.
-        실제 OCR 숫자만 사용한다.
-      */
-
-      const temperatureCandidates =
-        columnWords
-          .filter(w => w.y < anchor.y)
-          .map(w => {
-            const clean =
-              String(w.text)
-                .replace(/[^\d]/g, "");
-
-            if (!/^\d{2,4}$/.test(clean)) {
-              return null;
-            }
-
-            const value = Number(clean);
-
-            if (
-              !Number.isFinite(value) ||
-              value < 20 ||
-              value > 1500
-            ) {
-              return null;
-            }
-
-            const distance =
-              anchor.y - w.y;
-
-            return {
-              value,
-              x: w.x,
-              y: w.y,
-              distance
-            };
-          })
-          .filter(Boolean);
-
-      /*
-        기존 실측 사진 구조 기준:
-        온도 행은 장비명 위쪽에 충분히 떨어져 있다.
-      */
-
-      const plausibleTemps =
-        temperatureCandidates.filter(t =>
-          t.distance > 400 &&
-          t.distance < 1500
-        );
-
-      let temperature = "";
-
-      if (plausibleTemps.length) {
-        const best =
-          [...plausibleTemps]
-            .sort((a, b) =>
-              b.y - a.y
-            )[0];
-
-        temperature = best.value;
-      }
-
-      /*
-        상태는 실제 OCR된 승온/냉각/유지만 사용.
-      */
-
-      const stateCandidates =
-        columnWords
-          .filter(w => w.y < anchor.y)
-          .map(w => ({
-            state: normalizeState(w.text),
-            y: w.y
-          }))
-          .filter(v => v.state);
-
-      let state = "";
-
-      if (stateCandidates.length) {
-        const validStates =
-          [...stateCandidates]
-            .sort((a, b) => b.y - a.y);
-
-        state = validStates[0].state;
-      }
+      const ops=col.filter(w=>/가동|냉각|준비|수리/.test(String(w.text)))
+        .sort((x,y)=>Math.abs(x.y-a.y)-Math.abs(y.y-a.y));
 
       rows.push({
-        row: anchor.row,
-        key: anchor.key,
-        equipment: anchor.name,
-        temperature,
-        state,
-        reconstructed: !!anchor.reconstructed
+        key:a.key,equipment:a.key,temperature:"",state:"",
+        operationNumber:nums[0]?.value||"",operation:ops[0]?.text||"",
+        anchorX:Math.round(a.x),reconstructed:!!a.reconstructed
       });
     }
-
-    rows.sort((a, b) => a.row - b.row);
-
     return rows;
   }
 
-  /*
-    ================================
-    사진2 · 교대업무일지
-    ================================
-  */
-
-  function buildPhoto2Rows(words) {
-    const anchors = [];
-
-    for (const expected of SHIFT_EQUIPMENT) {
-      const hits =
-        words.filter(w =>
-          canonicalSimple(w.text) === expected
-        );
-
-      if (!hits.length) {
-        continue;
-      }
-
-      const best =
-        [...hits]
-          .sort((a, b) =>
-            b.y - a.y
-          )[0];
-
-      anchors.push({
-        key: expected,
-        x: best.x,
-        y: best.y,
-        reconstructed: false
-      });
-    }
-
-    anchors.sort((a, b) => a.x - b.x);
-
-    const gaps = [];
-
-    for (let i = 1; i < anchors.length; i++) {
-      const current = anchors[i - 1];
-      const next = anchors[i];
-
-      const currentIndex =
-        SHIFT_EQUIPMENT.indexOf(current.key);
-
-      const nextIndex =
-        SHIFT_EQUIPMENT.indexOf(next.key);
-
-      const indexGap =
-        nextIndex - currentIndex;
-
-      if (indexGap === 1) {
-        const gap = next.x - current.x;
-
-        if (
-          gap > 40 &&
-          gap < 400
-        ) {
-          gaps.push(gap);
-        }
-      }
-    }
-
-    const typicalGap =
-      median(gaps) || 155;
-
-    const detectedMap = new Map();
-
-    for (const anchor of anchors) {
-      detectedMap.set(anchor.key, anchor);
-    }
-
-    const reconstructed = [...anchors];
-
-    /*
-      TG7처럼 장비명이 OCR되지 않아도
-      앞/뒤 장비의 실제 X 위치와 장비 순서로
-      해당 열의 X 위치만 복원한다.
-
-      가동번호는 절대 추정하지 않는다.
-    */
-
-    for (
-      let targetIndex = 0;
-      targetIndex < SHIFT_EQUIPMENT.length;
-      targetIndex++
-    ) {
-      const targetKey =
-        SHIFT_EQUIPMENT[targetIndex];
-
-      if (detectedMap.has(targetKey)) {
-        continue;
-      }
-
-      let left = null;
-      let right = null;
-
-      for (
-        let l = targetIndex - 1;
-        l >= 0;
-        l--
-      ) {
-        const key =
-          SHIFT_EQUIPMENT[l];
-
-        if (detectedMap.has(key)) {
-          left = {
-            index: l,
-            anchor: detectedMap.get(key)
-          };
-          break;
-        }
-      }
-
-      for (
-        let r = targetIndex + 1;
-        r < SHIFT_EQUIPMENT.length;
-        r++
-      ) {
-        const key =
-          SHIFT_EQUIPMENT[r];
-
-        if (detectedMap.has(key)) {
-          right = {
-            index: r,
-            anchor: detectedMap.get(key)
-          };
-          break;
-        }
-      }
-
-      let x = null;
-      let y = null;
-
-      if (left && right) {
-        const totalSteps =
-          right.index - left.index;
-
-        const targetSteps =
-          targetIndex - left.index;
-
-        const step =
-          (
-            right.anchor.x -
-            left.anchor.x
-          ) / totalSteps;
-
-        x =
-          left.anchor.x +
-          step * targetSteps;
-
-        y =
-          (
-            left.anchor.y +
-            right.anchor.y
-          ) / 2;
-      } else if (left) {
-        const steps =
-          targetIndex - left.index;
-
-        x =
-          left.anchor.x +
-          typicalGap * steps;
-
-        y = left.anchor.y;
-      } else if (right) {
-        const steps =
-          right.index - targetIndex;
-
-        x =
-          right.anchor.x -
-          typicalGap * steps;
-
-        y = right.anchor.y;
-      }
-
-      if (x == null || y == null) {
-        continue;
-      }
-
-      reconstructed.push({
-        key: targetKey,
-        x,
-        y,
-        reconstructed: true
-      });
-    }
-
-    const finalAnchors =
-      reconstructed
-        .sort((a, b) => a.x - b.x);
-
-    const rows = [];
-
-    for (let i = 0; i < finalAnchors.length; i++) {
-      const anchor = finalAnchors[i];
-      const previous = finalAnchors[i - 1];
-      const next = finalAnchors[i + 1];
-
-      let left;
-      let right;
-
-      if (previous) {
-        left =
-          (previous.x + anchor.x) / 2;
-      } else {
-        left =
-          anchor.x -
-          typicalGap / 2;
-      }
-
-      if (next) {
-        right =
-          (anchor.x + next.x) / 2;
-      } else {
-        right =
-          anchor.x +
-          typicalGap / 2;
-      }
-
-      const columnWords =
-        words.filter(w =>
-          w.x >= left &&
-          w.x < right
-        );
-
-      const numberCandidates =
-        columnWords
-          .map(w => ({
-            value:
-              normalizeOperationNumber(
-                w.text
-              ),
-            y: w.y
-          }))
-          .filter(v => v.value);
-
-      let operationNumber = "";
-
-      if (numberCandidates.length) {
-        const sorted =
-          [...numberCandidates]
-            .sort((a, b) =>
-              Math.abs(a.y - anchor.y) -
-              Math.abs(b.y - anchor.y)
-            );
-
-        operationNumber =
-          sorted[0].value;
-      }
-
-      const operationCandidates =
-        columnWords.filter(w =>
-          /가동|냉각|준비|수리/.test(
-            String(w.text)
-          )
-        );
-
-      let operation = "";
-
-      if (operationCandidates.length) {
-        const best =
-          [...operationCandidates]
-            .sort((a, b) =>
-              Math.abs(a.y - anchor.y) -
-              Math.abs(b.y - anchor.y)
-            )[0];
-
-        operation = best.text;
-      }
-
-      rows.push({
-        key: anchor.key,
-        equipment: anchor.key,
-        operationNumber,
-        operation,
-        anchorX: Math.round(anchor.x),
-        reconstructed: !!anchor.reconstructed
-      });
-    }
-
-    return rows;
-  }
-
-  function renderPhoto1(rows) {
-    photo1Body.innerHTML = "";
-
-    for (const row of rows) {
-      const tr = document.createElement("tr");
-
-      tr.innerHTML = `
-        <td>${escapeHtml(row.row)}</td>
-        <td>${escapeHtml(row.equipment)}</td>
-        <td>${escapeHtml(row.temperature)}</td>
-        <td>${escapeHtml(row.state)}</td>
-      `;
-
-      photo1Body.appendChild(tr);
-    }
-
-    const tempCount =
-      rows.filter(r =>
-        r.temperature !== "" &&
-        r.temperature != null
-      ).length;
-
-    const stateCount =
-      rows.filter(r => r.state).length;
-
-    const reconstructedCount =
-      rows.filter(r => r.reconstructed).length;
-
-    photo1Summary.innerHTML =
-      `<span class="good">순찰일지 OCR 성공</span><br>` +
-      `장비 ${rows.length}개 · ` +
-      `온도 ${tempCount}개 · ` +
-      `상태 ${stateCount}개 · ` +
-      `복원열 ${reconstructedCount}개`;
-  }
-
-  function renderPhoto2(rows) {
-    photo2Body.innerHTML = "";
-
-    rows.forEach((row, index) => {
-      const tr = document.createElement("tr");
-
-      tr.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${escapeHtml(row.equipment)}</td>
-        <td>${escapeHtml(row.operationNumber)}</td>
-        <td>${escapeHtml(row.operation)}</td>
-      `;
-
-      photo2Body.appendChild(tr);
+  function renderRows(rows,type) {
+    resultBody.innerHTML="";
+    if (!rows.length) { summary.innerHTML='<span class="warn">구조화 후보 0개</span>'; return; }
+    rows.forEach((row,i)=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td>${escapeHtml(row.row||i+1)}</td><td>${escapeHtml(row.equipment)}</td>
+        <td>${escapeHtml(row.temperature)}</td><td>${escapeHtml(row.state)}</td>
+        <td>${escapeHtml(row.operationNumber)}</td><td>${escapeHtml(row.operation)}</td>`;
+      resultBody.appendChild(tr);
     });
-
-    const numberCount =
-      rows.filter(r =>
-        r.operationNumber
-      ).length;
-
-    const reconstructedCount =
-      rows.filter(r =>
-        r.reconstructed
-      ).length;
-
-    photo2Summary.innerHTML =
-      `<span class="good">교대업무일지 OCR 성공</span><br>` +
-      `장비 ${rows.length}개 · ` +
-      `가동번호 ${numberCount}개 · ` +
-      `복원열 ${reconstructedCount}개`;
+    if (type==="photo1") {
+      summary.innerHTML=`<span class="good">사진1 OCR 성공</span><br>장비 ${rows.length}개 · 온도 ${rows.filter(r=>r.temperature!==""&&r.temperature!=null).length}개 · 상태 ${rows.filter(r=>r.state).length}개`;
+    } else {
+      summary.innerHTML=`<span class="good">사진2 OCR 성공</span><br>장비 ${rows.length}개 · 가동번호 ${rows.filter(r=>r.operationNumber).length}개 · 복원 anchor ${rows.filter(r=>r.reconstructed).length}개`;
+    }
   }
 
-  /*
-    ================================
-    최종 병합
-    ================================
-  */
+  function mergeResults() {
+    let photo1=null, photo2=null;
+    try { photo1=JSON.parse(localStorage.getItem(PHOTO1_STORAGE)||"null"); } catch {}
+    try { photo2=JSON.parse(localStorage.getItem(PHOTO2_STORAGE)||"null"); } catch {}
 
-  function mergeResults(photo1Rows, photo2Rows) {
-    const operationMap = new Map();
+    if (!photo1?.rows) { finalResult.textContent="사진1 순찰일지를 먼저 분석해주세요."; return; }
+    if (!photo2?.rows) { finalResult.textContent="사진1 저장 완료.\n사진2 교대업무일지를 분석하면 자동 병합됩니다."; return; }
 
-    for (const row of photo2Rows) {
-      if (!row.key) continue;
+    const operationMap=new Map();
+    for (const r of photo2.rows) if (r.key) operationMap.set(r.key,{number:r.operationNumber||"",operation:r.operation||""});
 
-      operationMap.set(
-        row.key,
-        {
-          number:
-            row.operationNumber || "",
-          operation:
-            row.operation || ""
-        }
-      );
+    const normal=[];
+    const special=[];
+
+    for (const row of photo1.rows) {
+      if ((row.row>=21&&row.row<=25)||(row.row>=31&&row.row<=35)) continue;
+      if (row.temperature===""||row.temperature==null) continue;
+      const temp=Number(row.temperature);
+      if (!Number.isFinite(temp)||temp<100) continue;
+
+      // 소각기/드라이챔버는 가동번호와 상태를 절대 붙이지 않는다.
+      if (row.key==="소각기1") { special.push(`1동 ${temp}도`); continue; }
+      if (row.key==="소각기3") { special.push(`3동 ${temp}도`); continue; }
+      if (row.key==="드라이챔버") { special.push(`구형드라이챔버 ${temp}도`); continue; }
+      if (row.key==="신형드라이챔버") { special.push(`신형드라이챔버 ${temp}도`); continue; }
+
+      const op=operationMap.get(row.key);
+      const number=op?.number||"번호미인식";
+      const state=row.state||"상태미인식";
+      const shortName=row.equipment.replace("호기","");
+      normal.push(`${number==="번호미인식"?"":("#"+number+" ")}${shortName} ${temp}도 ${state}`.trim());
     }
 
-    const lines = [];
+    let out=normal.join("\n");
+    const inc1=special.find(x=>x.startsWith("1동 "));
+    const inc3=special.find(x=>x.startsWith("3동 "));
+    const oldDry=special.find(x=>x.startsWith("구형드라이챔버 "));
+    const newDry=special.find(x=>x.startsWith("신형드라이챔버 "));
 
-    for (const row of photo1Rows) {
-      /*
-        고정 제외:
-        21~25
-        31~35
-      */
-
-      if (
-        (row.row >= 21 && row.row <= 25) ||
-        (row.row >= 31 && row.row <= 35)
-      ) {
-        continue;
-      }
-
-      /*
-        온도 없는 장비 제외
-      */
-
-      if (
-        row.temperature === "" ||
-        row.temperature == null
-      ) {
-        continue;
-      }
-
-      const temperature =
-        Number(row.temperature);
-
-      if (!Number.isFinite(temperature)) {
-        continue;
-      }
-
-      /*
-        100℃ 미만 제외
-      */
-
-      if (temperature < 100) {
-        continue;
-      }
-
-      const op =
-        operationMap.get(row.key);
-
-      const number =
-        op?.number ||
-        "번호미인식";
-
-      const state =
-        row.state ||
-        "상태미인식";
-
-      lines.push(
-        `${number} | ` +
-        `${row.equipment} | ` +
-        `${temperature}℃ | ` +
-        `${state}`
-      );
+    if (inc1||inc3) {
+      out += `${out?"\n\n":""}-TG소각기-\n${[inc1,inc3].filter(Boolean).join("\n")}`;
     }
+    if (oldDry) out += `${out?"\n\n":""}${oldDry}`;
+    if (newDry) out += `${out?"\n":""}${newDry}`;
 
-    if (!lines.length) {
-      finalText = "";
-      finalResult.textContent =
-        "최종 출력 대상 장비가 없습니다.";
-      copyBtn.disabled = true;
-      return;
-    }
-
-    finalText = lines.join("\n");
-
-    finalResult.textContent =
-      finalText;
-
-    copyBtn.disabled = false;
-
-    localStorage.setItem(
-      FINAL_STORAGE,
-      finalText
-    );
+    finalResult.textContent=out||"최종 출력 대상 장비가 없습니다.";
   }
-
-  /*
-    복사
-  */
-
-  copyBtn.addEventListener("click", async () => {
-    if (!finalText) return;
-
-    try {
-      await navigator.clipboard.writeText(finalText);
-
-      const oldText =
-        copyBtn.textContent;
-
-      copyBtn.textContent =
-        "복사 완료";
-
-      setTimeout(() => {
-        copyBtn.textContent =
-          oldText;
-      }, 1400);
-
-    } catch {
-      /*
-        iOS/Safari fallback
-      */
-
-      const textarea =
-        document.createElement("textarea");
-
-      textarea.value =
-        finalText;
-
-      textarea.style.position =
-        "fixed";
-
-      textarea.style.left =
-        "-9999px";
-
-      textarea.style.top =
-        "0";
-
-      document.body.appendChild(
-        textarea
-      );
-
-      textarea.focus();
-      textarea.select();
-
-      try {
-        document.execCommand("copy");
-
-        copyBtn.textContent =
-          "복사 완료";
-
-        setTimeout(() => {
-          copyBtn.textContent =
-            "결과 전체 복사";
-        }, 1400);
-
-      } catch {
-        alert("복사에 실패했습니다.");
-      }
-
-      textarea.remove();
-    }
-  });
-
-  /*
-    ================================
-    실행
-    ================================
-  */
 
   runBtn.addEventListener("click", async () => {
-    const key = apiKey.value.trim();
+    const key=apiKey.value.trim();
+    if (!key) return setStatus("Google API Key가 없습니다.","err");
+    if (!selectedFile) return setStatus("사진을 선택해주세요.","err");
 
-    if (!key) {
-      setStatus(
-        "Google API Key가 없습니다.",
-        "err"
-      );
-      return;
-    }
-
-    if (selectedFiles.length !== 2) {
-      setStatus(
-        "사진을 정확히 2장 선택해주세요.",
-        "err"
-      );
-      return;
-    }
-
-    runBtn.disabled = true;
-    copyBtn.disabled = true;
-
-    finalText = "";
-
-    photo1Body.innerHTML = "";
-    photo2Body.innerHTML = "";
-
-    photo1Summary.textContent =
-      "분석 중...";
-
-    photo2Summary.textContent =
-      "분석 중...";
-
-    finalResult.textContent =
-      "분석 중...";
-
-    detectResult.textContent =
-      "사진 2장 OCR 및 자동 판별 중...";
-
-    photo1FullText.textContent =
-      "분석 중...";
-
-    photo2FullText.textContent =
-      "분석 중...";
-
-    photo1Boxes.textContent =
-      "분석 중...";
-
-    photo2Boxes.textContent =
-      "분석 중...";
-
-    const started =
-      performance.now();
+    runBtn.disabled=true;
+    fullText.textContent=wordBoxes.textContent=rawJson.textContent="분석 중...";
+    resultBody.innerHTML="";
+    summary.textContent="Google Vision 호출 중...";
+    const started=performance.now();
 
     try {
-      setStatus(
-        "사진 1/2 Google Vision 분석 중..."
-      );
+      setStatus("Google Cloud Vision 호출 중...\nDOCUMENT_TEXT_DETECTION");
+      const base64=await fileToBase64(selectedFile);
+      const requestBody={requests:[{
+        image:{content:base64},
+        features:[{type:"DOCUMENT_TEXT_DETECTION",maxResults:1}],
+        imageContext:{languageHints:["ko","en"]}
+      }]};
 
-      /*
-        동시에 보내지 않고 순차 처리.
-        모바일 환경에서 메모리 부담을 줄인다.
-      */
+      const endpoint="https://vision.googleapis.com/v1/images:annotate?key="+encodeURIComponent(key);
+      const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(requestBody)});
+      const json=await res.json();
+      if (!res.ok) throw new Error(json?.error?.message||`HTTP ${res.status}`);
 
-      const resultA =
-        await callGoogleVision(
-          selectedFiles[0],
-          key
-        );
+      const response=json?.responses?.[0];
+      if (!response) throw new Error("Google 응답에 responses[0]이 없습니다.");
+      if (response.error) throw new Error(response.error.message||"Google Vision 처리 오류");
 
-      setStatus(
-        "사진 1 완료\n사진 2/2 Google Vision 분석 중..."
-      );
+      const text=response?.fullTextAnnotation?.text||response?.textAnnotations?.[0]?.description||"";
+      const words=extractWords(response);
+      const type=photoType.value;
+      const rows=type==="photo1"?buildPhoto1Rows(words):buildPhoto2Rows(words);
 
-      const resultB =
-        await callGoogleVision(
-          selectedFiles[1],
-          key
-        );
+      fullText.textContent=text||"(OCR 텍스트 없음)";
+      displayWordBoxes(words);
+      rawJson.textContent=JSON.stringify(json,null,2);
+      renderRows(rows,type);
 
-      setStatus(
-        "OCR 완료\n순찰일지 / 교대업무일지 자동 판별 중..."
-      );
+      const elapsed=Math.round(performance.now()-started);
+      const saved={savedAt:new Date().toISOString(),photoType:type,elapsed,text,words,rows};
+      localStorage.setItem(type==="photo1"?PHOTO1_STORAGE:PHOTO2_STORAGE,JSON.stringify(saved));
 
-      const classified =
-        classifyDocuments(
-          resultA,
-          resultB
-        );
-
-      const patrol =
-        classified.photo1;
-
-      const shift =
-        classified.photo2;
-
-      detectResult.textContent =
-        "자동 판별 완료\n\n" +
-        "순찰일지 : " +
-        patrol.fileName +
-        "\n" +
-        "교대업무일지 : " +
-        shift.fileName +
-        "\n\n" +
-        "순찰일지 26-XXX 인식 : " +
-        classified.score1.operationNumbers +
-        "개\n" +
-        "교대일지 26-XXX 인식 : " +
-        classified.score2.operationNumbers +
-        "개";
-
-      /*
-        각각 구조화
-      */
-
-      const patrolRows =
-        buildPhoto1Rows(
-          patrol.words
-        );
-
-      const shiftRows =
-        buildPhoto2Rows(
-          shift.words
-        );
-
-      renderPhoto1(
-        patrolRows
-      );
-
-      renderPhoto2(
-        shiftRows
-      );
-
-      mergeResults(
-        patrolRows,
-        shiftRows
-      );
-
-      /*
-        OCR 진단
-      */
-
-      photo1FullText.textContent =
-        patrol.text ||
-        "(OCR 텍스트 없음)";
-
-      photo2FullText.textContent =
-        shift.text ||
-        "(OCR 텍스트 없음)";
-
-      photo1Boxes.textContent =
-        wordsToDebugText(
-          patrol.words
-        );
-
-      photo2Boxes.textContent =
-        wordsToDebugText(
-          shift.words
-        );
-
-      const elapsed =
-        Math.round(
-          performance.now() -
-          started
-        );
-
-      setStatus(
-        `분석 완료 · ${elapsed}ms\n` +
-        `순찰일지 OCR ${patrol.words.length}단어\n` +
-        `교대업무일지 OCR ${shift.words.length}단어\n` +
-        `자동 병합 완료`,
-        "ok"
-      );
-
-    } catch (error) {
+      mergeResults();
+      setStatus(`Google Vision 성공 · ${elapsed}ms\nOCR 단어 ${words.length}개\n${type==="photo1"?"사진1":"사진2"} 결과 저장 완료`,"ok");
+    } catch(error) {
       console.error(error);
-
-      const message =
-        error?.message ||
-        String(error);
-
-      setStatus(
-        "Google Vision 실패\n" +
-        message,
-        "err"
-      );
-
-      detectResult.textContent =
-        "분석 실패";
-
-      finalResult.textContent =
-        "분석 실패: " +
-        message;
-
+      const message=error?.message||String(error);
+      setStatus("Google Vision 실패\n"+message,"err");
+      fullText.textContent="실패: "+message;
+      summary.innerHTML='<span class="warn">분석 실패</span>';
     } finally {
       updateButton();
     }
   });
 
-  /*
-    이전 최종 결과 복원
-  */
-
-  const previousFinal =
-    localStorage.getItem(
-      FINAL_STORAGE
-    );
-
-  if (previousFinal) {
-    finalText =
-      previousFinal;
-
-    finalResult.textContent =
-      previousFinal;
-
-    copyBtn.disabled = false;
-  }
-
+  mergeResults();
   updateButton();
-
 })();
 </script>
-
 </body>
 </html>
