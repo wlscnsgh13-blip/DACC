@@ -134,8 +134,8 @@
   "use strict";
 
   const API_KEY_STORAGE = "dacc_google_vision_api_key";
-  const PHOTO1_STORAGE = "dacc_google_photo1_result_v6";
-  const PHOTO2_STORAGE = "dacc_google_photo2_result_v6";
+  const PHOTO1_STORAGE = "dacc_google_photo1_result_v7";
+  const PHOTO2_STORAGE = "dacc_google_photo2_result_v7";
 
   const apiKey = document.getElementById("apiKey");
   const photoType = document.getElementById("photoType");
@@ -354,52 +354,85 @@
       const right=next?(a.x+next.x)/2:(prev?a.x+(a.x-prev.x)/2:a.x+50);
       const col=words.filter(w=>w.x>=left&&w.x<right);
 
-      const tempCandidates=col.map(w=>{
-        const clean=String(w.text).replace(/[^\d]/g,"");
-        if (!/^\d{2,4}$/.test(clean)) return null;
-        const value=Number(clean);
-        if (!Number.isFinite(value)||value<20||value>1500) return null;
-        return {value,y:w.y};
-      }).filter(Boolean);
+      const temperatureCandidates =
+        col
+          .filter(w => w.y < a.y)
+          .map(w => {
+            const clean = String(w.text).replace(/[^\d]/g, "");
 
-      // 표의 온도값은 여러 행에 섞일 수 있으므로, 장비 anchor보다 위에 있는
-      // 후보 중 주변 장비들과 공통으로 형성되는 Y-band를 아래에서 한 번 더 정제한다.
+            if (!/^\d{2,4}$/.test(clean)) {
+              return null;
+            }
+
+            const value = Number(clean);
+
+            if (
+              !Number.isFinite(value) ||
+              value < 20 ||
+              value > 1500
+            ) {
+              return null;
+            }
+
+            return {
+              value,
+              x: w.x,
+              y: w.y
+            };
+          })
+          .filter(Boolean);
+
+      const plausibleTemps =
+        temperatureCandidates.filter(t => {
+          const distance = a.y - t.y;
+
+          return (
+            distance > 400 &&
+            distance < 1500
+          );
+        });
+
+      let temperature = "";
+
+      if (plausibleTemps.length) {
+        const best =
+          [...plausibleTemps]
+            .sort((x, y) => y.y - x.y)[0];
+
+        temperature = best.value;
+      }
+
+      const stateCandidates =
+        col
+          .map(w => ({
+            state: normalizeState(w.text),
+            y: w.y
+          }))
+          .filter(v => v.state);
+
+      let state = "";
+
+      if (stateCandidates.length) {
+        const validStates =
+          stateCandidates
+            .filter(v => v.y < a.y)
+            .sort((x, y) => y.y - x.y);
+
+        if (validStates.length) {
+          state = validStates[0].state;
+        }
+      }
+
       rows.push({
-        row:a.row,key:a.key,equipment:a.name,temperature:"",
-        state:"",operationNumber:"",operation:"",anchorX:a.x,anchorY:a.y,
-        _tempCandidates:tempCandidates,
-        _stateCandidates:col.map(w=>({state:normalizeState(w.text),y:w.y})).filter(v=>v.state)
+        row: a.row,
+        key: a.key,
+        equipment: a.name,
+        temperature,
+        state,
+        operationNumber: "",
+        operation: "",
+        anchorX: a.x
       });
-    }
-
-    // 온도 후보들의 Y를 90px 단위로 묶고, 가장 많은 장비가 참여한 band를 온도행으로 사용.
-    const bands=new Map();
-    for (const r of rows) {
-      for (const t of r._tempCandidates) {
-        if (t.y>=r.anchorY) continue;
-        const bucket=Math.round(t.y/90)*90;
-        if (!bands.has(bucket)) bands.set(bucket,new Set());
-        bands.get(bucket).add(r.key);
-      }
-    }
-    const bestTempBand=[...bands.entries()]
-      .sort((a,b)=>b[1].size-a[1].size)[0]?.[0] ?? null;
-
-    for (const r of rows) {
-      if (bestTempBand!=null) {
-        const c=r._tempCandidates
-          .filter(t=>Math.abs(t.y-bestTempBand)<=120)
-          .sort((a,b)=>Math.abs(a.y-bestTempBand)-Math.abs(b.y-bestTempBand));
-        if (c.length) r.temperature=c[0].value;
-      }
-
-      // 상태는 장비별 OCR에서 실제 승온/냉각/유지 단어가 잡힌 경우만 사용.
-      const states=r._stateCandidates.filter(v=>v.y<r.anchorY).sort((a,b)=>b.y-a.y);
-      if (states.length) r.state=states[0].state;
-
-      delete r._tempCandidates;
-      delete r._stateCandidates;
-      delete r.anchorY;
     }
 
     rows.sort((a,b)=>a.row-b.row);
