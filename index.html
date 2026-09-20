@@ -721,7 +721,7 @@ button {
         style="width:100%;padding:12px;border:1px solid #d8deea;border-radius:12px;background:#fff">
     </div>
     <button type="button" class="primary" id="visionCompareBtn" style="margin-top:10px">
-      Ling 상태 전용 테스트 10
+      Ling 실가동 테스트 11
     </button>
     <div id="visionTestStatus"
       style="margin-top:12px;white-space:pre-wrap;font-size:13px;line-height:1.55"></div>
@@ -9085,20 +9085,24 @@ async function runDaccLingRawTest(){
   const status=document.getElementById("visionTestStatus");
   const key=document.getElementById("openRouterKey")?.value?.trim();
   const img=document.getElementById("patrolPreviewImage");
+
   if(!key){ status.textContent="OpenRouter API Key를 입력해주세요."; return; }
   if(!img||!img.src){ status.textContent="사진 1 · 순찰일지에 오늘 사진을 먼저 넣어주세요."; return; }
 
   btn.disabled=true;
   try{
-    status.textContent="Ling 승온/냉각/유지 상태만 판독 중…";
+    status.textContent="Ling이 온도 21개를 판독 중…";
     const image=daccVisionImageDataURL(img);
-    const prompt=`DACC 순찰일지 원본 사진이다.
-아래 21개 장비의 '승온/냉각' 열에 현재 사진에 실제로 적힌 손글씨 상태만 위에서부터 읽어라.
+
+    const prompt=`이 이미지는 DACC 순찰일지 원본 사진이다.
+아래 21개 장비의 '온도' 열 손글씨 숫자만 위에서부터 정확히 읽어라.
 순서:
 TG2호기,TG3호기,TG4호기,TG5호기,TG6호기,TG7호기,GF1,GF3,GF4,GF5,SMI,CF1,CF2,CF3,CF4,CF5,CF6,CF분위기로,드라이챔버,폐가스소각기1동,폐가스소각기3동.
-출력은 승온,냉각,유지 중 하나만 사용하고, 비어 있거나 확실히 읽을 수 없으면 ? 로 출력하라.
-온도나 다른 열은 읽지 마라.
-정확히 21개 값만 | 로 구분해서 한 줄로 출력하라. 설명은 쓰지 마라.`;
+제품명, 가스유량, 판넬전원 숫자를 온도로 읽지 마라.
+사진에 실제로 적힌 손글씨만 읽고 추측하지 마라.
+설명/장비명/JSON/마크다운/상태를 출력하지 마라.
+정확히 21개 값만 | 로 구분해서 한 줄로 출력하라.
+못 읽은 값은 ? 로 출력하라.`;
 
     const t=performance.now();
     const res=await fetch("https://openrouter.ai/api/v1/chat/completions",{
@@ -9107,7 +9111,7 @@ TG2호기,TG3호기,TG4호기,TG5호기,TG6호기,TG7호기,GF1,GF3,GF4,GF5,SMI,
         "Authorization":"Bearer "+key,
         "Content-Type":"application/json",
         "HTTP-Referer":location.origin,
-        "X-Title":"DACC Ling Status"
+        "X-Title":"DACC Ling Production Test"
       },
       body:JSON.stringify({
         model:"inclusionai/ling-3.0-flash-vl:free",
@@ -9119,19 +9123,53 @@ TG2호기,TG3호기,TG4호기,TG5호기,TG6호기,TG7호기,GF1,GF3,GF4,GF5,SMI,
         max_tokens:300
       })
     });
+
     const data=await res.json();
     if(!res.ok) throw new Error(data?.error?.message||("HTTP "+res.status));
-    let raw=data?.choices?.[0]?.message?.content;
-    if(Array.isArray(raw)) raw=raw.map(v=>typeof v==="string"?v:(v?.text||v?.content||JSON.stringify(v))).join("\n");
-    raw=String(raw??"").trim();
-    status.textContent=`Ling 상태 테스트 완료 · ${Math.round(performance.now()-t)}ms
-실제 모델: ${data?.model||"inclusionai/ling-3.0-flash-vl:free"}
 
-===== RAW 시작 =====
-${raw||"(빈 응답)"}
-===== RAW 끝 =====`;
+    let raw=data?.choices?.[0]?.message?.content;
+    if(Array.isArray(raw)){
+      raw=raw.map(v=>typeof v==="string"?v:(v?.text||v?.content||"")).join("");
+    }
+
+    const values=String(raw??"")
+      .replace(/```(?:text|plaintext)?/gi,"")
+      .replace(/```/g,"")
+      .trim()
+      .split("|")
+      .map(v=>{
+        const x=String(v||"").trim();
+        return (x==="?"||x==="") ? "" : x.replace(/[^0-9]/g,"");
+      });
+
+    if(values.length!==21){
+      throw new Error(`온도 응답이 ${values.length}/21개입니다. 자동 적용하지 않았습니다.`);
+    }
+
+    // Existing DACC rows: fill ONLY temperature fields. Do not alter status logic/UI/report rules.
+    const tempInputs=[...document.querySelectorAll('input.tempInput')];
+    if(tempInputs.length<21){
+      throw new Error(`기존 온도 입력칸을 ${tempInputs.length}개만 찾았습니다. 자동 적용하지 않았습니다.`);
+    }
+
+    values.forEach((v,i)=>{
+      tempInputs[i].value=v;
+      tempInputs[i].dispatchEvent(new Event("input",{bubbles:true}));
+      tempInputs[i].dispatchEvent(new Event("change",{bubbles:true}));
+    });
+
+    // Preserve and use the existing DACC analysis/report logic exactly as-is.
+    if(typeof analyzeAll==="function"){
+      analyzeAll();
+    }
+
+    status.textContent=
+      `Ling 실가동 판독 완료 · ${Math.round(performance.now()-t)}ms\n`+
+      `실제 모델: ${data?.model||"inclusionai/ling-3.0-flash-vl:free"}\n`+
+      `온도 21개 적용 완료\n\n`+
+      values.join(" | ");
   }catch(e){
-    status.textContent="Ling 상태 테스트 오류: "+(e?.message||String(e));
+    status.textContent="Ling 실가동 오류: "+(e?.message||String(e));
   }finally{
     btn.disabled=false;
   }
