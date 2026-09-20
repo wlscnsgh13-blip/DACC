@@ -43,6 +43,8 @@
 <details><summary>교대업무일지 전체 OCR</summary><div id="full2" class="raw">대기</div><button class="btn copy dbg" data-id="full2">교대일지 OCR 전체 복사</button></details>
 <details><summary>순찰일지 Bounding Box</summary><div id="box1" class="raw">대기</div><button class="btn copy dbg" data-id="box1">순찰 Bounding Box 전체 복사</button></details>
 <details><summary>교대업무일지 Bounding Box</summary><div id="box2" class="raw">대기</div><button class="btn copy dbg" data-id="box2">교대 Bounding Box 전체 복사</button></details>
+<details><summary>순찰일지 Vision Raw JSON</summary><div id="rawJson1" class="raw">대기</div><button class="btn copy dbg" data-id="rawJson1">순찰 Raw JSON 전체 복사</button></details>
+<details><summary>교대업무일지 Vision Raw JSON</summary><div id="rawJson2" class="raw">대기</div><button class="btn copy dbg" data-id="rawJson2">교대 Raw JSON 전체 복사</button></details>
 </section></div>
 
 <script>
@@ -94,7 +96,7 @@ function verts(p){return(p?.vertices||[]).map(v=>({x:+(v.x||0),y:+(v.y||0)}))}
 function center(p){let v=verts(p);return v.length?{x:v.reduce((s,a)=>s+a.x,0)/v.length,y:v.reduce((s,a)=>s+a.y,0)/v.length}:{x:0,y:0}}
 function words(r){let out=[];for(const p of r?.fullTextAnnotation?.pages||[])for(const b of p.blocks||[])for(const q of b.paragraphs||[])for(const w of q.words||[]){let t=(w.symbols||[]).map(s=>s.text||"").join(""),c=center(w.boundingBox);out.push({text:t,x:Math.round(c.x),y:Math.round(c.y),confidence:typeof w.confidence==="number"?w.confidence:null})}return out}
 function debug(ws){return[...ws].sort((a,b)=>Math.abs(a.y-b.y)<10?a.x-b.x:a.y-b.y).map((w,i)=>`${String(i+1).padStart(3,"0")} x=${w.x} y=${w.y}${w.confidence==null?"":` conf=${w.confidence.toFixed(3)}`}  ${w.text}`).join("\n")}
-async function vision(file,key){let content=await b64(file),res=await fetch("https://vision.googleapis.com/v1/images:annotate?key="+encodeURIComponent(key),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({requests:[{image:{content},features:[{type:"DOCUMENT_TEXT_DETECTION",maxResults:1}],imageContext:{languageHints:["ko","en"]}}]})}),j=await res.json();if(!res.ok)throw Error(j?.error?.message||`HTTP ${res.status}`);let r=j?.responses?.[0];if(!r||r.error)throw Error(r?.error?.message||"Google Vision 처리 오류");return{fileName:file.name,text:r?.fullTextAnnotation?.text||r?.textAnnotations?.[0]?.description||"",words:words(r)}}
+async function vision(file,key){let content=await b64(file),res=await fetch("https://vision.googleapis.com/v1/images:annotate?key="+encodeURIComponent(key),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({requests:[{image:{content},features:[{type:"DOCUMENT_TEXT_DETECTION",maxResults:1}],imageContext:{languageHints:["ko","en"]}}]})}),j=await res.json();if(!res.ok)throw Error(j?.error?.message||`HTTP ${res.status}`);let r=j?.responses?.[0];if(!r||r.error)throw Error(r?.error?.message||"Google Vision 처리 오류");return{fileName:file.name,text:r?.fullTextAnnotation?.text||r?.textAnnotations?.[0]?.description||"",words:words(r),raw:j}}
 
 /* v13: 점들의 기울기 x(y)=a*y+b를 최소제곱으로 계산 */
 function lineFit(points){
@@ -106,7 +108,6 @@ function lineFit(points){
 }
 function xAt(f,y){return f?f.a*y+f.b:0}
 
-/* 장비명 anchor. 소각기 두 칸은 X순서로 구분 */
 function anchorFor(ws,e){
  if(e.key==="소각기1"||e.key==="소각기3"){let a=ws.filter(w=>compact(w.text).includes("소각기")).sort((a,b)=>a.x-b.x);if(a.length>=2)return e.key==="소각기1"?a[0]:a[1]}
  let h=ws.filter(w=>canon(w.text)===e.key);
@@ -114,7 +115,6 @@ function anchorFor(ws,e){
  return h.length?[...h].sort((a,b)=>b.y-a.y)[0]:null
 }
 
-/* 검출된 장비 X를 row index에 대해 선형 보간/외삽 */
 function makeColumns(ws){
  let det=[];
  for(const e of EQ){let a=anchorFor(ws,e);if(a)det.push({...e,x:a.x,y:a.y,reconstructed:false})}
@@ -129,8 +129,6 @@ function makeColumns(ws){
  return out.sort((a,b)=>a.row-b.row)
 }
 
-/* 행번호 1~35는 가장 안정적인 실제 표 열 기준.
-   숫자 1..35가 연속적으로 보이는 y-band를 찾아 column center를 얻는다. */
 function rowNumberColumns(ws){
  let nums=ws.map(w=>{let s=String(w.text||"").trim();if(!/^\d{1,2}$/.test(s))return null;let n=+s;if(n<1||n>35)return null;return{n,x:w.x,y:w.y}}).filter(Boolean);
  let groups=[];
@@ -141,8 +139,6 @@ function rowNumberColumns(ws){
  return{y:g.y,map:m}
 }
 
-/* targetY에서 표의 열 중심을 계산.
-   row-number band와 equipment-name band 사이의 촬영 기울기(offset)를 자동 보정한다. */
 function buildColumnModel(ws,anchors){
  let rn=rowNumberColumns(ws);
  let eqPts=anchors.filter(a=>a.row<=35).map(a=>({x:a.x,y:a.y,row:a.row}));
@@ -150,16 +146,13 @@ function buildColumnModel(ws,anchors){
  let centers=new Map;
 
  if(rn){
-  /* row번호의 x와 장비명 x 차이를 같은 row에서 구해 y방향 shear 추정 */
   let pairs=[];
   for(const a of anchors){let r=rn.map.get(a.row);if(r)pairs.push({row:a.row,rx:r.x,ry:r.y,ex:a.x,ey:a.y})}
   let dx=med(pairs.map(p=>p.ex-p.rx));
   for(const e of EQ){let r=rn.map.get(e.row);if(r)centers.set(e.row,r.x+dx)}
  }
- /* 부족한 열은 검출 anchor로 채움 */
  for(const a of anchors)if(!centers.has(a.row))centers.set(a.row,a.x);
 
- /* 중심 x를 row 순서상 보간 */
  for(let row=1;row<=35;row++)if(!centers.has(row)){
   let L=null,R=null;for(let i=row-1;i>=1;i--)if(centers.has(i)){L={i,x:centers.get(i)};break}
   for(let i=row+1;i<=35;i++)if(centers.has(i)){R={i,x:centers.get(i)};break}
@@ -174,22 +167,17 @@ function bounds(model,row){
  return{c,left:p!=null?(p+c)/2:n!=null?c-(n-c)/2:c-60,right:n!=null?(c+n)/2:p!=null?c+(c-p)/2:c+60}
 }
 
-/* 숫자 온도행을 찾되, 각 숫자를 '열 번호'로 먼저 귀속.
-   같은 열에서 가장 강한 온도 band만 채택. */
 function buildPhoto1(ws){
  let anchors=makeColumns(ws);if(!anchors.length)return[];
  let model=buildColumnModel(ws,anchors);
  let numeric=ws.map(w=>{let raw=String(w.text||"").trim();if(!raw||/26\s*[-–—−]\s*\d+/.test(raw)||/[:/.]/.test(raw))return null;let s=raw.replace(/[^\d]/g,"");if(!/^\d{1,4}$/.test(s))return null;let v=+s;if(v<20||v>1500)return null;return{v,x:w.x,y:w.y}}).filter(Boolean);
 
- /* 실제 온도 숫자가 몰린 y영역: 100+ 값이 여러 열에 걸친 band */
  let bands=[];
  for(const v of [...numeric].sort((a,b)=>a.y-b.y)){let g=bands.find(g=>Math.abs(g.y-v.y)<=45);if(!g){g={y:v.y,a:[]};bands.push(g)}g.a.push(v);g.y=g.a.reduce((s,z)=>s+z.y,0)/g.a.length}
  bands=bands.map(g=>{let xs=g.a.map(z=>z.x),hi=g.a.filter(z=>z.v>=100).length,lo=g.a.length-hi,spread=xs.length?Math.max(...xs)-Math.min(...xs):0;return{...g,hi,spread,score:hi*12+g.a.length*2+spread/100-lo*3}}).filter(g=>g.a.length>=3&&g.hi>=2&&g.spread>=250).sort((a,b)=>b.score-a.score);
  let primary=bands[0],allowed=primary?bands.filter(g=>Math.abs(g.y-primary.y)<=110).slice(0,4):[];
 
- /* 사진이 비스듬해도 같은 온도행의 y가 x에 따라 변하므로 band의 숫자로 y(x) 회귀 */
  let tempFit=primary?lineFit(primary.a.map(z=>({x:z.y,y:z.x})).map(z=>({x:z.y,y:z.x}))):null;
- /* 위 lineFit은 x=f(y)용. 온도는 y=f(x)가 필요해서 별도 계산 */
  function fitYofX(a){if(a.length<2)return null;let n=a.length,sx=0,sy=0,sxx=0,sxy=0;for(const p of a){sx+=p.x;sy+=p.y;sxx+=p.x*p.x;sxy+=p.x*p.y}let d=n*sxx-sx*sx;if(!d)return null;let A=(n*sxy-sx*sy)/d;return{a:A,b:(sy-A*sx)/n}}
  let yfit=primary?fitYofX(primary.a):null;
 
@@ -209,8 +197,6 @@ function buildPhoto1(ws){
  let sw=ws.map(w=>{let s=state(w.text);return s?{s,x:w.x,y:w.y}:null}).filter(Boolean);
  let syfit=fitYofX(sw);
  function st(row){
-  /* FIX3: 상태(승온/냉각/유지)는 실제 상태표가 있는 1~17번 장비에만 귀속.
-     18번 이후의 설명/냉각 관련 문구가 24·25번 장비 상태로 오인되는 현상을 차단한다. */
   if(row < 1 || row > 17) return "";
   let b=bounds(model,row);if(!b)return"";
   let h=sw.filter(z=>z.x>=b.left&&z.x<b.right);
@@ -224,8 +210,6 @@ function buildPhoto1(ws){
  return EQ.map(e=>({row:e.row,key:e.key,equipment:e.name,temperature:temp(e.row),state:st(e.row),reconstructed:!anchors.some(a=>a.row===e.row&&!a.reconstructed)}))
 }
 
-/* 사진2: 장비명 자체의 x순서가 아니라 SHIFT 고정 순서 + 실제 검출 anchor로 열 모델 생성.
-   가동번호 band의 기울기를 따로 구해 같은 column index로 귀속한다. */
 function buildPhoto2(ws){
  let det=[];
  SHIFT.forEach((k,i)=>{let h=ws.filter(w=>canon(w.text)===k);if(h.length){let best=[...h].sort((a,b)=>b.y-a.y)[0];det.push({i,key:k,x:best.x,y:best.y})}});
@@ -241,7 +225,6 @@ function buildPhoto2(ws){
  for(let i=0;i<SHIFT.length;i++)if(!xs.has(i)){let near=[...xs.keys()].sort((a,b)=>Math.abs(a-i)-Math.abs(b-i))[0];xs.set(i,xs.get(near)+(i-near)*gap)}
 
  let nums=ws.map(w=>{let n=opnum(w.text);return n?{n,x:w.x,y:w.y}:null}).filter(Boolean);
- /* 가동번호들은 기울어진 한 행/인접 행에 있으므로 y=f(x) 회귀 후 이상치 억제 */
  function fitY(a){if(a.length<2)return null;let n=a.length,sx=0,sy=0,sxx=0,sxy=0;for(const p of a){sx+=p.x;sy+=p.y;sxx+=p.x*p.x;sxy+=p.x*p.y}let d=n*sxx-sx*sx;if(!d)return null;let A=(n*sxy-sx*sy)/d;return{a:A,b:(sy-A*sx)/n}}
  let fit=fitY(nums),good=fit?nums.filter(z=>Math.abs(z.y-(fit.a*z.x+fit.b))<180):nums;
  if(good.length>=3)fit=fitY(good);
@@ -279,15 +262,18 @@ document.querySelectorAll(".dbg").forEach(b=>b.onclick=()=>copyText($(b.dataset.
 
 runBtn.onclick=async()=>{
  let key=apiKey.value.trim();if(!key||!patrolFile||!shiftFile)return;
- runBtn.disabled=true;copyBtn.disabled=true;finalText="";$("body1").innerHTML="";$("body2").innerHTML="";$("sum1").textContent="분석 중...";$("sum2").textContent="대기 중...";$("finalResult").textContent="분석 중...";$("full1").textContent="분석 중...";$("box1").textContent="분석 중...";
+ runBtn.disabled=true;copyBtn.disabled=true;finalText="";$("body1").innerHTML="";$("body2").innerHTML="";$("sum1").textContent="분석 중...";$("sum2").textContent="대기 중...";$("finalResult").textContent="분석 중...";$("full1").textContent="분석 중...";$("box1").textContent="분석 중...";$("rawJson1").textContent="분석 중...";$("rawJson2").textContent="대기";
  let t=performance.now();
  try{
   setStatus("사진1/2 순찰일지 Google Vision 분석 중...");let p=await vision(patrolFile,key);
-  $("detect").textContent="사진1 순찰일지 완료\n사진2 교대업무일지 분석 중...";setStatus("사진1 완료\n사진2/2 교대업무일지 Google Vision 분석 중...");$("sum2").textContent="분석 중...";
-  let s=await vision(shiftFile,key),r1=buildPhoto1(p.words),r2=buildPhoto2(s.words);
+  $("rawJson1").textContent=JSON.stringify(p.raw,null,2);
+  $("detect").textContent="사진1 순찰일지 완료\n사진2 교대업무일지 분석 중...";setStatus("사진1 완료\n사진2/2 교대업무일지 Google Vision 분석 중...");$("sum2").textContent="분석 중...";$("rawJson2").textContent="분석 중...";
+  let s=await vision(shiftFile,key);
+  $("rawJson2").textContent=JSON.stringify(s.raw,null,2);
+  let r1=buildPhoto1(p.words),r2=buildPhoto2(s.words);
   render1(r1);render2(r2);merge(r1,r2);$("full1").textContent=p.text||"(OCR 텍스트 없음)";$("full2").textContent=s.text||"(OCR 텍스트 없음)";$("box1").textContent=debug(p.words);$("box2").textContent=debug(s.words);
   $("detect").textContent=`사진 2장 분석 완료\n\n사진1 · 순찰일지: ${p.fileName}\n사진2 · 교대업무일지: ${s.fileName}`;
-  setStatus(`분석 완료 · ${Math.round(performance.now()-t)}ms\n순찰일지 OCR ${p.words.length}단어\n교대업무일지 OCR ${s.words.length}단어\nv13 Column Index + 기울기 보정 병합 완료`,"ok")
+  setStatus(`분석 완료 · ${Math.round(performance.now()-t)}ms\n순찰일지 OCR ${p.words.length}단어\n교대업무일지 OCR ${s.words.length}단어\nv13 Column Index + 기울기 보정 병합 완료\nRaw JSON 2개 캡처 완료`,"ok")
  }catch(e){console.error(e);let m=e?.message||String(e);setStatus("Google Vision 실패\n"+m,"err");$("detect").textContent="분석 실패";$("finalResult").textContent="분석 실패: "+m}
  finally{update()}
 };
