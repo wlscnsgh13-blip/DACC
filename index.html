@@ -16,165 +16,7 @@
 
 <title>DACC</title>
 
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js">
-/* =========================================================
-   DACC v19 - 무료 Vision 3모델 한번에 비교
-========================================================= */
-const DACC_COMPARE_MODELS = [
-  {
-    name:"Nemotron 3 Nano Omni",
-    id:"nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free"
-  },
-  {
-    name:"Gemma 4 31B",
-    id:"google/gemma-4-31b-it:free"
-  },
-  {
-    name:"Gemma 4 26B A4B",
-    id:"google/gemma-4-26b-a4b-it:free"
-  }
-];
-
-async function daccCallVisionModel(model, key, image, prompt){
-  const started=performance.now();
-  const res=await fetch("https://openrouter.ai/api/v1/chat/completions",{
-    method:"POST",
-    headers:{
-      "Authorization":"Bearer "+key,
-      "Content-Type":"application/json",
-      "HTTP-Referer":location.origin,
-      "X-Title":"DACC Vision Compare"
-    },
-    body:JSON.stringify({
-      model:model.id,
-      messages:[{
-        role:"user",
-        content:[
-          {type:"text",text:prompt},
-          {type:"image_url",image_url:{url:image}}
-        ]
-      }],
-      temperature:0,
-      seed:42,
-      max_tokens:300
-    })
-  });
-
-  const data=await res.json();
-  if(!res.ok) throw new Error(data?.error?.message || ("HTTP "+res.status));
-
-  let raw=data?.choices?.[0]?.message?.content;
-  if(Array.isArray(raw)){
-    raw=raw.map(v=>typeof v==="string" ? v : (v?.text||v?.content||"")).join("");
-  }
-
-  const compact=String(raw||"")
-    .replace(/```(?:text|plaintext)?/gi,"")
-    .replace(/```/g,"")
-    .trim();
-
-  let values=compact.split("|").map(v=>{
-    const x=String(v||"").trim();
-    if(x==="?" || x==="") return "";
-    return x.replace(/[^0-9]/g,"");
-  });
-
-  if(values.length<21){
-    const lines=compact.split(/\r?\n/).map(v=>v.trim()).filter(Boolean);
-    if(lines.length>=21){
-      values=lines.map(v=>v==="?" ? "" : v.replace(/[^0-9]/g,""));
-    }
-  }
-
-  const elapsed=Math.round(performance.now()-started);
-  let ok=0;
-  const wrong=[];
-  for(let i=0;i<21;i++){
-    const got=values[i]||"";
-    const expected=DACC_VISION_TEST_TRUTH[i];
-    if(got===expected) ok++;
-    else wrong.push(`${DACC_VISION_TEST_NAMES[i]} ${expected}→${got||"미인식"}`);
-  }
-
-  return {
-    name:model.name,
-    id:model.id,
-    served:data?.model||model.id,
-    ok,
-    pct:(ok/21*100).toFixed(1),
-    elapsed,
-    count:values.length,
-    wrong
-  };
-}
-
-async function runDaccVisionCompare(){
-  const btn=document.getElementById("visionCompareBtn");
-  const status=document.getElementById("visionTestStatus");
-  const key=document.getElementById("openRouterKey")?.value?.trim();
-  const img=document.getElementById("patrolPreviewImage");
-
-  if(!key){
-    status.textContent="OpenRouter API Key를 입력해주세요.";
-    return;
-  }
-  if(!img || !img.src){
-    status.textContent="사진 1 · 순찰일지에 오늘 사진을 먼저 넣어주세요.";
-    return;
-  }
-
-  btn.disabled=true;
-  try{
-    const image=daccVisionImageDataURL(img);
-    const prompt=`이 이미지는 DACC 순찰일지 원본 사진이다.
-아래 21개 장비의 '온도' 열 손글씨 숫자만 위에서부터 정확히 읽어라.
-순서:
-TG2호기,TG3호기,TG4호기,TG5호기,TG6호기,TG7호기,GF1,GF3,GF4,GF5,SMI,CF1,CF2,CF3,CF4,CF5,CF6,CF분위기로,드라이챔버,폐가스소각기1동,폐가스소각기3동.
-규칙:
-- 제품명, 가스유량, 판넬전원 숫자를 온도로 읽지 마라.
-- 사진에 실제로 적힌 손글씨만 읽고 추측하지 마라.
-- 설명/장비명/JSON/마크다운/상태를 출력하지 마라.
-- 정확히 21개 값만 | 로 구분해서 한 줄로 출력하라.
-- 못 읽은 값은 ? 로 출력하라.`;
-
-    const results=[];
-    for(let i=0;i<DACC_COMPARE_MODELS.length;i++){
-      const model=DACC_COMPARE_MODELS[i];
-      status.textContent=`${i+1}/3 ${model.name} 테스트 중…\n완료된 모델: ${results.length}/3`;
-      try{
-        results.push(await daccCallVisionModel(model,key,image,prompt));
-      }catch(e){
-        results.push({
-          name:model.name,id:model.id,ok:-1,pct:"0.0",elapsed:0,count:0,
-          wrong:[],error:e?.message||String(e)
-        });
-      }
-    }
-
-    const valid=results.filter(r=>r.ok>=0).sort((a,b)=>b.ok-a.ok || a.elapsed-b.elapsed);
-    const winner=valid[0];
-
-    const blocks=results.map(r=>{
-      if(r.error){
-        return `FAIL  ${r.name}\n모델: ${r.id}\n호출 실패: ${r.error}`;
-      }
-      return `${winner===r?"🏆 ":""}${r.name} — ${r.ok}/21 (${r.pct}%) · ${r.elapsed}ms\n`+
-        `실제 모델: ${r.served}\n`+
-        (r.wrong.length ? `오답: ${r.wrong.join(", ")}` : "오답 없음");
-    });
-
-    status.textContent=
-      (winner ? `1등: ${winner.name} — ${winner.ok}/21 (${winner.pct}%)\n\n` : "")+
-      blocks.join("\n\n--------------------\n\n");
-
-  }finally{
-    btn.disabled=false;
-  }
-}
-
-
-
-</script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
 
@@ -879,7 +721,7 @@ button {
         style="width:100%;padding:12px;border:1px solid #d8deea;border-radius:12px;background:#fff">
     </div>
     <button type="button" class="primary" id="visionCompareBtn" style="margin-top:10px">
-      무료 Vision 3모델 한번에 비교 2
+      무료 Vision 3모델 한번에 비교 3
     </button>
     <div id="visionTestStatus"
       style="margin-top:12px;white-space:pre-wrap;font-size:13px;line-height:1.55"></div>
@@ -9071,6 +8913,162 @@ TG2호기,TG3호기,TG4호기,TG5호기,TG6호기,TG7호기,GF1,GF3,GF4,GF5,SMI,
 }
 
 document.getElementById("visionTestBtn")?.addEventListener("click",runDaccFreeVisionTest);
+
+/* =========================================================
+   DACC v19 - 무료 Vision 3모델 한번에 비교
+========================================================= */
+const DACC_COMPARE_MODELS = [
+  {
+    name:"Nemotron 3 Nano Omni",
+    id:"nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free"
+  },
+  {
+    name:"Gemma 4 31B",
+    id:"google/gemma-4-31b-it:free"
+  },
+  {
+    name:"Gemma 4 26B A4B",
+    id:"google/gemma-4-26b-a4b-it:free"
+  }
+];
+
+async function daccCallVisionModel(model, key, image, prompt){
+  const started=performance.now();
+  const res=await fetch("https://openrouter.ai/api/v1/chat/completions",{
+    method:"POST",
+    headers:{
+      "Authorization":"Bearer "+key,
+      "Content-Type":"application/json",
+      "HTTP-Referer":location.origin,
+      "X-Title":"DACC Vision Compare"
+    },
+    body:JSON.stringify({
+      model:model.id,
+      messages:[{
+        role:"user",
+        content:[
+          {type:"text",text:prompt},
+          {type:"image_url",image_url:{url:image}}
+        ]
+      }],
+      temperature:0,
+      seed:42,
+      max_tokens:300
+    })
+  });
+
+  const data=await res.json();
+  if(!res.ok) throw new Error(data?.error?.message || ("HTTP "+res.status));
+
+  let raw=data?.choices?.[0]?.message?.content;
+  if(Array.isArray(raw)){
+    raw=raw.map(v=>typeof v==="string" ? v : (v?.text||v?.content||"")).join("");
+  }
+
+  const compact=String(raw||"")
+    .replace(/```(?:text|plaintext)?/gi,"")
+    .replace(/```/g,"")
+    .trim();
+
+  let values=compact.split("|").map(v=>{
+    const x=String(v||"").trim();
+    if(x==="?" || x==="") return "";
+    return x.replace(/[^0-9]/g,"");
+  });
+
+  if(values.length<21){
+    const lines=compact.split(/\r?\n/).map(v=>v.trim()).filter(Boolean);
+    if(lines.length>=21){
+      values=lines.map(v=>v==="?" ? "" : v.replace(/[^0-9]/g,""));
+    }
+  }
+
+  const elapsed=Math.round(performance.now()-started);
+  let ok=0;
+  const wrong=[];
+  for(let i=0;i<21;i++){
+    const got=values[i]||"";
+    const expected=DACC_VISION_TEST_TRUTH[i];
+    if(got===expected) ok++;
+    else wrong.push(`${DACC_VISION_TEST_NAMES[i]} ${expected}→${got||"미인식"}`);
+  }
+
+  return {
+    name:model.name,
+    id:model.id,
+    served:data?.model||model.id,
+    ok,
+    pct:(ok/21*100).toFixed(1),
+    elapsed,
+    count:values.length,
+    wrong
+  };
+}
+
+async function runDaccVisionCompare(){
+  const btn=document.getElementById("visionCompareBtn");
+  const status=document.getElementById("visionTestStatus");
+  const key=document.getElementById("openRouterKey")?.value?.trim();
+  const img=document.getElementById("patrolPreviewImage");
+
+  if(!key){
+    status.textContent="OpenRouter API Key를 입력해주세요.";
+    return;
+  }
+  if(!img || !img.src){
+    status.textContent="사진 1 · 순찰일지에 오늘 사진을 먼저 넣어주세요.";
+    return;
+  }
+
+  btn.disabled=true;
+  try{
+    const image=daccVisionImageDataURL(img);
+    const prompt=`이 이미지는 DACC 순찰일지 원본 사진이다.
+아래 21개 장비의 '온도' 열 손글씨 숫자만 위에서부터 정확히 읽어라.
+순서:
+TG2호기,TG3호기,TG4호기,TG5호기,TG6호기,TG7호기,GF1,GF3,GF4,GF5,SMI,CF1,CF2,CF3,CF4,CF5,CF6,CF분위기로,드라이챔버,폐가스소각기1동,폐가스소각기3동.
+규칙:
+- 제품명, 가스유량, 판넬전원 숫자를 온도로 읽지 마라.
+- 사진에 실제로 적힌 손글씨만 읽고 추측하지 마라.
+- 설명/장비명/JSON/마크다운/상태를 출력하지 마라.
+- 정확히 21개 값만 | 로 구분해서 한 줄로 출력하라.
+- 못 읽은 값은 ? 로 출력하라.`;
+
+    const results=[];
+    for(let i=0;i<DACC_COMPARE_MODELS.length;i++){
+      const model=DACC_COMPARE_MODELS[i];
+      status.textContent=`${i+1}/3 ${model.name} 테스트 중…\n완료된 모델: ${results.length}/3`;
+      try{
+        results.push(await daccCallVisionModel(model,key,image,prompt));
+      }catch(e){
+        results.push({
+          name:model.name,id:model.id,ok:-1,pct:"0.0",elapsed:0,count:0,
+          wrong:[],error:e?.message||String(e)
+        });
+      }
+    }
+
+    const valid=results.filter(r=>r.ok>=0).sort((a,b)=>b.ok-a.ok || a.elapsed-b.elapsed);
+    const winner=valid[0];
+
+    const blocks=results.map(r=>{
+      if(r.error){
+        return `FAIL  ${r.name}\n모델: ${r.id}\n호출 실패: ${r.error}`;
+      }
+      return `${winner===r?"🏆 ":""}${r.name} — ${r.ok}/21 (${r.pct}%) · ${r.elapsed}ms\n`+
+        `실제 모델: ${r.served}\n`+
+        (r.wrong.length ? `오답: ${r.wrong.join(", ")}` : "오답 없음");
+    });
+
+    status.textContent=
+      (winner ? `1등: ${winner.name} — ${winner.ok}/21 (${winner.pct}%)\n\n` : "")+
+      blocks.join("\n\n--------------------\n\n");
+
+  }finally{
+    btn.disabled=false;
+  }
+}
+
 </script>
 
 
