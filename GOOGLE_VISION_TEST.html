@@ -152,10 +152,10 @@
   <section class="card">
     <div class="step">STEP 6 · OCR 진단</div>
     <div class="title">Google 전체 OCR</div>
-    <details><summary>순찰일지 전체 OCR</summary><div id="photo1FullText" class="raw">대기</div></details>
-    <details><summary>교대업무일지 전체 OCR</summary><div id="photo2FullText" class="raw">대기</div></details>
-    <details><summary>순찰일지 Bounding Box</summary><div id="photo1Boxes" class="raw">대기</div></details>
-    <details><summary>교대업무일지 Bounding Box</summary><div id="photo2Boxes" class="raw">대기</div></details>
+    <details><summary>순찰일지 전체 OCR</summary><div id="photo1FullText" class="raw">대기</div><button class="btn copy debugCopyBtn" data-copy-target="photo1FullText">순찰일지 OCR 전체 복사</button></details>
+    <details><summary>교대업무일지 전체 OCR</summary><div id="photo2FullText" class="raw">대기</div><button class="btn copy debugCopyBtn" data-copy-target="photo2FullText">교대일지 OCR 전체 복사</button></details>
+    <details><summary>순찰일지 Bounding Box</summary><div id="photo1Boxes" class="raw">대기</div><button class="btn copy debugCopyBtn" data-copy-target="photo1Boxes">순찰 Bounding Box 전체 복사</button></details>
+    <details><summary>교대업무일지 Bounding Box</summary><div id="photo2Boxes" class="raw">대기</div><button class="btn copy debugCopyBtn" data-copy-target="photo2Boxes">교대 Bounding Box 전체 복사</button></details>
   </section>
 </div>
 
@@ -164,7 +164,7 @@
   "use strict";
 
   const API_KEY_STORAGE = "dacc_google_vision_api_key";
-  const FINAL_STORAGE = "dacc_google_final_result_v9";
+  const FINAL_STORAGE = "dacc_google_final_result_v12";
 
   const apiKey = document.getElementById("apiKey");
   const patrolInput = document.getElementById("patrolInput");
@@ -486,6 +486,21 @@
   }
 
   function findPhoto1Anchor(words, equipment) {
+    // v12: 소각기 1동/3동은 같은 장비명이 두 열에 반복되므로
+    // OCR된 두 "소각기" 헤더의 X순서를 그대로 1동/3동에 대응한다.
+    // 픽셀 하드코딩 없이 실제 사진의 열 구조를 사용한다.
+    if (equipment.key === "소각기1" || equipment.key === "소각기3") {
+      const incinerators = words
+        .filter(w => compact(w.text).includes("소각기"))
+        .sort((a, b) => a.x - b.x);
+
+      if (incinerators.length >= 2) {
+        return equipment.key === "소각기1"
+          ? incinerators[0]
+          : incinerators[1];
+      }
+    }
+
     let hits = words.filter(w => canonicalSimple(w.text) === equipment.key);
 
     if (!hits.length) {
@@ -600,7 +615,7 @@
   }
 
   /*
-    v11 핵심
+    v12 핵심
     - v10에서 성공한 Strict Cell / Fallback 금지 유지
     - 온도/상태를 "하나의 전역 band"로 고정하지 않고,
       OCR에서 검출된 여러 데이터 band의 기하 구조를 사용
@@ -824,7 +839,7 @@
       상태는 v10처럼 하나의 Y-band만 선택하면
       '승온중' 묶음이 별도 band로 갈라졌을 때 전부 탈락한다.
 
-      v11에서는 상태로 확실히 OCR된 word라면
+      v12에서는 상태로 확실히 OCR된 word라면
       자기 장비 X-cell 안에서만 인정한다.
       즉 CF5 cell 안에 상태 word가 없으면 반드시 공란이다.
     */
@@ -846,7 +861,7 @@
         }))
         .filter(v =>
           v.dy > 40 &&
-          v.dy < 1800
+          v.dy < 1950
         );
 
       if (!hits.length) return "";
@@ -1217,6 +1232,39 @@
     }
   });
 
+  async function copyElementText(targetId, button) {
+    const target = document.getElementById(targetId);
+    const text = target?.textContent || "";
+    if (!text || text === "대기" || text === "분석 중...") return;
+
+    const original = button.textContent;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+      }
+      button.textContent = "복사 완료";
+      setTimeout(() => { button.textContent = original; }, 1200);
+    } catch {
+      alert("복사에 실패했습니다.");
+    }
+  }
+
+  document.querySelectorAll(".debugCopyBtn").forEach(button => {
+    button.addEventListener("click", () => {
+      copyElementText(button.dataset.copyTarget, button);
+    });
+  });
+
   runBtn.addEventListener("click", async () => {
     const key = apiKey.value.trim();
 
@@ -1282,7 +1330,7 @@
         `분석 완료 · ${elapsed}ms\n` +
         `순찰일지 OCR ${patrol.words.length}단어\n` +
         `교대업무일지 OCR ${shift.words.length}단어\n` +
-        `자동 병합 완료`,
+        `v12 Vertical X-Cell 자동 병합 완료`,
         "ok"
       );
     } catch (error) {
