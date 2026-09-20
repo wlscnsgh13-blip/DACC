@@ -5,47 +5,76 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#070b14" />
   <title>DACC · Google Vision Test v10</title>
+
   <style>
-    * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-    body { margin:0; background:#070b14; color:#f8fafc; font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif; }
-    button,input { font:inherit; }
-    .wrap { width:100%; max-width:760px; margin:0 auto; padding:24px 16px 80px; }
-    h1 { margin:0; font-size:27px; letter-spacing:-.8px; }
-    .sub { color:#94a3b8; margin-top:8px; line-height:1.55; font-size:14px; }
-    .card { margin-top:18px; padding:18px; border-radius:22px; background:#0d1423; border:1px solid #26344c; }
-    .step { display:inline-flex; padding:6px 11px; border:1px solid #334155; border-radius:999px; color:#94a3b8; font-size:12px; margin-bottom:14px; }
-    .title { font-size:20px; font-weight:800; margin-bottom:14px; }
-    label { display:block; color:#a8b4c8; font-size:14px; margin:14px 0 7px; }
-    input[type="password"] { width:100%; min-height:54px; border-radius:15px; border:1px solid #334155; background:#080e18; color:white; padding:0 14px; outline:none; }
-    input[type="file"] { width:100%; color:#cbd5e1; padding:15px 0; }
-    .btn { width:100%; min-height:56px; border:0; border-radius:16px; margin-top:14px; font-weight:800; font-size:17px; color:white; background:#4f6bed; }
-    .btn:disabled { opacity:.42; }
-    .btn.secondary { background:#172033; border:1px solid #334155; }
-    .btn.copy { background:#6d5dfc; }
-    .status { margin-top:14px; padding:13px 14px; border-radius:14px; background:#080e18; border:1px solid #1e293b; color:#cbd5e1; white-space:pre-wrap; line-height:1.5; font-size:14px; }
-    .status.ok { border-color:#166534; color:#86efac; }
-    .status.err { border-color:#7f1d1d; color:#fca5a5; }
-    .previewGrid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
-    .previewItem { display:none; }
-    .previewItem.show { display:block; }
-    .previewLabel { margin-bottom:7px; color:#94a3b8; font-size:12px; }
-    .preview { width:100%; border-radius:14px; border:1px solid #334155; display:block; }
-    .resultTable { width:100%; border-collapse:collapse; margin-top:12px; font-size:13px; min-width:650px; }
-    .resultTable th,.resultTable td { border-bottom:1px solid #253044; padding:10px 6px; text-align:left; vertical-align:top; }
-    .resultTable th { color:#94a3b8; font-weight:600; }
-    .raw { margin-top:12px; background:#050911; border:1px solid #253044; border-radius:14px; padding:13px; color:#dbeafe; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; line-height:1.5; max-height:420px; overflow:auto; white-space:pre-wrap; word-break:break-word; }
-    .finalBox { margin-top:12px; background:#050911; border:1px solid #334155; border-radius:14px; padding:14px; color:#e2e8f0; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; line-height:1.7; white-space:pre-wrap; word-break:break-word; }
-    .detectBox { margin-top:12px; padding:12px; border-radius:14px; background:#080e18; border:1px solid #253044; color:#cbd5e1; font-size:13px; line-height:1.6; white-space:pre-wrap; }
-    details { margin-top:14px; }
-    summary { cursor:pointer; color:#a5b4fc; font-weight:700; }
-    .good { color:#86efac; }
-    .small { color:#64748b; font-size:12px; margin-top:10px; line-height:1.5; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      margin: 0; background: #070b14; color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    }
+    button, input { font: inherit; }
+    .wrap { width: 100%; max-width: 760px; margin: 0 auto; padding: 24px 16px 80px; }
+    h1 { margin: 0; font-size: 27px; letter-spacing: -0.8px; }
+    .sub { color: #94a3b8; margin-top: 8px; line-height: 1.55; font-size: 14px; }
+    .card { margin-top: 18px; padding: 18px; border-radius: 22px; background: #0d1423; border: 1px solid #26344c; }
+    .step { display: inline-flex; padding: 6px 11px; border: 1px solid #334155; border-radius: 999px; color: #94a3b8; font-size: 12px; margin-bottom: 14px; }
+    .title { font-size: 20px; font-weight: 800; margin-bottom: 14px; }
+    label { display: block; color: #a8b4c8; font-size: 14px; margin: 14px 0 7px; }
+    input[type="password"] {
+      width: 100%; min-height: 54px; border-radius: 15px; border: 1px solid #334155;
+      background: #080e18; color: white; padding: 0 14px; outline: none;
+    }
+    input[type="file"] { width: 100%; color: #cbd5e1; padding: 15px 0; }
+    .btn {
+      width: 100%; min-height: 56px; border: 0; border-radius: 16px; margin-top: 14px;
+      font-weight: 800; font-size: 17px; color: white; background: #4f6bed;
+    }
+    .btn:disabled { opacity: .42; }
+    .btn.secondary { background: #172033; border: 1px solid #334155; }
+    .btn.copy { background: #6d5dfc; }
+    .status {
+      margin-top: 14px; padding: 13px 14px; border-radius: 14px; background: #080e18;
+      border: 1px solid #1e293b; color: #cbd5e1; white-space: pre-wrap; line-height: 1.5; font-size: 14px;
+    }
+    .status.ok { border-color: #166534; color: #86efac; }
+    .status.err { border-color: #7f1d1d; color: #fca5a5; }
+    .uploadBox {
+      margin-top: 14px; padding: 14px; border: 1px solid #253044; border-radius: 16px; background: #080e18;
+    }
+    .uploadTitle { font-weight: 800; font-size: 15px; }
+    .previewGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+    .previewItem { display: none; }
+    .previewItem.show { display: block; }
+    .previewLabel { margin-bottom: 7px; color: #94a3b8; font-size: 12px; }
+    .preview { width: 100%; border-radius: 14px; border: 1px solid #334155; display: block; }
+    .resultTable { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; min-width: 650px; }
+    .resultTable th, .resultTable td { border-bottom: 1px solid #253044; padding: 10px 6px; text-align: left; vertical-align: top; }
+    .resultTable th { color: #94a3b8; font-weight: 600; }
+    .raw, .finalBox {
+      margin-top: 12px; background: #050911; border: 1px solid #253044; border-radius: 14px;
+      padding: 13px; color: #dbeafe; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px; line-height: 1.5; max-height: 420px; overflow: auto; white-space: pre-wrap; word-break: break-word;
+    }
+    .finalBox { border-color: #334155; color: #e2e8f0; font-size: 13px; line-height: 1.7; max-height: none; }
+    .detectBox {
+      margin-top: 12px; padding: 12px; border-radius: 14px; background: #080e18;
+      border: 1px solid #253044; color: #cbd5e1; font-size: 13px; line-height: 1.6; white-space: pre-wrap;
+    }
+    details { margin-top: 14px; }
+    summary { cursor: pointer; color: #a5b4fc; font-weight: 700; }
+    .warn { color: #fbbf24; }
+    .good { color: #86efac; }
+    .small { color: #64748b; font-size: 12px; margin-top: 10px; line-height: 1.5; }
   </style>
 </head>
+
 <body>
 <div class="wrap">
   <h1>DACC · Google Vision TEST v10</h1>
-  <div class="sub">순찰일지 + 교대업무일지 사진 2장을 한 번에 선택합니다. 사진 순서는 상관없으며 OCR 결과로 자동 판별합니다.</div>
+  <div class="sub">
+    순찰일지와 교대업무일지를 각각 1장씩 선택하고 한 번에 분석합니다.
+    사진1에서 온도/상태, 사진2에서 장비가동번호를 읽어 장비명 기준으로 병합합니다.
+  </div>
 
   <section class="card">
     <div class="step">STEP 1 · API</div>
@@ -59,30 +88,58 @@
   <section class="card">
     <div class="step">STEP 2 · 사진 2장</div>
     <div class="title">순찰일지 + 교대업무일지</div>
-    <label for="imageInput">사진 2장 선택</label>
-    <input id="imageInput" type="file" accept="image/*" multiple />
-    <div class="small">정확히 2장을 선택하세요. 순서는 상관없습니다.</div>
-    <div class="previewGrid">
-      <div id="previewItem1" class="previewItem"><div id="previewLabel1" class="previewLabel">사진 1</div><img id="preview1" class="preview" alt="preview1" /></div>
-      <div id="previewItem2" class="previewItem"><div id="previewLabel2" class="previewLabel">사진 2</div><img id="preview2" class="preview" alt="preview2" /></div>
+
+    <div class="uploadBox">
+      <div class="uploadTitle">사진1 · 순찰일지</div>
+      <label for="patrolInput">온도 / 상태가 적힌 순찰일지</label>
+      <input id="patrolInput" type="file" accept="image/*" />
     </div>
-    <button class="btn" id="runBtn" disabled>사진 2장 자동 분석</button>
+
+    <div class="uploadBox">
+      <div class="uploadTitle">사진2 · 교대업무일지</div>
+      <label for="shiftInput">26-XXX / 가동이 적힌 교대업무일지</label>
+      <input id="shiftInput" type="file" accept="image/*" />
+    </div>
+
+    <div class="previewGrid">
+      <div id="previewItem1" class="previewItem">
+        <div id="previewLabel1" class="previewLabel">사진1 · 순찰일지</div>
+        <img id="preview1" class="preview" alt="순찰일지 미리보기" />
+      </div>
+      <div id="previewItem2" class="previewItem">
+        <div id="previewLabel2" class="previewLabel">사진2 · 교대업무일지</div>
+        <img id="preview2" class="preview" alt="교대업무일지 미리보기" />
+      </div>
+    </div>
+
+    <button class="btn" id="runBtn" disabled>사진 2장 분석 시작</button>
+
     <div id="status" class="status">API Key와 사진 2장을 준비해주세요.</div>
-    <div id="detectResult" class="detectBox">사진 자동 판별 대기</div>
+    <div id="detectResult" class="detectBox">사진1 = 순찰일지 / 사진2 = 교대업무일지</div>
   </section>
 
   <section class="card">
     <div class="step">STEP 3 · 순찰일지</div>
     <div class="title">온도 · 상태 추출</div>
     <div id="photo1Summary">아직 분석 결과가 없습니다.</div>
-    <div style="overflow-x:auto"><table class="resultTable"><thead><tr><th>#</th><th>장비</th><th>온도</th><th>상태</th></tr></thead><tbody id="photo1Body"></tbody></table></div>
+    <div style="overflow-x:auto">
+      <table class="resultTable">
+        <thead><tr><th>#</th><th>장비</th><th>온도</th><th>상태</th></tr></thead>
+        <tbody id="photo1Body"></tbody>
+      </table>
+    </div>
   </section>
 
   <section class="card">
     <div class="step">STEP 4 · 교대업무일지</div>
     <div class="title">장비가동번호 추출</div>
     <div id="photo2Summary">아직 분석 결과가 없습니다.</div>
-    <div style="overflow-x:auto"><table class="resultTable"><thead><tr><th>#</th><th>장비</th><th>26-XXX</th><th>가동</th></tr></thead><tbody id="photo2Body"></tbody></table></div>
+    <div style="overflow-x:auto">
+      <table class="resultTable">
+        <thead><tr><th>#</th><th>장비</th><th>26-XXX</th><th>가동</th></tr></thead>
+        <tbody id="photo2Body"></tbody>
+      </table>
+    </div>
   </section>
 
   <section class="card">
@@ -107,55 +164,77 @@
   "use strict";
 
   const API_KEY_STORAGE = "dacc_google_vision_api_key";
-  const FINAL_STORAGE = "dacc_google_final_result_v10";
+  const FINAL_STORAGE = "dacc_google_final_result_v9";
 
   const apiKey = document.getElementById("apiKey");
-  const imageInput = document.getElementById("imageInput");
+  const patrolInput = document.getElementById("patrolInput");
+  const shiftInput = document.getElementById("shiftInput");
   const runBtn = document.getElementById("runBtn");
   const copyBtn = document.getElementById("copyBtn");
   const clearKeyBtn = document.getElementById("clearKeyBtn");
   const statusBox = document.getElementById("status");
   const detectResult = document.getElementById("detectResult");
+
   const previewItem1 = document.getElementById("previewItem1");
   const previewItem2 = document.getElementById("previewItem2");
   const preview1 = document.getElementById("preview1");
   const preview2 = document.getElementById("preview2");
   const previewLabel1 = document.getElementById("previewLabel1");
   const previewLabel2 = document.getElementById("previewLabel2");
+
   const photo1Summary = document.getElementById("photo1Summary");
   const photo2Summary = document.getElementById("photo2Summary");
   const photo1Body = document.getElementById("photo1Body");
   const photo2Body = document.getElementById("photo2Body");
   const finalResult = document.getElementById("finalResult");
+
   const photo1FullText = document.getElementById("photo1FullText");
   const photo2FullText = document.getElementById("photo2FullText");
   const photo1Boxes = document.getElementById("photo1Boxes");
   const photo2Boxes = document.getElementById("photo2Boxes");
 
-  let selectedFiles = [];
-  let previewUrls = [];
+  let patrolFile = null;
+  let shiftFile = null;
   let finalText = "";
+  let patrolPreviewUrl = "";
+  let shiftPreviewUrl = "";
 
   const EQUIPMENT = [
-    {row:1,key:"TG2",name:"TG2호기"},{row:2,key:"TG3",name:"TG3호기"},
-    {row:3,key:"TG4",name:"TG4호기"},{row:4,key:"TG5",name:"TG5호기"},
-    {row:5,key:"TG6",name:"TG6호기"},{row:6,key:"TG7",name:"TG7호기"},
-    {row:7,key:"GF1",name:"GF1"},{row:8,key:"GF3",name:"GF3"},
-    {row:9,key:"GF4",name:"GF4"},{row:10,key:"GF5",name:"GF5"},
-    {row:11,key:"SMI",name:"SMI"},{row:12,key:"CF1",name:"CF1"},
-    {row:13,key:"CF2",name:"CF2"},{row:14,key:"CF3",name:"CF3"},
-    {row:15,key:"CF4",name:"CF4"},{row:16,key:"CF5",name:"CF5"},
-    {row:17,key:"CF6",name:"CF6"},{row:18,key:"CF분위기로",name:"CF분위기로"},
-    {row:19,key:"드라이챔버",name:"드라이챔버"},{row:20,key:"신형드라이챔버",name:"신형 드라이챔버"},
-    {row:21,key:"누액감지기",name:"유해화학물질 누액 감지기"},{row:22,key:"세정집진기",name:"세정집진기"},
-    {row:23,key:"백필터",name:"백필터"},{row:24,key:"냉각탑",name:"생산동 메인 냉각탑"},
-    {row:25,key:"냉각수펌프",name:"생산동 메인 냉각수펌프"},
-    {row:26,key:"소각기1",name:"공정 폐가스 소각기(1동)"},
-    {row:27,key:"소각기3",name:"공정 폐가스 소각기(3동)"},
-    {row:28,key:"HIP1",name:"HIP-1"},{row:29,key:"HIP2",name:"HIP-2"},
-    {row:30,key:"HIP3",name:"HIP-3"},{row:31,key:"환풍기",name:"생산동 천장 환풍기"},
-    {row:32,key:"SICCVD",name:"SIC-CVD"},{row:33,key:"SICLINE",name:"SIC LINE"},
-    {row:34,key:"자동차다이나모",name:"자동차 다이나모"},{row:35,key:"전기다이나모",name:"전기 다이나모"}
+    { row: 1, key: "TG2", name: "TG2호기" },
+    { row: 2, key: "TG3", name: "TG3호기" },
+    { row: 3, key: "TG4", name: "TG4호기" },
+    { row: 4, key: "TG5", name: "TG5호기" },
+    { row: 5, key: "TG6", name: "TG6호기" },
+    { row: 6, key: "TG7", name: "TG7호기" },
+    { row: 7, key: "GF1", name: "GF1" },
+    { row: 8, key: "GF3", name: "GF3" },
+    { row: 9, key: "GF4", name: "GF4" },
+    { row: 10, key: "GF5", name: "GF5" },
+    { row: 11, key: "SMI", name: "SMI" },
+    { row: 12, key: "CF1", name: "CF1" },
+    { row: 13, key: "CF2", name: "CF2" },
+    { row: 14, key: "CF3", name: "CF3" },
+    { row: 15, key: "CF4", name: "CF4" },
+    { row: 16, key: "CF5", name: "CF5" },
+    { row: 17, key: "CF6", name: "CF6" },
+    { row: 18, key: "CF분위기로", name: "CF분위기로" },
+    { row: 19, key: "드라이챔버", name: "드라이챔버" },
+    { row: 20, key: "신형드라이챔버", name: "신형 드라이챔버" },
+    { row: 21, key: "누액감지기", name: "유해화학물질 누액 감지기" },
+    { row: 22, key: "세정집진기", name: "세정집진기" },
+    { row: 23, key: "백필터", name: "백필터" },
+    { row: 24, key: "냉각탑", name: "생산동 메인 냉각탑" },
+    { row: 25, key: "냉각수펌프", name: "생산동 메인 냉각수펌프" },
+    { row: 26, key: "소각기1", name: "공정 폐가스 소각기(1동)" },
+    { row: 27, key: "소각기3", name: "공정 폐가스 소각기(3동)" },
+    { row: 28, key: "HIP1", name: "HIP-1" },
+    { row: 29, key: "HIP2", name: "HIP-2" },
+    { row: 30, key: "HIP3", name: "HIP-3" },
+    { row: 31, key: "환풍기", name: "생산동 천장 환풍기" },
+    { row: 32, key: "SICCVD", name: "SIC-CVD" },
+    { row: 33, key: "SICLINE", name: "SIC LINE" },
+    { row: 34, key: "자동차다이나모", name: "자동차 다이나모" },
+    { row: 35, key: "전기다이나모", name: "전기 다이나모" }
   ];
 
   const SHIFT_EQUIPMENT = [
@@ -163,6 +242,20 @@
     "CF1","CF2","CF3","CF4","CF5","CF6",
     "GF1","GF3","GF4","GF5","HIP1","HIP2","HIP3","SMI"
   ];
+
+  const NO_OPERATION_NUMBER_KEYS = new Set([
+    "드라이챔버",
+    "신형드라이챔버",
+    "소각기1",
+    "소각기3"
+  ]);
+
+  const NO_STATE_KEYS = new Set([
+    "드라이챔버",
+    "신형드라이챔버",
+    "소각기1",
+    "소각기3"
+  ]);
 
   const savedKey = localStorage.getItem(API_KEY_STORAGE);
   if (savedKey) apiKey.value = savedKey;
@@ -181,462 +274,930 @@
     setStatus("저장된 API Key를 삭제했습니다.");
   });
 
-  imageInput.addEventListener("change", () => {
-    previewUrls.forEach(url => URL.revokeObjectURL(url));
-    previewUrls = [];
-    selectedFiles = Array.from(imageInput.files || []);
-    previewItem1.classList.remove("show");
-    previewItem2.classList.remove("show");
+  patrolInput.addEventListener("change", () => {
+    patrolFile = patrolInput.files?.[0] || null;
 
-    if (selectedFiles[0]) {
-      const url = URL.createObjectURL(selectedFiles[0]); previewUrls.push(url);
-      preview1.src = url; previewLabel1.textContent = "사진 1 · " + selectedFiles[0].name; previewItem1.classList.add("show");
-    }
-    if (selectedFiles[1]) {
-      const url = URL.createObjectURL(selectedFiles[1]); previewUrls.push(url);
-      preview2.src = url; previewLabel2.textContent = "사진 2 · " + selectedFiles[1].name; previewItem2.classList.add("show");
+    if (patrolPreviewUrl) URL.revokeObjectURL(patrolPreviewUrl);
+
+    if (patrolFile) {
+      patrolPreviewUrl = URL.createObjectURL(patrolFile);
+      preview1.src = patrolPreviewUrl;
+      previewLabel1.textContent = "사진1 · 순찰일지 · " + patrolFile.name;
+      previewItem1.classList.add("show");
+    } else {
+      previewItem1.classList.remove("show");
     }
 
-    if (selectedFiles.length !== 2) setStatus(`현재 ${selectedFiles.length}장 선택됨\n정확히 2장을 선택해주세요.`, selectedFiles.length > 2 ? "err" : "");
-    else setStatus("사진 2장 준비 완료\n" + selectedFiles[0].name + "\n" + selectedFiles[1].name);
+    updateSelectionStatus();
     updateButton();
   });
 
-  function updateButton(){ runBtn.disabled = !(apiKey.value.trim() && selectedFiles.length === 2); }
-  function setStatus(message,type=""){ statusBox.className="status"+(type?" "+type:""); statusBox.textContent=message; }
-  function escapeHtml(value){ return String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;"); }
-  function compact(text){ return String(text||"").toUpperCase().replace(/\s+/g,"").replace(/[._·•]/g,"").trim(); }
+  shiftInput.addEventListener("change", () => {
+    shiftFile = shiftInput.files?.[0] || null;
 
-  function canonicalSimple(text){
-    let s=compact(text).replace(/호기/g,"").replace(/-/g,"");
-    if(/^TG[1-7]$/.test(s))return s;
-    if(/^GF[1345]$/.test(s))return s;
-    if(/^CF[1-6]$/.test(s))return s;
-    if(/^HIP[123]$/.test(s))return s;
-    if(s==="SMI")return"SMI";
-    return"";
+    if (shiftPreviewUrl) URL.revokeObjectURL(shiftPreviewUrl);
+
+    if (shiftFile) {
+      shiftPreviewUrl = URL.createObjectURL(shiftFile);
+      preview2.src = shiftPreviewUrl;
+      previewLabel2.textContent = "사진2 · 교대업무일지 · " + shiftFile.name;
+      previewItem2.classList.add("show");
+    } else {
+      previewItem2.classList.remove("show");
+    }
+
+    updateSelectionStatus();
+    updateButton();
+  });
+
+  function updateSelectionStatus() {
+    if (patrolFile && shiftFile) {
+      setStatus(
+        "사진 2장 준비 완료\n" +
+        "사진1 순찰일지: " + patrolFile.name + "\n" +
+        "사진2 교대업무일지: " + shiftFile.name
+      );
+    } else if (patrolFile) {
+      setStatus("순찰일지 준비 완료\n교대업무일지를 선택해주세요.");
+    } else if (shiftFile) {
+      setStatus("교대업무일지 준비 완료\n순찰일지를 선택해주세요.");
+    } else {
+      setStatus("API Key와 사진 2장을 준비해주세요.");
+    }
   }
 
-  function normalizeState(text){
-    const s=compact(text);
-    if(!s)return"";
-    if(/승온|승은|승옹|승욘|숭온/.test(s))return"승온중";
-    if(/냉각|냉갹|넹각/.test(s))return"냉각중";
-    if(/유지|유즤|유치/.test(s))return"유지중";
-    return"";
+  function updateButton() {
+    runBtn.disabled = !(apiKey.value.trim() && patrolFile && shiftFile);
   }
 
-  function normalizeOperationNumber(text){
-    const s=String(text||"").replace(/\s+/g,"").replace(/[–—−]/g,"-");
-    const m=s.match(/^26-(\d{1,3})$/);
-    return m?`26-${m[1]}`:"";
+  function setStatus(message, type = "") {
+    statusBox.className = "status" + (type ? " " + type : "");
+    statusBox.textContent = message;
   }
 
-  function median(values){
-    if(!values.length)return 0;
-    const s=[...values].sort((a,b)=>a-b),m=Math.floor(s.length/2);
-    return s.length%2?s[m]:(s[m-1]+s[m])/2;
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
   }
 
-  function fileToBase64(file){
-    return new Promise((resolve,reject)=>{
-      const reader=new FileReader();
-      reader.onload=()=>{const result=String(reader.result||""),comma=result.indexOf(","); if(comma<0)return reject(new Error("이미지 Base64 변환 실패")); resolve(result.slice(comma+1));};
-      reader.onerror=()=>reject(new Error("이미지 파일 읽기 실패"));
+  function compact(text) {
+    return String(text || "")
+      .toUpperCase()
+      .replace(/\s+/g, "")
+      .replace(/[._·•]/g, "")
+      .trim();
+  }
+
+  function canonicalSimple(text) {
+    let s = compact(text).replace(/호기/g, "").replace(/-/g, "");
+    if (/^TG[1-7]$/.test(s)) return s;
+    if (/^GF[1345]$/.test(s)) return s;
+    if (/^CF[1-6]$/.test(s)) return s;
+    if (/^HIP[123]$/.test(s)) return s;
+    if (s === "SMI") return "SMI";
+    return "";
+  }
+
+  function normalizeState(text) {
+    const s = compact(text);
+    if (!s) return "";
+    if (/승온|승은|승옹|승욘|숭온/.test(s)) return "승온중";
+    if (/냉각|냉갹|넹각/.test(s)) return "냉각중";
+    if (/유지|유즤|유치/.test(s)) return "유지중";
+    return "";
+  }
+
+  function normalizeOperationNumber(text) {
+    const s = String(text || "").replace(/\s+/g, "").replace(/[–—−]/g, "-");
+    const match = s.match(/^26-(\d{1,3})$/);
+    return match ? `26-${match[1]}` : "";
+  }
+
+  function median(values) {
+    if (!values.length) return 0;
+    const sorted = [...values].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+  }
+
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = String(reader.result || "");
+        const comma = result.indexOf(",");
+        if (comma < 0) return reject(new Error("이미지 Base64 변환 실패"));
+        resolve(result.slice(comma + 1));
+      };
+      reader.onerror = () => reject(new Error("이미지 파일 읽기 실패"));
       reader.readAsDataURL(file);
     });
   }
 
-  function getVertices(poly){return(poly?.vertices||[]).map(v=>({x:Number(v.x||0),y:Number(v.y||0)}));}
-  function centerOf(poly){const vs=getVertices(poly);if(!vs.length)return{x:0,y:0};return{x:vs.reduce((s,v)=>s+v.x,0)/vs.length,y:vs.reduce((s,v)=>s+v.y,0)/vs.length};}
+  function getVertices(poly) {
+    return (poly?.vertices || []).map(v => ({
+      x: Number(v.x || 0),
+      y: Number(v.y || 0)
+    }));
+  }
 
-  function extractWords(response){
-    const words=[];
-    for(const page of response?.fullTextAnnotation?.pages||[])
-      for(const block of page.blocks||[])
-        for(const paragraph of block.paragraphs||[])
-          for(const word of paragraph.words||[]){
-            const text=(word.symbols||[]).map(s=>s.text||"").join("");
-            const center=centerOf(word.boundingBox);
-            const vertices=getVertices(word.boundingBox);
-            const xs=vertices.map(v=>v.x),ys=vertices.map(v=>v.y);
+  function centerOf(poly) {
+    const vertices = getVertices(poly);
+    if (!vertices.length) return { x: 0, y: 0 };
+    return {
+      x: vertices.reduce((sum, v) => sum + v.x, 0) / vertices.length,
+      y: vertices.reduce((sum, v) => sum + v.y, 0) / vertices.length
+    };
+  }
+
+  function extractWords(response) {
+    const words = [];
+    for (const page of response?.fullTextAnnotation?.pages || []) {
+      for (const block of page.blocks || []) {
+        for (const paragraph of block.paragraphs || []) {
+          for (const word of paragraph.words || []) {
+            const text = (word.symbols || []).map(s => s.text || "").join("");
+            const center = centerOf(word.boundingBox);
             words.push({
-              text,x:Math.round(center.x),y:Math.round(center.y),
-              minX:xs.length?Math.min(...xs):center.x,maxX:xs.length?Math.max(...xs):center.x,
-              minY:ys.length?Math.min(...ys):center.y,maxY:ys.length?Math.max(...ys):center.y,
-              confidence:typeof word.confidence==="number"?word.confidence:null,vertices
+              text,
+              x: Math.round(center.x),
+              y: Math.round(center.y),
+              confidence: typeof word.confidence === "number" ? word.confidence : null,
+              vertices: getVertices(word.boundingBox)
             });
           }
+        }
+      }
+    }
     return words;
   }
 
-  function wordsToDebugText(words){
-    return [...words].sort((a,b)=>Math.abs(a.y-b.y)<10?a.x-b.x:a.y-b.y).map((w,i)=>{
-      const conf=w.confidence==null?"":` conf=${w.confidence.toFixed(3)}`;
-      return `${String(i+1).padStart(3,"0")} x=${w.x} y=${w.y}${conf}  ${w.text}`;
-    }).join("\n");
+  function wordsToDebugText(words) {
+    return [...words]
+      .sort((a, b) => Math.abs(a.y - b.y) < 10 ? a.x - b.x : a.y - b.y)
+      .map((w, i) => {
+        const conf = w.confidence == null ? "" : ` conf=${w.confidence.toFixed(3)}`;
+        return `${String(i + 1).padStart(3, "0")} x=${w.x} y=${w.y}${conf}  ${w.text}`;
+      })
+      .join("\n");
   }
 
-  async function callGoogleVision(file,key){
-    const base64=await fileToBase64(file);
-    const body={requests:[{image:{content:base64},features:[{type:"DOCUMENT_TEXT_DETECTION",maxResults:1}],imageContext:{languageHints:["ko","en"]}}]};
-    const res=await fetch("https://vision.googleapis.com/v1/images:annotate?key="+encodeURIComponent(key),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
-    const json=await res.json();
-    if(!res.ok)throw new Error(json?.error?.message||`HTTP ${res.status}`);
-    const response=json?.responses?.[0];
-    if(!response)throw new Error("Google 응답에 responses[0]이 없습니다.");
-    if(response.error)throw new Error(response.error.message||"Google Vision 처리 오류");
-    return{fileName:file.name,text:response?.fullTextAnnotation?.text||response?.textAnnotations?.[0]?.description||"",words:extractWords(response),response};
+  async function callGoogleVision(file, key) {
+    const base64 = await fileToBase64(file);
+
+    const requestBody = {
+      requests: [{
+        image: { content: base64 },
+        features: [{ type: "DOCUMENT_TEXT_DETECTION", maxResults: 1 }],
+        imageContext: { languageHints: ["ko", "en"] }
+      }]
+    };
+
+    const endpoint =
+      "https://vision.googleapis.com/v1/images:annotate?key=" + encodeURIComponent(key);
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestBody)
+    });
+
+    const json = await res.json();
+
+    if (!res.ok) throw new Error(json?.error?.message || `HTTP ${res.status}`);
+
+    const response = json?.responses?.[0];
+    if (!response) throw new Error("Google 응답에 responses[0]이 없습니다.");
+    if (response.error) throw new Error(response.error.message || "Google Vision 처리 오류");
+
+    return {
+      fileName: file.name,
+      text:
+        response?.fullTextAnnotation?.text ||
+        response?.textAnnotations?.[0]?.description ||
+        "",
+      words: extractWords(response),
+      response
+    };
   }
 
-  function scoreDocument(result){
-    const text=result.text||"",words=result.words||[];
-    const operationNumbers=words.filter(w=>normalizeOperationNumber(w.text)).length;
-    const operationWords=words.filter(w=>/가동|준비|수리/.test(String(w.text))).length;
-    const stateWords=words.filter(w=>normalizeState(w.text)).length;
-    let patrolScore=stateWords*3,shiftScore=operationNumbers*5+operationWords;
-    ["온도","공정","도달","장비","체크","유량","압력"].forEach(k=>{if(text.includes(k))patrolScore+=2;});
-    ["교대","제품명","사업","가동","냉각","준비"].forEach(k=>{if(text.includes(k))shiftScore+=1;});
-    return{patrolScore,shiftScore,operationNumbers,stateWords};
-  }
+  function findPhoto1Anchor(words, equipment) {
+    let hits = words.filter(w => canonicalSimple(w.text) === equipment.key);
 
-  function classifyDocuments(a,b){
-    const A=scoreDocument(a),B=scoreDocument(b);
-    if(A.operationNumbers>B.operationNumbers)return{photo1:b,photo2:a,score1:B,score2:A};
-    if(B.operationNumbers>A.operationNumbers)return{photo1:a,photo2:b,score1:A,score2:B};
-    if(A.shiftScore>B.shiftScore)return{photo1:b,photo2:a,score1:B,score2:A};
-    return{photo1:a,photo2:b,score1:A,score2:B};
-  }
+    if (!hits.length) {
+      const sKey = compact(equipment.name);
 
-  function findPhoto1Anchor(words,equipment){
-    let hits=words.filter(w=>canonicalSimple(w.text)===equipment.key);
-    if(!hits.length){
-      const key=compact(equipment.name);
-      hits=words.filter(w=>{
-        const s=compact(w.text); if(!s)return false;
-        if(equipment.key==="CF분위기로"&&s.includes("분위기"))return true;
-        if(equipment.key==="드라이챔버"&&(s.includes("드라이")||s.includes("챔버"))&&!s.includes("신형"))return true;
-        if(equipment.key==="신형드라이챔버"&&s.includes("신형"))return true;
-        if(equipment.key==="소각기1"&&s.includes("소각")&&/1/.test(s))return true;
-        if(equipment.key==="소각기3"&&s.includes("소각")&&/3/.test(s))return true;
-        return s===key||(s.length>=3&&key.includes(s));
+      hits = words.filter(w => {
+        const s = compact(w.text);
+        if (!s) return false;
+
+        if (equipment.key === "CF분위기로" && s.includes("분위기")) return true;
+
+        if (
+          equipment.key === "드라이챔버" &&
+          (s.includes("드라이") || s.includes("챔버")) &&
+          !s.includes("신형")
+        ) return true;
+
+        if (
+          equipment.key === "신형드라이챔버" &&
+          (s.includes("신형") || (s.includes("드라이") && s.includes("신형")))
+        ) return true;
+
+        if (equipment.key === "소각기1" && s.includes("소각") && /1/.test(s)) return true;
+        if (equipment.key === "소각기3" && s.includes("소각") && /3/.test(s)) return true;
+
+        return s === sKey || (s.length >= 3 && sKey.includes(s));
       });
     }
-    if(!hits.length)return null;
-    return [...hits].sort((a,b)=>b.y-a.y)[0];
+
+    if (!hits.length) return null;
+    return [...hits].sort((a, b) => b.y - a.y)[0];
   }
 
-  /*
-    v10: 장비 Anchor는 "행의 Y 기준"만 만든다.
-    누락 장비는 인접한 실제 장비 Anchor 사이에서만 보간한다.
-    앞/뒤 실제 Anchor가 없는 바깥쪽 행은 억지 복원하지 않는다.
-  */
-  function reconstructPhoto1Anchors(words){
-    const detected=[];
-    for(const equipment of EQUIPMENT){
-      const a=findPhoto1Anchor(words,equipment);
-      if(a)detected.push({...equipment,x:a.x,y:a.y,reconstructed:false});
-    }
-    const byRow=new Map(detected.map(a=>[a.row,a]));
-    const result=[];
-    for(let row=1;row<=EQUIPMENT.length;row++){
-      if(byRow.has(row)){result.push(byRow.get(row));continue;}
-      let left=null,right=null;
-      for(let r=row-1;r>=1;r--){if(byRow.has(r)){left=byRow.get(r);break;}}
-      for(let r=row+1;r<=EQUIPMENT.length;r++){if(byRow.has(r)){right=byRow.get(r);break;}}
-      if(!left||!right)continue;
-      const ratio=(row-left.row)/(right.row-left.row);
-      result.push({...EQUIPMENT[row-1],x:left.x+(right.x-left.x)*ratio,y:left.y+(right.y-left.y)*ratio,reconstructed:true});
-    }
-    return result.sort((a,b)=>a.row-b.row);
-  }
+  function reconstructPhoto1Anchors(words) {
+    const detected = [];
 
-  /*
-    행 경계는 ±20px 고정이 아니라 "인접 장비 Anchor Y의 중간값"으로 만든다.
-    사진 크기/촬영 거리 변화에 더 안전하다.
-  */
-  function buildRowBounds(anchors){
-    const sorted=[...anchors].sort((a,b)=>a.row-b.row);
-    const gaps=[];
-    for(let i=1;i<sorted.length;i++){
-      const dr=sorted[i].row-sorted[i-1].row;
-      if(dr>0){const g=(sorted[i].y-sorted[i-1].y)/dr;if(g>5)gaps.push(g);}
-    }
-    const typical=Math.abs(median(gaps))||45;
-    return sorted.map((a,i)=>{
-      const prev=sorted[i-1],next=sorted[i+1];
-      let top=prev?(prev.y+a.y)/2:a.y-typical/2;
-      let bottom=next?(a.y+next.y)/2:a.y+typical/2;
-      if(top>bottom)[top,bottom]=[bottom,top];
-      return{...a,yTop:top,yBottom:bottom};
-    });
-  }
-
-  function numericValue(text){
-    const raw=String(text||"").trim();
-    if(!raw||/26\s*[-–—−]\s*\d+/.test(raw)||/[:/]/.test(raw))return null;
-    const clean=raw.replace(/[^\d]/g,"");
-    if(!/^\d{2,4}$/.test(clean))return null;
-    const n=Number(clean);
-    return Number.isFinite(n)&&n>=20&&n<=1500?n:null;
-  }
-
-  /*
-    온도 열 X 중심을 실제 OCR 숫자 분포에서 찾는다.
-    핵심: 장비명 Anchor의 X가 아니라 표 전체에서 반복되는 숫자 "세로 열"을 찾는다.
-    행 번호처럼 20~35가 몰린 열과 가스유량 열은 제외하기 위해
-    100도 이상 후보에 높은 가중치를 주고, 장비 행 Y와 교차하는 빈도를 사용한다.
-  */
-  function inferTemperatureColumn(words,rowBounds){
-    const candidates=words.filter(w=>numericValue(w.text)!==null);
-    if(!candidates.length)return null;
-
-    const xs=candidates.map(w=>w.x).sort((a,b)=>a-b);
-    const clusters=[];
-    const threshold=55;
-    for(const x of xs){
-      let c=clusters.find(c=>Math.abs(c.center-x)<=threshold);
-      if(!c){c={values:[],center:x};clusters.push(c);}
-      c.values.push(x);c.center=c.values.reduce((s,v)=>s+v,0)/c.values.length;
+    for (const equipment of EQUIPMENT) {
+      const anchor = findPhoto1Anchor(words, equipment);
+      if (anchor) {
+        detected.push({
+          ...equipment,
+          x: anchor.x,
+          y: anchor.y,
+          reconstructed: false
+        });
+      }
     }
 
-    const scored=clusters.map(c=>{
-      const minX=c.center-55,maxX=c.center+55;
-      let score=0,hits=0,high=0;
-      for(const row of rowBounds){
-        const inCell=candidates.filter(w=>w.x>=minX&&w.x<=maxX&&w.y>=row.yTop&&w.y<=row.yBottom);
-        if(inCell.length){
-          hits++;
-          const best=inCell.map(w=>numericValue(w.text)).filter(v=>v!==null).sort((a,b)=>b-a)[0];
-          if(best>=100){score+=4;high++;}
-          else score+=0.15; // 행번호/작은 유량값 열 억제
+    const byRow = new Map(detected.map(a => [a.row, a]));
+    const result = [];
+
+    for (let row = 1; row <= EQUIPMENT.length; row++) {
+      if (byRow.has(row)) {
+        result.push(byRow.get(row));
+        continue;
+      }
+
+      let left = null;
+      let right = null;
+
+      for (let r = row - 1; r >= 1; r--) {
+        if (byRow.has(r)) {
+          left = byRow.get(r);
+          break;
         }
       }
-      score+=hits*.2;
-      return{center:c.center,minX,maxX,score,hits,high};
-    }).sort((a,b)=>b.score-a.score);
 
-    return scored[0]&&scored[0].high>=2?scored[0]:null;
+      for (let r = row + 1; r <= EQUIPMENT.length; r++) {
+        if (byRow.has(r)) {
+          right = byRow.get(r);
+          break;
+        }
+      }
+
+      if (!left || !right) continue;
+
+      const ratio =
+        (row - left.row) /
+        (right.row - left.row);
+
+      result.push({
+        ...EQUIPMENT[row - 1],
+        x: left.x + (right.x - left.x) * ratio,
+        y: left.y + (right.y - left.y) * ratio,
+        reconstructed: true
+      });
+    }
+
+    return result.sort((x, y) => x.row - y.row);
+  }
+
+  function clusterY(items, tolerance = 42) {
+    const groups = [];
+
+    for (const item of [...items].sort((a,b) => a.y-b.y)) {
+      let group = groups.find(g =>
+        Math.abs(g.centerY - item.y) <= tolerance
+      );
+
+      if (!group) {
+        group = { items: [], centerY: item.y };
+        groups.push(group);
+      }
+
+      group.items.push(item);
+      group.centerY =
+        group.items.reduce((sum,v)=>sum+v.y,0) /
+        group.items.length;
+    }
+
+    return groups;
   }
 
   /*
-    상태 열은 실제 승온/냉각/유지 단어들의 X 분포에서 잡는다.
-    이 열 안 + 해당 행 안에 없으면 무조건 공란.
+    v10 핵심
+    기존 v9의 UI / 사진선택 / 자동병합 / 교대업무일지 / 디버그는 그대로 유지한다.
+
+    순찰일지만 Strict 2D Cell 방식으로 변경:
+    - X축 = 장비별 열 영역
+    - Y축 = 온도/상태가 실제로 반복되는 데이터 행
+    - X열 ∩ Y행 안의 값만 인정
+    - 셀이 비어 있으면 다른 Y행을 찾아 내려가지 않는다(Fallback 금지)
   */
-  function inferStateColumn(words){
-    const sw=words.filter(w=>normalizeState(w.text));
-    if(!sw.length)return null;
-    const center=median(sw.map(w=>w.x));
-    const spread=median(sw.map(w=>Math.abs(w.x-center)))||30;
-    const half=Math.max(60,Math.min(150,spread*3));
-    return{center,minX:center-half,maxX:center+half};
-  }
+  function buildPhoto1Rows(words) {
+    const anchors = reconstructPhoto1Anchors(words);
+    if (!anchors.length) return [];
 
-  /*
-    Strict 2D Cell:
-    - 같은 온도열 X ∩ 같은 장비행 Y만 허용
-    - 주변행/주변열 fallback 금지
-    - 100 미만도 STEP3 진단에는 보이되 최종 문자보고에서 제외
-  */
-  function buildPhoto1Rows(words){
-    const anchors=reconstructPhoto1Anchors(words);
-    if(!anchors.length)return[];
+    const xAnchors = [...anchors].sort((a, b) => a.x - b.x);
 
-    const rows=buildRowBounds(anchors);
-    const tempCol=inferTemperatureColumn(words,rows);
-    const stateCol=inferStateColumn(words);
+    function bounds(anchor) {
+      const i = xAnchors.findIndex(a => a.row === anchor.row);
+      const prev = xAnchors[i - 1];
+      const next = xAnchors[i + 1];
 
-    return rows.map(row=>{
-      let temperature="";
-      let state="";
+      return {
+        left: prev
+          ? (prev.x + anchor.x) / 2
+          : anchor.x - (next ? (next.x - anchor.x) / 2 : 60),
 
-      if(tempCol){
-        const temps=words
-          .filter(w=>w.x>=tempCol.minX&&w.x<=tempCol.maxX&&w.y>=row.yTop&&w.y<=row.yBottom)
-          .map(w=>({w,value:numericValue(w.text)}))
-          .filter(o=>o.value!==null)
-          .sort((a,b)=>Math.abs(a.w.x-tempCol.center)-Math.abs(b.w.x-tempCol.center));
-        if(temps.length)temperature=temps[0].value;
-      }
-
-      if(stateCol){
-        const states=words
-          .filter(w=>w.x>=stateCol.minX&&w.x<=stateCol.maxX&&w.y>=row.yTop&&w.y<=row.yBottom)
-          .map(w=>({w,state:normalizeState(w.text)}))
-          .filter(o=>o.state)
-          .sort((a,b)=>Math.abs(a.w.x-stateCol.center)-Math.abs(b.w.x-stateCol.center));
-        if(states.length)state=states[0].state;
-      }
-
-      return{
-        row:row.row,key:row.key,equipment:row.name,temperature,state,
-        reconstructed:!!row.reconstructed,
-        gridDebug:`Y ${Math.round(row.yTop)}~${Math.round(row.yBottom)} / TEMP ${tempCol?Math.round(tempCol.minX)+"~"+Math.round(tempCol.maxX):"미탐지"} / STATE ${stateCol?Math.round(stateCol.minX)+"~"+Math.round(stateCol.maxX):"미탐지"}`
+        right: next
+          ? (anchor.x + next.x) / 2
+          : anchor.x + (prev ? (anchor.x - prev.x) / 2 : 60)
       };
-    }).sort((a,b)=>a.row-b.row);
+    }
+
+    /*
+      온도로 사용할 수 있는 숫자 후보.
+      26-XXX, 시간/날짜형 값은 제외한다.
+      STEP3에서는 20~1500을 유지하고,
+      최종 문자보고에서 기존 규칙대로 100도 미만을 제외한다.
+    */
+    const nums = words.map(w => {
+      const raw = String(w.text || "").trim();
+
+      if (
+        /26\s*[-–—−]\s*\d+/.test(raw) ||
+        /[:/.]/.test(raw)
+      ) return null;
+
+      const clean = raw.replace(/[^\d]/g, "");
+      if (!/^\d{2,4}$/.test(clean)) return null;
+
+      const value = Number(clean);
+      if (value < 20 || value > 1500) return null;
+
+      return {
+        value,
+        x: w.x,
+        y: w.y,
+        text: raw
+      };
+    }).filter(Boolean);
+
+    /*
+      사진의 실제 방향 기준:
+      장비들이 X축으로 배열되어 있으므로
+      같은 데이터 행에 있는 숫자들은 Y가 비슷하다.
+
+      여기서 "온도 행" 하나만 먼저 확정한다.
+      이후 각 장비에서 다른 숫자 행을 재탐색하지 않는다.
+    */
+    const tempBands = clusterY(nums, 42)
+      .map(g => {
+        const spread = g.items.length
+          ? Math.max(...g.items.map(v => v.x)) -
+            Math.min(...g.items.map(v => v.x))
+          : 0;
+
+        const highCount = g.items.filter(v => v.value >= 100).length;
+        const lowCount = g.items.filter(v => v.value < 100).length;
+
+        /*
+          실제 온도행은 여러 장비에 걸쳐 넓게 퍼지고
+          100도 이상 값이 다수 존재한다.
+          행번호 20~34 같은 행은 lowCount 비중이 커서 감점한다.
+        */
+        const score =
+          (highCount * 8) +
+          (g.items.length * 2) +
+          (spread / 120) -
+          (lowCount * 2);
+
+        return {
+          ...g,
+          spread,
+          highCount,
+          lowCount,
+          score
+        };
+      })
+      .filter(g =>
+        g.items.length >= 4 &&
+        g.spread >= 350 &&
+        g.highCount >= 2
+      )
+      .sort((a, b) => b.score - a.score);
+
+    /*
+      가장 가능성이 높은 온도행 딱 하나만 사용.
+      TG7 온도 셀이 비어 있거나 OCR이 실패해도
+      가스유량 150이 있는 다른 행으로 내려가지 않는다.
+    */
+    const temperatureBand = tempBands[0] || null;
+
+    const states = words.map(w => ({
+      state: normalizeState(w.text),
+      x: w.x,
+      y: w.y,
+      text: String(w.text || "")
+    })).filter(v => v.state);
+
+    /*
+      상태 역시 가장 강한 상태행 하나만 확정.
+      CF5 상태 셀이 비어 있으면 다른 상태행에서
+      '유지중'을 끌어오지 않는다.
+    */
+    const stateBands = clusterY(states, 48)
+      .map(g => ({
+        ...g,
+        spread: g.items.length
+          ? Math.max(...g.items.map(v => v.x)) -
+            Math.min(...g.items.map(v => v.x))
+          : 0,
+        score:
+          (g.items.length * 5) +
+          (
+            g.items.length
+              ? (
+                  Math.max(...g.items.map(v => v.x)) -
+                  Math.min(...g.items.map(v => v.x))
+                ) / 120
+              : 0
+          )
+      }))
+      .filter(g => g.items.length >= 2)
+      .sort((a, b) => b.score - a.score);
+
+    const stateBand = stateBands[0] || null;
+
+    function pickTempStrict(anchor) {
+      if (!temperatureBand) return "";
+
+      const { left, right } = bounds(anchor);
+
+      const hits = temperatureBand.items
+        .filter(v =>
+          v.x >= left &&
+          v.x < right
+        )
+        .sort((a, b) =>
+          Math.abs(a.x - anchor.x) -
+          Math.abs(b.x - anchor.x)
+        );
+
+      /*
+        STRICT:
+        현재 장비열 ∩ 확정 온도행 안에 값이 없으면 공란.
+        다른 Y행 탐색 금지.
+      */
+      return hits.length ? hits[0].value : "";
+    }
+
+    function pickStateStrict(anchor) {
+      if (!stateBand) return "";
+
+      const { left, right } = bounds(anchor);
+
+      const hits = stateBand.items
+        .filter(v =>
+          v.x >= left &&
+          v.x < right
+        )
+        .sort((a, b) =>
+          Math.abs(a.x - anchor.x) -
+          Math.abs(b.x - anchor.x)
+        );
+
+      /*
+        STRICT:
+        현재 장비열 ∩ 확정 상태행 안에 값이 없으면 공란.
+        주변 장비 상태 Fallback 금지.
+      */
+      return hits.length ? hits[0].state : "";
+    }
+
+    return anchors.map(anchor => ({
+      row: anchor.row,
+      key: anchor.key,
+      equipment: anchor.name,
+      temperature: pickTempStrict(anchor),
+      state: pickStateStrict(anchor),
+      reconstructed: !!anchor.reconstructed
+    })).sort((a, b) => a.row - b.row);
   }
 
-  function buildPhoto2Rows(words){
-    const anchors=[];
-    for(const expected of SHIFT_EQUIPMENT){
-      const hits=words.filter(w=>canonicalSimple(w.text)===expected);
-      if(!hits.length)continue;
-      const best=[...hits].sort((a,b)=>b.y-a.y)[0];
-      anchors.push({key:expected,x:best.x,y:best.y,reconstructed:false});
-    }
-    anchors.sort((a,b)=>a.x-b.x);
 
-    const gaps=[];
-    for(let i=1;i<anchors.length;i++){
-      const a=anchors[i-1],b=anchors[i],ai=SHIFT_EQUIPMENT.indexOf(a.key),bi=SHIFT_EQUIPMENT.indexOf(b.key);
-      if(bi-ai===1){const g=b.x-a.x;if(g>40&&g<400)gaps.push(g);}
-    }
-    const typicalGap=median(gaps)||155,detectedMap=new Map(anchors.map(a=>[a.key,a])),reconstructed=[...anchors];
+  function buildPhoto2Rows(words) {
+    const anchors = [];
 
-    for(let ti=0;ti<SHIFT_EQUIPMENT.length;ti++){
-      const key=SHIFT_EQUIPMENT[ti]; if(detectedMap.has(key))continue;
-      let left=null,right=null;
-      for(let l=ti-1;l>=0;l--){const k=SHIFT_EQUIPMENT[l];if(detectedMap.has(k)){left={index:l,anchor:detectedMap.get(k)};break;}}
-      for(let r=ti+1;r<SHIFT_EQUIPMENT.length;r++){const k=SHIFT_EQUIPMENT[r];if(detectedMap.has(k)){right={index:r,anchor:detectedMap.get(k)};break;}}
-      let x=null,y=null;
-      if(left&&right){const step=(right.anchor.x-left.anchor.x)/(right.index-left.index);x=left.anchor.x+step*(ti-left.index);y=(left.anchor.y+right.anchor.y)/2;}
-      else if(left){x=left.anchor.x+typicalGap*(ti-left.index);y=left.anchor.y;}
-      else if(right){x=right.anchor.x-typicalGap*(right.index-ti);y=right.anchor.y;}
-      if(x!=null&&y!=null)reconstructed.push({key,x,y,reconstructed:true});
+    for (const expected of SHIFT_EQUIPMENT) {
+      const hits = words.filter(w => canonicalSimple(w.text) === expected);
+      if (!hits.length) continue;
+
+      const best = [...hits].sort((a, b) => b.y - a.y)[0];
+
+      anchors.push({
+        key: expected,
+        x: best.x,
+        y: best.y,
+        reconstructed: false
+      });
     }
 
-    const finalAnchors=reconstructed.sort((a,b)=>a.x-b.x),rows=[];
-    for(let i=0;i<finalAnchors.length;i++){
-      const a=finalAnchors[i],prev=finalAnchors[i-1],next=finalAnchors[i+1];
-      const left=prev?(prev.x+a.x)/2:a.x-typicalGap/2,right=next?(a.x+next.x)/2:a.x+typicalGap/2;
-      const columnWords=words.filter(w=>w.x>=left&&w.x<right);
-      const nums=columnWords.map(w=>({value:normalizeOperationNumber(w.text),y:w.y})).filter(v=>v.value);
-      let operationNumber="";
-      if(nums.length)operationNumber=[...nums].sort((x,y)=>Math.abs(x.y-a.y)-Math.abs(y.y-a.y))[0].value;
-      const ops=columnWords.filter(w=>/가동|냉각|준비|수리/.test(String(w.text)));
-      let operation="";
-      if(ops.length)operation=[...ops].sort((x,y)=>Math.abs(x.y-a.y)-Math.abs(y.y-a.y))[0].text;
-      rows.push({key:a.key,equipment:a.key,operationNumber,operation,anchorX:Math.round(a.x),reconstructed:!!a.reconstructed});
+    anchors.sort((a, b) => a.x - b.x);
+
+    const gaps = [];
+
+    for (let i = 1; i < anchors.length; i++) {
+      const current = anchors[i - 1];
+      const next = anchors[i];
+      const currentIndex = SHIFT_EQUIPMENT.indexOf(current.key);
+      const nextIndex = SHIFT_EQUIPMENT.indexOf(next.key);
+
+      if (nextIndex - currentIndex === 1) {
+        const gap = next.x - current.x;
+        if (gap > 40 && gap < 400) gaps.push(gap);
+      }
     }
+
+    const typicalGap = median(gaps) || 155;
+    const detectedMap = new Map(anchors.map(a => [a.key, a]));
+    const reconstructed = [...anchors];
+
+    for (let targetIndex = 0; targetIndex < SHIFT_EQUIPMENT.length; targetIndex++) {
+      const targetKey = SHIFT_EQUIPMENT[targetIndex];
+      if (detectedMap.has(targetKey)) continue;
+
+      let left = null;
+      let right = null;
+
+      for (let l = targetIndex - 1; l >= 0; l--) {
+        const key = SHIFT_EQUIPMENT[l];
+        if (detectedMap.has(key)) {
+          left = { index: l, anchor: detectedMap.get(key) };
+          break;
+        }
+      }
+
+      for (let r = targetIndex + 1; r < SHIFT_EQUIPMENT.length; r++) {
+        const key = SHIFT_EQUIPMENT[r];
+        if (detectedMap.has(key)) {
+          right = { index: r, anchor: detectedMap.get(key) };
+          break;
+        }
+      }
+
+      let x = null;
+      let y = null;
+
+      if (left && right) {
+        const totalSteps = right.index - left.index;
+        const targetSteps = targetIndex - left.index;
+        const step = (right.anchor.x - left.anchor.x) / totalSteps;
+        x = left.anchor.x + step * targetSteps;
+        y = (left.anchor.y + right.anchor.y) / 2;
+      } else if (left) {
+        x = left.anchor.x + typicalGap * (targetIndex - left.index);
+        y = left.anchor.y;
+      } else if (right) {
+        x = right.anchor.x - typicalGap * (right.index - targetIndex);
+        y = right.anchor.y;
+      }
+
+      if (x == null || y == null) continue;
+
+      reconstructed.push({
+        key: targetKey,
+        x,
+        y,
+        reconstructed: true
+      });
+    }
+
+    const finalAnchors = reconstructed.sort((a, b) => a.x - b.x);
+    const rows = [];
+
+    for (let i = 0; i < finalAnchors.length; i++) {
+      const anchor = finalAnchors[i];
+      const previous = finalAnchors[i - 1];
+      const next = finalAnchors[i + 1];
+
+      const left = previous
+        ? (previous.x + anchor.x) / 2
+        : anchor.x - typicalGap / 2;
+
+      const right = next
+        ? (anchor.x + next.x) / 2
+        : anchor.x + typicalGap / 2;
+
+      const columnWords = words.filter(w => w.x >= left && w.x < right);
+
+      const numberCandidates = columnWords
+        .map(w => ({
+          value: normalizeOperationNumber(w.text),
+          y: w.y
+        }))
+        .filter(v => v.value);
+
+      let operationNumber = "";
+
+      if (numberCandidates.length) {
+        operationNumber = [...numberCandidates]
+          .sort((a, b) =>
+            Math.abs(a.y - anchor.y) - Math.abs(b.y - anchor.y)
+          )[0].value;
+      }
+
+      const operationCandidates = columnWords.filter(w =>
+        /가동|냉각|준비|수리/.test(String(w.text))
+      );
+
+      let operation = "";
+
+      if (operationCandidates.length) {
+        operation = [...operationCandidates]
+          .sort((a, b) =>
+            Math.abs(a.y - anchor.y) - Math.abs(b.y - anchor.y)
+          )[0].text;
+      }
+
+      rows.push({
+        key: anchor.key,
+        equipment: anchor.key,
+        operationNumber,
+        operation,
+        anchorX: Math.round(anchor.x),
+        reconstructed: !!anchor.reconstructed
+      });
+    }
+
     return rows;
   }
 
-  function renderPhoto1(rows){
-    photo1Body.innerHTML="";
-    for(const row of rows){
-      const tr=document.createElement("tr");
-      tr.innerHTML=`<td>${escapeHtml(row.row)}</td><td>${escapeHtml(row.equipment)}</td><td>${escapeHtml(row.temperature)}</td><td>${escapeHtml(row.state)}</td>`;
+  function renderPhoto1(rows) {
+    photo1Body.innerHTML = "";
+
+    for (const row of rows) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${escapeHtml(row.row)}</td>
+        <td>${escapeHtml(row.equipment)}</td>
+        <td>${escapeHtml(row.temperature)}</td>
+        <td>${escapeHtml(row.state)}</td>
+      `;
       photo1Body.appendChild(tr);
     }
-    const tempCount=rows.filter(r=>r.temperature!==""&&r.temperature!=null).length;
-    const stateCount=rows.filter(r=>r.state).length;
-    const reconstructedCount=rows.filter(r=>r.reconstructed).length;
-    photo1Summary.innerHTML=`<span class="good">순찰일지 v10 Strict 2D Grid OCR 성공</span><br>장비 ${rows.length}개 · 온도 ${tempCount}개 · 상태 ${stateCount}개 · 복원열 ${reconstructedCount}개`;
+
+    const tempCount = rows.filter(r => r.temperature !== "" && r.temperature != null).length;
+    const stateCount = rows.filter(r => r.state).length;
+    const reconstructedCount = rows.filter(r => r.reconstructed).length;
+
+    photo1Summary.innerHTML =
+      `<span class="good">순찰일지 OCR 성공</span><br>` +
+      `장비 ${rows.length}개 · 온도 ${tempCount}개 · 상태 ${stateCount}개 · 복원열 ${reconstructedCount}개`;
   }
 
-  function renderPhoto2(rows){
-    photo2Body.innerHTML="";
-    rows.forEach((row,index)=>{
-      const tr=document.createElement("tr");
-      tr.innerHTML=`<td>${index+1}</td><td>${escapeHtml(row.equipment)}</td><td>${escapeHtml(row.operationNumber)}</td><td>${escapeHtml(row.operation)}</td>`;
+  function renderPhoto2(rows) {
+    photo2Body.innerHTML = "";
+
+    rows.forEach((row, index) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${escapeHtml(row.equipment)}</td>
+        <td>${escapeHtml(row.operationNumber)}</td>
+        <td>${escapeHtml(row.operation)}</td>
+      `;
       photo2Body.appendChild(tr);
     });
-    photo2Summary.innerHTML=`<span class="good">교대업무일지 OCR 성공</span><br>장비 ${rows.length}개 · 가동번호 ${rows.filter(r=>r.operationNumber).length}개 · 복원열 ${rows.filter(r=>r.reconstructed).length}개`;
+
+    const numberCount = rows.filter(r => r.operationNumber).length;
+    const reconstructedCount = rows.filter(r => r.reconstructed).length;
+
+    photo2Summary.innerHTML =
+      `<span class="good">교대업무일지 OCR 성공</span><br>` +
+      `장비 ${rows.length}개 · 가동번호 ${numberCount}개 · 복원열 ${reconstructedCount}개`;
   }
 
-  function mergeResults(photo1Rows,photo2Rows){
-    const operationMap=new Map();
-    for(const row of photo2Rows)if(row.key)operationMap.set(row.key,row.operationNumber||"");
+  function mergeResults(photo1Rows, photo2Rows) {
+    const operationMap = new Map();
 
-    const normal=[];
-    for(const row of photo1Rows){
-      if((row.row>=21&&row.row<=25)||(row.row>=31&&row.row<=35))continue;
-      if(["드라이챔버","신형드라이챔버","소각기1","소각기3"].includes(row.key))continue;
-      if(row.temperature===""||row.temperature==null)continue;
-      const temp=Number(row.temperature);
-      if(!Number.isFinite(temp)||temp<100)continue;
-      normal.push(`${operationMap.get(row.key)||"번호미인식"} | ${row.equipment} | ${temp}도 | ${row.state||"상태미인식"}`);
+    for (const row of photo2Rows) {
+      if (row.key) {
+        operationMap.set(row.key, row.operationNumber || "");
+      }
     }
 
-    const incinerators=[],dry=[];
-    const addSpecial=(key,label,target)=>{
-      const row=photo1Rows.find(r=>r.key===key);
-      if(!row||row.temperature==="")return;
-      const temp=Number(row.temperature);
-      if(!Number.isFinite(temp)||temp<100)return;
-      target.push(`${label} | ${temp}도`);
+    const normal = [];
+
+    for (const row of photo1Rows) {
+      if (
+        (row.row >= 21 && row.row <= 25) ||
+        (row.row >= 31 && row.row <= 35)
+      ) continue;
+
+      const temperature = Number(row.temperature);
+
+      if (
+        row.temperature === "" ||
+        !Number.isFinite(temperature) ||
+        temperature < 100
+      ) continue;
+
+      /*
+        드라이챔버 / 소각기는 일반 장비 출력에서 제외.
+        번호와 상태를 절대 붙이지 않는다.
+      */
+      if ([
+        "드라이챔버",
+        "신형드라이챔버",
+        "소각기1",
+        "소각기3"
+      ].includes(row.key)) {
+        continue;
+      }
+
+      normal.push(
+        `${operationMap.get(row.key) || "번호미인식"} | ` +
+        `${row.equipment} | ${temperature}도 | ` +
+        `${row.state || "상태미인식"}`
+      );
+    }
+
+    const specials = [];
+
+    function special(key, label) {
+      const row = photo1Rows.find(r=>r.key===key);
+      if (!row || row.temperature === "") return;
+
+      const temp = Number(row.temperature);
+      if (!Number.isFinite(temp) || temp < 100) return;
+
+      specials.push(`${label} | ${temp}도`);
+    }
+
+    special("소각기1", "공정 폐가스 소각기(1동)");
+    special("소각기3", "공정 폐가스 소각기(3동)");
+    special("드라이챔버", "구형드라이챔버");
+    special("신형드라이챔버", "신형드라이챔버");
+
+    const lines = [
+      ...normal,
+      ...(normal.length && specials.length ? [""] : []),
+      ...specials
+    ];
+
+    if (!lines.length) {
+      finalText = "";
+      finalResult.textContent = "최종 출력 대상 장비가 없습니다.";
+      copyBtn.disabled = true;
+      return;
+    }
+
+    finalText = lines.join("\n");
+    finalResult.textContent = finalText;
+    copyBtn.disabled = false;
+    localStorage.setItem(FINAL_STORAGE, finalText);
+  }
+
+  copyBtn.addEventListener("click", async () => {
+    if (!finalText) return;
+
+    const done = () => {
+      copyBtn.textContent = "복사 완료";
+      setTimeout(() => {
+        copyBtn.textContent = "결과 전체 복사";
+      }, 1400);
     };
 
-    addSpecial("소각기1","공정 폐가스 소각기(1동)",incinerators);
-    addSpecial("소각기3","공정 폐가스 소각기(3동)",incinerators);
-    addSpecial("드라이챔버","구형드라이챔버",dry);
-    addSpecial("신형드라이챔버","신형드라이챔버",dry);
+    try {
+      await navigator.clipboard.writeText(finalText);
+      done();
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = finalText;
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      textarea.style.top = "0";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
 
-    const lines=[...normal];
-    if(incinerators.length){if(lines.length)lines.push("");lines.push(...incinerators);}
-    if(dry.length){if(lines.length)lines.push("");lines.push(...dry);}
+      try {
+        document.execCommand("copy");
+        done();
+      } catch {
+        alert("복사에 실패했습니다.");
+      }
 
-    if(!lines.length){finalText="";finalResult.textContent="최종 출력 대상 장비가 없습니다.";copyBtn.disabled=true;return;}
-    finalText=lines.join("\n");
-    finalResult.textContent=finalText;
-    copyBtn.disabled=false;
-    localStorage.setItem(FINAL_STORAGE,finalText);
-  }
-
-  copyBtn.addEventListener("click",async()=>{
-    if(!finalText)return;
-    const done=()=>{copyBtn.textContent="복사 완료";setTimeout(()=>copyBtn.textContent="결과 전체 복사",1400);};
-    try{await navigator.clipboard.writeText(finalText);done();}
-    catch{
-      const ta=document.createElement("textarea");ta.value=finalText;ta.style.position="fixed";ta.style.left="-9999px";document.body.appendChild(ta);ta.focus();ta.select();
-      try{document.execCommand("copy");done();}catch{alert("복사에 실패했습니다.");}ta.remove();
+      textarea.remove();
     }
   });
 
-  runBtn.addEventListener("click",async()=>{
-    const key=apiKey.value.trim();
-    if(!key){setStatus("Google API Key가 없습니다.","err");return;}
-    if(selectedFiles.length!==2){setStatus("사진을 정확히 2장 선택해주세요.","err");return;}
+  runBtn.addEventListener("click", async () => {
+    const key = apiKey.value.trim();
 
-    runBtn.disabled=true;copyBtn.disabled=true;finalText="";
-    photo1Body.innerHTML="";photo2Body.innerHTML="";
-    photo1Summary.textContent="분석 중...";photo2Summary.textContent="분석 중...";
-    finalResult.textContent="분석 중...";detectResult.textContent="사진 2장 OCR 및 자동 판별 중...";
-    photo1FullText.textContent="분석 중...";photo2FullText.textContent="분석 중...";
-    photo1Boxes.textContent="분석 중...";photo2Boxes.textContent="분석 중...";
-    const started=performance.now();
+    if (!key) {
+      setStatus("Google API Key가 없습니다.", "err");
+      return;
+    }
 
-    try{
-      setStatus("사진 1/2 Google Vision 분석 중...");
-      const resultA=await callGoogleVision(selectedFiles[0],key);
-      setStatus("사진 1 완료\n사진 2/2 Google Vision 분석 중...");
-      const resultB=await callGoogleVision(selectedFiles[1],key);
-      setStatus("OCR 완료\n순찰일지 / 교대업무일지 자동 판별 중...");
+    if (!patrolFile || !shiftFile) {
+      setStatus("순찰일지와 교대업무일지 사진을 각각 선택해주세요.", "err");
+      return;
+    }
 
-      const classified=classifyDocuments(resultA,resultB),patrol=classified.photo1,shift=classified.photo2;
-      detectResult.textContent="자동 판별 완료\n\n순찰일지 : "+patrol.fileName+"\n교대업무일지 : "+shift.fileName+"\n\n순찰일지 26-XXX 인식 : "+classified.score1.operationNumbers+"개\n교대일지 26-XXX 인식 : "+classified.score2.operationNumbers+"개";
+    runBtn.disabled = true;
+    copyBtn.disabled = true;
+    finalText = "";
 
-      const patrolRows=buildPhoto1Rows(patrol.words);
-      const shiftRows=buildPhoto2Rows(shift.words);
-      renderPhoto1(patrolRows);renderPhoto2(shiftRows);mergeResults(patrolRows,shiftRows);
+    photo1Body.innerHTML = "";
+    photo2Body.innerHTML = "";
+    photo1Summary.textContent = "분석 중...";
+    photo2Summary.textContent = "대기 중...";
+    finalResult.textContent = "분석 중...";
+    detectResult.textContent = "사진1 순찰일지 분석 중...";
+    photo1FullText.textContent = "분석 중...";
+    photo2FullText.textContent = "대기";
+    photo1Boxes.textContent = "분석 중...";
+    photo2Boxes.textContent = "대기";
 
-      photo1FullText.textContent=patrol.text||"(OCR 텍스트 없음)";
-      photo2FullText.textContent=shift.text||"(OCR 텍스트 없음)";
-      photo1Boxes.textContent=wordsToDebugText(patrol.words)+"\n\n--- v10 GRID ---\n"+patrolRows.map(r=>`${r.row} ${r.equipment}: ${r.gridDebug}`).join("\n");
-      photo2Boxes.textContent=wordsToDebugText(shift.words);
+    const started = performance.now();
 
-      const elapsed=Math.round(performance.now()-started);
-      setStatus(`분석 완료 · ${elapsed}ms\n순찰일지 OCR ${patrol.words.length}단어\n교대업무일지 OCR ${shift.words.length}단어\nv10 Strict 2D Grid 자동 병합 완료`,"ok");
-    }catch(error){
+    try {
+      setStatus("사진1/2 순찰일지 Google Vision 분석 중...");
+
+      const patrol = await callGoogleVision(patrolFile, key);
+
+      photo1Summary.textContent = "OCR 완료 · 구조화 중...";
+      photo2Summary.textContent = "분석 중...";
+      detectResult.textContent = "사진1 순찰일지 완료\n사진2 교대업무일지 분석 중...";
+      setStatus("사진1 완료\n사진2/2 교대업무일지 Google Vision 분석 중...");
+
+      const shift = await callGoogleVision(shiftFile, key);
+
+      detectResult.textContent =
+        "사진 2장 분석 완료\n\n" +
+        "사진1 · 순찰일지: " + patrol.fileName + "\n" +
+        "사진2 · 교대업무일지: " + shift.fileName;
+
+      const patrolRows = buildPhoto1Rows(patrol.words);
+      const shiftRows = buildPhoto2Rows(shift.words);
+
+      renderPhoto1(patrolRows);
+      renderPhoto2(shiftRows);
+      mergeResults(patrolRows, shiftRows);
+
+      photo1FullText.textContent = patrol.text || "(OCR 텍스트 없음)";
+      photo2FullText.textContent = shift.text || "(OCR 텍스트 없음)";
+      photo1Boxes.textContent = wordsToDebugText(patrol.words);
+      photo2Boxes.textContent = wordsToDebugText(shift.words);
+
+      const elapsed = Math.round(performance.now() - started);
+
+      setStatus(
+        `분석 완료 · ${elapsed}ms\n` +
+        `순찰일지 OCR ${patrol.words.length}단어\n` +
+        `교대업무일지 OCR ${shift.words.length}단어\n` +
+        `자동 병합 완료`,
+        "ok"
+      );
+    } catch (error) {
       console.error(error);
-      const message=error?.message||String(error);
-      setStatus("Google Vision 실패\n"+message,"err");
-      detectResult.textContent="분석 실패";finalResult.textContent="분석 실패: "+message;
-    }finally{updateButton();}
+
+      const message = error?.message || String(error);
+
+      setStatus("Google Vision 실패\n" + message, "err");
+      detectResult.textContent = "분석 실패";
+      finalResult.textContent = "분석 실패: " + message;
+    } finally {
+      updateButton();
+    }
   });
 
-  const previousFinal=localStorage.getItem(FINAL_STORAGE);
-  if(previousFinal){finalText=previousFinal;finalResult.textContent=previousFinal;copyBtn.disabled=false;}
+  const previousFinal = localStorage.getItem(FINAL_STORAGE);
+
+  if (previousFinal) {
+    finalText = previousFinal;
+    finalResult.textContent = previousFinal;
+    copyBtn.disabled = false;
+  }
+
   updateButton();
 })();
 </script>
