@@ -721,7 +721,7 @@ button {
         style="width:100%;padding:12px;border:1px solid #d8deea;border-radius:12px;background:#fff">
     </div>
     <button type="button" class="primary" id="visionCompareBtn" style="margin-top:10px">
-      Ling 최종 연결 테스트 15
+      Ling 구조개선 테스트 16
     </button>
     <div id="visionTestStatus"
       style="margin-top:12px;white-space:pre-wrap;font-size:13px;line-height:1.55"></div>
@@ -1163,14 +1163,13 @@ const PATROL_ROW_ORDER = [
 
   "CF분위기로",           // 18
   "드라이챔버",           // 19
+  "신형드라이챔버",        // 20
 
-  "유해화학물질누액감지기", // 20
-  "세정집진기",             // 21
-  "탈형장폐필터",           // 22
-  "생산동주냉각탑휀",       // 23
-  "생산동주냉각수펌프",     // 24
-
-  "신형드라이챔버",        // 25
+  "유해화학물질누액감지기", // 21
+  "세정집진기",             // 22
+  "탈형장폐필터",           // 23
+  "생산동주냉각탑휀",       // 24
+  "생산동주냉각수펌프",     // 25
 
   "소각기1동",             // 26
   "소각기3동",             // 27
@@ -1336,7 +1335,7 @@ const EQUIPMENT_MAP = {
 
 
   "신형드라이챔버":{
-    patrolRow:25,
+    patrolRow:20,
     numberRow:24
   },
 
@@ -3664,6 +3663,66 @@ async function daccReadRemark(
 
 
 /* =========================================================
+   사진1 자동 기울기 보정
+   - 긴 가로선들의 중앙 각도를 사용
+   - API 호출 없음 / 브라우저 OpenCV만 사용
+========================================================= */
+function daccDeskewPatrolCanvas(canvas){
+  const src=cv.imread(canvas);
+  const gray=new cv.Mat();
+  const edges=new cv.Mat();
+  const lines=new cv.Mat();
+
+  try{
+    cv.cvtColor(src,gray,cv.COLOR_RGBA2GRAY);
+    cv.Canny(gray,edges,50,150,3,false);
+
+    cv.HoughLinesP(
+      edges,
+      lines,
+      1,
+      Math.PI/180,
+      100,
+      Math.max(200,Math.round(canvas.width*0.30)),
+      30
+    );
+
+    const angles=[];
+    for(let i=0;i<lines.rows;i++){
+      const p=lines.intPtr(i,0);
+      const x1=p[0], y1=p[1], x2=p[2], y2=p[3];
+      const dx=x2-x1, dy=y2-y1;
+      if(Math.abs(dx)<1) continue;
+      const angle=Math.atan2(dy,dx)*180/Math.PI;
+      if(Math.abs(angle)<=10){
+        const length=Math.hypot(dx,dy);
+        const weight=Math.max(1,Math.round(length/100));
+        for(let w=0;w<weight;w++) angles.push(angle);
+      }
+    }
+
+    if(!angles.length) return canvas;
+    angles.sort((a,b)=>a-b);
+    const angle=angles[Math.floor(angles.length/2)];
+    if(Math.abs(angle)<0.25) return canvas;
+
+    const out=document.createElement("canvas");
+    out.width=canvas.width;
+    out.height=canvas.height;
+    const ctx=out.getContext("2d",{alpha:false});
+    ctx.fillStyle="#fff";
+    ctx.fillRect(0,0,out.width,out.height);
+    ctx.translate(out.width/2,out.height/2);
+    ctx.rotate(angle*Math.PI/180);
+    ctx.drawImage(canvas,-canvas.width/2,-canvas.height/2);
+    return out;
+  }finally{
+    src.delete(); gray.delete(); edges.delete(); lines.delete();
+  }
+}
+
+
+/* =========================================================
    가로선 검출
 ========================================================= */
 
@@ -5003,10 +5062,10 @@ const PATROL_COLUMNS = {
     fallbackRight: 0.606
   },
   state:{
-    tableLeft: 0.856,
-    tableRight: 0.925,
-    fallbackLeft: 0.856,
-    fallbackRight: 0.925
+    tableLeft: 0.720,
+    tableRight: 0.780,
+    fallbackLeft: 0.720,
+    fallbackRight: 0.780
   },
   remark:{
     tableLeft: 0.930,
@@ -5073,10 +5132,29 @@ async function daccReadPatrolRow(
     );
 
 
+  const lingTemperature =
+    daccLingTemperatures &&
+    Object.prototype.hasOwnProperty.call(
+      daccLingTemperatures,
+      equipment
+    )
+      ? daccLingTemperatures[equipment]
+      : null;
+
   const temperatureResult =
-    await daccReadTemperature(
-      temperatureCell
-    );
+    lingTemperature !== null
+      ? {
+          temperature:
+            lingTemperature === ""
+              ? null
+              : Number(lingTemperature),
+          ambiguous:
+            lingTemperature === "",
+          attempts:[]
+        }
+      : await daccReadTemperature(
+          temperatureCell
+        );
 
 
   /*
@@ -5232,6 +5310,67 @@ async function daccReadPatrolRow(
 
 
 /* =========================================================
+   Ling 실가동용 35행 grid
+   - 표 위쪽 점검표를 35행 본표로 오인하지 않도록 시작/끝 위치 제한
+========================================================= */
+function daccFindPatrolProductionGrid(lines,imageHeight){
+  if(!Array.isArray(lines)||lines.length<8) return null;
+  const clean=[...new Set(
+    lines.filter(y=>Number.isFinite(y)&&y>=0&&y<=imageHeight)
+         .map(y=>Math.round(y))
+  )].sort((a,b)=>a-b);
+
+  let best=null;
+  for(let a=0;a<clean.length-1;a++){
+    const start=clean[a];
+    if(start<imageHeight*0.10 || start>imageHeight*0.35) continue;
+
+    for(let b=a+1;b<clean.length;b++){
+      const end=clean[b];
+      if(end<imageHeight*0.80) continue;
+
+      const step=(end-start)/35;
+      if(step<Math.max(8,imageHeight*0.012)||step>imageHeight*0.055) continue;
+
+      const boundaries=[];
+      let matches=0,error=0,previous=-Infinity;
+
+      for(let i=0;i<=35;i++){
+        const expected=start+step*i;
+        const tolerance=Math.max(3,step*0.35);
+        let nearest=null,distance=Infinity;
+
+        for(const line of clean){
+          if(line<=previous) continue;
+          const d=Math.abs(line-expected);
+          if(d<distance){ nearest=line; distance=d; }
+        }
+
+        let y=expected;
+        if(nearest!==null&&distance<=tolerance){
+          y=nearest; matches++; error+=distance;
+        }
+        if(y<=previous) y=previous+Math.max(1,step*0.65);
+        boundaries.push(y);
+        previous=y;
+      }
+
+      const score=matches*1000-error*3;
+      if(!best||score>best.score){
+        best={
+          boundaries,rowHeight:step,matches,
+          matchRatio:matches/36,score,
+          start:boundaries[0],end:boundaries[35],
+          source:"ling-production-grid"
+        };
+      }
+    }
+  }
+  return best;
+}
+
+
+/* =========================================================
    사진1 전용 35행 fallback
    - 기존 strict grid가 실패했을 때만 사용
    - 사진2/기존 detector는 변경하지 않음
@@ -5306,12 +5445,18 @@ async function daccAnalyzePatrolPhoto(
   onProgress = null
 ) {
 
-  const canvas =
+  let canvas =
     await daccFileToCanvas(
       file,
       2800
     );
 
+  /* Offline test on the actual 2026-09-20 patrol photo:
+     dominant horizontal angle ≈ -1.99°. Deskew restored 40 usable lines. */
+  canvas =
+    daccDeskewPatrolCanvas(
+      canvas
+    );
 
   const lines =
     daccHorizontalLines(
@@ -5320,11 +5465,16 @@ async function daccAnalyzePatrolPhoto(
 
 
   let grid =
-    daccFindFixedGrid(
-      lines,
-      35,
-      canvas.height
-    );
+    daccLingTemperatures
+      ? daccFindPatrolProductionGrid(
+          lines,
+          canvas.height
+        )
+      : daccFindFixedGrid(
+          lines,
+          35,
+          canvas.height
+        );
 
   /* Ling 온도 확보 후에도 기존 strict 35행 검출이 실패하는 사진을 위해
      사진1에만 relaxed fallback을 한 번 적용한다. */
@@ -5867,10 +6017,8 @@ function daccJudgeGeneral(
 
 
   if (
-    patrol.temperature <=
-    100 &&
-    patrol.state ===
-    "냉각중"
+    patrol.temperature <
+    100
   ) {
 
     return daccDecision(
@@ -5879,7 +6027,7 @@ function daccJudgeGeneral(
 
       equipment,
 
-      "100도 이하 냉각",
+      "100도 미만",
 
       {
         number:
