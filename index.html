@@ -721,7 +721,7 @@ button {
         style="width:100%;padding:12px;border:1px solid #d8deea;border-radius:12px;background:#fff">
     </div>
     <button type="button" class="primary" id="visionCompareBtn" style="margin-top:10px">
-      Ling 실가동 테스트 12
+      Ling 최종 연결 테스트 13
     </button>
     <div id="visionTestStatus"
       style="margin-top:12px;white-space:pre-wrap;font-size:13px;line-height:1.55"></div>
@@ -9149,31 +9149,37 @@ TG2호기,TG3호기,TG4호기,TG5호기,TG6호기,TG7호기,GF1,GF3,GF4,GF5,SMI,
       return;
     }
 
-    /* Locate existing temperature inputs without altering the UI. */
-    let tempInputs=[...document.querySelectorAll('input.tempInput')];
-    if(tempInputs.length<21){
-      tempInputs=[...document.querySelectorAll('input')].filter(el=>{
-        const ph=(el.getAttribute("placeholder")||"").toLowerCase();
-        const nm=(el.getAttribute("name")||"").toLowerCase();
-        const id=(el.id||"").toLowerCase();
-        return ph.includes("온도")||ph.includes("temp")||nm.includes("temp")||id.includes("temp");
-      });
+    /* Existing DACC state is array-based (rows[i].temp), not tempInput DOM fields.
+       Apply only the 21 Vision temperatures to the corresponding 21 DACC rows.
+       Existing status/report/exclusion logic remains untouched. */
+    const visionRowIndexes = [];
+    for(let i=0;i<rows.length;i++){
+      if(rows[i] && DACC_VISION_TEST_NAMES.includes(rows[i].name)){
+        visionRowIndexes.push(i);
+      }
     }
 
-    if(tempInputs.length>=21){
-      values.forEach((v,i)=>{
-        tempInputs[i].value=v;
-        tempInputs[i].dispatchEvent(new Event("input",{bubbles:true}));
-        tempInputs[i].dispatchEvent(new Event("change",{bubbles:true}));
-      });
-      if(typeof analyzeAll==="function") analyzeAll();
+    if(visionRowIndexes.length!==21){
+      throw new Error(`기존 DACC 장비행 연결이 ${visionRowIndexes.length}/21개입니다. 자동 적용하지 않았습니다.`);
     }
+
+    const byName={};
+    DACC_VISION_TEST_NAMES.forEach((name,i)=>{ byName[name]=values[i]; });
+
+    visionRowIndexes.forEach(i=>{
+      const v=byName[rows[i].name];
+      rows[i].temp=(v==="" ? null : Number(v));
+    });
+
+    /* Re-render using the existing DACC renderer/report pipeline. */
+    if(typeof render==="function") render();
+    if(typeof analyzeAll==="function") analyzeAll();
 
     status.textContent=
-      `Ling 실가동 판독 완료 · ${Math.round(performance.now()-t)}ms\n`+
+      `Ling 최종 연결 완료 · ${Math.round(performance.now()-t)}ms\n`+
       `실제 모델: ${data?.model||"inclusionai/ling-3.0-flash-vl:free"}\n`+
-      `온도: ${values.join(" | ")}\n`+
-      (tempInputs.length>=21 ? "기존 DACC 온도칸 적용 완료" : "온도 판독 성공 · 기존 입력칸 연결은 다음 수정에서 처리");
+      `온도 21개 → 기존 DACC 장비행 적용 완료\n`+
+      `기존 문자보고/제외 규칙 유지`;
   }catch(e){
     status.textContent="Ling 실가동 오류: "+(e?.message||String(e));
   }finally{
