@@ -1,0 +1,2375 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f6fa">
+
+<title>DACC OCR TEST</title>
+
+<style>
+* {
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body {
+  margin:0;
+  background:#f4f6fa;
+  color:#172033;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Apple SD Gothic Neo",
+    "Noto Sans KR",
+    sans-serif;
+}
+
+button,
+input,
+textarea {
+  font:inherit;
+}
+
+button {
+  -webkit-appearance:none;
+  appearance:none;
+}
+
+.app {
+  max-width:560px;
+  margin:0 auto;
+  min-height:100vh;
+  padding:
+    20px
+    16px
+    calc(50px + env(safe-area-inset-bottom));
+}
+
+.brand {
+  color:#4f6fe8;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:1.6px;
+}
+
+.title {
+  margin-top:4px;
+  font-size:25px;
+  font-weight:900;
+}
+
+.sub {
+  margin-top:5px;
+  margin-bottom:18px;
+  color:#8c96a9;
+  font-size:13px;
+  line-height:1.55;
+}
+
+.card {
+  margin-bottom:14px;
+  padding:16px;
+  border:1px solid #e5e9f2;
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 5px 20px rgba(26,39,70,.04);
+}
+
+.cardTitle {
+  font-size:15px;
+  font-weight:900;
+}
+
+.label {
+  display:block;
+  margin-top:12px;
+  margin-bottom:6px;
+  color:#69758a;
+  font-size:12px;
+  font-weight:900;
+}
+
+.keyInput {
+  width:100%;
+  height:46px;
+  padding:0 12px;
+  border:1px solid #dfe4ee;
+  border-radius:11px;
+  background:#fff;
+  color:#172033;
+  outline:none;
+}
+
+.keyInput:focus {
+  border-color:#7189ef;
+}
+
+.row {
+  display:flex;
+  gap:8px;
+  margin-top:8px;
+}
+
+.row > button {
+  flex:1;
+}
+
+.secondary {
+  min-height:44px;
+  padding:10px 12px;
+  border:0;
+  border-radius:11px;
+  background:#edf1ff;
+  color:#4f6fe8;
+  font-size:13px;
+  font-weight:900;
+}
+
+.danger {
+  background:#fff0f0;
+  color:#e14b4b;
+}
+
+.upload {
+  display:block;
+  margin-top:12px;
+  padding:24px 12px;
+  border-radius:16px;
+  background:#f8faff;
+  text-align:center;
+  cursor:pointer;
+}
+
+.plus {
+  display:grid;
+  place-items:center;
+  width:44px;
+  height:44px;
+  margin:0 auto 9px;
+  border-radius:50%;
+  background:#edf1ff;
+  color:#4f6fe8;
+  font-size:28px;
+}
+
+.upload b {
+  font-size:15px;
+}
+
+.upload small {
+  display:block;
+  margin-top:5px;
+  color:#9aa3b4;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.file {
+  display:none;
+}
+
+.preview {
+  position:relative;
+  width:100%;
+  margin-top:12px;
+  overflow:hidden;
+  border-radius:14px;
+  background:#eef1f6;
+}
+
+.preview img {
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+.removePhoto {
+  position:absolute;
+  top:8px;
+  right:8px;
+  width:32px;
+  height:32px;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:rgba(20,25,35,.78);
+  color:#fff;
+  font-size:21px;
+}
+
+.primary {
+  width:100%;
+  min-height:52px;
+  margin-top:12px;
+  padding:12px;
+  border:0;
+  border-radius:14px;
+  background:#4f6fe8;
+  color:#fff;
+  font-size:15px;
+  font-weight:900;
+}
+
+.primary:disabled {
+  background:#c7cdd8;
+}
+
+.progress {
+  margin-top:12px;
+  padding:13px;
+  border-radius:12px;
+  background:#f4f6fb;
+  color:#68738a;
+  font-size:12px;
+  font-weight:800;
+}
+
+.bar {
+  height:7px;
+  margin-top:9px;
+  overflow:hidden;
+  border-radius:999px;
+  background:#e1e6f0;
+}
+
+.barInner {
+  width:0%;
+  height:100%;
+  border-radius:999px;
+  background:#4f6fe8;
+  transition:width .25s ease;
+}
+
+.warning {
+  margin-top:12px;
+  padding:11px 12px;
+  border:1px solid #f3d6a5;
+  border-radius:11px;
+  background:#fff8eb;
+  color:#a86d0b;
+  font-size:12px;
+  font-weight:800;
+  line-height:1.5;
+}
+
+.success {
+  margin-top:12px;
+  padding:11px 12px;
+  border:1px solid #bce7cf;
+  border-radius:11px;
+  background:#effbf4;
+  color:#208653;
+  font-size:12px;
+  font-weight:900;
+}
+
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:12px;
+}
+
+.stat {
+  padding:12px 5px;
+  border-radius:12px;
+  background:#f7f9fc;
+  text-align:center;
+}
+
+.stat b {
+  display:block;
+  font-size:17px;
+}
+
+.stat span {
+  display:block;
+  margin-top:3px;
+  color:#8c96a9;
+  font-size:10px;
+  font-weight:800;
+}
+
+.sectionLabel {
+  margin-top:18px;
+  margin-bottom:7px;
+  color:#69758a;
+  font-size:12px;
+  font-weight:900;
+}
+
+.output {
+  width:100%;
+  min-height:220px;
+  padding:13px;
+  border:1px solid #e1e6ef;
+  border-radius:13px;
+  background:#fbfcfe;
+  color:#172033;
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  font-size:12px;
+  line-height:1.55;
+  resize:vertical;
+  outline:none;
+}
+
+.output:focus {
+  border-color:#7189ef;
+}
+
+.jsonOutput {
+  min-height:320px;
+}
+
+.canvasWrap {
+  width:100%;
+  overflow:auto;
+  border:1px solid #e1e6ef;
+  border-radius:14px;
+  background:#eef1f6;
+}
+
+.canvasWrap canvas {
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+.wordList {
+  max-height:420px;
+  overflow:auto;
+  margin-top:8px;
+  border:1px solid #e7eaf0;
+  border-radius:12px;
+}
+
+.wordItem {
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px;
+  padding:10px 11px;
+  border-bottom:1px solid #edf0f4;
+  font-size:12px;
+}
+
+.wordItem:last-child {
+  border-bottom:0;
+}
+
+.wordText {
+  font-weight:900;
+  word-break:break-all;
+}
+
+.wordPos {
+  color:#8993a5;
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  font-size:10px;
+  text-align:right;
+}
+
+.hidden {
+  display:none !important;
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+  <div class="brand">DACC OCR TEST</div>
+
+  <div class="title">Google Vision OCR</div>
+
+  <div class="sub">
+    DACC 기능 없이 사진 한 장의 OCR 원문과 단어 좌표만 확인합니다.
+  </div>
+
+
+  <section class="card">
+
+    <div class="cardTitle">Google Vision API</div>
+
+    <label class="label" for="apiKey">
+      API Key
+    </label>
+
+    <input
+      id="apiKey"
+      class="keyInput"
+      type="password"
+      autocomplete="off"
+      placeholder="Google Cloud Vision API Key"
+    >
+
+    <div class="row">
+
+      <button
+        id="pasteKey"
+        class="secondary"
+        type="button"
+      >
+        붙여넣기
+      </button>
+
+      <button
+        id="saveKey"
+        class="secondary"
+        type="button"
+      >
+        저장
+      </button>
+
+      <button
+        id="deleteKey"
+        class="secondary danger"
+        type="button"
+      >
+        삭제
+      </button>
+
+    </div>
+
+    <div
+      id="keyStatus"
+      class="success hidden"
+    >
+      API Key 저장됨
+    </div>
+
+  </section>
+
+
+  <section class="card">
+
+    <div class="cardTitle">
+      OCR 사진
+    </div>
+
+    <label
+      class="upload"
+      for="imageInput"
+    >
+
+      <div class="plus">
+        +
+      </div>
+
+      <b>
+        사진 추가
+      </b>
+
+      <small>
+        OCR 테스트할 사진 한 장을 선택하세요.
+      </small>
+
+    </label>
+
+    <input
+      id="imageInput"
+      class="file"
+      type="file"
+      accept="image/*"
+    >
+
+    <div
+      id="preview"
+      class="preview hidden"
+    >
+
+      <img
+        id="previewImage"
+        alt=""
+      >
+
+      <button
+        id="removePhoto"
+        class="removePhoto"
+        type="button"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <button
+      id="analyze"
+      class="primary"
+      type="button"
+    >
+      Google OCR 실행
+    </button>
+
+
+    <div
+      id="progress"
+      class="progress hidden"
+    >
+
+      <div id="progressText">
+        준비중...
+      </div>
+
+      <div class="bar">
+        <div
+          id="progressBar"
+          class="barInner"
+        ></div>
+      </div>
+
+    </div>
+
+
+    <div
+      id="warning"
+      class="warning hidden"
+    ></div>
+
+  </section>
+
+
+  <section
+    id="resultCard"
+    class="card hidden"
+  >
+
+    <div class="cardTitle">
+      OCR 결과
+    </div>
+
+
+    <div class="stats">
+
+      <div class="stat">
+        <b id="wordCount">0</b>
+        <span>WORDS</span>
+      </div>
+
+      <div class="stat">
+        <b id="imageWidth">0</b>
+        <span>WIDTH</span>
+      </div>
+
+      <div class="stat">
+        <b id="imageHeight">0</b>
+        <span>HEIGHT</span>
+      </div>
+
+    </div>
+
+
+    <div class="sectionLabel">
+      OCR 원문
+    </div>
+
+    <textarea
+      id="rawText"
+      class="output"
+      readonly
+    ></textarea>
+
+
+    <button
+      id="copyText"
+      class="secondary"
+      type="button"
+    >
+      OCR 원문 복사
+    </button>
+
+
+    <div class="sectionLabel">
+      사진 위 OCR BoundingBox
+    </div>
+
+    <div class="canvasWrap">
+      <canvas id="overlayCanvas"></canvas>
+    </div>
+
+
+    <div class="sectionLabel">
+      인식 단어
+    </div>
+
+    <div
+      id="wordList"
+      class="wordList"
+    ></div>
+
+
+    <div class="sectionLabel">
+      OCR JSON
+    </div>
+
+    <textarea
+      id="jsonOutput"
+      class="output jsonOutput"
+      readonly
+    ></textarea>
+
+
+    <button
+      id="copyJson"
+      class="secondary"
+      type="button"
+    >
+      JSON 전체 복사
+    </button>
+
+  </section>
+
+</main>
+
+
+<script>
+console.log("DACC OCR TEST loaded");
+
+
+/* =========================================================
+   기본
+========================================================= */
+
+const API_KEY_STORAGE =
+  "dacc_google_vision_api_key";
+
+
+let selectedFile =
+  null;
+
+
+let previewURL =
+  "";
+
+
+let lastOCRResult =
+  null;
+
+
+function el(id) {
+
+  return document.getElementById(
+    id
+  );
+}
+
+
+/* =========================================================
+   API KEY 자동저장
+========================================================= */
+
+function getSavedKey() {
+
+  try {
+
+    return (
+      localStorage.getItem(
+        API_KEY_STORAGE
+      ) || ""
+    ).trim();
+
+  } catch(error) {
+
+    return "";
+  }
+}
+
+
+function saveKeyValue(
+  value
+) {
+
+  const key =
+    String(
+      value || ""
+    ).trim();
+
+
+  if (!key) {
+    return false;
+  }
+
+
+  try {
+
+    localStorage.setItem(
+      API_KEY_STORAGE,
+      key
+    );
+
+    return true;
+
+  } catch(error) {
+
+    console.error(error);
+
+    return false;
+  }
+}
+
+
+function deleteSavedKey() {
+
+  try {
+
+    localStorage.removeItem(
+      API_KEY_STORAGE
+    );
+
+  } catch(error) {
+
+    console.error(error);
+  }
+}
+
+
+function showKeySaved() {
+
+  const status =
+    el("keyStatus");
+
+
+  if (!status) {
+    return;
+  }
+
+
+  status.classList.remove(
+    "hidden"
+  );
+
+
+  status.textContent =
+    "API Key 자동저장됨";
+}
+
+
+function hideKeySaved() {
+
+  el("keyStatus")
+    ?.classList
+    .add(
+      "hidden"
+    );
+}
+
+
+/* =========================================================
+   페이지 열 때 저장된 Key 자동 불러오기
+========================================================= */
+
+function loadSavedKey() {
+
+  const input =
+    el("apiKey");
+
+
+  if (!input) {
+    return;
+  }
+
+
+  const key =
+    getSavedKey();
+
+
+  if (key) {
+
+    input.value =
+      key;
+
+    showKeySaved();
+  }
+}
+
+
+loadSavedKey();
+
+
+/* =========================================================
+   Key 입력 즉시 자동저장
+
+   입력 후 따로 저장 버튼을 누르지 않아도 된다.
+========================================================= */
+
+el("apiKey")
+?.addEventListener(
+  "input",
+  event => {
+
+    const value =
+      event.target.value.trim();
+
+
+    if (value) {
+
+      saveKeyValue(
+        value
+      );
+
+      showKeySaved();
+
+    } else {
+
+      deleteSavedKey();
+
+      hideKeySaved();
+    }
+  }
+);
+
+
+/* =========================================================
+   API Key 붙여넣기
+========================================================= */
+
+el("pasteKey")
+?.addEventListener(
+  "click",
+  async () => {
+
+    const input =
+      el("apiKey");
+
+
+    if (!input) {
+      return;
+    }
+
+
+    try {
+
+      const text =
+        await navigator.clipboard
+          .readText();
+
+
+      const key =
+        String(
+          text || ""
+        ).trim();
+
+
+      if (!key) {
+
+        alert(
+          "클립보드에 내용이 없습니다."
+        );
+
+        return;
+      }
+
+
+      input.value =
+        key;
+
+
+      saveKeyValue(
+        key
+      );
+
+
+      showKeySaved();
+
+
+    } catch(error) {
+
+      /*
+        iPhone/Safari에서 clipboard.readText 권한이 막힌 경우
+        입력칸을 선택해 사용자가 바로 붙여넣을 수 있게 한다.
+      */
+
+      input.focus();
+
+
+      alert(
+        "자동 붙여넣기가 제한되었습니다.\n입력칸을 길게 눌러 붙여넣기 해주세요."
+      );
+    }
+  }
+);
+
+
+/* =========================================================
+   API Key 저장 버튼
+========================================================= */
+
+el("saveKey")
+?.addEventListener(
+  "click",
+  () => {
+
+    const key =
+      el("apiKey")
+        ?.value
+        ?.trim()
+      ||
+      "";
+
+
+    if (!key) {
+
+      alert(
+        "API Key를 입력해주세요."
+      );
+
+      return;
+    }
+
+
+    if (
+      saveKeyValue(
+        key
+      )
+    ) {
+
+      showKeySaved();
+
+      alert(
+        "API Key가 저장되었습니다."
+      );
+
+    } else {
+
+      alert(
+        "API Key 저장에 실패했습니다."
+      );
+    }
+  }
+);
+
+
+/* =========================================================
+   API Key 삭제
+========================================================= */
+
+el("deleteKey")
+?.addEventListener(
+  "click",
+  () => {
+
+    deleteSavedKey();
+
+
+    const input =
+      el("apiKey");
+
+
+    if (input) {
+
+      input.value =
+        "";
+    }
+
+
+    hideKeySaved();
+
+
+    alert(
+      "저장된 API Key를 삭제했습니다."
+    );
+  }
+);
+
+
+/* =========================================================
+   사진 미리보기
+========================================================= */
+
+function clearPhoto() {
+
+  selectedFile =
+    null;
+
+
+  const input =
+    el("imageInput");
+
+
+  if (input) {
+
+    input.value =
+      "";
+  }
+
+
+  if (previewURL) {
+
+    URL.revokeObjectURL(
+      previewURL
+    );
+
+    previewURL =
+      "";
+  }
+
+
+  const preview =
+    el("preview");
+
+
+  const image =
+    el("previewImage");
+
+
+  if (preview) {
+
+    preview.classList.add(
+      "hidden"
+    );
+  }
+
+
+  if (image) {
+
+    image.removeAttribute(
+      "src"
+    );
+  }
+
+
+  el("resultCard")
+    ?.classList
+    .add(
+      "hidden"
+    );
+
+
+  lastOCRResult =
+    null;
+}
+
+
+el("imageInput")
+?.addEventListener(
+  "change",
+  event => {
+
+    const file =
+      event.target
+        .files?.[0]
+      ||
+      null;
+
+
+    if (!file) {
+
+      clearPhoto();
+
+      return;
+    }
+
+
+    selectedFile =
+      file;
+
+
+    if (previewURL) {
+
+      URL.revokeObjectURL(
+        previewURL
+      );
+    }
+
+
+    previewURL =
+      URL.createObjectURL(
+        file
+      );
+
+
+    const image =
+      el("previewImage");
+
+
+    if (image) {
+
+      image.src =
+        previewURL;
+    }
+
+
+    el("preview")
+      ?.classList
+      .remove(
+        "hidden"
+      );
+
+
+    el("resultCard")
+      ?.classList
+      .add(
+        "hidden"
+      );
+
+
+    lastOCRResult =
+      null;
+  }
+);
+
+
+el("removePhoto")
+?.addEventListener(
+  "click",
+  clearPhoto
+);
+
+
+/* =========================================================
+   진행률
+========================================================= */
+
+function setProgress(
+  text,
+  percent
+) {
+
+  const box =
+    el("progress");
+
+
+  const label =
+    el("progressText");
+
+
+  const bar =
+    el("progressBar");
+
+
+  box?.classList.remove(
+    "hidden"
+  );
+
+
+  if (label) {
+
+    label.textContent =
+      text;
+  }
+
+
+  if (bar) {
+
+    const value =
+      Math.max(
+        0,
+        Math.min(
+          100,
+          Number(percent) || 0
+        )
+      );
+
+
+    bar.style.width =
+      value + "%";
+  }
+}
+
+
+/* =========================================================
+   경고
+========================================================= */
+
+function showWarning(
+  message
+) {
+
+  const box =
+    el("warning");
+
+
+  if (!box) {
+    return;
+  }
+
+
+  box.textContent =
+    message;
+
+
+  box.classList.remove(
+    "hidden"
+  );
+}
+
+
+function clearWarning() {
+
+  el("warning")
+    ?.classList
+    .add(
+      "hidden"
+    );
+}
+
+
+/* =========================================================
+   사진 → Canvas
+========================================================= */
+
+async function fileToCanvas(
+  file,
+  maxSide = 2800
+) {
+
+  const bitmap =
+    await createImageBitmap(
+      file
+    );
+
+
+  const scale =
+    Math.min(
+      1,
+      maxSide /
+      Math.max(
+        bitmap.width,
+        bitmap.height
+      )
+    );
+
+
+  const width =
+    Math.max(
+      1,
+      Math.round(
+        bitmap.width *
+        scale
+      )
+    );
+
+
+  const height =
+    Math.max(
+      1,
+      Math.round(
+        bitmap.height *
+        scale
+      )
+    );
+
+
+  const canvas =
+    document.createElement(
+      "canvas"
+    );
+
+
+  canvas.width =
+    width;
+
+  canvas.height =
+    height;
+
+
+  const ctx =
+    canvas.getContext(
+      "2d",
+      {
+        alpha:false
+      }
+    );
+
+
+  ctx.fillStyle =
+    "#ffffff";
+
+
+  ctx.fillRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+
+  ctx.drawImage(
+    bitmap,
+    0,
+    0,
+    width,
+    height
+  );
+
+
+  if (
+    typeof bitmap.close ===
+    "function"
+  ) {
+
+    bitmap.close();
+  }
+
+
+  return canvas;
+}
+
+
+/* =========================================================
+   Word 텍스트
+========================================================= */
+
+function wordText(
+  word
+) {
+
+  return (
+    word?.symbols ||
+    []
+  )
+  .map(
+    symbol =>
+      symbol.text || ""
+  )
+  .join("");
+}
+
+
+/* =========================================================
+   BoundingBox 좌표
+========================================================= */
+
+function normalizeVertices(
+  vertices
+) {
+
+  return (
+    vertices ||
+    []
+  )
+  .map(
+    point => ({
+      x:
+        Number(
+          point?.x || 0
+        ),
+
+      y:
+        Number(
+          point?.y || 0
+        )
+    })
+  );
+}
+
+
+/* =========================================================
+   Google 응답 → 단어 배열
+========================================================= */
+
+function extractWords(
+  response
+) {
+
+  const words =
+    [];
+
+
+  const pages =
+    response
+      ?.fullTextAnnotation
+      ?.pages
+    ||
+    [];
+
+
+  for (
+    let pageIndex = 0;
+    pageIndex < pages.length;
+    pageIndex++
+  ) {
+
+    const page =
+      pages[
+        pageIndex
+      ];
+
+
+    const blocks =
+      page.blocks ||
+      [];
+
+
+    for (
+      let blockIndex = 0;
+      blockIndex < blocks.length;
+      blockIndex++
+    ) {
+
+      const block =
+        blocks[
+          blockIndex
+        ];
+
+
+      const paragraphs =
+        block.paragraphs ||
+        [];
+
+
+      for (
+        let paragraphIndex = 0;
+        paragraphIndex < paragraphs.length;
+        paragraphIndex++
+      ) {
+
+        const paragraph =
+          paragraphs[
+            paragraphIndex
+          ];
+
+
+        const paragraphWords =
+          paragraph.words ||
+          [];
+
+
+        for (
+          let wordIndex = 0;
+          wordIndex < paragraphWords.length;
+          wordIndex++
+        ) {
+
+          const word =
+            paragraphWords[
+              wordIndex
+            ];
+
+
+          const vertices =
+            normalizeVertices(
+              word
+                ?.boundingBox
+                ?.vertices
+            );
+
+
+          const xs =
+            vertices.map(
+              item =>
+                item.x
+            );
+
+
+          const ys =
+            vertices.map(
+              item =>
+                item.y
+            );
+
+
+          const left =
+            xs.length
+            ?
+            Math.min(...xs)
+            :
+            0;
+
+
+          const right =
+            xs.length
+            ?
+            Math.max(...xs)
+            :
+            0;
+
+
+          const top =
+            ys.length
+            ?
+            Math.min(...ys)
+            :
+            0;
+
+
+          const bottom =
+            ys.length
+            ?
+            Math.max(...ys)
+            :
+            0;
+
+
+          words.push({
+
+            text:
+              wordText(
+                word
+              ),
+
+            confidence:
+              Number.isFinite(
+                word?.confidence
+              )
+              ?
+              Number(
+                (
+                  word.confidence *
+                  100
+                )
+                .toFixed(1)
+              )
+              :
+              null,
+
+            left,
+
+            top,
+
+            right,
+
+            bottom,
+
+            centerX:
+              Math.round(
+                (
+                  left +
+                  right
+                ) /
+                2
+              ),
+
+            centerY:
+              Math.round(
+                (
+                  top +
+                  bottom
+                ) /
+                2
+              ),
+
+            width:
+              right -
+              left,
+
+            height:
+              bottom -
+              top,
+
+            vertices,
+
+            page:
+              pageIndex,
+
+            block:
+              blockIndex,
+
+            paragraph:
+              paragraphIndex,
+
+            word:
+              wordIndex
+          });
+        }
+      }
+    }
+  }
+
+
+  return words;
+}
+
+
+/* =========================================================
+   Google Vision OCR
+   사진 한 장 = API 1회
+========================================================= */
+
+async function googleOCR(
+  file
+) {
+
+  const key =
+    getSavedKey();
+
+
+  if (!key) {
+
+    throw new Error(
+      "Google Vision API Key가 없습니다."
+    );
+  }
+
+
+  setProgress(
+    "이미지 준비중...",
+    20
+  );
+
+
+  const canvas =
+    await fileToCanvas(
+      file,
+      2800
+    );
+
+
+  setProgress(
+    "Google Vision으로 전송중...",
+    45
+  );
+
+
+  const dataURL =
+    canvas.toDataURL(
+      "image/jpeg",
+      0.94
+    );
+
+
+  const content =
+    dataURL
+      .split(",")[1]
+    ||
+    "";
+
+
+  const response =
+    await fetch(
+
+      "https://vision.googleapis.com/v1/images:annotate?key=" +
+      encodeURIComponent(
+        key
+      ),
+
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":
+            "application/json"
+        },
+
+        body:
+          JSON.stringify({
+            requests:[
+              {
+                image:{
+                  content
+                },
+
+                features:[
+                  {
+                    type:
+                      "DOCUMENT_TEXT_DETECTION",
+
+                    maxResults:
+                      1
+                  }
+                ],
+
+                imageContext:{
+                  languageHints:[
+                    "ko",
+                    "en"
+                  ]
+                }
+              }
+            ]
+          })
+      }
+    );
+
+
+  setProgress(
+    "OCR 응답 처리중...",
+    80
+  );
+
+
+  const json =
+    await response.json();
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      json?.error?.message ||
+      (
+        "Google Vision HTTP " +
+        response.status
+      )
+    );
+  }
+
+
+  const result =
+    json
+      ?.responses?.[0];
+
+
+  if (!result) {
+
+    throw new Error(
+      "Google Vision 응답이 없습니다."
+    );
+  }
+
+
+  if (result.error) {
+
+    throw new Error(
+      result.error.message ||
+      "Google Vision OCR 오류"
+    );
+  }
+
+
+  const fullText =
+    result
+      ?.fullTextAnnotation
+      ?.text
+    ||
+    result
+      ?.textAnnotations?.[0]
+      ?.description
+    ||
+    "";
+
+
+  const words =
+    extractWords(
+      result
+    );
+
+
+  return {
+
+    canvas,
+
+    image:{
+      width:
+        canvas.width,
+
+      height:
+        canvas.height
+    },
+
+    fullText,
+
+    wordCount:
+      words.length,
+
+    words,
+
+    rawResponse:
+      result
+  };
+}
+
+
+/* =========================================================
+   Overlay
+========================================================= */
+
+function drawOverlay(
+  sourceCanvas,
+  words
+) {
+
+  const canvas =
+    el("overlayCanvas");
+
+
+  if (!canvas) {
+    return;
+  }
+
+
+  canvas.width =
+    sourceCanvas.width;
+
+  canvas.height =
+    sourceCanvas.height;
+
+
+  const ctx =
+    canvas.getContext(
+      "2d"
+    );
+
+
+  ctx.drawImage(
+    sourceCanvas,
+    0,
+    0
+  );
+
+
+  ctx.lineWidth =
+    Math.max(
+      2,
+      Math.round(
+        sourceCanvas.width /
+        700
+      )
+    );
+
+
+  ctx.strokeStyle =
+    "rgba(79,111,232,.9)";
+
+
+  ctx.fillStyle =
+    "rgba(79,111,232,.9)";
+
+
+  ctx.font =
+    Math.max(
+      12,
+      Math.round(
+        sourceCanvas.width /
+        85
+      )
+    ) +
+    "px -apple-system";
+
+
+  for (
+    const word
+    of words
+  ) {
+
+    if (
+      !word.text
+    ) {
+      continue;
+    }
+
+
+    ctx.strokeRect(
+
+      word.left,
+
+      word.top,
+
+      Math.max(
+        1,
+        word.width
+      ),
+
+      Math.max(
+        1,
+        word.height
+      )
+    );
+  }
+}
+
+
+/* =========================================================
+   Word 리스트
+========================================================= */
+
+function renderWords(
+  words
+) {
+
+  const container =
+    el("wordList");
+
+
+  if (!container) {
+    return;
+  }
+
+
+  container.innerHTML =
+    "";
+
+
+  if (!words.length) {
+
+    const empty =
+      document.createElement(
+        "div"
+      );
+
+
+    empty.className =
+      "wordItem";
+
+
+    empty.textContent =
+      "인식된 단어가 없습니다.";
+
+
+    container.appendChild(
+      empty
+    );
+
+
+    return;
+  }
+
+
+  for (
+    const word
+    of words
+  ) {
+
+    const item =
+      document.createElement(
+        "div"
+      );
+
+
+    item.className =
+      "wordItem";
+
+
+    const text =
+      document.createElement(
+        "div"
+      );
+
+
+    text.className =
+      "wordText";
+
+
+    text.textContent =
+      word.text || "(빈값)";
+
+
+    const pos =
+      document.createElement(
+        "div"
+      );
+
+
+    pos.className =
+      "wordPos";
+
+
+    pos.textContent =
+      `x:${word.left} y:${word.top}\n` +
+      `w:${word.width} h:${word.height}`;
+
+
+    item.appendChild(
+      text
+    );
+
+
+    item.appendChild(
+      pos
+    );
+
+
+    container.appendChild(
+      item
+    );
+  }
+}
+
+
+/* =========================================================
+   결과 표시
+========================================================= */
+
+function renderResult(
+  result
+) {
+
+  el("wordCount").textContent =
+    String(
+      result.wordCount
+    );
+
+
+  el("imageWidth").textContent =
+    String(
+      result.image.width
+    );
+
+
+  el("imageHeight").textContent =
+    String(
+      result.image.height
+    );
+
+
+  el("rawText").value =
+    result.fullText ||
+    "";
+
+
+  const exportData = {
+
+    image:
+      result.image,
+
+    fullText:
+      result.fullText,
+
+    wordCount:
+      result.wordCount,
+
+    words:
+      result.words
+  };
+
+
+  el("jsonOutput").value =
+    JSON.stringify(
+      exportData,
+      null,
+      2
+    );
+
+
+  renderWords(
+    result.words
+  );
+
+
+  drawOverlay(
+    result.canvas,
+    result.words
+  );
+
+
+  const card =
+    el("resultCard");
+
+
+  card?.classList.remove(
+    "hidden"
+  );
+
+
+  card?.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+}
+
+
+/* =========================================================
+   분석
+========================================================= */
+
+el("analyze")
+?.addEventListener(
+  "click",
+  async () => {
+
+    clearWarning();
+
+
+    const inputKey =
+      el("apiKey")
+        ?.value
+        ?.trim()
+      ||
+      "";
+
+
+    if (inputKey) {
+
+      saveKeyValue(
+        inputKey
+      );
+
+      showKeySaved();
+    }
+
+
+    const key =
+      getSavedKey();
+
+
+    if (!key) {
+
+      showWarning(
+        "Google Vision API Key를 입력해주세요."
+      );
+
+      return;
+    }
+
+
+    if (!selectedFile) {
+
+      showWarning(
+        "OCR 테스트할 사진을 추가해주세요."
+      );
+
+      return;
+    }
+
+
+    const button =
+      el("analyze");
+
+
+    button.disabled =
+      true;
+
+
+    button.textContent =
+      "OCR 실행중...";
+
+
+    try {
+
+      setProgress(
+        "OCR 준비중...",
+        5
+      );
+
+
+      const result =
+        await googleOCR(
+          selectedFile
+        );
+
+
+      lastOCRResult =
+        result;
+
+
+      setProgress(
+        "OCR 완료",
+        100
+      );
+
+
+      renderResult(
+        result
+      );
+
+
+    } catch(error) {
+
+      console.error(
+        "DACC OCR ERROR",
+        error
+      );
+
+
+      setProgress(
+        "OCR 실패",
+        0
+      );
+
+
+      showWarning(
+        "OCR 실패 · " +
+        (
+          error?.message ||
+          String(error)
+        )
+      );
+
+    } finally {
+
+      button.disabled =
+        false;
+
+
+      button.textContent =
+        "Google OCR 실행";
+    }
+  }
+);
+
+
+/* =========================================================
+   Clipboard 공통
+========================================================= */
+
+async function copyTextValue(
+  text,
+  button,
+  normalLabel
+) {
+
+  if (!text) {
+
+    alert(
+      "복사할 내용이 없습니다."
+    );
+
+    return;
+  }
+
+
+  try {
+
+    await navigator.clipboard
+      .writeText(
+        text
+      );
+
+
+    button.textContent =
+      "복사 완료 ✓";
+
+
+    setTimeout(
+      () => {
+
+        button.textContent =
+          normalLabel;
+
+      },
+      1200
+    );
+
+
+  } catch(error) {
+
+    const textarea =
+      document.createElement(
+        "textarea"
+      );
+
+
+    textarea.value =
+      text;
+
+
+    textarea.style.position =
+      "fixed";
+
+
+    textarea.style.opacity =
+      "0";
+
+
+    document.body.appendChild(
+      textarea
+    );
+
+
+    textarea.focus();
+
+
+    textarea.select();
+
+
+    try {
+
+      document.execCommand(
+        "copy"
+      );
+
+
+      button.textContent =
+        "복사 완료 ✓";
+
+
+      setTimeout(
+        () => {
+
+          button.textContent =
+            normalLabel;
+
+        },
+        1200
+      );
+
+    } catch(copyError) {
+
+      alert(
+        "자동 복사가 제한되었습니다."
+      );
+
+    } finally {
+
+      textarea.remove();
+    }
+  }
+}
+
+
+/* =========================================================
+   OCR 원문 복사
+========================================================= */
+
+el("copyText")
+?.addEventListener(
+  "click",
+  async event => {
+
+    await copyTextValue(
+
+      el("rawText")
+        ?.value
+      ||
+      "",
+
+      event.currentTarget,
+
+      "OCR 원문 복사"
+    );
+  }
+);
+
+
+/* =========================================================
+   JSON 복사
+========================================================= */
+
+el("copyJson")
+?.addEventListener(
+  "click",
+  async event => {
+
+    await copyTextValue(
+
+      el("jsonOutput")
+        ?.value
+      ||
+      "",
+
+      event.currentTarget,
+
+      "JSON 전체 복사"
+    );
+  }
+);
+
+
+/* =========================================================
+   종료 정리
+========================================================= */
+
+window.addEventListener(
+  "pagehide",
+  () => {
+
+    if (previewURL) {
+
+      URL.revokeObjectURL(
+        previewURL
+      );
+
+      previewURL =
+        "";
+    }
+  }
+);
+
+
+console.log(
+  "DACC OCR TEST ready ✓"
+);
+</script>
+
+</body>
+</html>
