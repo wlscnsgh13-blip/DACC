@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#05070d" />
-  <title>DACC OCR TEST V7.6.2</title>
+  <title>DACC OCR TEST V7.6</title>
   <style>
     *{box-sizing:border-box}html,body{margin:0;padding:0;background:#05070d;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}body{min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{width:100%;max-width:760px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) 14px calc(40px + env(safe-area-inset-bottom))}.header{margin-bottom:18px}.brand{color:#a78bfa;font-size:13px;font-weight:800;letter-spacing:1.5px;margin-bottom:6px}h1{margin:0;font-size:27px;line-height:1.25}.subtitle{color:#94a3b8;font-size:14px;line-height:1.6;margin-top:7px}.card{background:#0d1223;border:1px solid #1e293b;border-radius:18px;padding:15px;margin-bottom:14px}.cardTitle{font-size:16px;font-weight:800;margin-bottom:12px}.label{display:block;color:#94a3b8;font-size:12px;font-weight:700;margin-bottom:6px}.input,.select,.textarea{width:100%;border:1px solid #334155;background:#080c17;color:#fff;border-radius:12px;outline:none}.input,.select{height:46px;padding:0 12px}.textarea{min-height:140px;padding:12px;resize:vertical;line-height:1.55}.input:focus,.select:focus,.textarea:focus{border-color:#a78bfa}.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}.grow{flex:1}.btn{border:0;min-height:46px;padding:0 15px;border-radius:12px;font-weight:800;color:#fff;background:#1e293b}.btnPrimary{background:#7c3aed}.btnGreen{background:#15803d}.btnDanger{background:#7f1d1d}.btnFull{width:100%}.hint{color:#64748b;font-size:12px;line-height:1.55;margin-top:8px}.uploadBox{border:1px dashed #475569;border-radius:14px;padding:12px;margin-top:10px}.uploadBox input[type=file]{width:100%;color:#cbd5e1}.sourceButtons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sourceBtn{display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;font-weight:800;color:#fff;background:#1e293b;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}.sourceBtnPrimary{background:#7c3aed}.hiddenFile{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;overflow:hidden!important}.selectedFileName{margin-top:9px;color:#94a3b8;font-size:12px;min-height:18px;word-break:break-all}.cacheStatus{margin-top:10px;padding:10px 12px;border:1px solid #1e293b;border-radius:12px;background:#080c17;color:#94a3b8;font-size:12px;line-height:1.5}.cacheStatus strong{color:#c4b5fd}.preview{width:100%;max-height:340px;object-fit:contain;border-radius:12px;background:#020617;margin-top:12px;display:none}.progress,.error,.success{display:none;margin-top:12px;border-radius:12px;padding:12px;font-size:13px;line-height:1.5}.progress{background:#111827;color:#c4b5fd;font-weight:700}.error{background:rgba(127,29,29,.28);border:1px solid #7f1d1d;color:#fecaca}.success{background:rgba(21,128,61,.18);border:1px solid #166534;color:#bbf7d0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.stat{background:#080c17;border:1px solid #1e293b;border-radius:12px;padding:10px;text-align:center}.statValue{font-size:18px;font-weight:900}.statLabel{color:#64748b;font-size:11px;margin-top:4px}.tableWrap{width:100%;overflow-x:auto;border:1px solid #1e293b;border-radius:14px}table{width:100%;min-width:760px;border-collapse:collapse;background:#080c17}th,td{padding:9px 7px;border-bottom:1px solid #1e293b;text-align:center;font-size:12px}th{position:sticky;top:0;background:#111827;color:#94a3b8;font-weight:800}td:first-child{font-weight:900;white-space:nowrap}.miniInput,.miniSelect{height:36px;border:1px solid #334155;border-radius:9px;background:#05070d;color:#fff;padding:0 8px;outline:none}.numberInput{width:105px}.tempInput{width:76px;text-align:center}.miniSelect{width:100px}.detected{color:#86efac;font-weight:800}.notDetected{color:#fca5a5;font-weight:800}.review{color:#fde68a;font-weight:800}.reportYes{color:#86efac;font-weight:900}.reportNo{color:#64748b;font-weight:800}.manual{color:#c4b5fd;font-weight:800}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.sectionDivider{height:1px;background:#1e293b;margin:15px 0}.rawText{min-height:220px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}details{margin-top:10px}summary{cursor:pointer;color:#c4b5fd;font-size:13px;font-weight:800}.downloadRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.badge{display:inline-flex;align-items:center;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:800;background:#111827;color:#cbd5e1}.badgeOk{color:#86efac}.badgeWarn{color:#fde68a}.badgeBad{color:#fca5a5}.small{font-size:11px;color:#94a3b8;line-height:1.35}@media(max-width:520px){.grid2,.grid3{grid-template-columns:1fr}.downloadRow{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
   </style>
@@ -12,9 +12,9 @@
 <body>
 <main class="app">
   <header class="header">
-    <div class="brand">DACC OCR TEST V7.6.2</div>
+    <div class="brand">DACC OCR TEST V7.6</div>
     <h1>Google Vision OCR</h1>
-    <div class="subtitle">êµëìë¬´ì¼ì§ â ì¥ë¹ ê°ëë²í¸<br>ìì°°ì¼ì§ â ì¨ë Â· ì¹ì¨/ì ì§/ëê° ì ë° ìëíë<br>V7.6.2: V7.6.1 ì ì§ Â· í ê²½ê³ ë³´í¸ Â· ì¸ì  í ê° ì°¨ì© ì°¨ë¨ Â· ì ë§¤í ìê¸ì¨ë íì¸íì</div>
+    <div class="subtitle">êµëìë¬´ì¼ì§ â ì¥ë¹ ê°ëë²í¸<br>ìì°°ì¼ì§ â ì¨ë Â· ì¹ì¨/ì ì§/ëê° ì ë° ìëíë<br>V7.6: V7.5 ëì  ë§¤í ì ì§ Â· ì¤ëµ ìµì  Â· íì  ì ê±° ì¬OCR Â· ì ë§¤í ìê¸ì¨ë íì¸íì</div>
   </header>
 
   <section class="card">
@@ -127,7 +127,7 @@
 </main>
 
 <script>
-const VERSION="DACC OCR TEST V7.6.2";
+const VERSION="DACC OCR TEST V7.6.2R";
 const MAX_IMAGE_SIDE=2800;
 const JPEG_QUALITY=0.94;
 const MAX_RETRY_CELLS=24;
@@ -766,31 +766,33 @@ function interpolateAnchorYs(anchors,H){
   return{rows,ys,step};
 }
 
-// V7.6.2: OCR ëª©íì /í í°ì ë°ëì ìê¸° ì¥ë¹ í ìì ìì´ì¼ íë¤.
-// ì´¬ì ê±°ë¦¬Â·ìê·¼ì¼ë¡ íê·ìì´ ë°ë ¤ë ì¸ì  í ê°ì ê°ì ¸ì¤ì§ ìëë¡ ë°©ì´íë¤.
-function clampYToOwnRow(y,rowY,step){
+// V7.6.2R internal OCR guard: values may only belong to their own physical row.
+// UI/HTML/CSS are intentionally untouched.
+function rowHalf(step){
+  return Math.max(10,(Number(step)||0)*0.49);
+}
+
+function rowOwnsY(y,rowY,step){
+  return Number.isFinite(y)&&Number.isFinite(rowY)&&Math.abs(y-rowY)<=rowHalf(step);
+}
+
+function clampTargetY(y,rowY,step){
   if(!Number.isFinite(rowY))return y;
-  const half=Math.max(10,(step||0)*0.48);
+  const half=rowHalf(step);
   if(!Number.isFinite(y)||Math.abs(y-rowY)>half)return rowY;
   return Math.max(rowY-half,Math.min(rowY+half,y));
 }
 
-function tokenBelongsToRow(word,rowY,step){
-  if(!word||!Number.isFinite(rowY))return false;
-  const half=Math.max(10,(step||0)*0.48);
-  return Math.abs(word.centerY-rowY)<=half;
-}
-
-function boundedRowBox(cx,cy,width,height,rowTop,rowBottom){
+function boxInsideRow(cx,cy,w,h,rowTop,rowBottom){
   if(!Number.isFinite(rowTop)||!Number.isFinite(rowBottom)||rowBottom<=rowTop){
-    return{x:cx-width/2,y:cy-height/2,w:width,h:height};
+    return{x:cx-w/2,y:cy-h/2,w,h};
   }
-  const top=rowTop+1;
-  const bottom=rowBottom-1;
+  const top=rowTop+1,bottom=rowBottom-1;
   const maxH=Math.max(8,bottom-top);
-  const h=Math.min(height,maxH);
-  const safeCy=Math.max(top+h/2,Math.min(bottom-h/2,Number.isFinite(cy)?cy:(top+bottom)/2));
-  return{x:cx-width/2,y:safeCy-h/2,w:width,h};
+  const hh=Math.min(h,maxH);
+  const c=Number.isFinite(cy)?cy:(top+bottom)/2;
+  const safeCy=Math.max(top+hh/2,Math.min(bottom-hh/2,c));
+  return{x:cx-w/2,y:safeCy-hh/2,w,h:hh};
 }
 
 function findPatrolHeader(words,label,firstRowY){
@@ -876,10 +878,9 @@ function buildTemperatureSequence(words,W,H,anchors){
     }
   }
 
-  // V7.6.2: ìì ê¸°ë° ë§¤í ê²°ê³¼ë¥¼ ê·¸ëë¡ ë¯¿ì§ ìê³ , ê° ì«ìë¥¼ ê°ì¥ ê°ê¹ì´ "ìê¸° í"ì ë¤ì ê·ìíë¤.
-  // í ì¤ì¬ìì ë° í ì´ì ë²ì´ë ì«ìë ì´ë¤ ì¥ë¹ìë ìë ë°°ì íì§ ìëë¤.
-  // ì: CF6 ìë ëë¼ì´ì±ë²ì 120ì CF6 ì¨ëë¡ ê°ì ¸ì¤ë ë¬¸ì  ì°¨ë¨.
-  const ownedMapped=Array(rows.length).fill(null);
+  // ìì ë§¤í ë¤ìë ì¤ì  ì«ì í í°ì ê°ì¥ ê°ê¹ì´ ë¬¼ë¦¬ íì ë¤ì ê·ìíë¤.
+  // ë° íì ëì´ê° ì«ìë ë²ë ¤ì CF6ê° ëë¼ì´ì±ë² 120ì ë¨¹ë ìì ì¸ì í ì°¨ì©ì ì°¨ë¨íë¤.
+  const owned=Array(rows.length).fill(null);
   const ownedScore=Array(rows.length).fill(Infinity);
   for(const cand of candidates){
     let bestI=-1,bestDist=Infinity;
@@ -887,15 +888,12 @@ function buildTemperatureSequence(words,W,H,anchors){
       const dist=Math.abs(cand.w.centerY-ys[i]);
       if(dist<bestDist){bestDist=dist;bestI=i;}
     }
-    if(bestI<0||bestDist>Math.max(10,step*0.48))continue;
-    const xExpected=lineX(tempLine,cand.w.centerY,headerX);
-    const score=bestDist*2+Math.abs(cand.w.centerX-xExpected);
-    if(score<ownedScore[bestI]){
-      ownedMapped[bestI]=cand;
-      ownedScore[bestI]=score;
-    }
+    if(bestI<0||!rowOwnsY(cand.w.centerY,ys[bestI],step))continue;
+    const expectedX=lineX(tempLine,cand.w.centerY,headerX);
+    const score=bestDist*2+Math.abs(cand.w.centerX-expectedX);
+    if(score<ownedScore[bestI]){owned[bestI]=cand;ownedScore[bestI]=score;}
   }
-  for(let i=0;i<mapped.length;i++)mapped[i]=ownedMapped[i];
+  for(let i=0;i<mapped.length;i++)mapped[i]=owned[i];
 
   // ì¸ìì´ ë¹ì´ ìë íë ì¬OCRí  ì ìëë¡ íì¬ ì¬ì§ì íâì¨ëì Y ê´ê³ë¥¼ íìµíë¤.
   const yFitPoints=[];
@@ -908,12 +906,12 @@ function buildTemperatureSequence(words,W,H,anchors){
   const fallbackDelta=median(deltas)??0;
 
   const targets=rows.map((eq,i)=>{
-    const rawY=mapped[i]?.w.centerY??(
+    const predicted=mapped[i]?.w.centerY??(
       tempYFit?tempYFit.a+tempYFit.b*ys[i]:ys[i]+fallbackDelta
     );
-    const y=clampYToOwnRow(rawY,ys[i],step);
+    const y=clampTargetY(predicted,ys[i],step);
     const x=lineX(tempLine,y,headerX);
-    return{x,y,rowY:ys[i],rawY};
+    return{x,y,rowY:ys[i],rawY:predicted};
   });
 
   return{rows,ys,step,tempHeader,tempLine,equipLine,candidates,mapped,targets,tempYFit,fallbackDelta};
@@ -968,8 +966,7 @@ function buildStatusModel(words,W,H,tempSeq,anchors){
     }
   }
 
-  // V7.6.2: ìí ê¸ìë ê°ì¥ ê°ê¹ì´ ìê¸° íìë§ ê·ìíë¤.
-  // ì½ê¸°ììê° ê¼¬ì¬ë ìë íì ì ì§/ì¹ì¨/ëê°ì ì íì´ ê°ì ¸ì¤ì§ ìëë¤.
+  // ìíë ì½ê¸°ììë³´ë¤ ì¤ì  Yí ììì ì°ì íë¤.
   const ownedStatus=Array(rows.length).fill(null);
   const ownedStatusScore=Array(rows.length).fill(Infinity);
   for(const q of statusWords){
@@ -978,17 +975,14 @@ function buildStatusModel(words,W,H,tempSeq,anchors){
       const dist=Math.abs(q.w.centerY-tempSeq.ys[i]);
       if(dist<bestDist){bestDist=dist;bestI=i;}
     }
-    if(bestI<0||bestDist>Math.max(10,step*0.48))continue;
-    const xExpected=lineX(statusLine,q.w.centerY,statusHeader.centerX);
-    const score=bestDist*2+Math.abs(q.w.centerX-xExpected);
-    if(score<ownedStatusScore[bestI]){
-      ownedStatus[bestI]=q;
-      ownedStatusScore[bestI]=score;
-    }
+    if(bestI<0||!rowOwnsY(q.w.centerY,tempSeq.ys[bestI],step))continue;
+    const expectedX=lineX(statusLine,q.w.centerY,statusHeader.centerX);
+    const score=bestDist*2+Math.abs(q.w.centerX-expectedX);
+    if(score<ownedStatusScore[bestI]){ownedStatus[bestI]=q;ownedStatusScore[bestI]=score;}
   }
   for(let i=0;i<prelim.length;i++){
     if(ownedStatus[i])prelim[i]=ownedStatus[i];
-    else if(prelim[i]&&!tokenBelongsToRow(prelim[i].w,tempSeq.ys[i],step))prelim[i]=null;
+    else if(prelim[i]&&!rowOwnsY(prelim[i].w.centerY,tempSeq.ys[i],step))prelim[i]=null;
   }
 
   // ì¨ëì Y â ìíì Y ê´ê³ë ì¬ì§ë§ë¤ ë¤ì ê³ì°íë¤.
@@ -1001,10 +995,10 @@ function buildStatusModel(words,W,H,tempSeq,anchors){
 
   const statusTargets=rows.map((eq,i)=>{
     const ty=targets[i]?.y??tempSeq.ys[i];
-    const rawY=statusYFit?statusYFit.a+statusYFit.b*ty:ty+headerDelta;
-    const y=clampYToOwnRow(rawY,tempSeq.ys[i],step);
+    const predicted=statusYFit?statusYFit.a+statusYFit.b*ty:ty+headerDelta;
+    const y=clampTargetY(predicted,tempSeq.ys[i],step);
     const x=lineX(statusLine,y,statusHeader.centerX);
-    return{x,y,rawY};
+    return{x,y,rawY:predicted};
   });
 
   return{statusHeader,statusLine,statusWords,prelim,statusYFit,statusTargets};
@@ -1023,17 +1017,17 @@ function detectPatrolData(words,W,H){
     const a=anchors[eq];
     const target=tempSeq.targets[i];
     const rowY=a?.centerY??target.rowY;
-    const rowTop=rowY-tempSeq.step*0.48;
-    const rowBottom=rowY+tempSeq.step*0.48;
+    const rowTop=rowY-tempSeq.step*0.49;
+    const rowBottom=rowY+tempSeq.step*0.49;
     const mappedRaw=tempSeq.mapped[i];
-    const mapped=mappedRaw&&tokenBelongsToRow(mappedRaw.w,rowY,tempSeq.step)?mappedRaw:null;
+    const mapped=mappedRaw&&rowOwnsY(mappedRaw.w.centerY,rowY,tempSeq.step)?mappedRaw:null;
     let statusObj=statusModel.prelim[i];
-    if(statusObj&&!tokenBelongsToRow(statusObj.w,rowY,tempSeq.step))statusObj=null;
+    if(statusObj&&!rowOwnsY(statusObj.w.centerY,rowY,tempSeq.step))statusObj=null;
 
     if(!statusObj){
       const st=statusModel.statusTargets[i];
       const nearby=statusModel.statusWords
-        .filter(q=>tokenBelongsToRow(q.w,rowY,tempSeq.step))
+        .filter(q=>rowOwnsY(q.w.centerY,rowY,tempSeq.step))
         .filter(q=>Math.abs(q.w.centerX-st.x)<=W*0.055)
         .sort((p,q)=>(Math.abs(p.w.centerX-st.x)+Math.abs(p.w.centerY-rowY)*2)-(Math.abs(q.w.centerX-st.x)+Math.abs(q.w.centerY-rowY)*2));
       statusObj=nearby[0]||null;
@@ -1049,9 +1043,9 @@ function detectPatrolData(words,W,H){
       rowBottom,
       rowHeight:tempSeq.step,
       tempTargetX:target.x,
-      tempTargetY:clampYToOwnRow(target.y,rowY,tempSeq.step),
+      tempTargetY:clampTargetY(target.y,rowY,tempSeq.step),
       statusTargetX:statusModel.statusTargets[i]?.x??null,
-      statusTargetY:clampYToOwnRow(statusModel.statusTargets[i]?.y,rowY,tempSeq.step),
+      statusTargetY:clampTargetY(statusModel.statusTargets[i]?.y,rowY,tempSeq.step),
       manual:false,
       tempSource:mapped?"column-sequence":null,
       statusSource:statusObj?"row-segment/dynamic":null,
@@ -1142,17 +1136,16 @@ function detectSpecialTemperatures(words,W,H){
 
   function pick(anchor){
     if(!anchor)return null;
-    const rawTy=yFit?yFit.a+yFit.b*anchor.centerY:anchor.centerY+(tempSeq.fallbackDelta||0);
-    const ty=clampYToOwnRow(rawTy,anchor.centerY,tempSeq.step);
+    const predictedY=yFit?yFit.a+yFit.b*anchor.centerY:anchor.centerY+(tempSeq.fallbackDelta||0);
+    const ty=clampTargetY(predictedY,anchor.centerY,tempSeq.step);
     const tx=lineX(tempSeq.tempLine,ty,tempSeq.tempHeader?.centerX??W*0.525);
     const yTol=Math.max(9,tempSeq.step*0.38);
     const xTol=W*0.034;
 
-    // V7.6.2: ë°ëì í´ë¹ í ìì ê¶ ìì ì«ìë§ íì©. ì¸ì  í ê° ì°¨ì© ê¸ì§.
+    // V7.6: ë°ëì í´ë¹ íì ì¨ë ì ì ì«ìë§ íì©. ì¸ì  í ê° ì°¨ì© ê¸ì§.
     const candidates=words
       .map(w=>({w,n:strictTemperatureToken(w.text)}))
       .filter(q=>q.n!==null)
-      .filter(q=>tokenBelongsToRow(q.w,anchor.centerY,tempSeq.step))
       .filter(q=>Math.abs(q.w.centerX-tx)<=xTol&&Math.abs(q.w.centerY-ty)<=yTol)
       .sort((a,b)=>(Math.abs(a.w.centerX-tx)+Math.abs(a.w.centerY-ty)*2)-(Math.abs(b.w.centerX-tx)+Math.abs(b.w.centerY-ty)*2));
 
@@ -1164,7 +1157,6 @@ function detectSpecialTemperatures(words,W,H){
       rowHeight:tempSeq.step,
       targetX:tx,
       targetY:ty,
-      rawTargetY:rawTy,
       primaryRaw:c?.w?.text??null,
       anchorSource:anchor.source,
       tempReview:false
@@ -1367,19 +1359,19 @@ async function retryTempCell(apiKey,d,W,H,usedRef){
   const cx=Number.isFinite(d.tempTargetX)?d.tempTargetX:W*0.528;
   const cy=Number.isFinite(d.tempTargetY)?d.tempTargetY:(d.rowY||H*0.5);
   const rh=Math.max(24,d.rowHeight||H*0.02);
-  const rowTop=d.rowTop??Math.round((d.rowY||cy)-rh*0.48);
-  const rowBottom=d.rowBottom??Math.round((d.rowY||cy)+rh*0.48);
-  const dynamicBox=boundedRowBox(cx,cy,W*0.064,rh*0.90,rowTop,rowBottom);
+  const rowTop=Number.isFinite(d.rowTop)?d.rowTop:(d.rowY??cy)-rh*0.49;
+  const rowBottom=Number.isFinite(d.rowBottom)?d.rowBottom:(d.rowY??cy)+rh*0.49;
+  const dynBox=boxInsideRow(cx,cy,W*0.064,rh*0.90,rowTop,rowBottom);
   const attempts=[
-    {name:"dynamic/plain",box:dynamicBox,variant:"plain"},
-    {name:"dynamic/lineclean",box:dynamicBox,variant:"lineclean"},
-    {name:"dynamic/soft",box:dynamicBox,variant:"soft"}
+    {name:"dynamic/plain",box:dynBox,variant:"plain"},
+    {name:"dynamic/lineclean",box:dynBox,variant:"lineclean"},
+    {name:"dynamic/soft",box:dynBox,variant:"soft"}
   ];
 
-  // V7.4 ì±ê³µ fallbackì ì ì§íë Yë²ìë ìê¸° í ë°ì¼ë¡ ì ë ëê°ì§ ìëë¤.
+  // V7.4 ì±ê³µ fallbackë ìê¸° í ë´ë¶ììë§ íì©íë¤.
   if(Number.isFinite(d.rowY))attempts.push({
     name:"legacy/soft",
-    box:boundedRowBox(W*0.531,d.rowY,W*0.052,rh*0.94,rowTop,rowBottom),
+    box:boxInsideRow(W*0.531,d.rowY,W*0.052,H*0.022,rowTop,rowBottom),
     variant:"soft",
     legacy:true
   });
@@ -1443,11 +1435,11 @@ async function retryStatusCell(apiKey,d,W,H,usedRef){
   const top=d.rowTop??Math.round((d.rowY||cy)-rh*0.48);
   const bottom=d.rowBottom??Math.round((d.rowY||cy)+rh*0.48);
 
-  const statusDynamicBox=boundedRowBox(cx,cy,W*0.080,rh*0.96,top,bottom);
+  const statusBox=boxInsideRow(cx,cy,W*0.080,rh*0.96,top,bottom);
   const attempts=[
-    {name:"dynamic/plain",box:statusDynamicBox,variant:"plain"},
-    {name:"dynamic/lineclean",box:statusDynamicBox,variant:"lineclean"},
-    {name:"dynamic/soft",box:statusDynamicBox,variant:"soft"},
+    {name:"dynamic/plain",box:statusBox,variant:"plain"},
+    {name:"dynamic/lineclean",box:statusBox,variant:"lineclean"},
+    {name:"dynamic/soft",box:statusBox,variant:"soft"},
     // V7.4/V7.3ìì TG3ì 'ì¤ì¤'ë¥¼ ì´ë ¸ë ì¤ì  ì±ê³µ fallback.
     {name:"legacy/broad/plain",box:{x:W*0.780,y:top+1,w:W*0.068,h:Math.max(22,bottom-top-2)},variant:"plain",legacy:true},
     {name:"legacy/interior/plain",box:{x:W*0.792,y:top+3,w:W*0.066,h:Math.max(20,bottom-top-6)},variant:"plain",legacy:true}
@@ -1502,10 +1494,10 @@ async function retrySpecialTemperature(apiKey,d,W,H,usedRef){
   const cy=Number.isFinite(d.targetY)?d.targetY:(d.rowY||H*0.5);
   const rh=Math.max(24,d.rowHeight||state.patrolGeometry?.tempSeq?.step||H*0.02);
 
-  // V7.6.2: crop ìì²´ë ìê¸° í ê²½ê³ ìì¼ë¡ ê°ì  ì ííë¤.
-  const rowTop=(d.rowY??cy)-rh*0.48;
-  const rowBottom=(d.rowY??cy)+rh*0.48;
-  const box=boundedRowBox(cx,cy,W*0.064,rh*0.76,rowTop,rowBottom);
+  // ìê¸° í¹ìí ë°ì¼ë¡ cropì´ ë´ë ¤ê°ì§ ëª»íê² ë¬¼ë¦¬ í ê²½ê³ì ì ê·¼ë¤.
+  const rowY=Number.isFinite(d.rowY)?d.rowY:cy;
+  const top=rowY-rh*0.49,bottom=rowY+rh*0.49;
+  const box=boxInsideRow(cx,clampTargetY(cy,rowY,rh),W*0.064,rh*0.76,top,bottom);
   const candidates=[];
   d.retryRaw="";
   d.retryCandidates=[];
@@ -1691,7 +1683,7 @@ function buildPatrolGeometryDebug(){
   if(!g?.tempSeq)return null;
   const ts=g.tempSeq,sm=g.statusModel;
   return{
-    mode:"dynamic-row-ownership-v7.6.2",
+    mode:"dynamic-column-sequence-v7.6",
     rowSpacing:Number((ts.step||0).toFixed?.(2)??ts.step),
     temperatureHeader:ts.tempHeader?{text:ts.tempHeader.text,x:ts.tempHeader.centerX,y:ts.tempHeader.centerY}:null,
     temperatureLine:ts.tempLine?{a:ts.tempLine.a,b:ts.tempLine.b}:null,
