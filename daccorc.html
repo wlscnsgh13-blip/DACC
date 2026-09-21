@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#05070d" />
-  <title>DACC OCR TEST V4</title>
+  <title>DACC OCR TEST V5</title>
   <style>
     *{box-sizing:border-box}html,body{margin:0;padding:0;background:#05070d;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}body{min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{width:100%;max-width:760px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) 14px calc(40px + env(safe-area-inset-bottom))}.header{margin-bottom:18px}.brand{color:#a78bfa;font-size:13px;font-weight:800;letter-spacing:1.5px;margin-bottom:6px}h1{margin:0;font-size:27px;line-height:1.25}.subtitle{color:#94a3b8;font-size:14px;line-height:1.6;margin-top:7px}.card{background:#0d1223;border:1px solid #1e293b;border-radius:18px;padding:15px;margin-bottom:14px}.cardTitle{font-size:16px;font-weight:800;margin-bottom:12px}.label{display:block;color:#94a3b8;font-size:12px;font-weight:700;margin-bottom:6px}.input,.select,.textarea{width:100%;border:1px solid #334155;background:#080c17;color:#fff;border-radius:12px;outline:none}.input,.select{height:46px;padding:0 12px}.textarea{min-height:140px;padding:12px;resize:vertical;line-height:1.55}.input:focus,.select:focus,.textarea:focus{border-color:#a78bfa}.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}.grow{flex:1}.btn{border:0;min-height:46px;padding:0 15px;border-radius:12px;font-weight:800;color:#fff;background:#1e293b}.btnPrimary{background:#7c3aed}.btnGreen{background:#15803d}.btnDanger{background:#7f1d1d}.btnFull{width:100%}.hint{color:#64748b;font-size:12px;line-height:1.55;margin-top:8px}.uploadBox{border:1px dashed #475569;border-radius:14px;padding:12px;margin-top:10px}.uploadBox input[type=file]{width:100%;color:#cbd5e1}.preview{width:100%;max-height:340px;object-fit:contain;border-radius:12px;background:#020617;margin-top:12px;display:none}.progress,.error,.success{display:none;margin-top:12px;border-radius:12px;padding:12px;font-size:13px;line-height:1.5}.progress{background:#111827;color:#c4b5fd;font-weight:700}.error{background:rgba(127,29,29,.28);border:1px solid #7f1d1d;color:#fecaca}.success{background:rgba(21,128,61,.18);border:1px solid #166534;color:#bbf7d0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.stat{background:#080c17;border:1px solid #1e293b;border-radius:12px;padding:10px;text-align:center}.statValue{font-size:18px;font-weight:900}.statLabel{color:#64748b;font-size:11px;margin-top:4px}.tableWrap{width:100%;overflow-x:auto;border:1px solid #1e293b;border-radius:14px}table{width:100%;min-width:760px;border-collapse:collapse;background:#080c17}th,td{padding:9px 7px;border-bottom:1px solid #1e293b;text-align:center;font-size:12px}th{position:sticky;top:0;background:#111827;color:#94a3b8;font-weight:800}td:first-child{font-weight:900;white-space:nowrap}.miniInput,.miniSelect{height:36px;border:1px solid #334155;border-radius:9px;background:#05070d;color:#fff;padding:0 8px;outline:none}.numberInput{width:105px}.tempInput{width:76px;text-align:center}.miniSelect{width:100px}.detected{color:#86efac;font-weight:800}.notDetected{color:#fca5a5;font-weight:800}.review{color:#fde68a;font-weight:800}.reportYes{color:#86efac;font-weight:900}.reportNo{color:#64748b;font-weight:800}.manual{color:#c4b5fd;font-weight:800}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.sectionDivider{height:1px;background:#1e293b;margin:15px 0}.rawText{min-height:220px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}details{margin-top:10px}summary{cursor:pointer;color:#c4b5fd;font-size:13px;font-weight:800}.downloadRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.badge{display:inline-flex;align-items:center;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:800;background:#111827;color:#cbd5e1}.badgeOk{color:#86efac}.badgeWarn{color:#fde68a}.badgeBad{color:#fca5a5}.small{font-size:11px;color:#94a3b8;line-height:1.35}@media(max-width:520px){.grid2,.grid3{grid-template-columns:1fr}.downloadRow{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
   </style>
@@ -12,9 +12,9 @@
 <body>
 <main class="app">
   <header class="header">
-    <div class="brand">DACC OCR TEST V4</div>
+    <div class="brand">DACC OCR TEST V5</div>
     <h1>Google Vision OCR</h1>
-    <div class="subtitle">교대업무일지 → 장비 가동번호<br>순찰일지 → 근무자 · 온도 · 승온/유지/냉각 정밀 자동판독<br>V4: 좁은 셀 ROI · 오매핑 차단 · 실패셀 재OCR · TG1 온도/상태만 수동</div>
+    <div class="subtitle">교대업무일지 → 장비 가동번호<br>순찰일지 → 근무자 · 온도 · 승온/유지/냉각 정밀 자동판독<br>V5: iPhone 복사 수정 · 표선 제거 재OCR · 번호 있는 장비 우선 재검사 · TG1 온도/상태만 수동</div>
   </header>
 
   <section class="card">
@@ -108,10 +108,10 @@
 </main>
 
 <script>
-const VERSION="DACC OCR TEST V4.0";
+const VERSION="DACC OCR TEST V5.0";
 const MAX_IMAGE_SIDE=2800;
 const JPEG_QUALITY=0.94;
-const MAX_RETRY_CELLS=14;
+const MAX_RETRY_CELLS=16;
 
 const REPORT_ORDER=["CF1","CF2","CF3","CF4","CF5","CF6","GF1","GF3","GF4","GF5","SMI","TG2","TG3","TG4","TG5","TG6","TG7","TG1","HIP1","HIP2","HIP3"];
 const PATROL_ROW_ORDER=["TG2","TG3","TG4","TG5","TG6","TG7","GF1","GF3","GF4","GF5","SMI","CF1","CF2","CF3","CF4","CF5","CF6","CF분위기로","드라이챔버","유해화학물질누액감지기","세정집진기","탈형장백필터","생산동주냉각탑휀","생산동주냉각수펌프","신형드라이챔버","소각기1동","소각기3동","HIP1","HIP2","HIP3","천장환풍기전원확인","SIC-CVD","SIC-LINE","자동차다이나모","항공기다이나모"];
@@ -251,99 +251,345 @@ function detectSpecialTemperatures(words,W,H){
   };
 }
 
+function eraseTableLines(ctx,w,h){
+  const img=ctx.getImageData(0,0,w,h),p=img.data;
+  const dark=(x,y)=>{
+    const i=(y*w+x)*4;
+    return ((p[i]+p[i+1]+p[i+2])/3)<155;
+  };
+
+  const rows=[];
+  for(let y=0;y<h;y++){
+    let count=0;
+    for(let x=0;x<w;x++) if(dark(x,y)) count++;
+    if(count/w>=0.68) rows.push(y);
+  }
+
+  const cols=[];
+  for(let x=0;x<w;x++){
+    let count=0;
+    for(let y=0;y<h;y++) if(dark(x,y)) count++;
+    if(count/h>=0.86) cols.push(x);
+  }
+
+  const eraseRow=(yy)=>{
+    if(yy<0||yy>=h)return;
+    for(let x=0;x<w;x++){
+      const i=(yy*w+x)*4;
+      p[i]=p[i+1]=p[i+2]=255;
+    }
+  };
+  const eraseCol=(xx)=>{
+    if(xx<0||xx>=w)return;
+    for(let y=0;y<h;y++){
+      const i=(y*w+xx)*4;
+      p[i]=p[i+1]=p[i+2]=255;
+    }
+  };
+
+  rows.forEach(y=>{for(let d=-3;d<=3;d++)eraseRow(y+d);});
+  cols.forEach(x=>{for(let d=-2;d<=2;d++)eraseCol(x+d);});
+
+  ctx.putImageData(img,0,0);
+}
+
 function buildRetryCanvas(canvas,box,variant="soft"){
-  const x=Math.max(0,Math.floor(box.x)),y=Math.max(0,Math.floor(box.y)),w=Math.min(canvas.width-x,Math.ceil(box.w)),h=Math.min(canvas.height-y,Math.ceil(box.h));
+  const x=Math.max(0,Math.floor(box.x)),
+        y=Math.max(0,Math.floor(box.y)),
+        w=Math.min(canvas.width-x,Math.ceil(box.w)),
+        h=Math.min(canvas.height-y,Math.ceil(box.h));
+
   if(w<=5||h<=5)return null;
+
   const scale=4,out=document.createElement("canvas");
-  out.width=w*scale;out.height=h*scale;
+  out.width=w*scale;
+  out.height=h*scale;
+
   const ctx=out.getContext("2d",{alpha:false});
-  ctx.fillStyle="#fff";ctx.fillRect(0,0,out.width,out.height);
-  ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";
-  ctx.filter=variant==="hard"?"grayscale(100%) contrast(220%)":"grayscale(100%) contrast(145%)";
+  ctx.fillStyle="#fff";
+  ctx.fillRect(0,0,out.width,out.height);
+  ctx.imageSmoothingEnabled=true;
+  ctx.imageSmoothingQuality="high";
+
+  if(variant==="hard"){
+    ctx.filter="grayscale(100%) contrast(220%)";
+  }else if(variant==="lineclean"){
+    ctx.filter="grayscale(100%) contrast(175%)";
+  }else{
+    ctx.filter="grayscale(100%) contrast(145%)";
+  }
+
   ctx.drawImage(canvas,x,y,w,h,0,0,out.width,out.height);
   ctx.filter="none";
+
+  if(variant==="lineclean"){
+    eraseTableLines(ctx,out.width,out.height);
+  }
+
   if(variant==="hard"){
+    eraseTableLines(ctx,out.width,out.height);
     const img=ctx.getImageData(0,0,out.width,out.height),p=img.data;
     for(let i=0;i<p.length;i+=4){
-      const g=p[i];const v=g<170?0:255;p[i]=p[i+1]=p[i+2]=v;
+      const g=(p[i]+p[i+1]+p[i+2])/3;
+      const v=g<175?0:255;
+      p[i]=p[i+1]=p[i+2]=v;
     }
     ctx.putImageData(img,0,0);
   }
+
   return out;
 }
+
 async function cropAndOcr(apiKey,canvas,box,mode,variant="soft"){
-  const out=buildRetryCanvas(canvas,box,variant);if(!out)return null;
-  const json=await requestVision(apiKey,out.toDataURL("image/jpeg",0.98).split(",")[1]);
+  const out=buildRetryCanvas(canvas,box,variant);
+  if(!out)return null;
+
+  const json=await requestVision(
+    apiKey,
+    out.toDataURL("image/jpeg",0.98).split(",")[1]
+  );
+
   state.retryCount++;
-  const full=json?.responses?.[0]?.fullTextAnnotation||{},words=extractWords(full),raw=full.text||"";
+
+  const full=json?.responses?.[0]?.fullTextAnnotation||{};
+  const words=extractWords(full);
+  const raw=full.text||"";
+
   if(mode==="temp"){
-    let cand=words.map(q=>({q,n:parseTemperatureWord(q.text)})).filter(x=>x.n!==null)
+    const cand=words
+      .map(q=>({q,n:parseTemperatureWord(q.text)}))
+      .filter(x=>x.n!==null)
       .sort((a,b)=>(b.q.confidence||0)-(a.q.confidence||0));
-    return cand[0]?{value:cand[0].n,confidence:cand[0].q.confidence,raw,variant}:null;
+
+    return cand[0]
+      ? {value:cand[0].n,confidence:cand[0].q.confidence,raw,variant}
+      : null;
   }
+
   if(mode==="status"){
-    let cand=words.map(q=>({q,s:classifyStatus(q.text)})).filter(x=>x.s)
+    const cand=words
+      .map(q=>({q,s:classifyStatus(q.text)}))
+      .filter(x=>x.s)
       .sort((a,b)=>(b.q.confidence||0)-(a.q.confidence||0));
-    return cand[0]?{value:cand[0].s,confidence:cand[0].q.confidence,raw,variant}:null;
+
+    return cand[0]
+      ? {value:cand[0].s,confidence:cand[0].q.confidence,raw,variant}
+      : null;
   }
+
   return null;
 }
+
 function temperatureLooksSuspicious(v){
   return v!==null&&(v<10||v>2500);
 }
+
+function chooseBetterTemperature(current,candidate){
+  if(!candidate)return current;
+
+  if(!current)return candidate;
+
+  const currentBad=temperatureLooksSuspicious(current.value);
+  const candidateBad=temperatureLooksSuspicious(candidate.value);
+
+  if(currentBad&&!candidateBad)return candidate;
+  if(!currentBad&&candidateBad)return current;
+
+  return (candidate.confidence||0)>(current.confidence||0)
+    ? candidate
+    : current;
+}
+
 async function retryTempCell(apiKey,d,W,H,usedRef){
   if(!d?.rowY||usedRef.used>=MAX_RETRY_CELLS)return;
-  const need=d.temperature===null||temperatureLooksSuspicious(d.temperature)||(d.tempConfidence!=null&&d.tempConfidence<80);
+
+  const need=
+    d.temperature===null||
+    temperatureLooksSuspicious(d.temperature)||
+    (d.tempConfidence!=null&&d.tempConfidence<80);
+
   if(!need)return;
-  const box={x:W*0.505,y:d.rowY-H*0.010,w:W*0.052,h:H*0.022};
-  let best=await cropAndOcr(apiKey,state.patrolCanvas,box,"temp","soft");usedRef.used++;
-  if((!best||temperatureLooksSuspicious(best.value))&&usedRef.used<MAX_RETRY_CELLS){
-    const hard=await cropAndOcr(apiKey,state.patrolCanvas,box,"temp","hard");usedRef.used++;
-    if(hard&&(!best||(temperatureLooksSuspicious(best.value)&&!temperatureLooksSuspicious(hard.value))||(hard.confidence||0)>(best.confidence||0)))best=hard;
+
+  const box={
+    x:W*0.502,
+    y:d.rowY-H*0.011,
+    w:W*0.058,
+    h:H*0.024
+  };
+
+  let best=null;
+
+  for(const variant of ["lineclean","soft","hard"]){
+    if(usedRef.used>=MAX_RETRY_CELLS)break;
+
+    const r=await cropAndOcr(
+      apiKey,
+      state.patrolCanvas,
+      box,
+      "temp",
+      variant
+    );
+
+    usedRef.used++;
+    best=chooseBetterTemperature(best,r);
+
+    if(best&&!temperatureLooksSuspicious(best.value)&&(best.confidence||0)>=75){
+      break;
+    }
   }
+
   if(best&&!temperatureLooksSuspicious(best.value)){
-    if(d.temperature===null||temperatureLooksSuspicious(d.temperature)||(best.confidence||0)>=(d.tempConfidence||0)){
-      d.temperature=best.value;d.tempConfidence=best.confidence;d.tempRetryRaw=best.raw;d.tempRetryVariant=best.variant;
+    if(
+      d.temperature===null||
+      temperatureLooksSuspicious(d.temperature)||
+      (best.confidence||0)>=(d.tempConfidence||0)
+    ){
+      d.temperature=best.value;
+      d.tempConfidence=best.confidence;
+      d.tempRetryRaw=best.raw;
+      d.tempRetryVariant=best.variant;
     }
   }else if(temperatureLooksSuspicious(d.temperature)){
-    d.temperature=null;d.tempConfidence=null;d.tempRejected=true;
-  }
-}
-async function retryStatusCell(apiKey,d,W,H,usedRef){
-  if(!d?.rowY||usedRef.used>=MAX_RETRY_CELLS)return;
-  if(d.status!==null)return;
-  const box={x:W*0.795,y:d.rowY-H*0.010,w:W*0.038,h:H*0.024};
-  const r=await cropAndOcr(apiKey,state.patrolCanvas,box,"status","soft");usedRef.used++;
-  if(r){d.status=r.value;d.statusConfidence=r.confidence;d.statusRetryRaw=r.raw;d.statusRetryVariant=r.variant;}
-}
-async function retryWeakCells(apiKey){
-  if(!state.patrolCanvas)return;
-  const W=state.patrol.image.width,H=state.patrol.image.height,usedRef={used:0};
-  for(const eq of REPORT_ORDER){
-    if(eq==="TG1")continue;
-    const d=state.patrolData[eq];
-    if(!d?.rowY)continue;
-    await retryTempCell(apiKey,d,W,H,usedRef);
-    if(usedRef.used>=MAX_RETRY_CELLS)break;
-    await retryStatusCell(apiKey,d,W,H,usedRef);
-    if(usedRef.used>=MAX_RETRY_CELLS)break;
-  }
-  for(const key of ["inc1","inc3","oldDry"]){
-    const d=state.special[key];
-    if(!d?.rowY||usedRef.used>=MAX_RETRY_CELLS)continue;
-    const suspicious=d.value===null||d.value<10||d.value>999||(d.confidence!=null&&d.confidence<80);
-    if(!suspicious)continue;
-    const box={x:W*0.505,y:d.rowY-H*0.010,w:W*0.052,h:H*0.022};
-    let r=await cropAndOcr(apiKey,state.patrolCanvas,box,"temp","soft");usedRef.used++;
-    if((!r||r.value<10||r.value>999)&&usedRef.used<MAX_RETRY_CELLS){
-      const hard=await cropAndOcr(apiKey,state.patrolCanvas,box,"temp","hard");usedRef.used++;
-      if(hard&&(!r||((r.value<10||r.value>999)&&(hard.value>=10&&hard.value<=999))||(hard.confidence||0)>(r.confidence||0)))r=hard;
-    }
-    if(r&&r.value>=10&&r.value<=999){d.value=r.value;d.confidence=r.confidence;d.retryRaw=r.raw;d.retryVariant=r.variant;}
-    else if(d.value!==null&&(d.value<10||d.value>999)){d.value=null;d.confidence=null;d.rejected=true;}
+    d.temperature=null;
+    d.tempConfidence=null;
+    d.tempRejected=true;
   }
 }
 
+async function retryStatusCell(apiKey,d,W,H,usedRef){
+  if(!d?.rowY||usedRef.used>=MAX_RETRY_CELLS)return;
+  if(d.status!==null)return;
+
+  const box={
+    x:W*0.792,
+    y:d.rowY-H*0.011,
+    w:W*0.044,
+    h:H*0.025
+  };
+
+  for(const variant of ["lineclean","soft"]){
+    if(usedRef.used>=MAX_RETRY_CELLS)break;
+
+    const r=await cropAndOcr(
+      apiKey,
+      state.patrolCanvas,
+      box,
+      "status",
+      variant
+    );
+
+    usedRef.used++;
+
+    if(r){
+      d.status=r.value;
+      d.statusConfidence=r.confidence;
+      d.statusRetryRaw=r.raw;
+      d.statusRetryVariant=r.variant;
+      break;
+    }
+  }
+}
+
+async function retrySpecialTemperature(apiKey,d,W,H,usedRef){
+  if(!d?.rowY||usedRef.used>=MAX_RETRY_CELLS)return;
+
+  const suspicious=
+    d.value===null||
+    d.value<10||
+    d.value>999||
+    (d.confidence!=null&&d.confidence<80);
+
+  if(!suspicious)return;
+
+  const box={
+    x:W*0.502,
+    y:d.rowY-H*0.011,
+    w:W*0.058,
+    h:H*0.024
+  };
+
+  let best=null;
+
+  for(const variant of ["lineclean","soft","hard"]){
+    if(usedRef.used>=MAX_RETRY_CELLS)break;
+
+    const r=await cropAndOcr(
+      apiKey,
+      state.patrolCanvas,
+      box,
+      "temp",
+      variant
+    );
+
+    usedRef.used++;
+
+    if(
+      r&&
+      r.value>=10&&
+      r.value<=999&&
+      (!best||(r.confidence||0)>(best.confidence||0))
+    ){
+      best=r;
+    }
+
+    if(best&&(best.confidence||0)>=75)break;
+  }
+
+  if(best){
+    d.value=best.value;
+    d.confidence=best.confidence;
+    d.retryRaw=best.raw;
+    d.retryVariant=best.variant;
+  }else if(d.value!==null&&(d.value<10||d.value>999)){
+    d.value=null;
+    d.confidence=null;
+    d.rejected=true;
+  }
+}
+
+async function retryWeakCells(apiKey){
+  if(!state.patrolCanvas)return;
+
+  const W=state.patrol.image.width;
+  const H=state.patrol.image.height;
+  const usedRef={used:0};
+
+  /*
+    V5:
+    교대업무일지에서 가동번호가 있는 장비를 먼저 재검사.
+    번호가 없는 장비의 상태를 억지로 찾다가
+    다른 셀의 "승온"을 가져오는 문제를 줄인다.
+  */
+  const priority=REPORT_ORDER.filter(
+    eq=>eq!=="TG1"&&!!state.equipmentNumbers[eq]
+  );
+
+  for(const eq of priority){
+    const d=state.patrolData[eq];
+    if(!d?.rowY)continue;
+
+    await retryTempCell(apiKey,d,W,H,usedRef);
+    if(usedRef.used>=MAX_RETRY_CELLS)break;
+
+    await retryStatusCell(apiKey,d,W,H,usedRef);
+    if(usedRef.used>=MAX_RETRY_CELLS)break;
+  }
+
+  /*
+    소각기 / 구형드라이챔버는 문자보고 핵심값이므로
+    장비 재검사 뒤 별도 우선 처리.
+  */
+  for(const key of ["inc1","inc3","oldDry"]){
+    if(usedRef.used>=MAX_RETRY_CELLS)break;
+    await retrySpecialTemperature(
+      apiKey,
+      state.special[key],
+      W,
+      H,
+      usedRef
+    );
+  }
+}
 function renderResults(){
   ["resultSection","equipmentSection","specialSection","extraSection","reportSection","debugSection"].forEach(id=>$(id).style.display="block");const d=state.parsedDate;$("dateStat").textContent=d?pad2(d.month)+"/"+pad2(d.day):"미검출";$("equipmentStat").textContent=Object.values(state.equipmentNumbers).filter(Boolean).length;$("autoStat").textContent=calculateAutoFillRate()+"%";$("retryStat").textContent=state.retryCount;$("workerName").value=state.workerNameCandidate||"";$("nameHint").textContent=state.workerNameCandidate?`점검자 영역 OCR: ${state.workerNameCandidate}`:"점검자 이름 미검출 — 직접 입력";$("shiftRawText").value=state.shift?.fullText||"";$("patrolRawText").value=state.patrol?.fullText||"";renderEquipmentTable();renderSpecial();updateReport();}
 function renderEquipmentTable(){const tbody=$("equipmentBody");tbody.innerHTML="";rowRefs.clear();for(const eq of REPORT_ORDER){const num=state.equipmentNumbers[eq],pd=state.patrolData[eq]||{},tr=document.createElement("tr"),tdEq=document.createElement("td");tdEq.textContent=eq;const tdN=document.createElement("td"),numberInput=document.createElement("input");numberInput.className="miniInput numberInput";numberInput.value=num||"";numberInput.placeholder="#26-";tdN.appendChild(numberInput);const tdND=document.createElement("td");tdND.textContent=num?"검출":"미검출";tdND.className=num?"detected":"notDetected";const tdT=document.createElement("td"),tempInput=document.createElement("input");tempInput.className="miniInput tempInput";tempInput.type="number";tempInput.inputMode="numeric";tempInput.placeholder=eq==="TG1"?"수동":"℃";tempInput.value=pd.temperature??"";tdT.appendChild(tempInput);const tdS=document.createElement("td"),statusSelect=document.createElement("select");statusSelect.className="miniSelect";["","승온중","유지중","냉각중"].forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v||"선택";statusSelect.appendChild(o);});statusSelect.value=pd.status||"";tdS.appendChild(statusSelect);const tdQ=document.createElement("td");if(eq==="TG1"){tdQ.textContent="수동";tdQ.className="manual";}else if(pd.temperature!==null&&pd.status){tdQ.textContent="자동";tdQ.className="detected";}else{tdQ.textContent="확인";tdQ.className="review";}const tdR=document.createElement("td");tdR.textContent="제외";tdR.className="reportNo";[tdEq,tdN,tdND,tdT,tdS,tdQ,tdR].forEach(td=>tr.appendChild(td));tbody.appendChild(tr);rowRefs.set(eq,{numberInput,tempInput,statusSelect,qualityCell:tdQ,reportCell:tdR,source:pd});const handler=()=>{updateSingleRow(eq);updateReport();buildCombinedJson();};numberInput.addEventListener("input",handler);tempInput.addEventListener("input",handler);statusSelect.addEventListener("change",handler);updateSingleRow(eq);}}
@@ -361,12 +607,169 @@ function cleanTemperature(v){if(v===""||v==null)return null;const n=Number(v);re
 
 function buildCombinedJson(){const equipment={};rowRefs.forEach((r,name)=>{const t=cleanTemperature(r.tempInput.value),s=r.statusSelect.value;equipment[name]={ocrDetectedNumber:state.equipmentNumbers[name]||null,number:r.numberInput.value.trim()||null,temperature:t,status:s||null,tempConfidence:r.source?.tempConfidence??null,statusConfidence:r.source?.statusConfidence??null,manual:name==="TG1",includedInReport:!!normalizeReportNumber(r.numberInput.value)&&shouldIncludeEquipment(t,s)};});state.combinedJson={version:VERSION,createdAt:new Date().toISOString(),parsed:{date:state.parsedDate,weekday:state.parsedDate?getWeekdayKo(state.parsedDate):null,workShift:$("workShift").value,workerNameCandidate:state.workerNameCandidate||null,workerName:$("workerName").value.trim()||null,workerRank:$("workerRank").value.trim()||null,autoFillRate:calculateAutoFillRate(),retryCount:state.retryCount,equipment,specialTemperature:{incinerator1:cleanTemperature($("incinerator1").value),incinerator3:cleanTemperature($("incinerator3").value),oldDryChamber:cleanTemperature($("oldDryChamber").value)},generatedReport:$("reportText").value||""},shiftWorkLog:state.shift?{image:state.shift.image,fullText:state.shift.fullText,wordCount:state.shift.wordCount,words:state.shift.words,rawVision:state.shift.rawVision}:null,patrolLog:state.patrol?{image:state.patrol.image,fullText:state.patrol.fullText,wordCount:state.patrol.wordCount,words:state.patrol.words,parsedRows:state.patrolData,special:state.special,rawVision:state.patrol.rawVision}:null};}
 
-$("downloadJsonTxtBtn").addEventListener("click",()=>{buildCombinedJson();if(!state.combinedJson)return showError("먼저 OCR 분석을 해주세요.");const ds=state.parsedDate?`${state.parsedDate.year}${pad2(state.parsedDate.month)}${pad2(state.parsedDate.day)}`:"UNKNOWN";downloadTextFile(`DACC_OCR_V3_${ds}.txt`,JSON.stringify(state.combinedJson,null,2));});
-$("copyJsonBtn").addEventListener("click",async()=>{buildCombinedJson();if(!state.combinedJson)return showError("먼저 OCR 분석을 해주세요.");await copyText(JSON.stringify(state.combinedJson,null,2));showSuccess("JSON 전체를 복사했습니다.");});
-$("copyReportBtn").addEventListener("click",async()=>{await copyText($("reportText").value);showSuccess("문자보고를 복사했습니다.");});
-$("downloadReportBtn").addEventListener("click",()=>{const ds=state.parsedDate?`${state.parsedDate.year}${pad2(state.parsedDate.month)}${pad2(state.parsedDate.day)}`:"UNKNOWN";downloadTextFile(`DACC_REPORT_${ds}.txt`,$("reportText").value);});
-function downloadTextFile(filename,text){const blob=new Blob([text],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-async function copyText(text){try{await navigator.clipboard.writeText(text);}catch{const t=document.createElement("textarea");t.value=text;t.style.position="fixed";t.style.opacity="0";document.body.appendChild(t);t.focus();t.select();document.execCommand("copy");t.remove();}}
+$("downloadJsonTxtBtn").addEventListener("click",()=>{buildCombinedJson();if(!state.combinedJson)return showError("먼저 OCR 분석을 해주세요.");const ds=state.parsedDate?`${state.parsedDate.year}${pad2(state.parsedDate.month)}${pad2(state.parsedDate.day)}`:"UNKNOWN";downloadTextFile(`DACC_OCR_V5_${ds}.txt`,JSON.stringify(state.combinedJson,null,2));});
+$("copyJsonBtn").addEventListener("click",async()=>{
+  buildCombinedJson();
+  if(!state.combinedJson)return showError("먼저 OCR 분석을 해주세요.");
+
+  try{
+    await copyText(JSON.stringify(state.combinedJson,null,2));
+    showSuccess("JSON 전체를 복사했습니다.");
+  }catch(error){
+    console.error("JSON copy failed",error);
+    showError("복사에 실패했습니다. 다시 한 번 눌러주세요.");
+  }
+});
+
+$("copyReportBtn").addEventListener("click",async()=>{
+  const btn=$("copyReportBtn");
+  const original=btn.textContent;
+  btn.disabled=true;
+  btn.textContent="복사 중...";
+
+  try{
+    const value=$("reportText").value||"";
+
+    if(!value.trim()){
+      throw new Error("복사할 문자보고가 없습니다.");
+    }
+
+    await copyText(value);
+
+    btn.textContent="복사 완료 ✓";
+    showSuccess("문자보고를 클립보드에 복사했습니다.");
+
+    setTimeout(()=>{
+      btn.textContent=original;
+      btn.disabled=false;
+    },1200);
+  }catch(error){
+    console.error("Report copy failed",error);
+    btn.textContent="복사 실패";
+    btn.disabled=false;
+    showError(
+      error?.message||
+      "문자보고 복사에 실패했습니다."
+    );
+  }
+});
+
+$("downloadReportBtn").addEventListener("click",()=>{
+  const ds=state.parsedDate
+    ?`${state.parsedDate.year}${pad2(state.parsedDate.month)}${pad2(state.parsedDate.day)}`
+    :"UNKNOWN";
+
+  downloadTextFile(
+    `DACC_REPORT_${ds}.txt`,
+    $("reportText").value
+  );
+});
+
+function downloadTextFile(filename,text){
+  const blob=new Blob(
+    [text],
+    {type:"text/plain;charset=utf-8"}
+  );
+
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+
+  a.href=url;
+  a.download=filename;
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+function legacyCopyText(text){
+  const t=document.createElement("textarea");
+
+  t.value=text;
+  t.setAttribute("readonly","");
+  t.setAttribute("aria-hidden","true");
+
+  /*
+    iPhone Safari에서는 opacity:0 요소 선택/복사가
+    실패하는 경우가 있어 화면 밖의 실제 textarea를 사용.
+  */
+  t.style.position="fixed";
+  t.style.left="-9999px";
+  t.style.top="0";
+  t.style.width="2px";
+  t.style.height="2px";
+  t.style.fontSize="16px";
+  t.style.border="0";
+  t.style.padding="0";
+  t.style.background="transparent";
+
+  document.body.appendChild(t);
+
+  t.focus({preventScroll:true});
+  t.select();
+  t.setSelectionRange(0,t.value.length);
+
+  const ok=document.execCommand("copy");
+
+  t.remove();
+
+  return ok;
+}
+
+async function copyText(text){
+  const value=String(text??"");
+
+  if(!value){
+    throw new Error("복사할 내용이 없습니다.");
+  }
+
+  /*
+    1순위: 최신 Clipboard API
+    GitHub Pages(HTTPS) + iPhone Safari에서 사용.
+  */
+  if(
+    window.isSecureContext&&
+    navigator.clipboard&&
+    typeof navigator.clipboard.writeText==="function"
+  ){
+    try{
+      await navigator.clipboard.writeText(value);
+      return true;
+    }catch(error){
+      console.warn("Clipboard API fallback",error);
+    }
+  }
+
+  /*
+    2순위: iOS/Safari 호환 legacy copy
+  */
+  if(legacyCopyText(value)){
+    return true;
+  }
+
+  /*
+    3순위: 실제 보고 textarea 자체를 선택하고 한 번 더 시도.
+  */
+  const report=$("reportText");
+
+  if(report&&report.value===value){
+    report.focus();
+    report.select();
+    report.setSelectionRange(0,report.value.length);
+
+    if(document.execCommand("copy")){
+      report.setSelectionRange(0,0);
+      report.blur();
+      return true;
+    }
+  }
+
+  throw new Error(
+    "자동 복사가 차단됐습니다. 문자보고 칸을 길게 눌러 전체 선택 후 복사해주세요."
+  );
+}
 function setProgress(m){const e=$("progress");if(!m){e.style.display="none";e.textContent="";return;}e.textContent=m;e.style.display="block";}
 function showError(m){$("errorBox").textContent=m;$("errorBox").style.display="block";$("successBox").style.display="none";}
 function showSuccess(m){$("successBox").textContent=m;$("successBox").style.display="block";$("errorBox").style.display="none";}
