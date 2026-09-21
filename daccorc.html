@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#05070d" />
-  <title>DACC OCR TEST V3</title>
+  <title>DACC OCR TEST V4</title>
   <style>
     *{box-sizing:border-box}html,body{margin:0;padding:0;background:#05070d;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}body{min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{width:100%;max-width:760px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) 14px calc(40px + env(safe-area-inset-bottom))}.header{margin-bottom:18px}.brand{color:#a78bfa;font-size:13px;font-weight:800;letter-spacing:1.5px;margin-bottom:6px}h1{margin:0;font-size:27px;line-height:1.25}.subtitle{color:#94a3b8;font-size:14px;line-height:1.6;margin-top:7px}.card{background:#0d1223;border:1px solid #1e293b;border-radius:18px;padding:15px;margin-bottom:14px}.cardTitle{font-size:16px;font-weight:800;margin-bottom:12px}.label{display:block;color:#94a3b8;font-size:12px;font-weight:700;margin-bottom:6px}.input,.select,.textarea{width:100%;border:1px solid #334155;background:#080c17;color:#fff;border-radius:12px;outline:none}.input,.select{height:46px;padding:0 12px}.textarea{min-height:140px;padding:12px;resize:vertical;line-height:1.55}.input:focus,.select:focus,.textarea:focus{border-color:#a78bfa}.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}.grow{flex:1}.btn{border:0;min-height:46px;padding:0 15px;border-radius:12px;font-weight:800;color:#fff;background:#1e293b}.btnPrimary{background:#7c3aed}.btnGreen{background:#15803d}.btnDanger{background:#7f1d1d}.btnFull{width:100%}.hint{color:#64748b;font-size:12px;line-height:1.55;margin-top:8px}.uploadBox{border:1px dashed #475569;border-radius:14px;padding:12px;margin-top:10px}.uploadBox input[type=file]{width:100%;color:#cbd5e1}.preview{width:100%;max-height:340px;object-fit:contain;border-radius:12px;background:#020617;margin-top:12px;display:none}.progress,.error,.success{display:none;margin-top:12px;border-radius:12px;padding:12px;font-size:13px;line-height:1.5}.progress{background:#111827;color:#c4b5fd;font-weight:700}.error{background:rgba(127,29,29,.28);border:1px solid #7f1d1d;color:#fecaca}.success{background:rgba(21,128,61,.18);border:1px solid #166534;color:#bbf7d0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.stat{background:#080c17;border:1px solid #1e293b;border-radius:12px;padding:10px;text-align:center}.statValue{font-size:18px;font-weight:900}.statLabel{color:#64748b;font-size:11px;margin-top:4px}.tableWrap{width:100%;overflow-x:auto;border:1px solid #1e293b;border-radius:14px}table{width:100%;min-width:760px;border-collapse:collapse;background:#080c17}th,td{padding:9px 7px;border-bottom:1px solid #1e293b;text-align:center;font-size:12px}th{position:sticky;top:0;background:#111827;color:#94a3b8;font-weight:800}td:first-child{font-weight:900;white-space:nowrap}.miniInput,.miniSelect{height:36px;border:1px solid #334155;border-radius:9px;background:#05070d;color:#fff;padding:0 8px;outline:none}.numberInput{width:105px}.tempInput{width:76px;text-align:center}.miniSelect{width:100px}.detected{color:#86efac;font-weight:800}.notDetected{color:#fca5a5;font-weight:800}.review{color:#fde68a;font-weight:800}.reportYes{color:#86efac;font-weight:900}.reportNo{color:#64748b;font-weight:800}.manual{color:#c4b5fd;font-weight:800}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.sectionDivider{height:1px;background:#1e293b;margin:15px 0}.rawText{min-height:220px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}details{margin-top:10px}summary{cursor:pointer;color:#c4b5fd;font-size:13px;font-weight:800}.downloadRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.badge{display:inline-flex;align-items:center;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:800;background:#111827;color:#cbd5e1}.badgeOk{color:#86efac}.badgeWarn{color:#fde68a}.badgeBad{color:#fca5a5}.small{font-size:11px;color:#94a3b8;line-height:1.35}@media(max-width:520px){.grid2,.grid3{grid-template-columns:1fr}.downloadRow{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
   </style>
@@ -12,9 +12,9 @@
 <body>
 <main class="app">
   <header class="header">
-    <div class="brand">DACC OCR TEST V3</div>
+    <div class="brand">DACC OCR TEST V4</div>
     <h1>Google Vision OCR</h1>
-    <div class="subtitle">교대업무일지 → 장비 가동번호<br>순찰일지 → 근무자 · 온도 · 승온/유지/냉각 자동판독<br>TG1 온도/상태만 수동 입력</div>
+    <div class="subtitle">교대업무일지 → 장비 가동번호<br>순찰일지 → 근무자 · 온도 · 승온/유지/냉각 정밀 자동판독<br>V4: 좁은 셀 ROI · 오매핑 차단 · 실패셀 재OCR · TG1 온도/상태만 수동</div>
   </header>
 
   <section class="card">
@@ -108,10 +108,10 @@
 </main>
 
 <script>
-const VERSION="DACC OCR TEST V3.0";
+const VERSION="DACC OCR TEST V4.0";
 const MAX_IMAGE_SIDE=2800;
 const JPEG_QUALITY=0.94;
-const MAX_RETRY_CELLS=10;
+const MAX_RETRY_CELLS=14;
 
 const REPORT_ORDER=["CF1","CF2","CF3","CF4","CF5","CF6","GF1","GF3","GF4","GF5","SMI","TG2","TG3","TG4","TG5","TG6","TG7","TG1","HIP1","HIP2","HIP3"];
 const PATROL_ROW_ORDER=["TG2","TG3","TG4","TG5","TG6","TG7","GF1","GF3","GF4","GF5","SMI","CF1","CF2","CF3","CF4","CF5","CF6","CF분위기로","드라이챔버","유해화학물질누액감지기","세정집진기","탈형장백필터","생산동주냉각탑휀","생산동주냉각수펌프","신형드라이챔버","소각기1동","소각기3동","HIP1","HIP2","HIP3","천장환풍기전원확인","SIC-CVD","SIC-LINE","자동차다이나모","항공기다이나모"];
@@ -199,33 +199,149 @@ function findPatrolAnchors(words){
   const out={};for(const [eq,arr] of Object.entries(aliases)){const matches=words.filter(w=>arr.some(a=>normalizeEquip(w.text)===a));matches.sort((a,b)=>a.centerY-b.centerY);out[eq]=matches[0]||null;}return out;
 }
 function parseTemperatureWord(text){const s=String(text||"").replace(/[OoIl|]/g,m=>({O:"0",o:"0",I:"1",l:"1","|":"1"}[m])).replace(/[^0-9]/g,"");if(!/^\d{1,4}$/.test(s))return null;const n=Number(s);return Number.isFinite(n)?n:null;}
-function classifyStatus(text){const s=String(text||"").replace(/\s+/g,"");if(!s)return null;if(s.includes("냉"))return"냉각중";if(s.includes("유지")||s==="유"||s.includes("지"))return"유지중";if(s.includes("승온")||s.startsWith("승")||s==="숭온"||s==="승은"||s==="승우"||s==="승은중")return"승온중";return null;}
+function classifyStatus(text){
+  const s=String(text||"").replace(/\s+/g,"").replace(/[.,/\\|]/g,"");
+  if(!s)return null;
+  if(/^(냉각|냉각중|냉각증|냉각충|냉각쭝)$/.test(s)||s.startsWith("냉각"))return"냉각중";
+  if(/^(유지|유지중|유지증|유지충|유지쭝)$/.test(s)||s.startsWith("유지"))return"유지중";
+  if(/^(승온|승온중|승은|승우|승은중|숭온|숭온중|승은증|승우중)$/.test(s)||s.startsWith("승온"))return"승온중";
+  return null;
+}
 function detectPatrolData(words,W,H){
-  const anchors=findPatrolAnchors(words),out={};const tempMin=W*0.49,tempMax=W*0.57,statusMin=W*0.775,statusMax=W*0.845,rowHalf=Math.max(20,H*0.0125);
-  for(const eq of REPORT_ORDER){if(eq==="TG1"){out[eq]={temperature:null,status:null,tempConfidence:null,statusConfidence:null,manual:true};continue;}const a=anchors[eq];if(!a){out[eq]={temperature:null,status:null,tempConfidence:null,statusConfidence:null,manual:false};continue;}
-    const rowWords=words.filter(w=>Math.abs(w.centerY-a.centerY)<=rowHalf);let tempCandidates=rowWords.map(w=>({w,n:parseTemperatureWord(w.text)})).filter(x=>x.n!==null&&x.w.centerX>=tempMin&&x.w.centerX<=tempMax);tempCandidates.sort((x,y)=>(Math.abs(x.w.centerX-W*0.525)+Math.abs(x.w.centerY-a.centerY)*2)-(Math.abs(y.w.centerX-W*0.525)+Math.abs(y.w.centerY-a.centerY)*2));
-    let statusCandidates=rowWords.map(w=>({w,s:classifyStatus(w.text)})).filter(x=>x.s&&x.w.centerX>=statusMin&&x.w.centerX<=statusMax);statusCandidates.sort((x,y)=>(Math.abs(x.w.centerX-W*0.81)+Math.abs(x.w.centerY-a.centerY)*2)-(Math.abs(y.w.centerX-W*0.81)+Math.abs(y.w.centerY-a.centerY)*2));
-    out[eq]={temperature:tempCandidates[0]?.n??null,status:statusCandidates[0]?.s??null,tempConfidence:tempCandidates[0]?.w.confidence??null,statusConfidence:statusCandidates[0]?.w.confidence??null,rowY:a.centerY,manual:false};
-  }return out;
+  const anchors=findPatrolAnchors(words),out={};
+  const tempMin=W*0.505,tempMax=W*0.555,statusMin=W*0.795,statusMax=W*0.83,rowHalf=Math.max(14,H*0.0085);
+  for(const eq of REPORT_ORDER){
+    if(eq==="TG1"){out[eq]={temperature:null,status:null,tempConfidence:null,statusConfidence:null,manual:true};continue;}
+    const a=anchors[eq];
+    if(!a){out[eq]={temperature:null,status:null,tempConfidence:null,statusConfidence:null,manual:false};continue;}
+    const rowWords=words.filter(w=>Math.abs(w.centerY-a.centerY)<=rowHalf);
+    let tempCandidates=rowWords.map(w=>({w,n:parseTemperatureWord(w.text)}))
+      .filter(x=>x.n!==null&&x.w.centerX>=tempMin&&x.w.centerX<=tempMax)
+      .sort((x,y)=>(Math.abs(x.w.centerX-W*0.528)+Math.abs(x.w.centerY-a.centerY)*3)-(Math.abs(y.w.centerX-W*0.528)+Math.abs(y.w.centerY-a.centerY)*3));
+    let statusCandidates=rowWords.map(w=>({w,s:classifyStatus(w.text)}))
+      .filter(x=>x.s&&x.w.centerX>=statusMin&&x.w.centerX<=statusMax)
+      .sort((x,y)=>(Math.abs(x.w.centerX-W*0.812)+Math.abs(x.w.centerY-a.centerY)*3)-(Math.abs(y.w.centerX-W*0.812)+Math.abs(y.w.centerY-a.centerY)*3));
+    out[eq]={
+      temperature:tempCandidates[0]?.n??null,
+      status:statusCandidates[0]?.s??null,
+      tempConfidence:tempCandidates[0]?.w.confidence??null,
+      statusConfidence:statusCandidates[0]?.w.confidence??null,
+      rowY:a.centerY,
+      manual:false,
+      primaryTempRaw:tempCandidates[0]?.w.text??null,
+      primaryStatusRaw:statusCandidates[0]?.w.text??null
+    };
+  }
+  return out;
 }
 function detectSpecialTemperatures(words,W,H){
-  const tempMin=W*0.49,tempMax=W*0.57,rowHalf=Math.max(20,H*0.014);function pickByY(y){const c=words.map(w=>({w,n:parseTemperatureWord(w.text)})).filter(x=>x.n!==null&&x.w.centerX>=tempMin&&x.w.centerX<=tempMax&&Math.abs(x.w.centerY-y)<=rowHalf).sort((a,b)=>Math.abs(a.w.centerY-y)-Math.abs(b.w.centerY-y));return c[0]?{value:c[0].n,confidence:c[0].w.confidence,rowY:y}:null;}
-  const dryAnchors=words.filter(w=>/드라이/.test(w.text)&&w.centerY>H*0.65&&w.centerY<H*0.78).sort((a,b)=>a.centerY-b.centerY);const incAnchors=words.filter(w=>/소각기/.test(w.text)).sort((a,b)=>a.centerY-b.centerY);
-  return{oldDry:dryAnchors[0]?pickByY(dryAnchors[0].centerY):null,inc1:incAnchors[0]?pickByY(incAnchors[0].centerY):null,inc3:incAnchors[1]?pickByY(incAnchors[1].centerY):null};
+  const tempMin=W*0.505,tempMax=W*0.555,rowHalf=Math.max(14,H*0.009);
+  function pickByY(y){
+    const c=words.map(w=>({w,n:parseTemperatureWord(w.text)}))
+      .filter(x=>x.n!==null&&x.w.centerX>=tempMin&&x.w.centerX<=tempMax&&Math.abs(x.w.centerY-y)<=rowHalf)
+      .sort((a,b)=>(Math.abs(a.w.centerX-W*0.528)+Math.abs(a.w.centerY-y)*3)-(Math.abs(b.w.centerX-W*0.528)+Math.abs(b.w.centerY-y)*3));
+    return c[0]?{value:c[0].n,confidence:c[0].w.confidence,rowY:y,primaryRaw:c[0].w.text}:null;
+  }
+  const dryAnchors=words.filter(w=>/드라이/.test(w.text)&&w.centerY>H*0.65&&w.centerY<H*0.78).sort((a,b)=>a.centerY-b.centerY);
+  const incAnchors=words.filter(w=>/소각기/.test(w.text)).sort((a,b)=>a.centerY-b.centerY);
+  return{
+    oldDry:dryAnchors[0]?pickByY(dryAnchors[0].centerY):null,
+    inc1:incAnchors[0]?pickByY(incAnchors[0].centerY):null,
+    inc3:incAnchors[1]?pickByY(incAnchors[1].centerY):null
+  };
 }
 
-async function cropAndOcr(apiKey,canvas,box,mode){
-  const x=Math.max(0,Math.floor(box.x)),y=Math.max(0,Math.floor(box.y)),w=Math.min(canvas.width-x,Math.ceil(box.w)),h=Math.min(canvas.height-y,Math.ceil(box.h));if(w<=5||h<=5)return null;
-  const scale=3,out=document.createElement("canvas");out.width=w*scale;out.height=h*scale;const ctx=out.getContext("2d",{alpha:false});ctx.fillStyle="#fff";ctx.fillRect(0,0,out.width,out.height);ctx.filter="grayscale(100%) contrast(180%)";ctx.drawImage(canvas,x,y,w,h,0,0,out.width,out.height);ctx.filter="none";
-  const json=await requestVision(apiKey,out.toDataURL("image/jpeg",0.96).split(",")[1]);state.retryCount++;const full=json?.responses?.[0]?.fullTextAnnotation||{};const words=extractWords(full);if(mode==="temp"){let cand=words.map(q=>({q,n:parseTemperatureWord(q.text)})).filter(x=>x.n!==null).sort((a,b)=>(b.q.confidence||0)-(a.q.confidence||0));return cand[0]?{value:cand[0].n,confidence:cand[0].q.confidence,raw:full.text||""}:null;}if(mode==="status"){let cand=words.map(q=>({q,s:classifyStatus(q.text)})).filter(x=>x.s).sort((a,b)=>(b.q.confidence||0)-(a.q.confidence||0));return cand[0]?{value:cand[0].s,confidence:cand[0].q.confidence,raw:full.text||""}:null;}return null;
+function buildRetryCanvas(canvas,box,variant="soft"){
+  const x=Math.max(0,Math.floor(box.x)),y=Math.max(0,Math.floor(box.y)),w=Math.min(canvas.width-x,Math.ceil(box.w)),h=Math.min(canvas.height-y,Math.ceil(box.h));
+  if(w<=5||h<=5)return null;
+  const scale=4,out=document.createElement("canvas");
+  out.width=w*scale;out.height=h*scale;
+  const ctx=out.getContext("2d",{alpha:false});
+  ctx.fillStyle="#fff";ctx.fillRect(0,0,out.width,out.height);
+  ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";
+  ctx.filter=variant==="hard"?"grayscale(100%) contrast(220%)":"grayscale(100%) contrast(145%)";
+  ctx.drawImage(canvas,x,y,w,h,0,0,out.width,out.height);
+  ctx.filter="none";
+  if(variant==="hard"){
+    const img=ctx.getImageData(0,0,out.width,out.height),p=img.data;
+    for(let i=0;i<p.length;i+=4){
+      const g=p[i];const v=g<170?0:255;p[i]=p[i+1]=p[i+2]=v;
+    }
+    ctx.putImageData(img,0,0);
+  }
+  return out;
+}
+async function cropAndOcr(apiKey,canvas,box,mode,variant="soft"){
+  const out=buildRetryCanvas(canvas,box,variant);if(!out)return null;
+  const json=await requestVision(apiKey,out.toDataURL("image/jpeg",0.98).split(",")[1]);
+  state.retryCount++;
+  const full=json?.responses?.[0]?.fullTextAnnotation||{},words=extractWords(full),raw=full.text||"";
+  if(mode==="temp"){
+    let cand=words.map(q=>({q,n:parseTemperatureWord(q.text)})).filter(x=>x.n!==null)
+      .sort((a,b)=>(b.q.confidence||0)-(a.q.confidence||0));
+    return cand[0]?{value:cand[0].n,confidence:cand[0].q.confidence,raw,variant}:null;
+  }
+  if(mode==="status"){
+    let cand=words.map(q=>({q,s:classifyStatus(q.text)})).filter(x=>x.s)
+      .sort((a,b)=>(b.q.confidence||0)-(a.q.confidence||0));
+    return cand[0]?{value:cand[0].s,confidence:cand[0].q.confidence,raw,variant}:null;
+  }
+  return null;
+}
+function temperatureLooksSuspicious(v){
+  return v!==null&&(v<10||v>2500);
+}
+async function retryTempCell(apiKey,d,W,H,usedRef){
+  if(!d?.rowY||usedRef.used>=MAX_RETRY_CELLS)return;
+  const need=d.temperature===null||temperatureLooksSuspicious(d.temperature)||(d.tempConfidence!=null&&d.tempConfidence<80);
+  if(!need)return;
+  const box={x:W*0.505,y:d.rowY-H*0.010,w:W*0.052,h:H*0.022};
+  let best=await cropAndOcr(apiKey,state.patrolCanvas,box,"temp","soft");usedRef.used++;
+  if((!best||temperatureLooksSuspicious(best.value))&&usedRef.used<MAX_RETRY_CELLS){
+    const hard=await cropAndOcr(apiKey,state.patrolCanvas,box,"temp","hard");usedRef.used++;
+    if(hard&&(!best||(temperatureLooksSuspicious(best.value)&&!temperatureLooksSuspicious(hard.value))||(hard.confidence||0)>(best.confidence||0)))best=hard;
+  }
+  if(best&&!temperatureLooksSuspicious(best.value)){
+    if(d.temperature===null||temperatureLooksSuspicious(d.temperature)||(best.confidence||0)>=(d.tempConfidence||0)){
+      d.temperature=best.value;d.tempConfidence=best.confidence;d.tempRetryRaw=best.raw;d.tempRetryVariant=best.variant;
+    }
+  }else if(temperatureLooksSuspicious(d.temperature)){
+    d.temperature=null;d.tempConfidence=null;d.tempRejected=true;
+  }
+}
+async function retryStatusCell(apiKey,d,W,H,usedRef){
+  if(!d?.rowY||usedRef.used>=MAX_RETRY_CELLS)return;
+  if(d.status!==null)return;
+  const box={x:W*0.795,y:d.rowY-H*0.010,w:W*0.038,h:H*0.024};
+  const r=await cropAndOcr(apiKey,state.patrolCanvas,box,"status","soft");usedRef.used++;
+  if(r){d.status=r.value;d.statusConfidence=r.confidence;d.statusRetryRaw=r.raw;d.statusRetryVariant=r.variant;}
 }
 async function retryWeakCells(apiKey){
-  if(!state.patrolCanvas)return;const W=state.patrol.image.width,H=state.patrol.image.height;let used=0;
-  for(const eq of REPORT_ORDER){if(eq==="TG1")continue;const d=state.patrolData[eq];if(!d?.rowY)continue;
-    if(used<MAX_RETRY_CELLS&&(d.temperature===null||(d.tempConfidence!=null&&d.tempConfidence<85))){const r=await cropAndOcr(apiKey,state.patrolCanvas,{x:W*0.47,y:d.rowY-H*0.018,w:W*0.13,h:H*0.036},"temp");used++;if(r&&((d.temperature===null)||(r.confidence||0)>(d.tempConfidence||0))){d.temperature=r.value;d.tempConfidence=r.confidence;d.tempRetryRaw=r.raw;}}
-    if(used<MAX_RETRY_CELLS&&(d.status===null||(d.statusConfidence!=null&&d.statusConfidence<70))){const r=await cropAndOcr(apiKey,state.patrolCanvas,{x:W*0.745,y:d.rowY-H*0.02,w:W*0.14,h:H*0.04},"status");used++;if(r&&((d.status===null)||(r.confidence||0)>(d.statusConfidence||0))){d.status=r.value;d.statusConfidence=r.confidence;d.statusRetryRaw=r.raw;}}
+  if(!state.patrolCanvas)return;
+  const W=state.patrol.image.width,H=state.patrol.image.height,usedRef={used:0};
+  for(const eq of REPORT_ORDER){
+    if(eq==="TG1")continue;
+    const d=state.patrolData[eq];
+    if(!d?.rowY)continue;
+    await retryTempCell(apiKey,d,W,H,usedRef);
+    if(usedRef.used>=MAX_RETRY_CELLS)break;
+    await retryStatusCell(apiKey,d,W,H,usedRef);
+    if(usedRef.used>=MAX_RETRY_CELLS)break;
   }
-  for(const key of ["inc1","inc3","oldDry"]){const d=state.special[key];if(!d?.rowY||used>=MAX_RETRY_CELLS)continue;if(d.value===null||(d.confidence!=null&&d.confidence<85)){const r=await cropAndOcr(apiKey,state.patrolCanvas,{x:W*0.47,y:d.rowY-H*0.018,w:W*0.13,h:H*0.036},"temp");used++;if(r&&((d.value===null)||(r.confidence||0)>(d.confidence||0))){d.value=r.value;d.confidence=r.confidence;d.retryRaw=r.raw;}}}
+  for(const key of ["inc1","inc3","oldDry"]){
+    const d=state.special[key];
+    if(!d?.rowY||usedRef.used>=MAX_RETRY_CELLS)continue;
+    const suspicious=d.value===null||d.value<10||d.value>999||(d.confidence!=null&&d.confidence<80);
+    if(!suspicious)continue;
+    const box={x:W*0.505,y:d.rowY-H*0.010,w:W*0.052,h:H*0.022};
+    let r=await cropAndOcr(apiKey,state.patrolCanvas,box,"temp","soft");usedRef.used++;
+    if((!r||r.value<10||r.value>999)&&usedRef.used<MAX_RETRY_CELLS){
+      const hard=await cropAndOcr(apiKey,state.patrolCanvas,box,"temp","hard");usedRef.used++;
+      if(hard&&(!r||((r.value<10||r.value>999)&&(hard.value>=10&&hard.value<=999))||(hard.confidence||0)>(r.confidence||0)))r=hard;
+    }
+    if(r&&r.value>=10&&r.value<=999){d.value=r.value;d.confidence=r.confidence;d.retryRaw=r.raw;d.retryVariant=r.variant;}
+    else if(d.value!==null&&(d.value<10||d.value>999)){d.value=null;d.confidence=null;d.rejected=true;}
+  }
 }
 
 function renderResults(){
@@ -233,7 +349,7 @@ function renderResults(){
 function renderEquipmentTable(){const tbody=$("equipmentBody");tbody.innerHTML="";rowRefs.clear();for(const eq of REPORT_ORDER){const num=state.equipmentNumbers[eq],pd=state.patrolData[eq]||{},tr=document.createElement("tr"),tdEq=document.createElement("td");tdEq.textContent=eq;const tdN=document.createElement("td"),numberInput=document.createElement("input");numberInput.className="miniInput numberInput";numberInput.value=num||"";numberInput.placeholder="#26-";tdN.appendChild(numberInput);const tdND=document.createElement("td");tdND.textContent=num?"검출":"미검출";tdND.className=num?"detected":"notDetected";const tdT=document.createElement("td"),tempInput=document.createElement("input");tempInput.className="miniInput tempInput";tempInput.type="number";tempInput.inputMode="numeric";tempInput.placeholder=eq==="TG1"?"수동":"℃";tempInput.value=pd.temperature??"";tdT.appendChild(tempInput);const tdS=document.createElement("td"),statusSelect=document.createElement("select");statusSelect.className="miniSelect";["","승온중","유지중","냉각중"].forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v||"선택";statusSelect.appendChild(o);});statusSelect.value=pd.status||"";tdS.appendChild(statusSelect);const tdQ=document.createElement("td");if(eq==="TG1"){tdQ.textContent="수동";tdQ.className="manual";}else if(pd.temperature!==null&&pd.status){tdQ.textContent="자동";tdQ.className="detected";}else{tdQ.textContent="확인";tdQ.className="review";}const tdR=document.createElement("td");tdR.textContent="제외";tdR.className="reportNo";[tdEq,tdN,tdND,tdT,tdS,tdQ,tdR].forEach(td=>tr.appendChild(td));tbody.appendChild(tr);rowRefs.set(eq,{numberInput,tempInput,statusSelect,qualityCell:tdQ,reportCell:tdR,source:pd});const handler=()=>{updateSingleRow(eq);updateReport();buildCombinedJson();};numberInput.addEventListener("input",handler);tempInput.addEventListener("input",handler);statusSelect.addEventListener("change",handler);updateSingleRow(eq);}}
 function renderSpecial(){const map=[["incinerator1","inc1","inc1Hint"],["incinerator3","inc3","inc3Hint"],["oldDryChamber","oldDry","dryHint"]];for(const [id,key,hid] of map){const d=state.special[key];$(id).value=d?.value??"";$(hid).textContent=d?`OCR ${d.confidence??"-"}%${d.retryRaw?" · 재OCR":""}`:"미검출";}}
 function calculateAutoFillRate(){let total=0,filled=0;for(const eq of REPORT_ORDER){if(eq==="TG1")continue;total+=3;if(state.equipmentNumbers[eq])filled++;const p=state.patrolData[eq];if(p?.temperature!==null)filled++;if(p?.status)filled++;}return total?Math.round(filled/total*100):0;}
-function updateSingleRow(eq){const r=rowRefs.get(eq);if(!r)return;const t=cleanTemperature(r.tempInput.value),s=r.statusSelect.value,inc=shouldIncludeEquipment(t,s);r.reportCell.textContent=inc?"포함":"제외";r.reportCell.className=inc?"reportYes":"reportNo";}
+function updateSingleRow(eq){const r=rowRefs.get(eq);if(!r)return;const n=normalizeReportNumber(r.numberInput.value),t=cleanTemperature(r.tempInput.value),s=r.statusSelect.value,inc=!!n&&shouldIncludeEquipment(t,s);r.reportCell.textContent=inc?"포함":"제외";r.reportCell.className=inc?"reportYes":"reportNo";}
 function shouldIncludeEquipment(t,s){if(t===null||!s)return false;if(t>=100)return true;if(t>=10&&t<100&&s==="승온중")return true;return false;}
 
 ["workShift","workerRank","workerName","incinerator1","incinerator3","oldDryChamber","equipmentNote","patrolResult","outsideResult","lpgResult","nightWorkers"].forEach(id=>{["input","change"].forEach(ev=>$(id).addEventListener(ev,()=>{updateReport();buildCombinedJson();}));});
@@ -243,7 +359,7 @@ function updateReport(){if($("reportSection").style.display==="none")return;cons
 function normalizeReportNumber(v){const raw=String(v||"").trim().replace(/[‐-‒–—−]/g,"-").replace(/\s+/g,"");if(!raw)return"";if(raw.startsWith("#"))return raw;if(/^26-?\d{1,3}$/.test(raw))return"#26-"+raw.replace(/^26-?/,"");return raw;}
 function cleanTemperature(v){if(v===""||v==null)return null;const n=Number(v);return Number.isFinite(n)?n:null;}
 
-function buildCombinedJson(){const equipment={};rowRefs.forEach((r,name)=>{const t=cleanTemperature(r.tempInput.value),s=r.statusSelect.value;equipment[name]={ocrDetectedNumber:state.equipmentNumbers[name]||null,number:r.numberInput.value.trim()||null,temperature:t,status:s||null,tempConfidence:r.source?.tempConfidence??null,statusConfidence:r.source?.statusConfidence??null,manual:name==="TG1",includedInReport:shouldIncludeEquipment(t,s)};});state.combinedJson={version:VERSION,createdAt:new Date().toISOString(),parsed:{date:state.parsedDate,weekday:state.parsedDate?getWeekdayKo(state.parsedDate):null,workShift:$("workShift").value,workerNameCandidate:state.workerNameCandidate||null,workerName:$("workerName").value.trim()||null,workerRank:$("workerRank").value.trim()||null,autoFillRate:calculateAutoFillRate(),retryCount:state.retryCount,equipment,specialTemperature:{incinerator1:cleanTemperature($("incinerator1").value),incinerator3:cleanTemperature($("incinerator3").value),oldDryChamber:cleanTemperature($("oldDryChamber").value)},generatedReport:$("reportText").value||""},shiftWorkLog:state.shift?{image:state.shift.image,fullText:state.shift.fullText,wordCount:state.shift.wordCount,words:state.shift.words,rawVision:state.shift.rawVision}:null,patrolLog:state.patrol?{image:state.patrol.image,fullText:state.patrol.fullText,wordCount:state.patrol.wordCount,words:state.patrol.words,parsedRows:state.patrolData,special:state.special,rawVision:state.patrol.rawVision}:null};}
+function buildCombinedJson(){const equipment={};rowRefs.forEach((r,name)=>{const t=cleanTemperature(r.tempInput.value),s=r.statusSelect.value;equipment[name]={ocrDetectedNumber:state.equipmentNumbers[name]||null,number:r.numberInput.value.trim()||null,temperature:t,status:s||null,tempConfidence:r.source?.tempConfidence??null,statusConfidence:r.source?.statusConfidence??null,manual:name==="TG1",includedInReport:!!normalizeReportNumber(r.numberInput.value)&&shouldIncludeEquipment(t,s)};});state.combinedJson={version:VERSION,createdAt:new Date().toISOString(),parsed:{date:state.parsedDate,weekday:state.parsedDate?getWeekdayKo(state.parsedDate):null,workShift:$("workShift").value,workerNameCandidate:state.workerNameCandidate||null,workerName:$("workerName").value.trim()||null,workerRank:$("workerRank").value.trim()||null,autoFillRate:calculateAutoFillRate(),retryCount:state.retryCount,equipment,specialTemperature:{incinerator1:cleanTemperature($("incinerator1").value),incinerator3:cleanTemperature($("incinerator3").value),oldDryChamber:cleanTemperature($("oldDryChamber").value)},generatedReport:$("reportText").value||""},shiftWorkLog:state.shift?{image:state.shift.image,fullText:state.shift.fullText,wordCount:state.shift.wordCount,words:state.shift.words,rawVision:state.shift.rawVision}:null,patrolLog:state.patrol?{image:state.patrol.image,fullText:state.patrol.fullText,wordCount:state.patrol.wordCount,words:state.patrol.words,parsedRows:state.patrolData,special:state.special,rawVision:state.patrol.rawVision}:null};}
 
 $("downloadJsonTxtBtn").addEventListener("click",()=>{buildCombinedJson();if(!state.combinedJson)return showError("먼저 OCR 분석을 해주세요.");const ds=state.parsedDate?`${state.parsedDate.year}${pad2(state.parsedDate.month)}${pad2(state.parsedDate.day)}`:"UNKNOWN";downloadTextFile(`DACC_OCR_V3_${ds}.txt`,JSON.stringify(state.combinedJson,null,2));});
 $("copyJsonBtn").addEventListener("click",async()=>{buildCombinedJson();if(!state.combinedJson)return showError("먼저 OCR 분석을 해주세요.");await copyText(JSON.stringify(state.combinedJson,null,2));showSuccess("JSON 전체를 복사했습니다.");});
