@@ -127,7 +127,7 @@
 </main>
 
 <script>
-const VERSION="DACC OCR TEST V7.6.0";
+const VERSION="DACC OCR TEST V7.6.1";
 const MAX_IMAGE_SIDE=2800;
 const JPEG_QUALITY=0.94;
 const MAX_RETRY_CELLS=24;
@@ -1435,29 +1435,32 @@ async function retrySpecialTemperature(apiKey,d,W,H,usedRef){
 
   const ranked=groupNumericCandidates(candidates);
   const winner=ranked[0]||null;
-  const strongSingle=winner?.count===1&&(winner.best.confidence||0)>=94;
+  const allRetryAgree=!!winner&&ranked.length===1;
+  const winnerConfidence=winner?.best?.confidence||0;
+  const retryConsensus=winner?.count||0;
+  const strongConsensus=allRetryAgree&&retryConsensus>=2&&winnerConfidence>=70;
+  const strongSingle=allRetryAgree&&retryConsensus===1&&winnerConfidence>=94;
 
-  if(winner&&(winner.count>=2||(original===null&&strongSingle))){
+  // V7.6.1: 특수온도는 서로 다른 OCR 결과가 충돌하면 다수결로 억지 확정하지 않는다.
+  // 예) whole=1160, plain=916, lineclean=96, soft=916 -> '온도확인'.
+  // 같은 행 재OCR이 하나의 값으로 수렴할 때만 자동 확정한다.
+  if(winner&&(strongConsensus||(original===null&&strongSingle))){
     d.value=winner.value;
     d.confidence=winner.best.confidence;
     d.retryVariant=winner.best.source;
     d.retryConsensus=winner.count;
     d.tempReview=false;
+    d.reviewReason=null;
     return;
   }
 
-  if(original!==null&&(original<10||original>999)){
+  if(suspicious){
     d.value=null;
     d.confidence=null;
     d.rejected=true;
     d.tempReview=true;
-    d.reviewReason="특수온도 재OCR 불일치";
+    d.reviewReason=ranked.length>1?"특수온도 OCR 결과 충돌":"특수온도 OCR 미확정";
     return;
-  }
-
-  if(original===null){
-    d.tempReview=candidates.length>0||retryRawHasNumericSignal(d.retryRaw);
-    if(d.tempReview)d.reviewReason="특수온도 OCR 미확정";
   }
 }
 
@@ -1518,8 +1521,23 @@ function renderResults(){
 function renderEquipmentTable(){const tbody=$("equipmentBody");tbody.innerHTML="";rowRefs.clear();for(const eq of REPORT_ORDER){const num=state.equipmentNumbers[eq],pd=state.patrolData[eq]||{},tr=document.createElement("tr"),tdEq=document.createElement("td");tdEq.textContent=eq;const tdN=document.createElement("td"),numberInput=document.createElement("input");numberInput.className="miniInput numberInput";numberInput.value=num||"";numberInput.placeholder="#26-";tdN.appendChild(numberInput);const tdND=document.createElement("td");tdND.textContent=num?"검출":"미검출";tdND.className=num?"detected":"notDetected";const tdT=document.createElement("td"),tempInput=document.createElement("input");tempInput.className="miniInput tempInput";tempInput.type="number";tempInput.inputMode="numeric";tempInput.placeholder=eq==="TG1"?"수동":(pd.tempReview?"온도확인":"℃");tempInput.value=pd.temperature??"";tdT.appendChild(tempInput);const tdS=document.createElement("td"),statusSelect=document.createElement("select");statusSelect.className="miniSelect";["","승온중","유지중","냉각중"].forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v||"선택";statusSelect.appendChild(o);});statusSelect.value=pd.status||"";tdS.appendChild(statusSelect);const tdQ=document.createElement("td");if(eq==="TG1"){tdQ.textContent="수동";tdQ.className="manual";}else if(pd.tempReview||pd.statusReview){tdQ.textContent="확인필요";tdQ.className="review";}else if(pd.temperature!==null&&pd.status){tdQ.textContent="자동";tdQ.className="detected";}else{tdQ.textContent="확인";tdQ.className="review";}const tdR=document.createElement("td");tdR.textContent="제외";tdR.className="reportNo";[tdEq,tdN,tdND,tdT,tdS,tdQ,tdR].forEach(td=>tr.appendChild(td));tbody.appendChild(tr);rowRefs.set(eq,{numberInput,tempInput,statusSelect,qualityCell:tdQ,reportCell:tdR,source:pd});const handler=()=>{updateSingleRow(eq);updateReport();buildCombinedJson();};numberInput.addEventListener("input",handler);tempInput.addEventListener("input",handler);statusSelect.addEventListener("change",handler);updateSingleRow(eq);}}
 function renderSpecial(){const map=[["incinerator1","inc1","inc1Hint"],["incinerator3","inc3","inc3Hint"],["oldDryChamber","oldDry","dryHint"]];for(const [id,key,hid] of map){const d=state.special[key];$(id).value=d?.value??"";if(!d){$(hid).textContent="미검출";continue;}$(hid).textContent=d.tempReview?"확인필요":`OCR ${d.confidence??"-"}%${d.retryRaw?" · 재OCR":""}`;}}
 function calculateAutoFillRate(){let total=0,filled=0;for(const eq of REPORT_ORDER){if(eq==="TG1")continue;total+=3;if(state.equipmentNumbers[eq])filled++;const p=state.patrolData[eq];if(p?.temperature!==null)filled++;if(p?.status)filled++;}return total?Math.round(filled/total*100):0;}
-function updateSingleRow(eq){const r=rowRefs.get(eq);if(!r)return;const n=normalizeReportNumber(r.numberInput.value),t=cleanTemperature(r.tempInput.value),s=r.statusSelect.value,src=r.source||{};const normal=!!n&&shouldIncludeEquipment(t,s);const review=!!n&&eq!=="TG1"&&((t===null&&src.tempReview)||(t!==null&&t>=10&&!s&&src.statusReview));r.reportCell.textContent=normal?"포함":review?"확인필요":"제외";r.reportCell.className=normal?"reportYes":review?"review":"reportNo";}
-function shouldIncludeEquipment(t,s){if(t===null||!s)return false;if(t>=100)return true;if(t>=10&&t<100&&s==="승온중")return true;return false;}
+function updateSingleRow(eq){
+  const r=rowRefs.get(eq);if(!r)return;
+  const n=normalizeReportNumber(r.numberInput.value),t=cleanTemperature(r.tempInput.value),s=r.statusSelect.value,src=r.source||{};
+  const normal=!!n&&shouldIncludeEquipment(t,s);
+  // 온도 자체를 못 읽은 경우는 확인 대상으로 남긴다.
+  // 단, 100도 이하로 읽힌 장비는 '승온중'이 아니면 상태 미확정이어도 보고에서 제외한다.
+  const review=!!n&&eq!=="TG1"&&((t===null&&src.tempReview)||(t!==null&&t>100&&!s&&src.statusReview));
+  r.reportCell.textContent=normal?"포함":review?"확인필요":"제외";
+  r.reportCell.className=normal?"reportYes":review?"review":"reportNo";
+}
+function shouldIncludeEquipment(t,s){
+  if(t===null||!s)return false;
+  // V7.6.1: 100도 이하는 '승온중'이 확실한 경우에만 보고한다.
+  if(t>100)return true;
+  if(t>=10&&t<=100&&s==="승온중")return true;
+  return false;
+}
 
 ["workShift","workerRank","workerName","incinerator1","incinerator3","oldDryChamber","equipmentNote","patrolResult","outsideResult","lpgResult","nightWorkers"].forEach(id=>{["input","change"].forEach(ev=>$(id).addEventListener(ev,()=>{updateReport();buildCombinedJson();}));});
 function updateReport(){
@@ -1548,7 +1566,8 @@ function updateReport(){
     }
 
     // 온도는 읽혔지만 상태 손글씨가 끝내 확정되지 않은 경우.
-    if(eq!=="TG1"&&t!==null&&t>=10&&!s&&src.statusReview){
+    // V7.6.1: 100도 이하는 승온중이 확실하지 않으면 보고서에서 제외한다.
+    if(eq!=="TG1"&&t!==null&&t>100&&!s&&src.statusReview){
       lines.push(`${n} ${eq} ${t}도 / 확인필요`);
     }
   }
