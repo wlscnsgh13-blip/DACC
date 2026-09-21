@@ -14,7 +14,7 @@
   <header class="header">
     <div class="brand">DACC OCR TEST V7.6</div>
     <h1>Google Vision OCR</h1>
-    <div class="subtitle">êµëìë¬´ì¼ì§ â ì¥ë¹ ê°ëë²í¸<br>ìì°°ì¼ì§ â ì¨ë Â· ì¹ì¨/ì ì§/ëê° ì ë° ìëíë<br>V7.6: V7.5 ëì  ë§¤í ì ì§ Â· ì¤ëµ ìµì  Â· íì  ì ê±° ì¬OCR Â· ì ë§¤í ìê¸ì¨ë íì¸íì</div>
+    <div class="subtitle">교대업무일지 → 장비 가동번호<br>순찰일지 → 온도 · 승온/유지/냉각 정밀 자동판독<br>V7.6: V7.5 동적 매핑 유지 · 오답 억제 · 표선 제거 재OCR · 애매한 손글씨는 확인필요</div>
   </header>
 
   <section class="card">
@@ -22,118 +22,118 @@
     <label class="label" for="apiKey">API KEY</label>
     <div class="row">
       <input id="apiKey" class="input grow" type="password" placeholder="Google Vision API Key" autocomplete="off" />
-      <button id="saveApiKeyBtn" class="btn btnPrimary">ì ì¥</button>
+      <button id="saveApiKeyBtn" class="btn btnPrimary">저장</button>
     </div>
-    <button id="deleteApiKeyBtn" class="btn btnDanger btnFull" style="margin-top:8px;">ì ì¥ë API KEY ì­ì </button>
-    <div class="hint">API KEYë GitHub ì½ëê° ìëë¼ ì´ ê¸°ê¸°ì localStorageìë§ ì ì¥ë©ëë¤.</div>
+    <button id="deleteApiKeyBtn" class="btn btnDanger btnFull" style="margin-top:8px;">저장된 API KEY 삭제</button>
+    <div class="hint">API KEY는 GitHub 코드가 아니라 이 기기의 localStorage에만 저장됩니다.</div>
   </section>
 
   <section class="card">
-    <div class="cardTitle">1. êµëìë¬´ì¼ì§</div>
-    <div class="hint">ë ì§ì ì¥ë¹ë³ 26-XX ê°ëë²í¸ë¥¼ ì½ìµëë¤. ê°ì íì ë²í¸ ì ìì ìë ê°ë§ ì¸ì í©ëë¤.</div>
+    <div class="cardTitle">1. 교대업무일지</div>
+    <div class="hint">날짜와 장비별 26-XX 가동번호를 읽습니다. 같은 행의 번호 셀 안에 있는 값만 인정합니다.</div>
     <div class="uploadBox">
       <div class="sourceButtons">
-        <label class="sourceBtn sourceBtnPrimary" for="shiftCamera">ì¬ì§ ì´¬ì</label>
-        <label class="sourceBtn" for="shiftFile">ì¬ì§ ì í</label>
+        <label class="sourceBtn sourceBtnPrimary" for="shiftCamera">사진 촬영</label>
+        <label class="sourceBtn" for="shiftFile">사진 선택</label>
       </div>
       <input id="shiftCamera" class="hiddenFile" type="file" accept="image/*" capture="environment" />
       <input id="shiftFile" class="hiddenFile" type="file" accept="image/jpeg,image/png,image/heic,image/heif,image/webp" />
-      <div id="shiftFileName" class="selectedFileName">ì íë ì¬ì§ ìì</div>
-      <img id="shiftPreview" class="preview" alt="êµëìë¬´ì¼ì§ ë¯¸ë¦¬ë³´ê¸°" />
+      <div id="shiftFileName" class="selectedFileName">선택된 사진 없음</div>
+      <img id="shiftPreview" class="preview" alt="교대업무일지 미리보기" />
     </div>
   </section>
 
   <section class="card">
-    <div class="cardTitle">2. ìì°°ì¼ì§</div>
-    <div class="hint">ê³ ì  íì ê¸°ì¤ì¼ë¡ ì¨ëì ì¹ì¨/ì ì§/ëê°ì ìëíëí©ëë¤. ì ë§¤í ìì ìëì¼ë¡ íë ì¬OCRí©ëë¤.</div>
+    <div class="cardTitle">2. 순찰일지</div>
+    <div class="hint">고정 행을 기준으로 온도와 승온/유지/냉각을 자동판독합니다. 애매한 셀은 자동으로 확대 재OCR합니다.</div>
     <div class="uploadBox">
       <div class="sourceButtons">
-        <label class="sourceBtn sourceBtnPrimary" for="patrolCamera">ì¬ì§ ì´¬ì</label>
-        <label class="sourceBtn" for="patrolFile">ì¬ì§ ì í</label>
+        <label class="sourceBtn sourceBtnPrimary" for="patrolCamera">사진 촬영</label>
+        <label class="sourceBtn" for="patrolFile">사진 선택</label>
       </div>
       <input id="patrolCamera" class="hiddenFile" type="file" accept="image/*" capture="environment" />
       <input id="patrolFile" class="hiddenFile" type="file" accept="image/jpeg,image/png,image/heic,image/heif,image/webp" />
-      <div id="patrolFileName" class="selectedFileName">ì íë ì¬ì§ ìì</div>
-      <img id="patrolPreview" class="preview" alt="ìì°°ì¼ì§ ë¯¸ë¦¬ë³´ê¸°" />
+      <div id="patrolFileName" class="selectedFileName">선택된 사진 없음</div>
+      <img id="patrolPreview" class="preview" alt="순찰일지 미리보기" />
     </div>
   </section>
 
   <section class="card">
-    <div class="cardTitle">ê°ë° íì¤í¸</div>
-    <div class="hint">ì¬ì§ ë ì¥ì ì´ iPhoneì ì ì¥ë©ëë¤. ì´íìë ë¤ì ê³ ë¥¼ íì ìì´ íìë§ ì¬ë¶ìíê±°ë, ê°ì ì¬ì§ì¼ë¡ ì ì²´ OCRë§ ë¤ì ì¤íí  ì ììµëë¤.</div>
-    <button id="analyzeBtn" class="btn btnPrimary btnFull" style="min-height:54px;font-size:16px;margin-top:12px;">ì ì²´ OCR ì¤í / ë¤ì ì¤í</button>
-    <button id="reparseBtn" class="btn btnFull" style="margin-top:8px;" disabled>íìë§ ë¤ì ë¶ì</button>
-    <button id="replacePhotosBtn" class="btn btnDanger btnFull" style="margin-top:8px;">íì¤í¸ ì¬ì§ êµì²´</button>
-    <div id="cacheStatus" class="cacheStatus">ì ì¥ë íì¤í¸ ë°ì´í° íì¸ ì¤...</div>
+    <div class="cardTitle">개발 테스트</div>
+    <div class="hint">사진 두 장은 이 iPhone에 저장됩니다. 이후에는 다시 고를 필요 없이 파서만 재분석하거나, 같은 사진으로 전체 OCR만 다시 실행할 수 있습니다.</div>
+    <button id="analyzeBtn" class="btn btnPrimary btnFull" style="min-height:54px;font-size:16px;margin-top:12px;">전체 OCR 실행 / 다시 실행</button>
+    <button id="reparseBtn" class="btn btnFull" style="margin-top:8px;" disabled>파서만 다시 분석</button>
+    <button id="replacePhotosBtn" class="btn btnDanger btnFull" style="margin-top:8px;">테스트 사진 교체</button>
+    <div id="cacheStatus" class="cacheStatus">저장된 테스트 데이터 확인 중...</div>
   </section>
   <div id="progress" class="progress"></div>
   <div id="errorBox" class="error"></div>
   <div id="successBox" class="success"></div>
 
   <section id="resultSection" class="card" style="display:none;">
-    <div class="cardTitle">OCR ë¶ì ê²°ê³¼</div>
+    <div class="cardTitle">OCR 분석 결과</div>
     <div class="stats">
-      <div class="stat"><div id="dateStat" class="statValue">-</div><div class="statLabel">ë ì§</div></div>
-      <div class="stat"><div id="equipmentStat" class="statValue">0</div><div class="statLabel">ë²í¸ ê²ì¶</div></div>
-      <div class="stat"><div id="autoStat" class="statValue">0%</div><div class="statLabel">ìëê²ì¶ë¥ </div></div>
-      <div class="stat"><div id="retryStat" class="statValue">0</div><div class="statLabel">ì¬OCR</div></div>
+      <div class="stat"><div id="dateStat" class="statValue">-</div><div class="statLabel">날짜</div></div>
+      <div class="stat"><div id="equipmentStat" class="statValue">0</div><div class="statLabel">번호 검출</div></div>
+      <div class="stat"><div id="autoStat" class="statValue">0%</div><div class="statLabel">자동검출률</div></div>
+      <div class="stat"><div id="retryStat" class="statValue">0</div><div class="statLabel">재OCR</div></div>
     </div>
     <div class="sectionDivider"></div>
     <div class="grid2">
-      <div><label class="label">ê·¼ë¬´êµ¬ë¶</label><select id="workShift" class="select"><option value="ì£¼ê°">ì£¼ê°</option><option value="ì¼ê°">ì¼ê°</option></select></div>
-      <div><label class="label">ì§ê¸</label><input id="workerRank" class="input" value="ì¬ì" /></div>
+      <div><label class="label">근무구분</label><select id="workShift" class="select"><option value="주간">주간</option><option value="야간">야간</option></select></div>
+      <div><label class="label">직급</label><input id="workerRank" class="input" value="사원" /></div>
     </div>
-    <div style="margin-top:10px;"><label class="label">ê·¼ë¬´ì ì´ë¦</label><input id="workerName" class="input" placeholder="OCR í ìì  ê°ë¥" /></div>
+    <div style="margin-top:10px;"><label class="label">근무자 이름</label><input id="workerName" class="input" placeholder="OCR 후 수정 가능" /></div>
     <div id="nameHint" class="hint"></div>
   </section>
 
   <section id="equipmentSection" class="card" style="display:none;">
-    <div class="cardTitle">ì¥ë¹ ë°ì´í°</div>
-    <div class="hint" style="margin-bottom:12px;">ì¥ë¹ë²í¸ Â· ì¨ë Â· ìíë¥¼ ìëìë ¥í©ëë¤. TG1ë§ ì¨ë/ìí ìëìëë¤.<br>100ë ì´ì â ì¹ì¨/ì ì§/ëê° ë³´ê³ <br>10~99ë â ì¹ì¨ì¤ë§ ë³´ê³ <br>10ë ë¯¸ë§ â ì ì¸<br><b>ìëê²ì¶ë¥ ì ì íëê° ìëë¼ ê°ì´ ì±ìì§ ë¹ì¨ìëë¤.</b></div>
-    <div class="tableWrap"><table><thead><tr><th>ì¥ë¹</th><th>ê°ëë²í¸</th><th>ë²í¸</th><th>ì¨ë</th><th>ìí</th><th>íë</th><th>ë³´ê³ </th></tr></thead><tbody id="equipmentBody"></tbody></table></div>
+    <div class="cardTitle">장비 데이터</div>
+    <div class="hint" style="margin-bottom:12px;">장비번호 · 온도 · 상태를 자동입력합니다. TG1만 온도/상태 수동입니다.<br>100도 이상 → 승온/유지/냉각 보고<br>10~99도 → 승온중만 보고<br>10도 미만 → 제외<br><b>자동검출률은 정확도가 아니라 값이 채워진 비율입니다.</b></div>
+    <div class="tableWrap"><table><thead><tr><th>장비</th><th>가동번호</th><th>번호</th><th>온도</th><th>상태</th><th>판독</th><th>보고</th></tr></thead><tbody id="equipmentBody"></tbody></table></div>
   </section>
 
   <section id="specialSection" class="card" style="display:none;">
-    <div class="cardTitle">ì¶ê° ì¨ë</div>
+    <div class="cardTitle">추가 온도</div>
     <div class="grid3">
-      <div><label class="label">TGìê°ê¸° 1ë</label><input id="incinerator1" class="input" type="number" inputmode="numeric" placeholder="ìë/ìì " /><div id="inc1Hint" class="small"></div></div>
-      <div><label class="label">TGìê°ê¸° 3ë</label><input id="incinerator3" class="input" type="number" inputmode="numeric" placeholder="ìë/ìì " /><div id="inc3Hint" class="small"></div></div>
-      <div><label class="label">êµ¬í ëë¼ì´ì±ë²</label><input id="oldDryChamber" class="input" type="number" inputmode="numeric" placeholder="ìë/ìì " /><div id="dryHint" class="small"></div></div>
+      <div><label class="label">TG소각기 1동</label><input id="incinerator1" class="input" type="number" inputmode="numeric" placeholder="자동/수정" /><div id="inc1Hint" class="small"></div></div>
+      <div><label class="label">TG소각기 3동</label><input id="incinerator3" class="input" type="number" inputmode="numeric" placeholder="자동/수정" /><div id="inc3Hint" class="small"></div></div>
+      <div><label class="label">구형 드라이챔버</label><input id="oldDryChamber" class="input" type="number" inputmode="numeric" placeholder="자동/수정" /><div id="dryHint" class="small"></div></div>
     </div>
   </section>
 
   <section id="extraSection" class="card" style="display:none;">
-    <div class="cardTitle">ë¬¸ìë³´ê³  ì¶ê°ë´ì©</div>
-    <label class="label">ì¥ë¹í¹ì´ì¬í­</label><textarea id="equipmentNote" class="textarea" style="min-height:80px;" placeholder="ìì¼ë©´ ë¹ìëê¸°"></textarea>
-    <div style="margin-top:10px;"><label class="label">ìì°°ì ì ê²ê²°ê³¼</label><input id="patrolResult" class="input" value="ì´ììì" /></div>
-    <div style="margin-top:10px;"><label class="label">ì¸ê³½ìì°° í¹ì´ì¬í­</label><input id="outsideResult" class="input" value="ìì" /></div>
-    <div style="margin-top:10px;"><label class="label">LPGê¸°íê¸°</label><input id="lpgResult" class="input" value="ì´ììì" /></div>
-    <div style="margin-top:10px;"><label class="label">ê¸ì¼ ì¼ê°ê·¼ë¬´ì - ì í</label><textarea id="nightWorkers" class="textarea" style="min-height:80px;" placeholder="ì:&#10;ìê²½ì­ ëë¦¬&#10;ì§ì¶í¸ ì¬ì"></textarea></div>
+    <div class="cardTitle">문자보고 추가내용</div>
+    <label class="label">장비특이사항</label><textarea id="equipmentNote" class="textarea" style="min-height:80px;" placeholder="없으면 비워두기"></textarea>
+    <div style="margin-top:10px;"><label class="label">순찰시 점검결과</label><input id="patrolResult" class="input" value="이상없음" /></div>
+    <div style="margin-top:10px;"><label class="label">외곽순찰 특이사항</label><input id="outsideResult" class="input" value="없음" /></div>
+    <div style="margin-top:10px;"><label class="label">LPG기화기</label><input id="lpgResult" class="input" value="이상없음" /></div>
+    <div style="margin-top:10px;"><label class="label">금일 야간근무자 - 선택</label><textarea id="nightWorkers" class="textarea" style="min-height:80px;" placeholder="예:&#10;안경섭 대리&#10;진춘호 사원"></textarea></div>
   </section>
 
   <section id="reportSection" class="card" style="display:none;">
-    <div class="cardTitle">ìë ë¬¸ìë³´ê³ </div>
+    <div class="cardTitle">자동 문자보고</div>
     <textarea id="reportText" class="textarea" style="min-height:500px;"></textarea>
-    <div class="downloadRow"><button id="copyReportBtn" class="btn btnGreen">ë¬¸ìë³´ê³  ë³µì¬</button><button id="downloadReportBtn" class="btn">ë¬¸ìë³´ê³  TXT ì ì¥</button></div>
+    <div class="downloadRow"><button id="copyReportBtn" class="btn btnGreen">문자보고 복사</button><button id="downloadReportBtn" class="btn">문자보고 TXT 저장</button></div>
   </section>
 
   <section id="debugSection" class="card" style="display:none;">
-    <div class="cardTitle">OCR ìë³¸ ë°ì´í°</div>
-    <div class="downloadRow"><button id="downloadJsonTxtBtn" class="btn btnPrimary">OCR JSON â TXT ë¤ì´ë¡ë</button><button id="copyJsonBtn" class="btn">JSON ì ì²´ ë³µì¬</button></div>
-    <div class="hint">ê²°ê³¼ê° ëë¬´ ê¸¸ë©´ TXT íì¼ ê·¸ëë¡ ChatGPTì ì¬ë¦¬ë©´ ë©ëë¤.</div>
-    <details><summary>êµëìë¬´ì¼ì§ OCR ìë¬¸</summary><textarea id="shiftRawText" class="textarea rawText" readonly></textarea></details>
-    <details><summary>ìì°°ì¼ì§ OCR ìë¬¸</summary><textarea id="patrolRawText" class="textarea rawText" readonly></textarea></details>
+    <div class="cardTitle">OCR 원본 데이터</div>
+    <div class="downloadRow"><button id="downloadJsonTxtBtn" class="btn btnPrimary">OCR JSON → TXT 다운로드</button><button id="copyJsonBtn" class="btn">JSON 전체 복사</button></div>
+    <div class="hint">결과가 너무 길면 TXT 파일 그대로 ChatGPT에 올리면 됩니다.</div>
+    <details><summary>교대업무일지 OCR 원문</summary><textarea id="shiftRawText" class="textarea rawText" readonly></textarea></details>
+    <details><summary>순찰일지 OCR 원문</summary><textarea id="patrolRawText" class="textarea rawText" readonly></textarea></details>
   </section>
 </main>
 
 <script>
-const VERSION="DACC OCR TEST V7.6.2R";
+const VERSION="DACC OCR TEST V7.6.2R2";
 const MAX_IMAGE_SIDE=2800;
 const JPEG_QUALITY=0.94;
 const MAX_RETRY_CELLS=24;
 
 const REPORT_ORDER=["CF1","CF2","CF3","CF4","CF5","CF6","GF1","GF3","GF4","GF5","SMI","TG2","TG3","TG4","TG5","TG6","TG7","TG1","HIP1","HIP2","HIP3"];
-const PATROL_ROW_ORDER=["TG2","TG3","TG4","TG5","TG6","TG7","GF1","GF3","GF4","GF5","SMI","CF1","CF2","CF3","CF4","CF5","CF6","CFë¶ìê¸°ë¡","ëë¼ì´ì±ë²","ì í´ííë¬¼ì§ëì¡ê°ì§ê¸°","ì¸ì ì§ì§ê¸°","ííì¥ë°±íí°","ìì°ëì£¼ëê°íí","ìì°ëì£¼ëê°ìíí","ì íëë¼ì´ì±ë²","ìê°ê¸°1ë","ìê°ê¸°3ë","HIP1","HIP2","HIP3","ì²ì¥ííê¸°ì ìíì¸","SIC-CVD","SIC-LINE","ìëì°¨ë¤ì´ëëª¨","í­ê³µê¸°ë¤ì´ëëª¨"];
+const PATROL_ROW_ORDER=["TG2","TG3","TG4","TG5","TG6","TG7","GF1","GF3","GF4","GF5","SMI","CF1","CF2","CF3","CF4","CF5","CF6","CF분위기로","드라이챔버","유해화학물질누액감지기","세정집진기","탈형장백필터","생산동주냉각탑휀","생산동주냉각수펌프","신형드라이챔버","소각기1동","소각기3동","HIP1","HIP2","HIP3","천장환풍기전원확인","SIC-CVD","SIC-LINE","자동차다이나모","항공기다이나모"];
 
 const state={shift:null,patrol:null,parsedDate:null,workerNameCandidate:"",equipmentNumbers:{},patrolData:{},special:{},patrolGeometry:null,combinedJson:null,retryCount:0,shiftCanvas:null,patrolCanvas:null};
 const rowRefs=new Map();
@@ -141,8 +141,8 @@ const $=id=>document.getElementById(id);
 const apiKeyInput=$("apiKey");
 apiKeyInput.value=localStorage.getItem("dacc_google_vision_api_key")||"";
 
-$("saveApiKeyBtn").addEventListener("click",()=>{const v=apiKeyInput.value.trim();if(!v)return showError("API KEYë¥¼ ìë ¥í´ì£¼ì¸ì.");localStorage.setItem("dacc_google_vision_api_key",v);showSuccess("API KEYë¥¼ íì¬ ê¸°ê¸°ì ì ì¥íìµëë¤.");});
-$("deleteApiKeyBtn").addEventListener("click",()=>{localStorage.removeItem("dacc_google_vision_api_key");apiKeyInput.value="";showSuccess("ì ì¥ë API KEYë¥¼ ì­ì íìµëë¤.");});
+$("saveApiKeyBtn").addEventListener("click",()=>{const v=apiKeyInput.value.trim();if(!v)return showError("API KEY를 입력해주세요.");localStorage.setItem("dacc_google_vision_api_key",v);showSuccess("API KEY를 현재 기기에 저장했습니다.");});
+$("deleteApiKeyBtn").addEventListener("click",()=>{localStorage.removeItem("dacc_google_vision_api_key");apiKeyInput.value="";showSuccess("저장된 API KEY를 삭제했습니다.");});
 
 let shiftPreviewUrl=null,patrolPreviewUrl=null;
 const selectedFiles={shift:null,patrol:null};
@@ -155,7 +155,7 @@ let cachedRawOcrReady=false;
 function openCacheDb(){
   return new Promise((resolve,reject)=>{
     if(!("indexedDB" in window)){
-      reject(new Error("IndexedDB ë¯¸ì§ì"));
+      reject(new Error("IndexedDB 미지원"));
       return;
     }
 
@@ -169,7 +169,7 @@ function openCacheDb(){
     };
 
     req.onsuccess=()=>resolve(req.result);
-    req.onerror=()=>reject(req.error||new Error("IndexedDB ì´ê¸° ì¤í¨"));
+    req.onerror=()=>reject(req.error||new Error("IndexedDB 열기 실패"));
   });
 }
 
@@ -259,15 +259,15 @@ function updateCacheStatus(cache=null){
 
   const photoText=
     shiftOK&&patrolOK
-      ? "ì¬ì§ 2ì¥ ì ì¥ë¨"
+      ? "사진 2장 저장됨"
       : shiftOK||patrolOK
-        ? "ì¬ì§ 1ì¥ë§ ì ì¥ë¨"
-        : "ì ì¥ë ì¬ì§ ìì";
+        ? "사진 1장만 저장됨"
+        : "저장된 사진 없음";
 
   const rawText=
     rawOK
-      ? "ìë³¸ OCR JSON ì ì¥ë¨ Â· íì ì¦ì ì¬ë¶ì ê°ë¥"
-      : "ìë³¸ OCR JSON ìì Â· ì ì²´ OCR 1í íì";
+      ? "원본 OCR JSON 저장됨 · 파서 즉시 재분석 가능"
+      : "원본 OCR JSON 없음 · 전체 OCR 1회 필요";
 
   $("cacheStatus").innerHTML=
     `<strong>${photoText}</strong><br>${rawText}`;
@@ -280,7 +280,7 @@ async function saveSelectedPhotoToCache(type,file){
   else cache.patrolFile=file;
 
   /*
-    ì¬ì§ì´ ë°ëë©´ ê¸°ì¡´ ìë³¸ OCRì ë ì´ì ê°ì ìë ¥ì´ ìëë¯ë¡ íê¸°.
+    사진이 바뀌면 기존 원본 OCR은 더 이상 같은 입력이 아니므로 폐기.
   */
   cache.shiftVision=null;
   cache.patrolVision=null;
@@ -350,7 +350,7 @@ function applySelectedImage(file,imgId,type,fileNameId,persist=true){
 
   if(!file){
     $(imgId).style.display="none";
-    $(fileNameId).textContent="ì íë ì¬ì§ ìì";
+    $(fileNameId).textContent="선택된 사진 없음";
     return;
   }
 
@@ -361,11 +361,11 @@ function applySelectedImage(file,imgId,type,fileNameId,persist=true){
 
   $(imgId).src=url;
   $(imgId).style.display="block";
-  $(fileNameId).textContent=file.name||"ì´¬ìí ì¬ì§";
+  $(fileNameId).textContent=file.name||"촬영한 사진";
 
   if(persist){
     saveSelectedPhotoToCache(type,file).catch(error=>{
-      console.warn("ì¬ì§ ìºì ì ì¥ ì¤í¨",error);
+      console.warn("사진 캐시 저장 실패",error);
     });
   }
 }
@@ -384,13 +384,13 @@ bindImageSource("patrolFile","patrolPreview","patrol","patrolFileName");
 
 async function parseCurrentOcr(apiKey,{allowRetry=true}={}){
   if(!state.shift||!state.patrol){
-    throw new Error("ìë³¸ OCR ë°ì´í°ê° ììµëë¤.");
+    throw new Error("원본 OCR 데이터가 없습니다.");
   }
 
   state.retryCount=0;
   state.parsedDate=parseDate(state.shift.fullText);
 
-  setProgress("ëì  í/ì´ êµ¬ì¡° ë§¤í ì¤...");
+  setProgress("동적 행/열 구조 매핑 중...");
 
   state.equipmentNumbers=detectEquipmentNumbersByCells(
     state.shift.words,
@@ -398,7 +398,7 @@ async function parseCurrentOcr(apiKey,{allowRetry=true}={}){
     state.shift.image.height
   );
 
-  // V7.5: ìµì¢ UIìì ê·¼ë¬´ì ì´ë¦ì ìë ìë ¥. OCR ëììì ì ì¸.
+  // V7.5: 최종 UI에서 근무자 이름은 수동 입력. OCR 대상에서 제외.
   state.workerNameCandidate="";
 
   state.patrolData=detectPatrolData(
@@ -414,16 +414,16 @@ async function parseCurrentOcr(apiKey,{allowRetry=true}={}){
   );
 
   /*
-    íìë§ ì¬ë¶ìí  ëë Google APIë¥¼ í¸ì¶íì§ ìëë¤.
-    ì´ë¯¸ì§ ì ì²ë¦¬/ì ì¬OCR ë¡ì§ê¹ì§ íì¸íê³  ì¶ì ëë
-    "ì ì²´ OCR ë¤ì ì¤í"ì ì¬ì©íë¤.
+    파서만 재분석할 때는 Google API를 호출하지 않는다.
+    이미지 전처리/셀 재OCR 로직까지 확인하고 싶을 때는
+    "전체 OCR 다시 실행"을 사용한다.
   */
   if(allowRetry){
     if(!apiKey){
-      throw new Error("ì¬OCRì ìí´ Google Vision API KEYê° íìí©ëë¤.");
+      throw new Error("재OCR을 위해 Google Vision API KEY가 필요합니다.");
     }
 
-    setProgress("ì ë§¤í ì ì¬OCR ì¤...");
+    setProgress("애매한 셀 재OCR 중...");
     await retryWeakCells(apiKey);
   }
 
@@ -432,7 +432,7 @@ async function parseCurrentOcr(apiKey,{allowRetry=true}={}){
   setProgress("");
 
   showSuccess(
-    `${allowRetry?"ì ì²´ OCR ìë£":"íì ì¬ë¶ì ìë£"} Â· ì¬OCR ${state.retryCount}í Â· ìëê²ì¶ë¥  ${calculateAutoFillRate()}%`
+    `${allowRetry?"전체 OCR 완료":"파서 재분석 완료"} · 재OCR ${state.retryCount}회 · 자동검출률 ${calculateAutoFillRate()}%`
   );
 }
 
@@ -443,15 +443,15 @@ $("analyzeBtn").addEventListener("click",async()=>{
   const shiftFile=selectedFiles.shift;
   const patrolFile=selectedFiles.patrol;
 
-  if(!apiKey)return showError("Google Vision API KEYê° ììµëë¤.");
-  if(!shiftFile)return showError("êµëìë¬´ì¼ì§ ì¬ì§ì ì íí´ì£¼ì¸ì.");
-  if(!patrolFile)return showError("ìì°°ì¼ì§ ì¬ì§ì ì íí´ì£¼ì¸ì.");
+  if(!apiKey)return showError("Google Vision API KEY가 없습니다.");
+  if(!shiftFile)return showError("교대업무일지 사진을 선택해주세요.");
+  if(!patrolFile)return showError("순찰일지 사진을 선택해주세요.");
 
   $("analyzeBtn").disabled=true;
   $("reparseBtn").disabled=true;
 
   try{
-    setProgress("ì ì¥ë íì¤í¸ ì¬ì§ ì¤ë¹ ì¤...");
+    setProgress("저장된 테스트 사진 준비 중...");
 
     const [shiftImage,patrolImage]=await Promise.all([
       prepareImage(shiftFile),
@@ -461,7 +461,7 @@ $("analyzeBtn").addEventListener("click",async()=>{
     state.shiftCanvas=shiftImage.canvas;
     state.patrolCanvas=patrolImage.canvas;
 
-    setProgress("Google Vision ì ì²´ OCR ë¶ì ì¤...");
+    setProgress("Google Vision 전체 OCR 분석 중...");
 
     const [shiftVision,patrolVision]=await Promise.all([
       requestVision(apiKey,shiftImage.base64),
@@ -472,9 +472,9 @@ $("analyzeBtn").addEventListener("click",async()=>{
     state.patrol=buildOcrResult(patrolVision,patrolImage);
 
     /*
-      ì ì²´ ì´ë¯¸ì§ OCR ê²°ê³¼ë¥¼ ì ì¥.
-      ë¤ì ë²ì /ìë¡ê³ ì¹¨ììë ì¬ì§ ì¬ì í ìì´
-      ì´ JSONì¼ë¡ íìë§ ë°ë¡ ì¬ì¤í ê°ë¥.
+      전체 이미지 OCR 결과를 저장.
+      다음 버전/새로고침에서는 사진 재선택 없이
+      이 JSON으로 파서만 바로 재실행 가능.
     */
     await saveRawOcrCache(
       shiftFile,
@@ -489,7 +489,7 @@ $("analyzeBtn").addEventListener("click",async()=>{
   }catch(error){
     console.error(error);
     setProgress("");
-    showError(error?.message||"OCR ë¶ì ì¤ ì¤ë¥ê° ë°ìíìµëë¤.");
+    showError(error?.message||"OCR 분석 중 오류가 발생했습니다.");
   }finally{
     $("analyzeBtn").disabled=false;
     updateCacheStatus(await cacheGet());
@@ -511,10 +511,10 @@ $("reparseBtn").addEventListener("click",async()=>{
       !cache?.shiftImageMeta||
       !cache?.patrolImageMeta
     ){
-      throw new Error("ì ì¥ë ìë³¸ OCR JSONì´ ììµëë¤. ì ì²´ OCRì ë¨¼ì  ì¤íí´ì£¼ì¸ì.");
+      throw new Error("저장된 원본 OCR JSON이 없습니다. 전체 OCR을 먼저 실행해주세요.");
     }
 
-    setProgress("ì ì¥ë ìë³¸ OCR JSON ë¶ë¬ì¤ë ì¤...");
+    setProgress("저장된 원본 OCR JSON 불러오는 중...");
 
     state.shift=buildOcrResult(
       cache.shiftVision,
@@ -527,14 +527,14 @@ $("reparseBtn").addEventListener("click",async()=>{
     );
 
     /*
-      íì ì¬ë¶ìì API í¸ì¶ 0í.
-      ìµì  íì±/ë§¤í ë¡ì§ë§ ì¦ì ê²ì¦íë¤.
+      파서 재분석은 API 호출 0회.
+      최신 파싱/매핑 로직만 즉시 검증한다.
     */
     await parseCurrentOcr("",{allowRetry:false});
   }catch(error){
     console.error(error);
     setProgress("");
-    showError(error?.message||"íì ì¬ë¶ì ì¤ ì¤ë¥ê° ë°ìíìµëë¤.");
+    showError(error?.message||"파서 재분석 중 오류가 발생했습니다.");
   }finally{
     $("analyzeBtn").disabled=false;
     updateCacheStatus(await cacheGet());
@@ -570,8 +570,8 @@ $("replacePhotosBtn").addEventListener("click",async()=>{
   $("patrolPreview").removeAttribute("src");
   $("patrolPreview").style.display="none";
 
-  $("shiftFileName").textContent="ì íë ì¬ì§ ìì";
-  $("patrolFileName").textContent="ì íë ì¬ì§ ìì";
+  $("shiftFileName").textContent="선택된 사진 없음";
+  $("patrolFileName").textContent="선택된 사진 없음";
 
   state.shift=null;
   state.patrol=null;
@@ -587,11 +587,11 @@ $("replacePhotosBtn").addEventListener("click",async()=>{
   $("debugSection").style.display="none";
 
   updateCacheStatus();
-  showSuccess("ì ì¥ë íì¤í¸ ì¬ì§ê³¼ OCR ìºìë¥¼ ì­ì íìµëë¤. ì ì¬ì§ì ì íí´ì£¼ì¸ì.");
+  showSuccess("저장된 테스트 사진과 OCR 캐시를 삭제했습니다. 새 사진을 선택해주세요.");
 });
 
 restoreTestCache().catch(error=>{
-  console.warn("íì¤í¸ ìºì ë³µì ì¤í¨",error);
+  console.warn("테스트 캐시 복원 실패",error);
   updateCacheStatus();
 });
 
@@ -600,19 +600,19 @@ async function prepareImage(file){
   const canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;const ctx=canvas.getContext("2d",{alpha:false});ctx.fillStyle="#fff";ctx.fillRect(0,0,w,h);ctx.drawImage(loaded.source,0,0,w,h);loaded.cleanup?.();
   return{width:w,height:h,base64:canvas.toDataURL("image/jpeg",JPEG_QUALITY).split(",")[1],canvas};
 }
-async function loadImageSource(file){try{if("createImageBitmap"in window){const b=await createImageBitmap(file);return{source:b,width:b.width,height:b.height,cleanup(){b.close?.();}};}}catch(e){console.warn(e);}return await new Promise((resolve,reject)=>{const url=URL.createObjectURL(file),img=new Image();img.onload=()=>resolve({source:img,width:img.naturalWidth,height:img.naturalHeight,cleanup(){URL.revokeObjectURL(url);}});img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("ì´ë¯¸ì§ë¥¼ ë¶ë¬ì¤ì§ ëª»íìµëë¤."));};img.src=url;});}
+async function loadImageSource(file){try{if("createImageBitmap"in window){const b=await createImageBitmap(file);return{source:b,width:b.width,height:b.height,cleanup(){b.close?.();}};}}catch(e){console.warn(e);}return await new Promise((resolve,reject)=>{const url=URL.createObjectURL(file),img=new Image();img.onload=()=>resolve({source:img,width:img.naturalWidth,height:img.naturalHeight,cleanup(){URL.revokeObjectURL(url);}});img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("이미지를 불러오지 못했습니다."));};img.src=url;});}
 
 async function requestVision(apiKey,imageBase64){
   const res=await fetch("https://vision.googleapis.com/v1/images:annotate?key="+encodeURIComponent(apiKey),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({requests:[{image:{content:imageBase64},features:[{type:"DOCUMENT_TEXT_DETECTION",maxResults:1}],imageContext:{languageHints:["ko","en"]}}]})});
-  const json=await res.json();if(!res.ok)throw new Error(json?.error?.message||"Google Vision API ìì²­ ì¤í¨");if(json?.responses?.[0]?.error)throw new Error(json.responses[0].error.message||"Vision OCR ì¤ë¥");return json;
+  const json=await res.json();if(!res.ok)throw new Error(json?.error?.message||"Google Vision API 요청 실패");if(json?.responses?.[0]?.error)throw new Error(json.responses[0].error.message||"Vision OCR 오류");return json;
 }
 function buildOcrResult(visionJson,image){const response=visionJson?.responses?.[0]||{},full=response.fullTextAnnotation||{},words=extractWords(full);return{image:{width:image.width,height:image.height},fullText:full.text||"",wordCount:words.length,words,rawVision:visionJson};}
 function extractWords(full){const out=[];(full?.pages||[]).forEach((p,pi)=>(p.blocks||[]).forEach((b,bi)=>(b.paragraphs||[]).forEach((pa,pai)=>(pa.words||[]).forEach((w,wi)=>{const text=(w.symbols||[]).map(s=>s.text||"").join("");const vertices=(w.boundingBox?.vertices||[]).map(v=>({x:Number(v.x)||0,y:Number(v.y)||0}));while(vertices.length<4)vertices.push({x:0,y:0});const xs=vertices.map(v=>v.x),ys=vertices.map(v=>v.y),left=Math.min(...xs),top=Math.min(...ys),right=Math.max(...xs),bottom=Math.max(...ys);out.push({seq:out.length,text,confidence:w.confidence!=null?Number((w.confidence*100).toFixed(1)):null,left,top,right,bottom,centerX:Math.round((left+right)/2),centerY:Math.round((top+bottom)/2),width:right-left,height:bottom-top,vertices,page:pi,block:bi,paragraph:pai,word:wi});}))));return out;}
 
 function parseDate(text){const m=String(text||"").replace(/\s+/g," ").match(/(20\d{2})\s*[.\-\/]\s*(\d{1,2})\s*[.\-\/]\s*(\d{1,2})/);if(!m)return null;const year=+m[1],month=+m[2],day=+m[3];return month>=1&&month<=12&&day>=1&&day<=31?{year,month,day}:null;}
-function getWeekdayKo(d){if(!d)return"";return["ì¼","ì","í","ì","ëª©","ê¸","í "][new Date(d.year,d.month-1,d.day).getDay()];}
-function normalizeEquip(t){return String(t||"").toUpperCase().replace(/[\s_\-ââ]/g,"").replace(/í¸ê¸°$/," ").replace(/\s/g,"").replace(/^\d+/,"");}
-function normalizeNumber(t){return String(t||"").replace(/[â-ââââ]/g,"-").replace(/\s+/g,"").replace(/^#/,"");}
+function getWeekdayKo(d){if(!d)return"";return["일","월","화","수","목","금","토"][new Date(d.year,d.month-1,d.day).getDay()];}
+function normalizeEquip(t){return String(t||"").toUpperCase().replace(/[\s_\-–—]/g,"").replace(/호기$/," ").replace(/\s/g,"").replace(/^\d+/,"");}
+function normalizeNumber(t){return String(t||"").replace(/[‐-‒–—−]/g,"-").replace(/\s+/g,"").replace(/^#/,"");}
 function extractOperationNumber(t){const m=normalizeNumber(t).match(/^26-?(\d{1,3})$/);return m?"#26-"+String(Number(m[1])):null;}
 function nearestWord(words,matchFn,targetX,targetY,maxDx,maxDy){let best=null;for(const w of words){if(!matchFn(w))continue;const dx=Math.abs(w.centerX-targetX),dy=Math.abs(w.centerY-targetY);if(dx>maxDx||dy>maxDy)continue;const score=dy*2+dx;if(!best||score<best.score)best={word:w,score};}return best?.word||null;}
 
@@ -654,7 +654,7 @@ function lineX(line,y,fallback){
 function strictTemperatureToken(text){
   const raw=String(text||"").trim();
   if(!raw)return null;
-  if(/[A-Za-zê°-í£]/.test(raw))return null;
+  if(/[A-Za-z가-힣]/.test(raw))return null;
   return parseTemperatureWord(raw);
 }
 
@@ -678,13 +678,13 @@ function detectEquipmentNumbersByCells(words,W,H){
 
     const anchor=anchors.sort((a,b)=>a.centerY-b.centerY)[0];
 
-    // ì½ê¸°ììì ì¥ë¹ëª ë°ë¡ ìì 26-xxë¥¼ ìµì°ì .
+    // 읽기순서상 장비명 바로 앞의 26-xx를 최우선.
     const seqNear=candidates
       .filter(n=>n.seq<anchor.seq&&anchor.seq-n.seq<=5)
       .map(n=>({n,score:(anchor.seq-n.seq)*16+Math.abs(n.centerY-anchor.centerY)}))
       .sort((a,b)=>a.score-b.score);
 
-    // íì /ì´ë ëì: ê°ëë²í¸ ì´ ìì²´ë¥¼ OCR ê²°ê³¼ë¡ ëì  ì¶ì .
+    // 회전/이동 대응: 가동번호 열 자체를 OCR 결과로 동적 추정.
     const dynamicX=lineX(numberLine,anchor.centerY,W*0.24);
     const geoNear=candidates
       .filter(n=>Math.abs(n.centerY-anchor.centerY)<=rowHalf)
@@ -721,9 +721,9 @@ function parseTemperatureWord(text){
 function classifyStatus(text){
   const s=String(text||"").replace(/\s+/g,"").replace(/[.,/\\|()[\]{}:;'"`]/g,"");
   if(!s)return null;
-  if(s.startsWith("ë"))return"ëê°ì¤";
-  if(s.startsWith("ì ì§"))return"ì ì§ì¤";
-  if(s.startsWith("ì¹")||s.startsWith("ì­"))return"ì¹ì¨ì¤";
+  if(s.startsWith("냉"))return"냉각중";
+  if(s.startsWith("유지"))return"유지중";
+  if(s.startsWith("승")||s.startsWith("숭"))return"승온중";
   return null;
 }
 
@@ -733,7 +733,7 @@ function classifyStatusRetry(text){
   const s=String(text||"")
     .replace(/\s+/g,"")
     .replace(/[.,/\\|()[\]{}:;'"`_-]/g,"");
-  if(/^(ì¤ì¤|ì¤ì¨|ì¤ì|ì¤ì°|ì­ì¤|ì¹ì¤|ì¹ì|ì¹ì°)$/.test(s))return"ì¹ì¨ì¤";
+  if(/^(스오|스온|스은|스우|숭오|승오|승은|승우)$/.test(s))return"승온중";
   return null;
 }
 
@@ -816,14 +816,14 @@ function refineColumnLine(initialLine,candidates,W){
 function buildTemperatureSequence(words,W,H,anchors){
   const {rows,ys,step}=interpolateAnchorYs(anchors,H);
   const firstY=ys[0],lastY=ys[ys.length-1];
-  const tempHeader=findPatrolHeader(words,"ì¨ë",firstY);
+  const tempHeader=findPatrolHeader(words,"온도",firstY);
   const equipPoints=rows
     .map(eq=>anchors[eq])
     .filter(Boolean)
     .map(w=>({x:w.centerX,y:w.centerY}));
   const equipLine=fitLineXFromY(equipPoints)||{a:W*0.20,b:0};
 
-  // ê°ì ë¬¸ììì ì¥ë¹ëª ì´ì ê¸°ì¸ê¸°ë¥¼ ì¨ëì´ ì´ê¸° ê¸°ì¸ê¸°ë¡ ì¬ì©.
+  // 같은 문서에서 장비명 열의 기울기를 온도열 초기 기울기로 사용.
   const headerX=tempHeader?.centerX??W*0.525;
   const headerY=tempHeader?.centerY??(firstY-step);
   let tempLine={a:headerX-equipLine.b*headerY,b:equipLine.b};
@@ -843,7 +843,7 @@ function buildTemperatureSequence(words,W,H,anchors){
   const mapped=Array(rows.length).fill(null);
 
   if(candidates.length){
-    // ì¨ëì´ìì í¤ë ìë ì²« ì«ìë¥¼ TG2 íì ììì ì¼ë¡ ì¬ì©.
+    // 온도열에서 헤더 아래 첫 숫자를 TG2 행의 시작점으로 사용.
     let ci=0;
     while(ci<candidates.length&&candidates[ci].w.centerY<firstY-step*1.7)ci++;
 
@@ -858,7 +858,7 @@ function buildTemperatureSequence(words,W,H,anchors){
         const dy=cand.w.centerY-prevY;
         const nextGap=Math.max(1,ys[ri+1]-ys[ri]);
 
-        // ê°ì íì O2/ì¡ìì²ë¼ ê°ê²©ì´ ì§ëì¹ê² ì§§ì ì«ìë ë²ë¦°ë¤.
+        // 같은 행의 O2/잡음처럼 간격이 지나치게 짧은 숫자는 버린다.
         if(dy<nextGap*0.45){ci++;continue;}
 
         let bestK=1,bestErr=Infinity;
@@ -878,8 +878,8 @@ function buildTemperatureSequence(words,W,H,anchors){
     }
   }
 
-  // ìì ë§¤í ë¤ìë ì¤ì  ì«ì í í°ì ê°ì¥ ê°ê¹ì´ ë¬¼ë¦¬ íì ë¤ì ê·ìíë¤.
-  // ë° íì ëì´ê° ì«ìë ë²ë ¤ì CF6ê° ëë¼ì´ì±ë² 120ì ë¨¹ë ìì ì¸ì í ì°¨ì©ì ì°¨ë¨íë¤.
+  // 순서 매핑 뒤에도 실제 숫자 토큰을 가장 가까운 물리 행에 다시 귀속한다.
+  // 반 행을 넘어간 숫자는 버려서 CF6가 드라이챔버 120을 먹는 식의 인접행 차용을 차단한다.
   const owned=Array(rows.length).fill(null);
   const ownedScore=Array(rows.length).fill(Infinity);
   for(const cand of candidates){
@@ -895,7 +895,7 @@ function buildTemperatureSequence(words,W,H,anchors){
   }
   for(let i=0;i<mapped.length;i++)mapped[i]=owned[i];
 
-  // ì¸ìì´ ë¹ì´ ìë íë ì¬OCRí  ì ìëë¡ íì¬ ì¬ì§ì íâì¨ëì Y ê´ê³ë¥¼ íìµíë¤.
+  // 인식이 비어 있는 행도 재OCR할 수 있도록 현재 사진의 행→온도셀 Y 관계를 학습한다.
   const yFitPoints=[];
   for(let i=0;i<rows.length;i++){
     if(mapped[i]&&Number.isFinite(ys[i]))yFitPoints.push({x:ys[i],y:mapped[i].w.centerY});
@@ -921,7 +921,7 @@ function buildStatusModel(words,W,H,tempSeq,anchors){
   const {rows,step,tempHeader,targets}=tempSeq;
   const firstY=tempSeq.ys[0];
   const headerCandidates=words
-    .filter(w=>(w.text==="ì¹ì¨"||w.text==="ëê°")&&w.centerY<firstY)
+    .filter(w=>(w.text==="승온"||w.text==="냉각")&&w.centerY<firstY)
     .filter(w=>!tempHeader||w.centerX>tempHeader.centerX+W*0.08)
     .sort((a,b)=>Math.abs((tempHeader?.centerY??a.centerY)-a.centerY)-Math.abs((tempHeader?.centerY??b.centerY)-b.centerY));
 
@@ -966,7 +966,7 @@ function buildStatusModel(words,W,H,tempSeq,anchors){
     }
   }
 
-  // ìíë ì½ê¸°ììë³´ë¤ ì¤ì  Yí ììì ì°ì íë¤.
+  // 상태도 읽기순서보다 실제 Y행 소속을 우선한다.
   const ownedStatus=Array(rows.length).fill(null);
   const ownedStatusScore=Array(rows.length).fill(Infinity);
   for(const q of statusWords){
@@ -985,7 +985,7 @@ function buildStatusModel(words,W,H,tempSeq,anchors){
     else if(prelim[i]&&!rowOwnsY(prelim[i].w.centerY,tempSeq.ys[i],step))prelim[i]=null;
   }
 
-  // ì¨ëì Y â ìíì Y ê´ê³ë ì¬ì§ë§ë¤ ë¤ì ê³ì°íë¤.
+  // 온도셀 Y → 상태셀 Y 관계도 사진마다 다시 계산한다.
   const statusYPoints=[];
   for(let i=0;i<rows.length;i++){
     if(prelim[i]&&targets[i])statusYPoints.push({x:targets[i].y,y:prelim[i].w.centerY});
@@ -1094,9 +1094,9 @@ function resolveSpecialRow(words,key,rowIndex,rowNo,W){
 
   let textCandidates=[];
   if(key==="oldDry"){
-    textCandidates=words.filter(w=>/ëë¼ì´/.test(w.text)&&!/ì í/.test(w.text));
+    textCandidates=words.filter(w=>/드라이/.test(w.text)&&!/신형/.test(w.text));
   }else{
-    textCandidates=words.filter(w=>/ìê°ê¸°/.test(w.text));
+    textCandidates=words.filter(w=>/소각기/.test(w.text));
   }
   textCandidates=textCandidates
     .filter(w=>expectedY==null||Math.abs(w.centerY-expectedY)<=Math.max(32,step*2.0))
@@ -1119,7 +1119,7 @@ function detectSpecialTemperatures(words,W,H){
   const tempSeq=geom?.tempSeq;
   if(!tempSeq)return{oldDry:null,inc1:null,inc3:null};
 
-  // ìì°°ì¼ì§ì ê³ ì  í ìì(1-based): êµ¬íëë¼ì´ 19, ìê°ê¸°1ë 26, ìê°ê¸°3ë 27.
+  // 순찰일지의 고정 행 순서(1-based): 구형드라이 19, 소각기1동 26, 소각기3동 27.
   const specialRows={
     oldDry:resolveSpecialRow(words,"oldDry",18,19,W),
     inc1:resolveSpecialRow(words,"inc1",25,26,W),
@@ -1142,7 +1142,7 @@ function detectSpecialTemperatures(words,W,H){
     const yTol=Math.max(9,tempSeq.step*0.38);
     const xTol=W*0.034;
 
-    // V7.6: ë°ëì í´ë¹ íì ì¨ë ì ì ì«ìë§ íì©. ì¸ì  í ê° ì°¨ì© ê¸ì§.
+    // V7.6: 반드시 해당 행의 온도 셀 안 숫자만 허용. 인접 행 값 차용 금지.
     const candidates=words
       .map(w=>({w,n:strictTemperatureToken(w.text)}))
       .filter(q=>q.n!==null)
@@ -1352,7 +1352,7 @@ async function retryTempCell(apiKey,d,W,H,usedRef){
   const original=d.temperature;
   const originalSuspicious=temperatureLooksSuspicious(original);
   const weakConfidence=d.tempConfidence!=null&&d.tempConfidence<86;
-  const lowRise=d.status==="ì¹ì¨ì¤"&&original!==null&&original>=10&&original<100;
+  const lowRise=d.status==="승온중"&&original!==null&&original>=10&&original<100;
   const need=original===null||originalSuspicious||weakConfidence||lowRise;
   if(!need)return;
 
@@ -1368,7 +1368,7 @@ async function retryTempCell(apiKey,d,W,H,usedRef){
     {name:"dynamic/soft",box:dynBox,variant:"soft"}
   ];
 
-  // V7.4 ì±ê³µ fallbackë ìê¸° í ë´ë¶ììë§ íì©íë¤.
+  // V7.4 성공 fallback도 자기 행 내부에서만 허용한다.
   if(Number.isFinite(d.rowY))attempts.push({
     name:"legacy/soft",
     box:boxInsideRow(W*0.531,d.rowY,W*0.052,H*0.022,rowTop,rowBottom),
@@ -1410,18 +1410,18 @@ async function retryTempCell(apiKey,d,W,H,usedRef){
     d.tempConfidence=null;
     d.tempRejected=true;
     d.tempReview=true;
-    d.reviewReason="ë¹ì ì ì¨ëê° ì¬OCR ë¶ì¼ì¹";
+    d.reviewReason="비정상 온도값 재OCR 불일치";
     return;
   }
 
   if(original===null){
-    // ì§ì§ ë¹ì¹¸ì ìµì§ë¡ 'íì¸íì' ì²ë¦¬íì§ ìëë¤. ê¸ì/ì«ì íì  ëë ìíê° ìì ëë§ íì¸ ëìì¼ë¡ ì§ì .
+    // 진짜 빈칸은 억지로 '확인필요' 처리하지 않는다. 글자/숫자 흔적 또는 상태가 있을 때만 확인 대상으로 지정.
     d.tempReview=!!d.status||candidates.length>0||retryRawHasNumericSignal(d.tempRetryRaw);
-    if(d.tempReview)d.reviewReason="ì¨ë OCR ë¯¸íì ";
+    if(d.tempReview)d.reviewReason="온도 OCR 미확정";
     return;
   }
 
-  // ê¸°ì¡´ ê°ì´ ì ì ë²ìë¼ë©´ ì¬OCRì´ í©ìíì§ ëª»í´ë ê¸°ì¡´ ê°ì ì ì§íë¤.
+  // 기존 값이 정상 범위라면 재OCR이 합의하지 못해도 기존 값은 유지한다.
   d.tempReview=false;
 }
 
@@ -1440,7 +1440,7 @@ async function retryStatusCell(apiKey,d,W,H,usedRef){
     {name:"dynamic/plain",box:statusBox,variant:"plain"},
     {name:"dynamic/lineclean",box:statusBox,variant:"lineclean"},
     {name:"dynamic/soft",box:statusBox,variant:"soft"},
-    // V7.4/V7.3ìì TG3ì 'ì¤ì¤'ë¥¼ ì´ë ¸ë ì¤ì  ì±ê³µ fallback.
+    // V7.4/V7.3에서 TG3의 '스오'를 살렸던 실제 성공 fallback.
     {name:"legacy/broad/plain",box:{x:W*0.780,y:top+1,w:W*0.068,h:Math.max(22,bottom-top-2)},variant:"plain",legacy:true},
     {name:"legacy/interior/plain",box:{x:W*0.792,y:top+3,w:W*0.066,h:Math.max(20,bottom-top-6)},variant:"plain",legacy:true}
   ];
@@ -1471,7 +1471,7 @@ async function retryStatusCell(apiKey,d,W,H,usedRef){
       .map(([value,list])=>({value,count:list.length,best:list.slice().sort((a,b)=>(b.confidence||0)-(a.confidence||0))[0]}))
       .sort((a,b)=>b.count-a.count||(b.best.confidence||0)-(a.best.confidence||0));
     const win=ranked[0];
-    // ìí ë¶ë¥ë ì¹ì¨/ì ì§/ëê° 3ì¢ì¼ë¡ ì íëì´ ìì´ 1íë¼ë ëªíí ë¶ë¥ëë©´ ì±í.
+    // 상태 분류는 승온/유지/냉각 3종으로 제한되어 있어 1회라도 명확히 분류되면 채택.
     d.status=win.value;
     d.statusConfidence=win.best.confidence;
     d.statusRetryVariant=win.best.source;
@@ -1481,7 +1481,7 @@ async function retryStatusCell(apiKey,d,W,H,usedRef){
   }
 
   d.statusReview=(d.temperature!==null&&d.temperature>=10)||!!d.tempReview||retryRawHasPayload(d.statusRetryRaw);
-  if(d.statusReview&&!d.reviewReason)d.reviewReason="ìí OCR ë¯¸íì ";
+  if(d.statusReview&&!d.reviewReason)d.reviewReason="상태 OCR 미확정";
 }
 
 async function retrySpecialTemperature(apiKey,d,W,H,usedRef){
@@ -1494,7 +1494,7 @@ async function retrySpecialTemperature(apiKey,d,W,H,usedRef){
   const cy=Number.isFinite(d.targetY)?d.targetY:(d.rowY||H*0.5);
   const rh=Math.max(24,d.rowHeight||state.patrolGeometry?.tempSeq?.step||H*0.02);
 
-  // ìê¸° í¹ìí ë°ì¼ë¡ cropì´ ë´ë ¤ê°ì§ ëª»íê² ë¬¼ë¦¬ í ê²½ê³ì ì ê·¼ë¤.
+  // 자기 특수행 밖으로 crop이 내려가지 못하게 물리 행 경계에 잠근다.
   const rowY=Number.isFinite(d.rowY)?d.rowY:cy;
   const top=rowY-rh*0.49,bottom=rowY+rh*0.49;
   const box=boxInsideRow(cx,clampTargetY(cy,rowY,rh),W*0.064,rh*0.76,top,bottom);
@@ -1521,9 +1521,9 @@ async function retrySpecialTemperature(apiKey,d,W,H,usedRef){
   const strongConsensus=allRetryAgree&&retryConsensus>=2&&winnerConfidence>=70;
   const strongSingle=allRetryAgree&&retryConsensus===1&&winnerConfidence>=94;
 
-  // V7.6.1: í¹ìì¨ëë ìë¡ ë¤ë¥¸ OCR ê²°ê³¼ê° ì¶©ëíë©´ ë¤ìê²°ë¡ ìµì§ íì íì§ ìëë¤.
-  // ì) whole=1160, plain=916, lineclean=96, soft=916 -> 'ì¨ëíì¸'.
-  // ê°ì í ì¬OCRì´ íëì ê°ì¼ë¡ ìë ´í  ëë§ ìë íì íë¤.
+  // V7.6.1: 특수온도는 서로 다른 OCR 결과가 충돌하면 다수결로 억지 확정하지 않는다.
+  // 예) whole=1160, plain=916, lineclean=96, soft=916 -> '온도확인'.
+  // 같은 행 재OCR이 하나의 값으로 수렴할 때만 자동 확정한다.
   if(winner&&(strongConsensus||(original===null&&strongSingle))){
     d.value=winner.value;
     d.confidence=winner.best.confidence;
@@ -1539,7 +1539,7 @@ async function retrySpecialTemperature(apiKey,d,W,H,usedRef){
     d.confidence=null;
     d.rejected=true;
     d.tempReview=true;
-    d.reviewReason=ranked.length>1?"í¹ìì¨ë OCR ê²°ê³¼ ì¶©ë":"í¹ìì¨ë OCR ë¯¸íì ";
+    d.reviewReason=ranked.length>1?"특수온도 OCR 결과 충돌":"특수온도 OCR 미확정";
     return;
   }
 }
@@ -1551,44 +1551,44 @@ async function retryWeakCells(apiKey){
   const usedRef={used:0};
   const numbered=REPORT_ORDER.filter(eq=>eq!=="TG1"&&!!state.equipmentNumbers[eq]&&state.patrolData[eq]);
 
-  // 1) ì´ë¯¸ ì«ìê° ìì¼ë ë¹ì ì/ì ì ë¢°ì¸ ì¨ëë¶í° ì¬ê²ì¦.
+  // 1) 이미 숫자가 있으나 비정상/저신뢰인 온도부터 재검증.
   for(const eq of numbered){
     if(usedRef.used>=MAX_RETRY_CELLS)break;
     const d=state.patrolData[eq];
-    if(d.temperature!==null&&(temperatureLooksSuspicious(d.temperature)||(d.tempConfidence!=null&&d.tempConfidence<86)||(d.status==="ì¹ì¨ì¤"&&d.temperature>=10&&d.temperature<100))){
+    if(d.temperature!==null&&(temperatureLooksSuspicious(d.temperature)||(d.tempConfidence!=null&&d.tempConfidence<86)||(d.status==="승온중"&&d.temperature>=10&&d.temperature<100))){
       await retryTempCell(apiKey,d,W,H,usedRef);
     }
   }
 
-  // 2) ìíë ì½íëë° ì¨ëë§ ìë ê²½ì°: ì¤ì  ê°ëíì¼ ê°ë¥ì±ì´ ëì.
+  // 2) 상태는 읽혔는데 온도만 없는 경우: 실제 가동행일 가능성이 높음.
   for(const eq of numbered){
     if(usedRef.used>=MAX_RETRY_CELLS)break;
     const d=state.patrolData[eq];
     if(d.temperature===null&&d.status)await retryTempCell(apiKey,d,W,H,usedRef);
   }
 
-  // 3) ìê°ê¸°/êµ¬íëë¼ì´: ì¸ì  í ì°¨ì©ì ë§ì ê°ìí cropì¼ë¡ ì°ì  íì¸.
+  // 3) 소각기/구형드라이: 인접 행 차용을 막은 같은행 crop으로 우선 확인.
   for(const key of ["inc1","inc3","oldDry"]){
     if(usedRef.used>=MAX_RETRY_CELLS)break;
     const d=state.special[key];
     if(d)await retrySpecialTemperature(apiKey,d,W,H,usedRef);
   }
 
-  // 4) ë³´ê³  ê°ë¥ ì¨ëì¸ë° ìíê° ë¹ì´ìì¼ë©´ ìë³¸+íì ì ê±°+V7.4 fallback.
+  // 4) 보고 가능 온도인데 상태가 비어있으면 원본+표선제거+V7.4 fallback.
   for(const eq of numbered){
     if(usedRef.used>=MAX_RETRY_CELLS)break;
     const d=state.patrolData[eq];
     if(d.temperature!==null&&d.temperature>=10&&d.status===null)await retryStatusCell(apiKey,d,W,H,usedRef);
   }
 
-  // 5) ë¨ì ë¯¸ê²ì¶ ì¨ëë ìì°ì´ ë¨ì ëë§ íì¸. ë¹ì¹¸ì´ë©´ ìµì§ë¡ ì±ì°ì§ ìì.
+  // 5) 남은 미검출 온도는 예산이 남을 때만 확인. 빈칸이면 억지로 채우지 않음.
   for(const eq of numbered){
     if(usedRef.used>=MAX_RETRY_CELLS)break;
     const d=state.patrolData[eq];
     if(d.temperature===null&&!d.tempReview)await retryTempCell(apiKey,d,W,H,usedRef);
   }
 
-  // ìµì¢ íì¸ íëê·¸ ì ë¦¬.
+  // 최종 확인 플래그 정리.
   for(const eq of numbered){
     const d=state.patrolData[eq];
     if(d.temperature===null&&d.status)d.tempReview=true;
@@ -1597,25 +1597,25 @@ async function retryWeakCells(apiKey){
 }
 
 function renderResults(){
-  ["resultSection","equipmentSection","specialSection","extraSection","reportSection","debugSection"].forEach(id=>$(id).style.display="block");const d=state.parsedDate;$("dateStat").textContent=d?pad2(d.month)+"/"+pad2(d.day):"ë¯¸ê²ì¶";$("equipmentStat").textContent=Object.values(state.equipmentNumbers).filter(Boolean).length;$("autoStat").textContent=calculateAutoFillRate()+"%";$("retryStat").textContent=state.retryCount;$("nameHint").textContent="ê·¼ë¬´ì ì´ë¦ì ìë ìë ¥";$("shiftRawText").value=state.shift?.fullText||"";$("patrolRawText").value=state.patrol?.fullText||"";renderEquipmentTable();renderSpecial();updateReport();}
-function renderEquipmentTable(){const tbody=$("equipmentBody");tbody.innerHTML="";rowRefs.clear();for(const eq of REPORT_ORDER){const num=state.equipmentNumbers[eq],pd=state.patrolData[eq]||{},tr=document.createElement("tr"),tdEq=document.createElement("td");tdEq.textContent=eq;const tdN=document.createElement("td"),numberInput=document.createElement("input");numberInput.className="miniInput numberInput";numberInput.value=num||"";numberInput.placeholder="#26-";tdN.appendChild(numberInput);const tdND=document.createElement("td");tdND.textContent=num?"ê²ì¶":"ë¯¸ê²ì¶";tdND.className=num?"detected":"notDetected";const tdT=document.createElement("td"),tempInput=document.createElement("input");tempInput.className="miniInput tempInput";tempInput.type="number";tempInput.inputMode="numeric";tempInput.placeholder=eq==="TG1"?"ìë":(pd.tempReview?"ì¨ëíì¸":"â");tempInput.value=pd.temperature??"";tdT.appendChild(tempInput);const tdS=document.createElement("td"),statusSelect=document.createElement("select");statusSelect.className="miniSelect";["","ì¹ì¨ì¤","ì ì§ì¤","ëê°ì¤"].forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v||"ì í";statusSelect.appendChild(o);});statusSelect.value=pd.status||"";tdS.appendChild(statusSelect);const tdQ=document.createElement("td");if(eq==="TG1"){tdQ.textContent="ìë";tdQ.className="manual";}else if(pd.tempReview||pd.statusReview){tdQ.textContent="íì¸íì";tdQ.className="review";}else if(pd.temperature!==null&&pd.status){tdQ.textContent="ìë";tdQ.className="detected";}else{tdQ.textContent="íì¸";tdQ.className="review";}const tdR=document.createElement("td");tdR.textContent="ì ì¸";tdR.className="reportNo";[tdEq,tdN,tdND,tdT,tdS,tdQ,tdR].forEach(td=>tr.appendChild(td));tbody.appendChild(tr);rowRefs.set(eq,{numberInput,tempInput,statusSelect,qualityCell:tdQ,reportCell:tdR,source:pd});const handler=()=>{updateSingleRow(eq);updateReport();buildCombinedJson();};numberInput.addEventListener("input",handler);tempInput.addEventListener("input",handler);statusSelect.addEventListener("change",handler);updateSingleRow(eq);}}
-function renderSpecial(){const map=[["incinerator1","inc1","inc1Hint"],["incinerator3","inc3","inc3Hint"],["oldDryChamber","oldDry","dryHint"]];for(const [id,key,hid] of map){const d=state.special[key];$(id).value=d?.value??"";if(!d){$(hid).textContent="ë¯¸ê²ì¶";continue;}$(hid).textContent=d.tempReview?"íì¸íì":`OCR ${d.confidence??"-"}%${d.retryRaw?" Â· ì¬OCR":""}`;}}
+  ["resultSection","equipmentSection","specialSection","extraSection","reportSection","debugSection"].forEach(id=>$(id).style.display="block");const d=state.parsedDate;$("dateStat").textContent=d?pad2(d.month)+"/"+pad2(d.day):"미검출";$("equipmentStat").textContent=Object.values(state.equipmentNumbers).filter(Boolean).length;$("autoStat").textContent=calculateAutoFillRate()+"%";$("retryStat").textContent=state.retryCount;$("nameHint").textContent="근무자 이름은 수동 입력";$("shiftRawText").value=state.shift?.fullText||"";$("patrolRawText").value=state.patrol?.fullText||"";renderEquipmentTable();renderSpecial();updateReport();}
+function renderEquipmentTable(){const tbody=$("equipmentBody");tbody.innerHTML="";rowRefs.clear();for(const eq of REPORT_ORDER){const num=state.equipmentNumbers[eq],pd=state.patrolData[eq]||{},tr=document.createElement("tr"),tdEq=document.createElement("td");tdEq.textContent=eq;const tdN=document.createElement("td"),numberInput=document.createElement("input");numberInput.className="miniInput numberInput";numberInput.value=num||"";numberInput.placeholder="#26-";tdN.appendChild(numberInput);const tdND=document.createElement("td");tdND.textContent=num?"검출":"미검출";tdND.className=num?"detected":"notDetected";const tdT=document.createElement("td"),tempInput=document.createElement("input");tempInput.className="miniInput tempInput";tempInput.type="number";tempInput.inputMode="numeric";tempInput.placeholder=eq==="TG1"?"수동":(pd.tempReview?"온도확인":"℃");tempInput.value=pd.temperature??"";tdT.appendChild(tempInput);const tdS=document.createElement("td"),statusSelect=document.createElement("select");statusSelect.className="miniSelect";["","승온중","유지중","냉각중"].forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v||"선택";statusSelect.appendChild(o);});statusSelect.value=pd.status||"";tdS.appendChild(statusSelect);const tdQ=document.createElement("td");if(eq==="TG1"){tdQ.textContent="수동";tdQ.className="manual";}else if(pd.tempReview||pd.statusReview){tdQ.textContent="확인필요";tdQ.className="review";}else if(pd.temperature!==null&&pd.status){tdQ.textContent="자동";tdQ.className="detected";}else{tdQ.textContent="확인";tdQ.className="review";}const tdR=document.createElement("td");tdR.textContent="제외";tdR.className="reportNo";[tdEq,tdN,tdND,tdT,tdS,tdQ,tdR].forEach(td=>tr.appendChild(td));tbody.appendChild(tr);rowRefs.set(eq,{numberInput,tempInput,statusSelect,qualityCell:tdQ,reportCell:tdR,source:pd});const handler=()=>{updateSingleRow(eq);updateReport();buildCombinedJson();};numberInput.addEventListener("input",handler);tempInput.addEventListener("input",handler);statusSelect.addEventListener("change",handler);updateSingleRow(eq);}}
+function renderSpecial(){const map=[["incinerator1","inc1","inc1Hint"],["incinerator3","inc3","inc3Hint"],["oldDryChamber","oldDry","dryHint"]];for(const [id,key,hid] of map){const d=state.special[key];$(id).value=d?.value??"";if(!d){$(hid).textContent="미검출";continue;}$(hid).textContent=d.tempReview?"확인필요":`OCR ${d.confidence??"-"}%${d.retryRaw?" · 재OCR":""}`;}}
 function calculateAutoFillRate(){let total=0,filled=0;for(const eq of REPORT_ORDER){if(eq==="TG1")continue;total+=3;if(state.equipmentNumbers[eq])filled++;const p=state.patrolData[eq];if(p?.temperature!==null)filled++;if(p?.status)filled++;}return total?Math.round(filled/total*100):0;}
 function updateSingleRow(eq){
   const r=rowRefs.get(eq);if(!r)return;
   const n=normalizeReportNumber(r.numberInput.value),t=cleanTemperature(r.tempInput.value),s=r.statusSelect.value,src=r.source||{};
   const normal=!!n&&shouldIncludeEquipment(t,s);
-  // ì¨ë ìì²´ë¥¼ ëª» ì½ì ê²½ì°ë íì¸ ëìì¼ë¡ ë¨ê¸´ë¤.
-  // ë¨, 100ë ì´íë¡ ì½í ì¥ë¹ë 'ì¹ì¨ì¤'ì´ ìëë©´ ìí ë¯¸íì ì´ì´ë ë³´ê³ ìì ì ì¸íë¤.
+  // 온도 자체를 못 읽은 경우는 확인 대상으로 남긴다.
+  // 단, 100도 이하로 읽힌 장비는 '승온중'이 아니면 상태 미확정이어도 보고에서 제외한다.
   const review=!!n&&eq!=="TG1"&&((t===null&&src.tempReview)||(t!==null&&t>100&&!s&&src.statusReview));
-  r.reportCell.textContent=normal?"í¬í¨":review?"íì¸íì":"ì ì¸";
+  r.reportCell.textContent=normal?"포함":review?"확인필요":"제외";
   r.reportCell.className=normal?"reportYes":review?"review":"reportNo";
 }
 function shouldIncludeEquipment(t,s){
   if(t===null||!s)return false;
-  // V7.6.1: 100ë ì´íë 'ì¹ì¨ì¤'ì´ íì¤í ê²½ì°ìë§ ë³´ê³ íë¤.
+  // V7.6.1: 100도 이하는 '승온중'이 확실한 경우에만 보고한다.
   if(t>100)return true;
-  if(t>=10&&t<=100&&s==="ì¹ì¨ì¤")return true;
+  if(t>=10&&t<=100&&s==="승온중")return true;
   return false;
 }
 
@@ -1623,10 +1623,10 @@ function shouldIncludeEquipment(t,s){
 function updateReport(){
   if($("reportSection").style.display==="none")return;
   const lines=[],d=state.parsedDate;
-  if(d)lines.push(`${pad2(d.month)}ì ${pad2(d.day)}ì¼ (${getWeekdayKo(d)}) ${$("workShift").value}ê·¼ë¬´ì`);
-  else lines.push(`00ì 00ì¼ (ìì¼) ${$("workShift").value}ê·¼ë¬´ì`);
-  lines.push(`${$("workerName").value.trim()||"000"} ${$("workerRank").value.trim()||"ì¬ì"} ìëë¤.`);
-  lines.push("",`\"ì¥ë¹ê°ëíí©\"`);
+  if(d)lines.push(`${pad2(d.month)}월 ${pad2(d.day)}일 (${getWeekdayKo(d)}) ${$("workShift").value}근무자`);
+  else lines.push(`00월 00일 (요일) ${$("workShift").value}근무자`);
+  lines.push(`${$("workerName").value.trim()||"000"} ${$("workerRank").value.trim()||"사원"} 입니다.`);
+  lines.push("",`\"장비가동현황\"`);
 
   for(const eq of REPORT_ORDER){
     const r=rowRefs.get(eq);
@@ -1635,47 +1635,47 @@ function updateReport(){
     if(!n)continue;
 
     if(shouldIncludeEquipment(t,s)){
-      lines.push(`${n} ${eq} ${t}ë / ${s}`);
+      lines.push(`${n} ${eq} ${t}도 / ${s}`);
       continue;
     }
 
-    // V7.6: OCRì´ ì¨ëë¥¼ íì íì§ ëª»íì§ë§ í´ë¹ íì ì¤ì  OCR íì /ìíê° ìì¼ë©´ ì¥ë¹ë¥¼ ëë½íì§ ìê³  'ì¨ëíì¸'.
+    // V7.6: OCR이 온도를 확정하지 못했지만 해당 행에 실제 OCR 흔적/상태가 있으면 장비를 누락하지 않고 '온도확인'.
     if(eq!=="TG1"&&t===null&&src.tempReview){
-      lines.push(`${n} ${eq} ì¨ëíì¸ / ${s||"íì¸íì"}`);
+      lines.push(`${n} ${eq} 온도확인 / ${s||"확인필요"}`);
       continue;
     }
 
-    // ì¨ëë ì½íì§ë§ ìí ìê¸ì¨ê° ëë´ íì ëì§ ìì ê²½ì°.
-    // V7.6.1: 100ë ì´íë ì¹ì¨ì¤ì´ íì¤íì§ ìì¼ë©´ ë³´ê³ ììì ì ì¸íë¤.
+    // 온도는 읽혔지만 상태 손글씨가 끝내 확정되지 않은 경우.
+    // V7.6.1: 100도 이하는 승온중이 확실하지 않으면 보고서에서 제외한다.
     if(eq!=="TG1"&&t!==null&&t>100&&!s&&src.statusReview){
-      lines.push(`${n} ${eq} ${t}ë / íì¸íì`);
+      lines.push(`${n} ${eq} ${t}도 / 확인필요`);
     }
   }
 
   const specials=[
-    ["incinerator1","inc1","1ë"],
-    ["incinerator3","inc3","3ë"]
+    ["incinerator1","inc1","1동"],
+    ["incinerator3","inc3","3동"]
   ];
   const specialLines=[];
   for(const [id,key,label] of specials){
     const v=cleanTemperature($(id).value),src=state.special[key];
-    if(v!==null)specialLines.push(`${label} ${v}ë`);
-    else if(src?.tempReview)specialLines.push(`${label} ì¨ëíì¸`);
+    if(v!==null)specialLines.push(`${label} ${v}도`);
+    else if(src?.tempReview)specialLines.push(`${label} 온도확인`);
   }
-  if(specialLines.length)lines.push("","-TGìê°ê¸°-",...specialLines);
+  if(specialLines.length)lines.push("","-TG소각기-",...specialLines);
 
   const dry=cleanTemperature($("oldDryChamber").value),drySrc=state.special.oldDry;
-  if(dry!==null)lines.push("",`êµ¬íëë¼ì´ì±ë² ${dry}ë`);
-  else if(drySrc?.tempReview)lines.push("","êµ¬íëë¼ì´ì±ë² ì¨ëíì¸");
+  if(dry!==null)lines.push("",`구형드라이챔버 ${dry}도`);
+  else if(drySrc?.tempReview)lines.push("","구형드라이챔버 온도확인");
 
-  lines.push("",`\"ì¥ë¹í¹ì´ì¬í­\"`);
+  lines.push("",`\"장비특이사항\"`);
   const note=$("equipmentNote").value.trim();if(note)lines.push(note);
-  lines.push("",`\"ìì°°ì ì ê²ê²°ê³¼\"`,$("patrolResult").value.trim()||"ì´ììì","",`\"ì¸ê³½ìì°° í¹ì´ì¬í­\"`,$("outsideResult").value.trim()||"ìì","",`LPGê¸°íê¸° ${$("lpgResult").value.trim()||"ì´ììì"}`);
-  const nw=$("nightWorkers").value.trim();if(nw)lines.push("",`âê¸ì¼ ì¼ê°ê·¼ë¬´ìâ`,nw);
-  lines.push("","ì´ììëë¤.");
+  lines.push("",`\"순찰시 점검결과\"`,$("patrolResult").value.trim()||"이상없음","",`\"외곽순찰 특이사항\"`,$("outsideResult").value.trim()||"없음","",`LPG기화기 ${$("lpgResult").value.trim()||"이상없음"}`);
+  const nw=$("nightWorkers").value.trim();if(nw)lines.push("",`“금일 야간근무자”`,nw);
+  lines.push("","이상입니다.");
   $("reportText").value=lines.join("\n");
 }
-function normalizeReportNumber(v){const raw=String(v||"").trim().replace(/[â-ââââ]/g,"-").replace(/\s+/g,"");if(!raw)return"";if(raw.startsWith("#"))return raw;if(/^26-?\d{1,3}$/.test(raw))return"#26-"+raw.replace(/^26-?/,"");return raw;}
+function normalizeReportNumber(v){const raw=String(v||"").trim().replace(/[‐-‒–—−]/g,"-").replace(/\s+/g,"");if(!raw)return"";if(raw.startsWith("#"))return raw;if(/^26-?\d{1,3}$/.test(raw))return"#26-"+raw.replace(/^26-?/,"");return raw;}
 function cleanTemperature(v){if(v===""||v==null)return null;const n=Number(v);return Number.isFinite(n)?n:null;}
 
 function buildPatrolGeometryDebug(){
@@ -1742,22 +1742,22 @@ function buildCombinedJson(){
   };
 }
 
-$("downloadJsonTxtBtn").addEventListener("click",()=>{buildCombinedJson();if(!state.combinedJson)return showError("ë¨¼ì  OCR ë¶ìì í´ì£¼ì¸ì.");const ds=state.parsedDate?`${state.parsedDate.year}${pad2(state.parsedDate.month)}${pad2(state.parsedDate.day)}`:"UNKNOWN";downloadTextFile(`DACC_OCR_V7_6_${ds}.txt`,JSON.stringify(state.combinedJson,null,2));});
+$("downloadJsonTxtBtn").addEventListener("click",()=>{buildCombinedJson();if(!state.combinedJson)return showError("먼저 OCR 분석을 해주세요.");const ds=state.parsedDate?`${state.parsedDate.year}${pad2(state.parsedDate.month)}${pad2(state.parsedDate.day)}`:"UNKNOWN";downloadTextFile(`DACC_OCR_V7_6_${ds}.txt`,JSON.stringify(state.combinedJson,null,2));});
 $("copyJsonBtn").addEventListener("click",()=>{
   buildCombinedJson();
 
   if(!state.combinedJson){
-    showError("ë¨¼ì  OCR ë¶ìì í´ì£¼ì¸ì.");
+    showError("먼저 OCR 분석을 해주세요.");
     return;
   }
 
   const value=JSON.stringify(state.combinedJson,null,2);
 
   copyTextIOS(value,null)
-    .then(()=>showSuccess("JSON ì ì²´ë¥¼ ë³µì¬íìµëë¤."))
+    .then(()=>showSuccess("JSON 전체를 복사했습니다."))
     .catch(error=>{
       console.error("JSON copy failed",error);
-      showError(error?.message||"JSON ë³µì¬ì ì¤í¨íìµëë¤.");
+      showError(error?.message||"JSON 복사에 실패했습니다.");
     });
 });
 
@@ -1767,13 +1767,13 @@ $("copyReportBtn").addEventListener("click",()=>{
   const value=report?.value||"";
 
   if(!value.trim()){
-    showError("ë³µì¬í  ë¬¸ìë³´ê³ ê° ììµëë¤.");
+    showError("복사할 문자보고가 없습니다.");
     return;
   }
 
   const original=btn.textContent;
 
-  btn.textContent="ë³µì¬ ì¤...";
+  btn.textContent="복사 중...";
   btn.disabled=true;
 
   let directOK=false;
@@ -1793,8 +1793,8 @@ $("copyReportBtn").addEventListener("click",()=>{
       report.blur();
     }catch{}
 
-    btn.textContent="ë³µì¬ ìë£ â";
-    showSuccess("ë¬¸ìë³´ê³ ë¥¼ ë³µì¬íìµëë¤.");
+    btn.textContent="복사 완료 ✓";
+    showSuccess("문자보고를 복사했습니다.");
 
     setTimeout(()=>{
       btn.textContent=original;
@@ -1806,8 +1806,8 @@ $("copyReportBtn").addEventListener("click",()=>{
 
   copyTextIOS(value,report)
     .then(()=>{
-      btn.textContent="ë³µì¬ ìë£ â";
-      showSuccess("ë¬¸ìë³´ê³ ë¥¼ ë³µì¬íìµëë¤.");
+      btn.textContent="복사 완료 ✓";
+      showSuccess("문자보고를 복사했습니다.");
 
       setTimeout(()=>{
         btn.textContent=original;
@@ -1823,11 +1823,11 @@ $("copyReportBtn").addEventListener("click",()=>{
         report.setSelectionRange(0,report.value.length);
       }catch{}
 
-      btn.textContent="ì ì²´ ì íë¨";
+      btn.textContent="전체 선택됨";
       btn.disabled=false;
 
       showError(
-        "ì´ ë¸ë¼ì°ì ê° ìë ë³µì¬ë¥¼ ë§ììµëë¤. ë¬¸ìë³´ê³  ì ì²´ê° ì íëì´ ìì¼ë ë¨ë 'ë³µì¬' ë©ë´ë¥¼ ëë¬ì£¼ì¸ì."
+        "이 브라우저가 자동 복사를 막았습니다. 문자보고 전체가 선택되어 있으니 뜨는 '복사' 메뉴를 눌러주세요."
       );
     });
 });
@@ -1898,7 +1898,7 @@ function copyTextIOS(text,visibleTextarea=null){
 
   if(!value){
     return Promise.reject(
-      new Error("ë³µì¬í  ë´ì©ì´ ììµëë¤.")
+      new Error("복사할 내용이 없습니다.")
     );
   }
 
@@ -1955,7 +1955,7 @@ function copyTextIOS(text,visibleTextarea=null){
   }
 
   return Promise.reject(
-    new Error("íì¬ ë¸ë¼ì°ì ìì ìë ë³µì¬ë¥¼ íì©íì§ ììµëë¤.")
+    new Error("현재 브라우저에서 자동 복사를 허용하지 않습니다.")
   );
 }
 
