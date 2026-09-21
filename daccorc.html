@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#05070d" />
-  <title>DACC OCR TEST V7.4</title>
+  <title>DACC GPT OCR TEST V1</title>
   <style>
     *{box-sizing:border-box}html,body{margin:0;padding:0;background:#05070d;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}body{min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{width:100%;max-width:760px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) 14px calc(40px + env(safe-area-inset-bottom))}.header{margin-bottom:18px}.brand{color:#a78bfa;font-size:13px;font-weight:800;letter-spacing:1.5px;margin-bottom:6px}h1{margin:0;font-size:27px;line-height:1.25}.subtitle{color:#94a3b8;font-size:14px;line-height:1.6;margin-top:7px}.card{background:#0d1223;border:1px solid #1e293b;border-radius:18px;padding:15px;margin-bottom:14px}.cardTitle{font-size:16px;font-weight:800;margin-bottom:12px}.label{display:block;color:#94a3b8;font-size:12px;font-weight:700;margin-bottom:6px}.input,.select,.textarea{width:100%;border:1px solid #334155;background:#080c17;color:#fff;border-radius:12px;outline:none}.input,.select{height:46px;padding:0 12px}.textarea{min-height:140px;padding:12px;resize:vertical;line-height:1.55}.input:focus,.select:focus,.textarea:focus{border-color:#a78bfa}.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}.grow{flex:1}.btn{border:0;min-height:46px;padding:0 15px;border-radius:12px;font-weight:800;color:#fff;background:#1e293b}.btnPrimary{background:#7c3aed}.btnGreen{background:#15803d}.btnDanger{background:#7f1d1d}.btnFull{width:100%}.hint{color:#64748b;font-size:12px;line-height:1.55;margin-top:8px}.uploadBox{border:1px dashed #475569;border-radius:14px;padding:12px;margin-top:10px}.uploadBox input[type=file]{width:100%;color:#cbd5e1}.sourceButtons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sourceBtn{display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;font-weight:800;color:#fff;background:#1e293b;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}.sourceBtnPrimary{background:#7c3aed}.hiddenFile{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;overflow:hidden!important}.selectedFileName{margin-top:9px;color:#94a3b8;font-size:12px;min-height:18px;word-break:break-all}.cacheStatus{margin-top:10px;padding:10px 12px;border:1px solid #1e293b;border-radius:12px;background:#080c17;color:#94a3b8;font-size:12px;line-height:1.5}.cacheStatus strong{color:#c4b5fd}.preview{width:100%;max-height:340px;object-fit:contain;border-radius:12px;background:#020617;margin-top:12px;display:none}.progress,.error,.success{display:none;margin-top:12px;border-radius:12px;padding:12px;font-size:13px;line-height:1.5}.progress{background:#111827;color:#c4b5fd;font-weight:700}.error{background:rgba(127,29,29,.28);border:1px solid #7f1d1d;color:#fecaca}.success{background:rgba(21,128,61,.18);border:1px solid #166534;color:#bbf7d0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.stat{background:#080c17;border:1px solid #1e293b;border-radius:12px;padding:10px;text-align:center}.statValue{font-size:18px;font-weight:900}.statLabel{color:#64748b;font-size:11px;margin-top:4px}.tableWrap{width:100%;overflow-x:auto;border:1px solid #1e293b;border-radius:14px}table{width:100%;min-width:760px;border-collapse:collapse;background:#080c17}th,td{padding:9px 7px;border-bottom:1px solid #1e293b;text-align:center;font-size:12px}th{position:sticky;top:0;background:#111827;color:#94a3b8;font-weight:800}td:first-child{font-weight:900;white-space:nowrap}.miniInput,.miniSelect{height:36px;border:1px solid #334155;border-radius:9px;background:#05070d;color:#fff;padding:0 8px;outline:none}.numberInput{width:105px}.tempInput{width:76px;text-align:center}.miniSelect{width:100px}.detected{color:#86efac;font-weight:800}.notDetected{color:#fca5a5;font-weight:800}.review{color:#fde68a;font-weight:800}.reportYes{color:#86efac;font-weight:900}.reportNo{color:#64748b;font-weight:800}.manual{color:#c4b5fd;font-weight:800}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.sectionDivider{height:1px;background:#1e293b;margin:15px 0}.rawText{min-height:220px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}details{margin-top:10px}summary{cursor:pointer;color:#c4b5fd;font-size:13px;font-weight:800}.downloadRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.badge{display:inline-flex;align-items:center;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:800;background:#111827;color:#cbd5e1}.badgeOk{color:#86efac}.badgeWarn{color:#fde68a}.badgeBad{color:#fca5a5}.small{font-size:11px;color:#94a3b8;line-height:1.35}@media(max-width:520px){.grid2,.grid3{grid-template-columns:1fr}.downloadRow{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
   </style>
@@ -12,25 +12,25 @@
 <body>
 <main class="app">
   <header class="header">
-    <div class="brand">DACC OCR TEST V7.4</div>
-    <h1>Google Vision OCR</h1>
-    <div class="subtitle">교대업무일지 → 장비 가동번호<br>순찰일지 → 근무자 · 온도 · 승온/유지/냉각 정밀 자동판독<br>V7.4: V7.3 안정판 · TG4 상태열 실제 셀 내부 크롭 우선 · 기존 성공 로직 유지</div>
+    <div class="brand">DACC GPT OCR TEST V1</div>
+    <h1>GPT Vision OCR</h1>
+    <div class="subtitle">교대업무일지 + 순찰일지를 GPT-5.6 Sol이 직접 판독<br>Google Vision 없이 GPT 단독 성능을 비교하는 독립 테스트판</div>
   </header>
 
   <section class="card">
-    <div class="cardTitle">Google Vision API</div>
+    <div class="cardTitle">OpenAI API · 테스트용</div>
     <label class="label" for="apiKey">API KEY</label>
     <div class="row">
-      <input id="apiKey" class="input grow" type="password" placeholder="Google Vision API Key" autocomplete="off" />
+      <input id="apiKey" class="input grow" type="password" placeholder="OpenAI API Key (sk-...)" autocomplete="off" />
       <button id="saveApiKeyBtn" class="btn btnPrimary">저장</button>
     </div>
     <button id="deleteApiKeyBtn" class="btn btnDanger btnFull" style="margin-top:8px;">저장된 API KEY 삭제</button>
-    <div class="hint">API KEY는 GitHub 코드가 아니라 이 기기의 localStorage에만 저장됩니다.</div>
+    <div class="hint">테스트 키는 코드에 하드코딩하지 않고 이 iPhone localStorage에만 저장합니다. 테스트 종료 후 키를 폐기하세요.</div>
   </section>
 
   <section class="card">
     <div class="cardTitle">1. 교대업무일지</div>
-    <div class="hint">날짜와 장비별 26-XX 가동번호를 읽습니다. 같은 행의 번호 셀 안에 있는 값만 인정합니다.</div>
+    <div class="hint">GPT가 이 사진을 교대업무일지로 보고 날짜와 장비별 26-XX 가동번호를 판독합니다. 가동번호는 이 문서만 정답 소스로 사용합니다.</div>
     <div class="uploadBox">
       <div class="sourceButtons">
         <label class="sourceBtn sourceBtnPrimary" for="shiftCamera">사진 촬영</label>
@@ -45,7 +45,7 @@
 
   <section class="card">
     <div class="cardTitle">2. 순찰일지</div>
-    <div class="hint">고정 행을 기준으로 온도와 승온/유지/냉각을 자동판독합니다. 애매한 셀은 자동으로 확대 재OCR합니다.</div>
+    <div class="hint">GPT가 이 사진을 순찰일지로 보고 고정 35행 기준 온도와 승온/유지/냉각을 직접 판독합니다.</div>
     <div class="uploadBox">
       <div class="sourceButtons">
         <label class="sourceBtn sourceBtnPrimary" for="patrolCamera">사진 촬영</label>
@@ -60,9 +60,9 @@
 
   <section class="card">
     <div class="cardTitle">개발 테스트</div>
-    <div class="hint">사진 두 장은 이 iPhone에 저장됩니다. 이후에는 다시 고를 필요 없이 파서만 재분석하거나, 같은 사진으로 전체 OCR만 다시 실행할 수 있습니다.</div>
-    <button id="analyzeBtn" class="btn btnPrimary btnFull" style="min-height:54px;font-size:16px;margin-top:12px;">전체 OCR 실행 / 다시 실행</button>
-    <button id="reparseBtn" class="btn btnFull" style="margin-top:8px;" disabled>파서만 다시 분석</button>
+    <div class="hint">사진 두 장과 마지막 GPT 결과는 이 iPhone에 저장됩니다. 같은 사진으로 GPT 분석을 다시 실행하거나 마지막 결과를 다시 표시할 수 있습니다.</div>
+    <button id="analyzeBtn" class="btn btnPrimary btnFull" style="min-height:54px;font-size:16px;margin-top:12px;">GPT 분석 실행 / 다시 실행</button>
+    <button id="reparseBtn" class="btn btnFull" style="margin-top:8px;" disabled>마지막 GPT 결과 다시 표시</button>
     <button id="replacePhotosBtn" class="btn btnDanger btnFull" style="margin-top:8px;">테스트 사진 교체</button>
     <div id="cacheStatus" class="cacheStatus">저장된 테스트 데이터 확인 중...</div>
   </section>
@@ -71,19 +71,19 @@
   <div id="successBox" class="success"></div>
 
   <section id="resultSection" class="card" style="display:none;">
-    <div class="cardTitle">OCR 분석 결과</div>
+    <div class="cardTitle">GPT 분석 결과</div>
     <div class="stats">
       <div class="stat"><div id="dateStat" class="statValue">-</div><div class="statLabel">날짜</div></div>
       <div class="stat"><div id="equipmentStat" class="statValue">0</div><div class="statLabel">번호 검출</div></div>
       <div class="stat"><div id="autoStat" class="statValue">0%</div><div class="statLabel">자동검출률</div></div>
-      <div class="stat"><div id="retryStat" class="statValue">0</div><div class="statLabel">재OCR</div></div>
+      <div class="stat"><div id="retryStat" class="statValue">0</div><div class="statLabel">GPT 호출</div></div>
     </div>
     <div class="sectionDivider"></div>
     <div class="grid2">
       <div><label class="label">근무구분</label><select id="workShift" class="select"><option value="주간">주간</option><option value="야간">야간</option></select></div>
       <div><label class="label">직급</label><input id="workerRank" class="input" value="사원" /></div>
     </div>
-    <div style="margin-top:10px;"><label class="label">근무자 이름</label><input id="workerName" class="input" placeholder="OCR 후 수정 가능" /></div>
+    <div style="margin-top:10px;"><label class="label">근무자 이름</label><input id="workerName" class="input" placeholder="GPT 판독 후 수정 가능" /></div>
     <div id="nameHint" class="hint"></div>
   </section>
 
@@ -118,39 +118,83 @@
   </section>
 
   <section id="debugSection" class="card" style="display:none;">
-    <div class="cardTitle">OCR 원본 데이터</div>
-    <div class="downloadRow"><button id="downloadJsonTxtBtn" class="btn btnPrimary">OCR JSON → TXT 다운로드</button><button id="copyJsonBtn" class="btn">JSON 전체 복사</button></div>
-    <div class="hint">결과가 너무 길면 TXT 파일 그대로 ChatGPT에 올리면 됩니다.</div>
-    <details><summary>교대업무일지 OCR 원문</summary><textarea id="shiftRawText" class="textarea rawText" readonly></textarea></details>
-    <details><summary>순찰일지 OCR 원문</summary><textarea id="patrolRawText" class="textarea rawText" readonly></textarea></details>
+    <div class="cardTitle">GPT 원본 데이터</div>
+    <div class="downloadRow"><button id="downloadJsonTxtBtn" class="btn btnPrimary">GPT JSON → TXT 다운로드</button><button id="copyJsonBtn" class="btn">JSON 전체 복사</button></div>
+    <div class="hint">GPT API 원본 응답과 DACC 파싱 결과를 함께 저장합니다. 비교 테스트 시 이 TXT를 그대로 올리면 됩니다.</div>
+    <details><summary>교대업무일지 GPT 판독 JSON</summary><textarea id="shiftRawText" class="textarea rawText" readonly></textarea></details>
+    <details><summary>순찰일지 GPT 판독 JSON</summary><textarea id="patrolRawText" class="textarea rawText" readonly></textarea></details>
   </section>
 </main>
 
 <script>
-const VERSION="DACC OCR TEST V7.4.0";
+
+const VERSION="DACC GPT OCR TEST V1.0.0";
+const MODEL="gpt-5.6-sol";
+const IMAGE_DETAIL="original";
 const MAX_IMAGE_SIDE=2800;
 const JPEG_QUALITY=0.94;
-const MAX_RETRY_CELLS=16;
 
-const REPORT_ORDER=["CF1","CF2","CF3","CF4","CF5","CF6","GF1","GF3","GF4","GF5","SMI","TG2","TG3","TG4","TG5","TG6","TG7","TG1","HIP1","HIP2","HIP3"];
-const PATROL_ROW_ORDER=["TG2","TG3","TG4","TG5","TG6","TG7","GF1","GF3","GF4","GF5","SMI","CF1","CF2","CF3","CF4","CF5","CF6","CF분위기로","드라이챔버","유해화학물질누액감지기","세정집진기","탈형장백필터","생산동주냉각탑휀","생산동주냉각수펌프","신형드라이챔버","소각기1동","소각기3동","HIP1","HIP2","HIP3","천장환풍기전원확인","SIC-CVD","SIC-LINE","자동차다이나모","항공기다이나모"];
+const REPORT_ORDER=[
+  "CF1","CF2","CF3","CF4","CF5","CF6",
+  "GF1","GF3","GF4","GF5","SMI",
+  "TG2","TG3","TG4","TG5","TG6","TG7","TG1",
+  "HIP1","HIP2","HIP3"
+];
 
-const state={shift:null,patrol:null,parsedDate:null,workerNameCandidate:"",equipmentNumbers:{},patrolData:{},special:{},combinedJson:null,retryCount:0,shiftCanvas:null,patrolCanvas:null};
-const rowRefs=new Map();
+const PATROL_ROW_ORDER=[
+  "TG2","TG3","TG4","TG5","TG6","TG7",
+  "GF1","GF3","GF4","GF5","SMI",
+  "CF1","CF2","CF3","CF4","CF5","CF6",
+  "CF분위기로","드라이챔버","유해화학물질누액감지기",
+  "세정집진기","탈형장백필터","생산동주냉각탑휀",
+  "생산동주냉각수펌프","신형드라이챔버",
+  "소각기1동","소각기3동",
+  "HIP1","HIP2","HIP3","천장환풍기전원확인",
+  "SIC-CVD","SIC-LINE","자동차다이나모","항공기다이나모"
+];
+
 const $=id=>document.getElementById(id);
+const rowRefs=new Map();
+
+const state={
+  parsedDate:null,
+  workerNameCandidate:"",
+  equipmentNumbers:{},
+  patrolData:{},
+  special:{},
+  combinedJson:null,
+  gptParsed:null,
+  gptRawResponse:null,
+  gptCallCount:0,
+  shiftImage:null,
+  patrolImage:null
+};
+
 const apiKeyInput=$("apiKey");
-apiKeyInput.value=localStorage.getItem("dacc_google_vision_api_key")||"";
+apiKeyInput.value=localStorage.getItem("dacc_openai_api_key")||"";
 
-$("saveApiKeyBtn").addEventListener("click",()=>{const v=apiKeyInput.value.trim();if(!v)return showError("API KEY를 입력해주세요.");localStorage.setItem("dacc_google_vision_api_key",v);showSuccess("API KEY를 현재 기기에 저장했습니다.");});
-$("deleteApiKeyBtn").addEventListener("click",()=>{localStorage.removeItem("dacc_google_vision_api_key");apiKeyInput.value="";showSuccess("저장된 API KEY를 삭제했습니다.");});
+$("saveApiKeyBtn").addEventListener("click",()=>{
+  const v=apiKeyInput.value.trim();
+  if(!v)return showError("OpenAI API KEY를 입력해주세요.");
+  localStorage.setItem("dacc_openai_api_key",v);
+  showSuccess("테스트용 OpenAI API KEY를 현재 기기에 저장했습니다.");
+});
 
-let shiftPreviewUrl=null,patrolPreviewUrl=null;
+$("deleteApiKeyBtn").addEventListener("click",()=>{
+  localStorage.removeItem("dacc_openai_api_key");
+  apiKeyInput.value="";
+  showSuccess("저장된 OpenAI API KEY를 삭제했습니다.");
+});
+
+let shiftPreviewUrl=null;
+let patrolPreviewUrl=null;
 const selectedFiles={shift:null,patrol:null};
-const CACHE_DB_NAME="dacc_ocr_test_v7";
+
+const CACHE_DB_NAME="dacc_gpt_ocr_test_v1";
 const CACHE_DB_VERSION=1;
 const CACHE_STORE="kv";
 const CACHE_KEY="testSession";
-let cachedRawOcrReady=false;
+let cachedGptReady=false;
 
 function openCacheDb(){
   return new Promise((resolve,reject)=>{
@@ -158,16 +202,13 @@ function openCacheDb(){
       reject(new Error("IndexedDB 미지원"));
       return;
     }
-
     const req=indexedDB.open(CACHE_DB_NAME,CACHE_DB_VERSION);
-
     req.onupgradeneeded=()=>{
       const db=req.result;
       if(!db.objectStoreNames.contains(CACHE_STORE)){
         db.createObjectStore(CACHE_STORE);
       }
     };
-
     req.onsuccess=()=>resolve(req.result);
     req.onerror=()=>reject(req.error||new Error("IndexedDB 열기 실패"));
   });
@@ -176,21 +217,11 @@ function openCacheDb(){
 async function cacheGet(){
   try{
     const db=await openCacheDb();
-
     return await new Promise((resolve,reject)=>{
       const tx=db.transaction(CACHE_STORE,"readonly");
-      const store=tx.objectStore(CACHE_STORE);
-      const req=store.get(CACHE_KEY);
-
-      req.onsuccess=()=>{
-        resolve(req.result||null);
-        db.close();
-      };
-
-      req.onerror=()=>{
-        reject(req.error);
-        db.close();
-      };
+      const req=tx.objectStore(CACHE_STORE).get(CACHE_KEY);
+      req.onsuccess=()=>{resolve(req.result||null);db.close();};
+      req.onerror=()=>{reject(req.error);db.close();};
     });
   }catch(error){
     console.warn("cacheGet failed",error);
@@ -201,22 +232,12 @@ async function cacheGet(){
 async function cachePut(data){
   try{
     const db=await openCacheDb();
-
     await new Promise((resolve,reject)=>{
       const tx=db.transaction(CACHE_STORE,"readwrite");
       tx.objectStore(CACHE_STORE).put(data,CACHE_KEY);
-
-      tx.oncomplete=()=>{
-        resolve();
-        db.close();
-      };
-
-      tx.onerror=()=>{
-        reject(tx.error);
-        db.close();
-      };
+      tx.oncomplete=()=>{resolve();db.close();};
+      tx.onerror=()=>{reject(tx.error);db.close();};
     });
-
     return true;
   }catch(error){
     console.warn("cachePut failed",error);
@@ -227,22 +248,12 @@ async function cachePut(data){
 async function cacheClear(){
   try{
     const db=await openCacheDb();
-
     await new Promise((resolve,reject)=>{
       const tx=db.transaction(CACHE_STORE,"readwrite");
       tx.objectStore(CACHE_STORE).delete(CACHE_KEY);
-
-      tx.oncomplete=()=>{
-        resolve();
-        db.close();
-      };
-
-      tx.onerror=()=>{
-        reject(tx.error);
-        db.close();
-      };
+      tx.oncomplete=()=>{resolve();db.close();};
+      tx.onerror=()=>{reject(tx.error);db.close();};
     });
-
     return true;
   }catch(error){
     console.warn("cacheClear failed",error);
@@ -250,101 +261,69 @@ async function cacheClear(){
   }
 }
 
-function updateCacheStatus(cache=null){
+function updateCacheStatus(){
   const shiftOK=!!selectedFiles.shift;
   const patrolOK=!!selectedFiles.patrol;
-  const rawOK=!!cachedRawOcrReady;
 
-  $("reparseBtn").disabled=!rawOK;
+  $("reparseBtn").disabled=!cachedGptReady;
 
   const photoText=
     shiftOK&&patrolOK
-      ? "사진 2장 저장됨"
-      : shiftOK||patrolOK
-        ? "사진 1장만 저장됨"
-        : "저장된 사진 없음";
+      ?"사진 2장 저장됨"
+      :shiftOK||patrolOK
+        ?"사진 1장만 저장됨"
+        :"저장된 사진 없음";
 
-  const rawText=
-    rawOK
-      ? "원본 OCR JSON 저장됨 · 파서 즉시 재분석 가능"
-      : "원본 OCR JSON 없음 · 전체 OCR 1회 필요";
+  const resultText=
+    cachedGptReady
+      ?"마지막 GPT 결과 저장됨 · 즉시 다시 표시 가능"
+      :"저장된 GPT 결과 없음 · GPT 분석 1회 필요";
 
   $("cacheStatus").innerHTML=
-    `<strong>${photoText}</strong><br>${rawText}`;
+    `<strong>${photoText}</strong><br>${resultText}`;
 }
 
 async function saveSelectedPhotoToCache(type,file){
   const cache=await cacheGet()||{};
-
   if(type==="shift")cache.shiftFile=file;
   else cache.patrolFile=file;
 
-  /*
-    사진이 바뀌면 기존 원본 OCR은 더 이상 같은 입력이 아니므로 폐기.
-  */
-  cache.shiftVision=null;
-  cache.patrolVision=null;
+  // 입력 사진이 바뀌면 기존 GPT 결과는 같은 입력이 아니므로 폐기.
+  cache.gptParsed=null;
+  cache.gptRawResponse=null;
   cache.shiftImageMeta=null;
   cache.patrolImageMeta=null;
   cache.savedAt=Date.now();
 
-  cachedRawOcrReady=false;
+  cachedGptReady=false;
   await cachePut(cache);
-  updateCacheStatus(cache);
+  updateCacheStatus();
 }
 
-async function saveRawOcrCache(shiftFile,patrolFile,shiftVision,patrolVision,shiftImage,patrolImage){
+async function saveGptCache(shiftFile,patrolFile,gptParsed,gptRawResponse,shiftImage,patrolImage){
   const cache={
     shiftFile,
     patrolFile,
-    shiftVision,
-    patrolVision,
-    shiftImageMeta:{
-      width:shiftImage.width,
-      height:shiftImage.height
-    },
-    patrolImageMeta:{
-      width:patrolImage.width,
-      height:patrolImage.height
-    },
+    gptParsed,
+    gptRawResponse,
+    shiftImageMeta:{width:shiftImage.width,height:shiftImage.height},
+    patrolImageMeta:{width:patrolImage.width,height:patrolImage.height},
     savedAt:Date.now()
   };
-
   const ok=await cachePut(cache);
-  cachedRawOcrReady=!!ok;
-  updateCacheStatus(cache);
+  cachedGptReady=!!ok;
+  updateCacheStatus();
 }
-
-async function restoreTestCache(){
-  const cache=await cacheGet();
-
-  if(!cache){
-    updateCacheStatus();
-    return;
-  }
-
-  if(cache.shiftFile){
-    applySelectedImage(cache.shiftFile,"shiftPreview","shift","shiftFileName",false);
-  }
-
-  if(cache.patrolFile){
-    applySelectedImage(cache.patrolFile,"patrolPreview","patrol","patrolFileName",false);
-  }
-
-  cachedRawOcrReady=!!(
-    cache.shiftVision&&
-    cache.patrolVision&&
-    cache.shiftImageMeta&&
-    cache.patrolImageMeta
-  );
-
-  updateCacheStatus(cache);
-}
-
 
 function applySelectedImage(file,imgId,type,fileNameId,persist=true){
-  if(type==="shift"&&shiftPreviewUrl){URL.revokeObjectURL(shiftPreviewUrl);shiftPreviewUrl=null;}
-  if(type==="patrol"&&patrolPreviewUrl){URL.revokeObjectURL(patrolPreviewUrl);patrolPreviewUrl=null;}
+  if(type==="shift"&&shiftPreviewUrl){
+    URL.revokeObjectURL(shiftPreviewUrl);
+    shiftPreviewUrl=null;
+  }
+  if(type==="patrol"&&patrolPreviewUrl){
+    URL.revokeObjectURL(patrolPreviewUrl);
+    patrolPreviewUrl=null;
+  }
 
   selectedFiles[type]=file||null;
 
@@ -355,7 +334,6 @@ function applySelectedImage(file,imgId,type,fileNameId,persist=true){
   }
 
   const url=URL.createObjectURL(file);
-
   if(type==="shift")shiftPreviewUrl=url;
   else patrolPreviewUrl=url;
 
@@ -382,61 +360,847 @@ bindImageSource("shiftFile","shiftPreview","shift","shiftFileName");
 bindImageSource("patrolCamera","patrolPreview","patrol","patrolFileName");
 bindImageSource("patrolFile","patrolPreview","patrol","patrolFileName");
 
-async function parseCurrentOcr(apiKey,{allowRetry=true}={}){
-  if(!state.shift||!state.patrol){
-    throw new Error("원본 OCR 데이터가 없습니다.");
+async function restoreTestCache(){
+  const cache=await cacheGet();
+
+  if(!cache){
+    updateCacheStatus();
+    return;
   }
 
-  state.retryCount=0;
-  state.parsedDate=parseDate(state.shift.fullText);
+  if(cache.shiftFile){
+    applySelectedImage(cache.shiftFile,"shiftPreview","shift","shiftFileName",false);
+  }
+  if(cache.patrolFile){
+    applySelectedImage(cache.patrolFile,"patrolPreview","patrol","patrolFileName",false);
+  }
 
-  setProgress("고정 행/열 좌표 매핑 중...");
+  cachedGptReady=!!cache.gptParsed;
+  updateCacheStatus();
+}
 
-  state.equipmentNumbers=detectEquipmentNumbersByCells(
-    state.shift.words,
-    state.shift.image.width,
-    state.shift.image.height
-  );
+async function loadImageSource(file){
+  try{
+    if("createImageBitmap" in window){
+      const b=await createImageBitmap(file);
+      return{
+        source:b,
+        width:b.width,
+        height:b.height,
+        cleanup(){b.close?.();}
+      };
+    }
+  }catch(error){
+    console.warn("createImageBitmap failed",error);
+  }
 
-  state.workerNameCandidate=detectWorkerNameFixed(
-    state.patrol.words,
-    state.patrol.image.width,
-    state.patrol.image.height
-  );
+  return await new Promise((resolve,reject)=>{
+    const url=URL.createObjectURL(file);
+    const img=new Image();
 
-  state.patrolData=detectPatrolData(
-    state.patrol.words,
-    state.patrol.image.width,
-    state.patrol.image.height
-  );
+    img.onload=()=>resolve({
+      source:img,
+      width:img.naturalWidth,
+      height:img.naturalHeight,
+      cleanup(){URL.revokeObjectURL(url);}
+    });
 
-  state.special=detectSpecialTemperatures(
-    state.patrol.words,
-    state.patrol.image.width,
-    state.patrol.image.height
-  );
+    img.onerror=()=>{
+      URL.revokeObjectURL(url);
+      reject(new Error("이미지를 불러오지 못했습니다."));
+    };
 
-  /*
-    파서만 재분석할 때는 Google API를 호출하지 않는다.
-    이미지 전처리/셀 재OCR 로직까지 확인하고 싶을 때는
-    "전체 OCR 다시 실행"을 사용한다.
-  */
-  if(allowRetry){
-    if(!apiKey){
-      throw new Error("재OCR을 위해 Google Vision API KEY가 필요합니다.");
+    img.src=url;
+  });
+}
+
+async function prepareImage(file){
+  const loaded=await loadImageSource(file);
+  const scale=Math.min(1,MAX_IMAGE_SIDE/Math.max(loaded.width,loaded.height));
+  const w=Math.round(loaded.width*scale);
+  const h=Math.round(loaded.height*scale);
+
+  const canvas=document.createElement("canvas");
+  canvas.width=w;
+  canvas.height=h;
+
+  const ctx=canvas.getContext("2d",{alpha:false});
+  ctx.fillStyle="#fff";
+  ctx.fillRect(0,0,w,h);
+  ctx.drawImage(loaded.source,0,0,w,h);
+  loaded.cleanup?.();
+
+  const dataUrl=canvas.toDataURL("image/jpeg",JPEG_QUALITY);
+
+  return{
+    width:w,
+    height:h,
+    dataUrl,
+    canvas
+  };
+}
+
+function nullableIntegerSchema(){
+  return{
+    anyOf:[
+      {type:"integer"},
+      {type:"null"}
+    ]
+  };
+}
+
+function equipmentItemSchema(){
+  return{
+    type:"object",
+    additionalProperties:false,
+    properties:{
+      number:{
+        type:"string",
+        description:"교대업무일지에서 같은 장비 행에 실제로 적힌 26-XX 가동번호. 없거나 불명확하면 빈 문자열."
+      },
+      temperature:{
+        ...nullableIntegerSchema(),
+        description:"순찰일지의 해당 장비 온도 숫자. 없거나 판독 불가면 null."
+      },
+      status:{
+        type:"string",
+        enum:["","승온중","유지중","냉각중"],
+        description:"순찰일지 상태. 명확하지 않으면 빈 문자열."
+      },
+      confidence:{
+        type:"integer",
+        minimum:0,
+        maximum:100,
+        description:"해당 행 전체 판독에 대한 보수적인 시각적 확신도."
+      },
+      uncertain:{
+        type:"boolean",
+        description:"숫자/상태 중 하나라도 시각적으로 애매하면 true."
+      }
+    },
+    required:["number","temperature","status","confidence","uncertain"]
+  };
+}
+
+function buildStructuredSchema(){
+  const equipmentProperties={};
+  for(const eq of REPORT_ORDER){
+    equipmentProperties[eq]=equipmentItemSchema();
+  }
+
+  const specialItem={
+    type:"object",
+    additionalProperties:false,
+    properties:{
+      value:nullableIntegerSchema(),
+      confidence:{type:"integer",minimum:0,maximum:100},
+      uncertain:{type:"boolean"}
+    },
+    required:["value","confidence","uncertain"]
+  };
+
+  return{
+    type:"object",
+    additionalProperties:false,
+    properties:{
+      date:{
+        type:"object",
+        additionalProperties:false,
+        properties:{
+          year:nullableIntegerSchema(),
+          month:nullableIntegerSchema(),
+          day:nullableIntegerSchema()
+        },
+        required:["year","month","day"]
+      },
+      workShift:{
+        type:"string",
+        enum:["","주간","야간"]
+      },
+      worker:{
+        type:"object",
+        additionalProperties:false,
+        properties:{
+          name:{type:"string"},
+          rank:{type:"string"},
+          confidence:{type:"integer",minimum:0,maximum:100}
+        },
+        required:["name","rank","confidence"]
+      },
+      equipment:{
+        type:"object",
+        additionalProperties:false,
+        properties:equipmentProperties,
+        required:REPORT_ORDER
+      },
+      special:{
+        type:"object",
+        additionalProperties:false,
+        properties:{
+          incinerator1:specialItem,
+          incinerator3:specialItem,
+          oldDryChamber:specialItem
+        },
+        required:["incinerator1","incinerator3","oldDryChamber"]
+      },
+      observations:{
+        type:"object",
+        additionalProperties:false,
+        properties:{
+          shift:{type:"string"},
+          patrol:{type:"string"}
+        },
+        required:["shift","patrol"]
+      }
+    },
+    required:[
+      "date","workShift","worker",
+      "equipment","special","observations"
+    ]
+  };
+}
+
+function buildDaccPrompt(){
+  return `
+너는 DACC 현장 문서 전용 시각 판독기다.
+입력 이미지 2장을 직접 보고 필요한 필드만 판독한다.
+
+[이미지 순서]
+첫 번째 이미지 = 주간/야간 교대 업무 일지
+두 번째 이미지 = 일일 안전/보안/가스/소방 점검 순찰 일지
+
+[매우 중요한 판독 원칙]
+1. 보이는 픽셀만 근거로 판독한다. 추측해서 채우지 않는다.
+2. 애매하면 빈 문자열 또는 null을 반환하고 uncertain=true로 둔다.
+3. 표의 가로/세로 선을 손글씨 획이나 숫자로 오인하지 않는다.
+4. 인접 행의 값을 빌려오지 않는다.
+5. 숫자의 앞뒤에 표선이 붙어 있어도 실제 손글씨 획과 분리해서 본다.
+6. 이 요청에는 정답 예시를 제공하지 않았다. 과거 정답을 가정하거나 만들어내지 않는다.
+
+[교대업무일지 규칙]
+- 장비 가동번호 26-XX의 유일한 권위 소스다.
+- 각 장비의 '같은 행'에 실제로 적힌 번호만 사용한다.
+- 번호가 없는 행은 반드시 빈 문자열.
+- 순찰일지에 번호처럼 보이는 것이 있어도 가동번호 판정에 사용하지 않는다.
+- 날짜와 주간/야간도 교대업무일지를 우선한다.
+
+[순찰일지 규칙]
+- 장비 온도와 상태의 권위 소스다.
+- 순찰일지 장비 행 순서는 고정이며 아래와 같다.
+${PATROL_ROW_ORDER.map((x,i)=>`${i+1}. ${x}`).join("\n")}
+- 상태 값은 오직 승온중 / 유지중 / 냉각중 중 하나다.
+- 손글씨가 명확하지 않으면 빈 문자열.
+- 온도는 셀에 실제 적힌 정수만 반환하고, 없으면 null.
+- TG1은 예외다. 번호만 교대업무일지에서 읽고 온도/상태는 항상 수동이므로 temperature=null, status=""로 반환한다.
+
+[특수 온도]
+- 순찰일지에서 공정 폐가스 소각기 1동, 3동 온도를 각각 직접 읽는다.
+- 구형 드라이챔버(순찰일지의 기존 드라이챔버 행) 온도를 직접 읽는다.
+- 숫자가 표선과 붙어 있어도 표선 자체를 숫자 획으로 세지 않는다.
+
+[주의]
+- 보고 포함/제외 여부는 네가 결정하지 않는다. 값만 판독한다.
+- 장비번호와 온도/상태의 출처를 섞지 않는다.
+- 같은 사진 안의 다른 텍스트를 이용해 '그럴듯한 값'으로 보정하지 않는다.
+`;
+}
+
+function extractResponseText(json){
+  for(const item of json?.output||[]){
+    if(item?.type!=="message")continue;
+    for(const content of item?.content||[]){
+      if(content?.type==="output_text"&&typeof content.text==="string"){
+        return content.text;
+      }
+      if(content?.type==="refusal"){
+        throw new Error("GPT가 요청을 처리하지 않았습니다: "+(content.refusal||"refusal"));
+      }
+    }
+  }
+
+  if(typeof json?.output_text==="string"){
+    return json.output_text;
+  }
+
+  return"";
+}
+
+async function requestGptVision(apiKey,shiftImage,patrolImage){
+  const body={
+    model:MODEL,
+    store:false,
+    reasoning:{effort:"medium"},
+    max_output_tokens:6000,
+    input:[
+      {
+        role:"system",
+        content:[
+          {
+            type:"input_text",
+            text:"You are a precise visual document reader. Follow the user's DACC extraction rules exactly and never guess unreadable fields."
+          }
+        ]
+      },
+      {
+        role:"user",
+        content:[
+          {type:"input_text",text:buildDaccPrompt()},
+          {
+            type:"input_image",
+            image_url:shiftImage.dataUrl,
+            detail:IMAGE_DETAIL
+          },
+          {
+            type:"input_image",
+            image_url:patrolImage.dataUrl,
+            detail:IMAGE_DETAIL
+          }
+        ]
+      }
+    ],
+    text:{
+      format:{
+        type:"json_schema",
+        name:"dacc_gpt_ocr_result",
+        strict:true,
+        schema:buildStructuredSchema()
+      }
+    }
+  };
+
+  const res=await fetch("https://api.openai.com/v1/responses",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer "+apiKey
+    },
+    body:JSON.stringify(body)
+  });
+
+  let json=null;
+  try{
+    json=await res.json();
+  }catch{
+    throw new Error(`OpenAI API 응답을 읽지 못했습니다. HTTP ${res.status}`);
+  }
+
+  if(!res.ok){
+    const msg=
+      json?.error?.message||
+      json?.message||
+      `OpenAI API 요청 실패 (HTTP ${res.status})`;
+    throw new Error(msg);
+  }
+
+  const outputText=extractResponseText(json);
+  if(!outputText){
+    throw new Error("GPT 응답에 구조화된 텍스트 결과가 없습니다.");
+  }
+
+  let parsed=null;
+  try{
+    parsed=JSON.parse(outputText);
+  }catch(error){
+    console.error("GPT output parse failed",outputText,error);
+    throw new Error("GPT JSON 결과를 파싱하지 못했습니다.");
+  }
+
+  return{parsed,raw:json,outputText};
+}
+
+function normalizeNumber(v){
+  const raw=String(v||"")
+    .trim()
+    .replace(/[‐-‒–—−]/g,"-")
+    .replace(/\s+/g,"")
+    .replace(/^#/,"");
+
+  const m=raw.match(/^26-?(\d{1,3})$/);
+  return m?`#26-${Number(m[1])}`:null;
+}
+
+function normalizeStatus(v){
+  const s=String(v||"").trim();
+  if(s==="승온중"||s==="유지중"||s==="냉각중")return s;
+  return null;
+}
+
+function validTemp(v){
+  if(v===null||v===undefined||v==="")return null;
+  const n=Number(v);
+  if(!Number.isInteger(n))return null;
+  if(n<0||n>3000)return null;
+  return n;
+}
+
+function applyGptParsed(parsed,shiftImageMeta=null,patrolImageMeta=null){
+  state.gptParsed=parsed;
+  state.parsedDate=null;
+
+  const y=parsed?.date?.year;
+  const m=parsed?.date?.month;
+  const d=parsed?.date?.day;
+
+  if(
+    Number.isInteger(y)&&
+    Number.isInteger(m)&&m>=1&&m<=12&&
+    Number.isInteger(d)&&d>=1&&d<=31
+  ){
+    state.parsedDate={year:y,month:m,day:d};
+  }
+
+  const workerName=String(parsed?.worker?.name||"").trim();
+  state.workerNameCandidate=workerName;
+
+  state.equipmentNumbers={};
+  state.patrolData={};
+
+  for(const eq of REPORT_ORDER){
+    const src=parsed?.equipment?.[eq]||{};
+    const number=normalizeNumber(src.number);
+
+    state.equipmentNumbers[eq]=number;
+
+    if(eq==="TG1"){
+      state.patrolData[eq]={
+        temperature:null,
+        status:null,
+        tempConfidence:null,
+        statusConfidence:null,
+        manual:true,
+        gptConfidence:Number(src.confidence)||0,
+        gptUncertain:!!src.uncertain
+      };
+      continue;
     }
 
-    setProgress("애매한 셀 재OCR 중...");
-    await retryWeakCells(apiKey);
+    const temperature=validTemp(src.temperature);
+    const status=normalizeStatus(src.status);
+    const conf=Math.max(0,Math.min(100,Number(src.confidence)||0));
+
+    state.patrolData[eq]={
+      temperature,
+      status,
+      tempConfidence:temperature!==null?conf:null,
+      statusConfidence:status?conf:null,
+      manual:false,
+      gptConfidence:conf,
+      gptUncertain:!!src.uncertain
+    };
+  }
+
+  const special=parsed?.special||{};
+  function specialItem(key){
+    const s=special[key]||{};
+    const value=validTemp(s.value);
+    return{
+      value,
+      confidence:Math.max(0,Math.min(100,Number(s.confidence)||0)),
+      uncertain:!!s.uncertain
+    };
+  }
+
+  state.special={
+    inc1:specialItem("incinerator1"),
+    inc3:specialItem("incinerator3"),
+    oldDry:specialItem("oldDryChamber")
+  };
+
+  state.shiftImage=shiftImageMeta||state.shiftImage;
+  state.patrolImage=patrolImageMeta||state.patrolImage;
+
+  if(parsed?.workShift==="주간"||parsed?.workShift==="야간"){
+    $("workShift").value=parsed.workShift;
+  }
+
+  if(parsed?.worker?.rank){
+    $("workerRank").value=String(parsed.worker.rank).trim()||"사원";
   }
 
   renderResults();
   buildCombinedJson();
-  setProgress("");
+}
 
-  showSuccess(
-    `${allowRetry?"전체 OCR 완료":"파서 재분석 완료"} · 재OCR ${state.retryCount}회 · 자동검출률 ${calculateAutoFillRate()}%`
+function renderResults(){
+  [
+    "resultSection","equipmentSection","specialSection",
+    "extraSection","reportSection","debugSection"
+  ].forEach(id=>$(id).style.display="block");
+
+  const d=state.parsedDate;
+  $("dateStat").textContent=d?`${pad2(d.month)}/${pad2(d.day)}`:"미검출";
+  $("equipmentStat").textContent=
+    Object.values(state.equipmentNumbers).filter(Boolean).length;
+  $("autoStat").textContent=calculateAutoFillRate()+"%";
+  $("retryStat").textContent=state.gptCallCount;
+
+  $("workerName").value=state.workerNameCandidate||"";
+  $("nameHint").textContent=state.workerNameCandidate
+    ?`GPT 점검자 판독: ${state.workerNameCandidate}`
+    :"점검자 이름 미검출 — 직접 입력";
+
+  const shiftDebug={
+    engine:MODEL,
+    date:state.gptParsed?.date||null,
+    workShift:state.gptParsed?.workShift||"",
+    worker:state.gptParsed?.worker||null,
+    equipmentNumbers:Object.fromEntries(
+      REPORT_ORDER.map(eq=>[
+        eq,
+        state.gptParsed?.equipment?.[eq]?.number||""
+      ])
+    ),
+    observations:state.gptParsed?.observations?.shift||""
+  };
+
+  const patrolDebug={
+    engine:MODEL,
+    equipment:Object.fromEntries(
+      REPORT_ORDER.map(eq=>[
+        eq,
+        {
+          temperature:state.gptParsed?.equipment?.[eq]?.temperature??null,
+          status:state.gptParsed?.equipment?.[eq]?.status||"",
+          confidence:state.gptParsed?.equipment?.[eq]?.confidence??null,
+          uncertain:state.gptParsed?.equipment?.[eq]?.uncertain??null
+        }
+      ])
+    ),
+    special:state.gptParsed?.special||null,
+    observations:state.gptParsed?.observations?.patrol||""
+  };
+
+  $("shiftRawText").value=JSON.stringify(shiftDebug,null,2);
+  $("patrolRawText").value=JSON.stringify(patrolDebug,null,2);
+
+  renderEquipmentTable();
+  renderSpecial();
+  updateReport();
+}
+
+function renderEquipmentTable(){
+  const tbody=$("equipmentBody");
+  tbody.innerHTML="";
+  rowRefs.clear();
+
+  for(const eq of REPORT_ORDER){
+    const num=state.equipmentNumbers[eq];
+    const pd=state.patrolData[eq]||{};
+
+    const tr=document.createElement("tr");
+
+    const tdEq=document.createElement("td");
+    tdEq.textContent=eq;
+
+    const tdN=document.createElement("td");
+    const numberInput=document.createElement("input");
+    numberInput.className="miniInput numberInput";
+    numberInput.value=num||"";
+    numberInput.placeholder="#26-";
+    tdN.appendChild(numberInput);
+
+    const tdND=document.createElement("td");
+    tdND.textContent=num?"검출":"미검출";
+    tdND.className=num?"detected":"notDetected";
+
+    const tdT=document.createElement("td");
+    const tempInput=document.createElement("input");
+    tempInput.className="miniInput tempInput";
+    tempInput.type="number";
+    tempInput.inputMode="numeric";
+    tempInput.placeholder=eq==="TG1"?"수동":"℃";
+    tempInput.value=pd.temperature??"";
+    tdT.appendChild(tempInput);
+
+    const tdS=document.createElement("td");
+    const statusSelect=document.createElement("select");
+    statusSelect.className="miniSelect";
+
+    ["","승온중","유지중","냉각중"].forEach(v=>{
+      const o=document.createElement("option");
+      o.value=v;
+      o.textContent=v||"선택";
+      statusSelect.appendChild(o);
+    });
+
+    statusSelect.value=pd.status||"";
+    tdS.appendChild(statusSelect);
+
+    const tdQ=document.createElement("td");
+
+    if(eq==="TG1"){
+      tdQ.textContent="수동";
+      tdQ.className="manual";
+    }else if(pd.gptUncertain){
+      tdQ.textContent="확인";
+      tdQ.className="review";
+    }else if(pd.temperature!==null&&pd.status){
+      tdQ.textContent="GPT";
+      tdQ.className="detected";
+    }else{
+      tdQ.textContent="확인";
+      tdQ.className="review";
+    }
+
+    const tdR=document.createElement("td");
+    tdR.textContent="제외";
+    tdR.className="reportNo";
+
+    [tdEq,tdN,tdND,tdT,tdS,tdQ,tdR].forEach(td=>tr.appendChild(td));
+    tbody.appendChild(tr);
+
+    rowRefs.set(eq,{
+      numberInput,
+      tempInput,
+      statusSelect,
+      qualityCell:tdQ,
+      reportCell:tdR,
+      source:pd
+    });
+
+    const handler=()=>{
+      updateSingleRow(eq);
+      updateReport();
+      buildCombinedJson();
+    };
+
+    numberInput.addEventListener("input",handler);
+    tempInput.addEventListener("input",handler);
+    statusSelect.addEventListener("change",handler);
+
+    updateSingleRow(eq);
+  }
+}
+
+function renderSpecial(){
+  const map=[
+    ["incinerator1","inc1","inc1Hint"],
+    ["incinerator3","inc3","inc3Hint"],
+    ["oldDryChamber","oldDry","dryHint"]
+  ];
+
+  for(const [id,key,hid] of map){
+    const d=state.special[key];
+    $(id).value=d?.value??"";
+
+    if(!d){
+      $(hid).textContent="미검출";
+      continue;
+    }
+
+    const flag=d.uncertain?" · 확인 필요":"";
+    $(hid).textContent=`GPT ${d.confidence??"-"}%${flag}`;
+  }
+}
+
+function calculateAutoFillRate(){
+  let total=0;
+  let filled=0;
+
+  for(const eq of REPORT_ORDER){
+    if(eq==="TG1")continue;
+
+    total+=3;
+
+    if(state.equipmentNumbers[eq])filled++;
+
+    const p=state.patrolData[eq];
+    if(p?.temperature!==null&&p?.temperature!==undefined)filled++;
+    if(p?.status)filled++;
+  }
+
+  return total?Math.round(filled/total*100):0;
+}
+
+function shouldIncludeEquipment(t,s){
+  if(t===null||!s)return false;
+  if(t>=100)return true;
+  if(t>=10&&t<100&&s==="승온중")return true;
+  return false;
+}
+
+function updateSingleRow(eq){
+  const r=rowRefs.get(eq);
+  if(!r)return;
+
+  const n=normalizeReportNumber(r.numberInput.value);
+  const t=cleanTemperature(r.tempInput.value);
+  const s=r.statusSelect.value;
+  const inc=!!n&&shouldIncludeEquipment(t,s);
+
+  r.reportCell.textContent=inc?"포함":"제외";
+  r.reportCell.className=inc?"reportYes":"reportNo";
+}
+
+[
+  "workShift","workerRank","workerName",
+  "incinerator1","incinerator3","oldDryChamber",
+  "equipmentNote","patrolResult","outsideResult",
+  "lpgResult","nightWorkers"
+].forEach(id=>{
+  ["input","change"].forEach(ev=>
+    $(id).addEventListener(ev,()=>{
+      updateReport();
+      buildCombinedJson();
+    })
   );
+});
+
+function updateReport(){
+  if($("reportSection").style.display==="none")return;
+
+  const lines=[];
+  const d=state.parsedDate;
+
+  if(d){
+    lines.push(
+      `${pad2(d.month)}월 ${pad2(d.day)}일 (${getWeekdayKo(d)}) ${$("workShift").value}근무자`
+    );
+  }else{
+    lines.push(`00월 00일 (요일) ${$("workShift").value}근무자`);
+  }
+
+  lines.push(
+    `${$("workerName").value.trim()||"000"} ${$("workerRank").value.trim()||"사원"} 입니다.`
+  );
+
+  lines.push("",`"장비가동현황"`);
+
+  for(const eq of REPORT_ORDER){
+    const r=rowRefs.get(eq);
+    if(!r)continue;
+
+    const n=normalizeReportNumber(r.numberInput.value);
+    const t=cleanTemperature(r.tempInput.value);
+    const s=r.statusSelect.value;
+
+    if(!n||!shouldIncludeEquipment(t,s))continue;
+    lines.push(`${n} ${eq} ${t}도 / ${s}`);
+  }
+
+  const i1=cleanTemperature($("incinerator1").value);
+  const i3=cleanTemperature($("incinerator3").value);
+
+  if(i1!==null||i3!==null){
+    lines.push("","-TG소각기-");
+    if(i1!==null)lines.push(`1동 ${i1}도`);
+    if(i3!==null)lines.push(`3동 ${i3}도`);
+  }
+
+  const dry=cleanTemperature($("oldDryChamber").value);
+  if(dry!==null){
+    lines.push("",`구형드라이챔버 ${dry}도`);
+  }
+
+  lines.push("",`"장비특이사항"`);
+
+  const note=$("equipmentNote").value.trim();
+  if(note)lines.push(note);
+
+  lines.push(
+    "",
+    `"순찰시 점검결과"`,
+    $("patrolResult").value.trim()||"이상없음",
+    "",
+    `"외곽순찰 특이사항"`,
+    $("outsideResult").value.trim()||"없음",
+    "",
+    `LPG기화기 ${$("lpgResult").value.trim()||"이상없음"}`
+  );
+
+  const nw=$("nightWorkers").value.trim();
+  if(nw){
+    lines.push("",`“금일 야간근무자”`,nw);
+  }
+
+  lines.push("","이상입니다.");
+  $("reportText").value=lines.join("\n");
+}
+
+function normalizeReportNumber(v){
+  const raw=String(v||"")
+    .trim()
+    .replace(/[‐-‒–—−]/g,"-")
+    .replace(/\s+/g,"");
+
+  if(!raw)return"";
+  if(raw.startsWith("#"))return raw;
+
+  if(/^26-?\d{1,3}$/.test(raw)){
+    return"#26-"+raw.replace(/^26-?/,"");
+  }
+
+  return raw;
+}
+
+function cleanTemperature(v){
+  if(v===""||v==null)return null;
+  const n=Number(v);
+  return Number.isFinite(n)?n:null;
+}
+
+function getWeekdayKo(d){
+  if(!d)return"";
+  return["일","월","화","수","목","금","토"][
+    new Date(d.year,d.month-1,d.day).getDay()
+  ];
+}
+
+function buildCombinedJson(){
+  const equipment={};
+
+  rowRefs.forEach((r,name)=>{
+    const t=cleanTemperature(r.tempInput.value);
+    const s=r.statusSelect.value;
+
+    equipment[name]={
+      gptDetectedNumber:state.equipmentNumbers[name]||null,
+      number:r.numberInput.value.trim()||null,
+      temperature:t,
+      status:s||null,
+      gptConfidence:r.source?.gptConfidence??null,
+      gptUncertain:r.source?.gptUncertain??null,
+      manual:name==="TG1",
+      includedInReport:
+        !!normalizeReportNumber(r.numberInput.value)&&
+        shouldIncludeEquipment(t,s)
+    };
+  });
+
+  state.combinedJson={
+    version:VERSION,
+    model:MODEL,
+    imageDetail:IMAGE_DETAIL,
+    createdAt:new Date().toISOString(),
+    parsed:{
+      date:state.parsedDate,
+      weekday:state.parsedDate?getWeekdayKo(state.parsedDate):null,
+      workShift:$("workShift").value,
+      workerNameCandidate:state.workerNameCandidate||null,
+      workerName:$("workerName").value.trim()||null,
+      workerRank:$("workerRank").value.trim()||null,
+      autoFillRate:calculateAutoFillRate(),
+      gptCallCount:state.gptCallCount,
+      equipment,
+      specialTemperature:{
+        incinerator1:cleanTemperature($("incinerator1").value),
+        incinerator3:cleanTemperature($("incinerator3").value),
+        oldDryChamber:cleanTemperature($("oldDryChamber").value)
+      },
+      generatedReport:$("reportText").value||""
+    },
+    gptParsed:state.gptParsed,
+    gptRawResponse:state.gptRawResponse,
+    imageMeta:{
+      shift:state.shiftImage,
+      patrol:state.patrolImage
+    },
+    testDesign:{
+      googleVisionUsed:false,
+      groundTruthExamplesInjected:false,
+      note:"9/21 정답값을 프롬프트에 넣지 않은 GPT 단독 블라인드 테스트. 같은 데이터 정답을 예시로 넣으면 비교가 오염되므로 V1에서는 제외."
+    }
+  };
 }
 
 $("analyzeBtn").addEventListener("click",async()=>{
@@ -446,7 +1210,7 @@ $("analyzeBtn").addEventListener("click",async()=>{
   const shiftFile=selectedFiles.shift;
   const patrolFile=selectedFiles.patrol;
 
-  if(!apiKey)return showError("Google Vision API KEY가 없습니다.");
+  if(!apiKey)return showError("OpenAI API KEY가 없습니다.");
   if(!shiftFile)return showError("교대업무일지 사진을 선택해주세요.");
   if(!patrolFile)return showError("순찰일지 사진을 선택해주세요.");
 
@@ -454,93 +1218,98 @@ $("analyzeBtn").addEventListener("click",async()=>{
   $("reparseBtn").disabled=true;
 
   try{
-    setProgress("저장된 테스트 사진 준비 중...");
+    setProgress("사진 2장 준비 중...");
 
     const [shiftImage,patrolImage]=await Promise.all([
       prepareImage(shiftFile),
       prepareImage(patrolFile)
     ]);
 
-    state.shiftCanvas=shiftImage.canvas;
-    state.patrolCanvas=patrolImage.canvas;
+    state.shiftImage={
+      width:shiftImage.width,
+      height:shiftImage.height
+    };
+    state.patrolImage={
+      width:patrolImage.width,
+      height:patrolImage.height
+    };
 
-    setProgress("Google Vision 전체 OCR 분석 중...");
+    setProgress(`${MODEL}이 교대일지 + 순찰일지를 직접 판독 중...`);
 
-    const [shiftVision,patrolVision]=await Promise.all([
-      requestVision(apiKey,shiftImage.base64),
-      requestVision(apiKey,patrolImage.base64)
-    ]);
-
-    state.shift=buildOcrResult(shiftVision,shiftImage);
-    state.patrol=buildOcrResult(patrolVision,patrolImage);
-
-    /*
-      전체 이미지 OCR 결과를 저장.
-      다음 버전/새로고침에서는 사진 재선택 없이
-      이 JSON으로 파서만 바로 재실행 가능.
-    */
-    await saveRawOcrCache(
-      shiftFile,
-      patrolFile,
-      shiftVision,
-      patrolVision,
+    const result=await requestGptVision(
+      apiKey,
       shiftImage,
       patrolImage
     );
 
-    await parseCurrentOcr(apiKey,{allowRetry:true});
+    state.gptCallCount=1;
+    state.gptRawResponse=result.raw;
+
+    applyGptParsed(
+      result.parsed,
+      state.shiftImage,
+      state.patrolImage
+    );
+
+    await saveGptCache(
+      shiftFile,
+      patrolFile,
+      result.parsed,
+      result.raw,
+      shiftImage,
+      patrolImage
+    );
+
+    setProgress("");
+    showSuccess(
+      `GPT 단독 판독 완료 · ${MODEL} · 자동검출률 ${calculateAutoFillRate()}%`
+    );
   }catch(error){
     console.error(error);
     setProgress("");
-    showError(error?.message||"OCR 분석 중 오류가 발생했습니다.");
+
+    const msg=String(error?.message||"GPT 분석 중 오류가 발생했습니다.");
+
+    if(/Failed to fetch|CORS|NetworkError/i.test(msg)){
+      showError(
+        "브라우저에서 OpenAI API 직접 호출이 차단됐습니다. 이 경우 GPT 판독 로직 문제는 아니고, 다음 단계에서 Render 프록시 1개만 추가하면 됩니다."
+      );
+    }else{
+      showError(msg);
+    }
   }finally{
     $("analyzeBtn").disabled=false;
-    updateCacheStatus(await cacheGet());
+    const cache=await cacheGet();
+    cachedGptReady=!!cache?.gptParsed;
+    updateCacheStatus();
   }
 });
 
 $("reparseBtn").addEventListener("click",async()=>{
   hideMessages();
 
-  $("reparseBtn").disabled=true;
-  $("analyzeBtn").disabled=true;
-
   try{
     const cache=await cacheGet();
 
-    if(
-      !cache?.shiftVision||
-      !cache?.patrolVision||
-      !cache?.shiftImageMeta||
-      !cache?.patrolImageMeta
-    ){
-      throw new Error("저장된 원본 OCR JSON이 없습니다. 전체 OCR을 먼저 실행해주세요.");
+    if(!cache?.gptParsed){
+      throw new Error("저장된 GPT 결과가 없습니다.");
     }
 
-    setProgress("저장된 원본 OCR JSON 불러오는 중...");
+    state.gptCallCount=0;
+    state.gptRawResponse=cache.gptRawResponse||null;
+    state.shiftImage=cache.shiftImageMeta||null;
+    state.patrolImage=cache.patrolImageMeta||null;
 
-    state.shift=buildOcrResult(
-      cache.shiftVision,
-      cache.shiftImageMeta
+    applyGptParsed(
+      cache.gptParsed,
+      cache.shiftImageMeta||null,
+      cache.patrolImageMeta||null
     );
 
-    state.patrol=buildOcrResult(
-      cache.patrolVision,
-      cache.patrolImageMeta
-    );
-
-    /*
-      파서 재분석은 API 호출 0회.
-      최신 파싱/매핑 로직만 즉시 검증한다.
-    */
-    await parseCurrentOcr("",{allowRetry:false});
+    showSuccess("저장된 GPT 결과를 다시 표시했습니다. API 호출은 0회입니다.");
   }catch(error){
     console.error(error);
-    setProgress("");
-    showError(error?.message||"파서 재분석 중 오류가 발생했습니다.");
-  }finally{
-    $("analyzeBtn").disabled=false;
-    updateCacheStatus(await cacheGet());
+    showError(error?.message||"저장 결과 불러오기에 실패했습니다.");
   }
 });
 
@@ -549,14 +1318,9 @@ $("replacePhotosBtn").addEventListener("click",async()=>{
 
   await cacheClear();
 
-  cachedRawOcrReady=false;
   selectedFiles.shift=null;
   selectedFiles.patrol=null;
-
-  $("shiftCamera").value="";
-  $("shiftFile").value="";
-  $("patrolCamera").value="";
-  $("patrolFile").value="";
+  cachedGptReady=false;
 
   if(shiftPreviewUrl){
     URL.revokeObjectURL(shiftPreviewUrl);
@@ -568,710 +1332,55 @@ $("replacePhotosBtn").addEventListener("click",async()=>{
     patrolPreviewUrl=null;
   }
 
+  ["shiftCamera","shiftFile","patrolCamera","patrolFile"].forEach(id=>{
+    $(id).value="";
+  });
+
   $("shiftPreview").removeAttribute("src");
   $("shiftPreview").style.display="none";
   $("patrolPreview").removeAttribute("src");
   $("patrolPreview").style.display="none";
-
   $("shiftFileName").textContent="선택된 사진 없음";
   $("patrolFileName").textContent="선택된 사진 없음";
 
-  state.shift=null;
-  state.patrol=null;
-  state.shiftCanvas=null;
-  state.patrolCanvas=null;
-  state.combinedJson=null;
-
-  $("resultSection").style.display="none";
-  $("equipmentSection").style.display="none";
-  $("specialSection").style.display="none";
-  $("extraSection").style.display="none";
-  $("reportSection").style.display="none";
-  $("debugSection").style.display="none";
+  [
+    "resultSection","equipmentSection","specialSection",
+    "extraSection","reportSection","debugSection"
+  ].forEach(id=>$(id).style.display="none");
 
   updateCacheStatus();
-  showSuccess("저장된 테스트 사진과 OCR 캐시를 삭제했습니다. 새 사진을 선택해주세요.");
+  showSuccess("저장된 테스트 사진과 GPT 결과를 삭제했습니다.");
 });
 
-restoreTestCache().catch(error=>{
-  console.warn("테스트 캐시 복원 실패",error);
-  updateCacheStatus();
+$("downloadJsonTxtBtn").addEventListener("click",()=>{
+  buildCombinedJson();
+
+  if(!state.combinedJson){
+    return showError("먼저 GPT 분석을 해주세요.");
+  }
+
+  const ds=state.parsedDate
+    ?`${state.parsedDate.year}${pad2(state.parsedDate.month)}${pad2(state.parsedDate.day)}`
+    :"UNKNOWN";
+
+  downloadTextFile(
+    `DACC_GPT_OCR_V1_${ds}.txt`,
+    JSON.stringify(state.combinedJson,null,2)
+  );
 });
 
-async function prepareImage(file){
-  const loaded=await loadImageSource(file);const scale=Math.min(1,MAX_IMAGE_SIDE/Math.max(loaded.width,loaded.height));const w=Math.round(loaded.width*scale),h=Math.round(loaded.height*scale);
-  const canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;const ctx=canvas.getContext("2d",{alpha:false});ctx.fillStyle="#fff";ctx.fillRect(0,0,w,h);ctx.drawImage(loaded.source,0,0,w,h);loaded.cleanup?.();
-  return{width:w,height:h,base64:canvas.toDataURL("image/jpeg",JPEG_QUALITY).split(",")[1],canvas};
-}
-async function loadImageSource(file){try{if("createImageBitmap"in window){const b=await createImageBitmap(file);return{source:b,width:b.width,height:b.height,cleanup(){b.close?.();}};}}catch(e){console.warn(e);}return await new Promise((resolve,reject)=>{const url=URL.createObjectURL(file),img=new Image();img.onload=()=>resolve({source:img,width:img.naturalWidth,height:img.naturalHeight,cleanup(){URL.revokeObjectURL(url);}});img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("이미지를 불러오지 못했습니다."));};img.src=url;});}
-
-async function requestVision(apiKey,imageBase64){
-  const res=await fetch("https://vision.googleapis.com/v1/images:annotate?key="+encodeURIComponent(apiKey),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({requests:[{image:{content:imageBase64},features:[{type:"DOCUMENT_TEXT_DETECTION",maxResults:1}],imageContext:{languageHints:["ko","en"]}}]})});
-  const json=await res.json();if(!res.ok)throw new Error(json?.error?.message||"Google Vision API 요청 실패");if(json?.responses?.[0]?.error)throw new Error(json.responses[0].error.message||"Vision OCR 오류");return json;
-}
-function buildOcrResult(visionJson,image){const response=visionJson?.responses?.[0]||{},full=response.fullTextAnnotation||{},words=extractWords(full);return{image:{width:image.width,height:image.height},fullText:full.text||"",wordCount:words.length,words,rawVision:visionJson};}
-function extractWords(full){const out=[];(full?.pages||[]).forEach((p,pi)=>(p.blocks||[]).forEach((b,bi)=>(b.paragraphs||[]).forEach((pa,pai)=>(pa.words||[]).forEach((w,wi)=>{const text=(w.symbols||[]).map(s=>s.text||"").join("");const vertices=(w.boundingBox?.vertices||[]).map(v=>({x:Number(v.x)||0,y:Number(v.y)||0}));while(vertices.length<4)vertices.push({x:0,y:0});const xs=vertices.map(v=>v.x),ys=vertices.map(v=>v.y),left=Math.min(...xs),top=Math.min(...ys),right=Math.max(...xs),bottom=Math.max(...ys);out.push({text,confidence:w.confidence!=null?Number((w.confidence*100).toFixed(1)):null,left,top,right,bottom,centerX:Math.round((left+right)/2),centerY:Math.round((top+bottom)/2),width:right-left,height:bottom-top,vertices,page:pi,block:bi,paragraph:pai,word:wi});}))));return out;}
-
-function parseDate(text){const m=String(text||"").replace(/\s+/g," ").match(/(20\d{2})\s*[.\-\/]\s*(\d{1,2})\s*[.\-\/]\s*(\d{1,2})/);if(!m)return null;const year=+m[1],month=+m[2],day=+m[3];return month>=1&&month<=12&&day>=1&&day<=31?{year,month,day}:null;}
-function getWeekdayKo(d){if(!d)return"";return["일","월","화","수","목","금","토"][new Date(d.year,d.month-1,d.day).getDay()];}
-function normalizeEquip(t){return String(t||"").toUpperCase().replace(/[\s_\-–—]/g,"").replace(/호기$/," ").replace(/\s/g,"").replace(/^\d+/,"");}
-function normalizeNumber(t){return String(t||"").replace(/[‐-‒–—−]/g,"-").replace(/\s+/g,"").replace(/^#/,"");}
-function extractOperationNumber(t){const m=normalizeNumber(t).match(/^26-?(\d{1,3})$/);return m?"#26-"+String(Number(m[1])):null;}
-function nearestWord(words,matchFn,targetX,targetY,maxDx,maxDy){let best=null;for(const w of words){if(!matchFn(w))continue;const dx=Math.abs(w.centerX-targetX),dy=Math.abs(w.centerY-targetY);if(dx>maxDx||dy>maxDy)continue;const score=dy*2+dx;if(!best||score<best.score)best={word:w,score};}return best?.word||null;}
-
-function detectEquipmentNumbersByCells(words,W,H){
-  const result={};const candidates=words.map(w=>({...w,op:extractOperationNumber(w.text)})).filter(w=>w.op);const rowHalf=Math.max(22,H*0.0125),numberMinX=W*0.205,numberMaxX=W*0.275;
-  for(const eq of REPORT_ORDER){
-    const target=eq.toUpperCase();const anchors=words.filter(w=>{const n=normalizeEquip(w.text);return n===target||n.endsWith(target);});
-    if(!anchors.length){result[eq]=null;continue;}
-    const anchor=anchors.sort((a,b)=>a.centerY-b.centerY)[0];const inCell=candidates.filter(n=>n.centerX>=numberMinX&&n.centerX<=numberMaxX&&Math.abs(n.centerY-anchor.centerY)<=rowHalf);
-    inCell.sort((a,b)=>Math.abs(a.centerY-anchor.centerY)-Math.abs(b.centerY-anchor.centerY));result[eq]=inCell[0]?.op||null;
-  }
-  return result;
-}
-
-function detectWorkerNameFixed(words,W,H){
-  const banned=new Set(["점검자","생산팀장","결재","점검일","일지","주간","야간","생산","팀장","안전","보안","가스","소방"]);
-  const candidates=words.filter(w=>w.centerX>W*0.68&&w.centerX<W*0.82&&w.centerY>H*0.095&&w.centerY<H*0.165&&/^[가-힣]{2,4}$/.test(w.text)&&!banned.has(w.text));
-  candidates.sort((a,b)=>(b.confidence||0)-(a.confidence||0));return candidates[0]?.text||"";
-}
-
-function findPatrolAnchors(words){
-  const aliases={TG2:["TG2"],TG3:["TG3"],TG4:["TG4"],TG5:["TG5"],TG6:["TG6"],TG7:["TG7"],GF1:["GF1"],GF3:["GF3"],GF4:["GF4"],GF5:["GF5"],SMI:["SMI"],CF1:["CF1"],CF2:["CF2"],CF3:["CF3"],CF4:["CF4"],CF5:["CF5"],CF6:["CF6"]};
-  const out={};for(const [eq,arr] of Object.entries(aliases)){const matches=words.filter(w=>arr.some(a=>normalizeEquip(w.text)===a));matches.sort((a,b)=>a.centerY-b.centerY);out[eq]=matches[0]||null;}return out;
-}
-function parseTemperatureWord(text){const s=String(text||"").replace(/[OoIl|]/g,m=>({O:"0",o:"0",I:"1",l:"1","|":"1"}[m])).replace(/[^0-9]/g,"");if(!/^\d{1,4}$/.test(s))return null;const n=Number(s);return Number.isFinite(n)?n:null;}
-function classifyStatus(text){
-  const s=String(text||"").replace(/\s+/g,"").replace(/[.,/\\|()[\]{}:;'"`]/g,"");
-  if(!s)return null;
-  if(s.startsWith("냉"))return"냉각중";
-  if(s.startsWith("유지"))return"유지중";
-  if(s.startsWith("승")||s.startsWith("숭"))return"승온중";
-  return null;
-}
-function classifyStatusRetry(text){
-  const strict=classifyStatus(text);
-  if(strict)return strict;
-
-  const s=String(text||"")
-    .replace(/\s+/g,"")
-    .replace(/[.,/\\|()[\]{}:;'"`_-]/g,"");
-
-  /*
-    정확한 '상태' 셀을 재OCR했을 때만 허용.
-    V7.1 실데이터에서 TG3 승온 손글씨가 "스오"로 읽힘.
-    전체 문서에서는 절대 이 보정을 사용하지 않는다.
-  */
-  if(/^(스오|스온|스은|스우|숭오|승오|승은|승우)$/.test(s)){
-    return"승온중";
-  }
-
-  return null;
-}
-function detectPatrolData(words,W,H){
-  const anchors=findPatrolAnchors(words),out={};
-  const tempMin=W*0.502,tempMax=W*0.558,statusMin=W*0.785,statusMax=W*0.842;
-
-  const ordered=Object.entries(anchors)
-    .filter(([,a])=>!!a)
-    .sort((a,b)=>a[1].centerY-b[1].centerY);
-
-  const bounds={};
-
-  ordered.forEach(([name,a],i)=>{
-    const prev=ordered[i-1]?.[1];
-    const next=ordered[i+1]?.[1];
-    const half=Math.max(20,H*0.009);
-
-    bounds[name]={
-      top:prev?Math.round((prev.centerY+a.centerY)/2)+1:Math.round(a.centerY-half),
-      bottom:next?Math.round((a.centerY+next.centerY)/2)-1:Math.round(a.centerY+half)
-    };
-  });
-
-  for(const eq of REPORT_ORDER){
-    if(eq==="TG1"){
-      out[eq]={temperature:null,status:null,tempConfidence:null,statusConfidence:null,manual:true};
-      continue;
-    }
-
-    const a=anchors[eq];
-
-    if(!a){
-      out[eq]={temperature:null,status:null,tempConfidence:null,statusConfidence:null,manual:false};
-      continue;
-    }
-
-    const b=bounds[eq]||{top:a.centerY-24,bottom:a.centerY+24};
-    const rowWords=words.filter(w=>w.centerY>=b.top&&w.centerY<=b.bottom);
-
-    const tempCandidates=rowWords
-      .map(w=>({w,n:parseTemperatureWord(w.text)}))
-      .filter(x=>x.n!==null&&x.w.centerX>=tempMin&&x.w.centerX<=tempMax)
-      .sort((x,y)=>(Math.abs(x.w.centerX-W*0.528)+Math.abs(x.w.centerY-a.centerY)*3)-(Math.abs(y.w.centerX-W*0.528)+Math.abs(y.w.centerY-a.centerY)*3));
-
-    const statusCandidates=rowWords
-      .map(w=>({w,s:classifyStatus(w.text)}))
-      .filter(x=>x.s&&x.w.centerX>=statusMin&&x.w.centerX<=statusMax)
-      .sort((x,y)=>(Math.abs(x.w.centerX-W*0.812)+Math.abs(x.w.centerY-a.centerY)*3)-(Math.abs(y.w.centerX-W*0.812)+Math.abs(y.w.centerY-a.centerY)*3));
-
-    out[eq]={
-      temperature:tempCandidates[0]?.n??null,
-      status:statusCandidates[0]?.s??null,
-      tempConfidence:tempCandidates[0]?.w.confidence??null,
-      statusConfidence:statusCandidates[0]?.w.confidence??null,
-      rowY:a.centerY,
-      rowTop:b.top,
-      rowBottom:b.bottom,
-      manual:false,
-      primaryTempRaw:tempCandidates[0]?.w.text??null,
-      primaryStatusRaw:statusCandidates[0]?.w.text??null
-    };
-  }
-
-  return out;
-}
-function detectSpecialTemperatures(words,W,H){
-  const tempMin=W*0.505,tempMax=W*0.555,rowHalf=Math.max(14,H*0.009);
-  function pickByY(y){
-    const c=words.map(w=>({w,n:parseTemperatureWord(w.text)}))
-      .filter(x=>x.n!==null&&x.w.centerX>=tempMin&&x.w.centerX<=tempMax&&Math.abs(x.w.centerY-y)<=rowHalf)
-      .sort((a,b)=>(Math.abs(a.w.centerX-W*0.528)+Math.abs(a.w.centerY-y)*3)-(Math.abs(b.w.centerX-W*0.528)+Math.abs(b.w.centerY-y)*3));
-    return c[0]?{value:c[0].n,confidence:c[0].w.confidence,rowY:y,primaryRaw:c[0].w.text}:null;
-  }
-  const dryAnchors=words.filter(w=>/드라이/.test(w.text)&&w.centerY>H*0.65&&w.centerY<H*0.78).sort((a,b)=>a.centerY-b.centerY);
-  const incAnchors=words.filter(w=>/소각기/.test(w.text)).sort((a,b)=>a.centerY-b.centerY);
-  return{
-    oldDry:dryAnchors[0]?pickByY(dryAnchors[0].centerY):null,
-    inc1:incAnchors[0]?pickByY(incAnchors[0].centerY):null,
-    inc3:incAnchors[1]?pickByY(incAnchors[1].centerY):null
-  };
-}
-
-function eraseTableLines(ctx,w,h){
-  const img=ctx.getImageData(0,0,w,h),p=img.data;
-  const dark=(x,y)=>{
-    const i=(y*w+x)*4;
-    return ((p[i]+p[i+1]+p[i+2])/3)<155;
-  };
-
-  const rows=[];
-  for(let y=0;y<h;y++){
-    let count=0;
-    for(let x=0;x<w;x++) if(dark(x,y)) count++;
-    if(count/w>=0.68) rows.push(y);
-  }
-
-  const cols=[];
-  for(let x=0;x<w;x++){
-    let count=0;
-    for(let y=0;y<h;y++) if(dark(x,y)) count++;
-    if(count/h>=0.86) cols.push(x);
-  }
-
-  const eraseRow=(yy)=>{
-    if(yy<0||yy>=h)return;
-    for(let x=0;x<w;x++){
-      const i=(yy*w+x)*4;
-      p[i]=p[i+1]=p[i+2]=255;
-    }
-  };
-  const eraseCol=(xx)=>{
-    if(xx<0||xx>=w)return;
-    for(let y=0;y<h;y++){
-      const i=(y*w+xx)*4;
-      p[i]=p[i+1]=p[i+2]=255;
-    }
-  };
-
-  rows.forEach(y=>{for(let d=-3;d<=3;d++)eraseRow(y+d);});
-  cols.forEach(x=>{for(let d=-2;d<=2;d++)eraseCol(x+d);});
-
-  ctx.putImageData(img,0,0);
-}
-
-function buildRetryCanvas(canvas,box,variant="soft"){
-  const x=Math.max(0,Math.floor(box.x)),
-        y=Math.max(0,Math.floor(box.y)),
-        w=Math.min(canvas.width-x,Math.ceil(box.w)),
-        h=Math.min(canvas.height-y,Math.ceil(box.h));
-
-  if(w<=5||h<=5)return null;
-
-  const scale=4,out=document.createElement("canvas");
-  out.width=w*scale;
-  out.height=h*scale;
-
-  const ctx=out.getContext("2d",{alpha:false});
-  ctx.fillStyle="#fff";
-  ctx.fillRect(0,0,out.width,out.height);
-  ctx.imageSmoothingEnabled=true;
-  ctx.imageSmoothingQuality="high";
-
-  if(variant==="plain"){
-    ctx.filter="none";
-  }else if(variant==="hard"){
-    ctx.filter="grayscale(100%) contrast(220%)";
-  }else if(variant==="lineclean"){
-    ctx.filter="grayscale(100%) contrast(175%)";
-  }else{
-    ctx.filter="grayscale(100%) contrast(145%)";
-  }
-
-  ctx.drawImage(canvas,x,y,w,h,0,0,out.width,out.height);
-  ctx.filter="none";
-
-  if(variant==="lineclean"){
-    eraseTableLines(ctx,out.width,out.height);
-  }
-
-  if(variant==="hard"){
-    eraseTableLines(ctx,out.width,out.height);
-    const img=ctx.getImageData(0,0,out.width,out.height),p=img.data;
-    for(let i=0;i<p.length;i+=4){
-      const g=(p[i]+p[i+1]+p[i+2])/3;
-      const v=g<175?0:255;
-      p[i]=p[i+1]=p[i+2]=v;
-    }
-    ctx.putImageData(img,0,0);
-  }
-
-  return out;
-}
-
-async function cropAndOcr(apiKey,canvas,box,mode,variant="soft"){
-  const out=buildRetryCanvas(canvas,box,variant);
-  if(!out)return null;
-
-  const json=await requestVision(
-    apiKey,
-    out.toDataURL("image/jpeg",0.98).split(",")[1]
-  );
-
-  state.retryCount++;
-
-  const full=json?.responses?.[0]?.fullTextAnnotation||{};
-  const words=extractWords(full);
-  const raw=full.text||"";
-
-  if(mode==="temp"){
-    const cand=words
-      .map(q=>({q,n:parseTemperatureWord(q.text)}))
-      .filter(x=>x.n!==null)
-      .sort((a,b)=>(b.q.confidence||0)-(a.q.confidence||0));
-
-    return cand[0]
-      ? {value:cand[0].n,confidence:cand[0].q.confidence,raw,variant}
-      : {value:null,confidence:null,raw,variant};
-  }
-
-  if(mode==="status"){
-    const cand=words
-      .map(q=>({q,s:classifyStatusRetry(q.text)}))
-      .filter(x=>x.s)
-      .sort((a,b)=>(b.q.confidence||0)-(a.q.confidence||0));
-
-    const rawStatus=raw
-      .split(/\s+/)
-      .filter(Boolean)
-      .map(token=>classifyStatusRetry(token))
-      .find(Boolean)||null;
-
-    return cand[0]
-      ? {value:cand[0].s,confidence:cand[0].q.confidence,raw,variant}
-      : {value:rawStatus,confidence:null,raw,variant};
-  }
-
-  return null;
-}
-
-function temperatureLooksSuspicious(v){
-  return v!==null&&(v<10||v>2500);
-}
-
-function chooseBetterTemperature(current,candidate){
-  if(!candidate)return current;
-
-  if(!current)return candidate;
-
-  const currentBad=temperatureLooksSuspicious(current.value);
-  const candidateBad=temperatureLooksSuspicious(candidate.value);
-
-  if(currentBad&&!candidateBad)return candidate;
-  if(!currentBad&&candidateBad)return current;
-
-  return (candidate.confidence||0)>(current.confidence||0)
-    ? candidate
-    : current;
-}
-
-async function retryTempCell(apiKey,d,W,H,usedRef){
-  if(!d?.rowY||usedRef.used>=MAX_RETRY_CELLS)return;
-
-  const need=
-    d.temperature===null||
-    temperatureLooksSuspicious(d.temperature)||
-    (d.tempConfidence!=null&&d.tempConfidence<80);
-
-  if(!need)return;
-
-  d.tempRetryRaw="";
-
-  /*
-    V7.2에서 유일하게 확실히 개선된 부분.
-    TG4가 legacy/soft crop에서 941로 읽혔음.
-    특정 장비/특정 정답을 하드코딩하지 않고
-    약한/미검출 온도 셀 공통 1차 fallback으로만 사용.
-  */
-  const legacyBox={
-    x:W*0.505,
-    y:d.rowY-H*0.010,
-    w:W*0.052,
-    h:H*0.022
-  };
-
-  if(usedRef.used<MAX_RETRY_CELLS){
-    const legacy=await cropAndOcr(
-      apiKey,
-      state.patrolCanvas,
-      legacyBox,
-      "temp",
-      "soft"
-    );
-
-    usedRef.used++;
-
-    d.tempRetryRaw+=`legacy/soft:${legacy?.raw||""}`;
-
-    if(
-      legacy?.value!==null&&
-      legacy.value>=10&&
-      !temperatureLooksSuspicious(legacy.value)
-    ){
-      d.temperature=legacy.value;
-      d.tempConfidence=legacy.confidence;
-      d.tempRetryVariant="legacy/soft";
-      return;
-    }
-  }
-
-  /*
-    legacy crop이 실패하면 V7.1의 원래 row crop으로 복귀.
-  */
-  const top=d.rowTop??Math.round(d.rowY-H*0.009);
-  const bottom=d.rowBottom??Math.round(d.rowY+H*0.009);
-  const box={
-    x:W*0.500,
-    y:top+2,
-    w:W*0.061,
-    h:Math.max(20,bottom-top-4)
-  };
-
-  for(const variant of ["soft","plain","hard"]){
-    if(usedRef.used>=MAX_RETRY_CELLS)break;
-
-    const r=await cropAndOcr(
-      apiKey,
-      state.patrolCanvas,
-      box,
-      "temp",
-      variant
-    );
-
-    usedRef.used++;
-
-    d.tempRetryRaw+=
-      `${d.tempRetryRaw?" | ":""}${variant}:${r?.raw||""}`;
-
-    if(
-      r?.value!==null&&
-      r.value>=10&&
-      !temperatureLooksSuspicious(r.value)
-    ){
-      d.temperature=r.value;
-      d.tempConfidence=r.confidence;
-      d.tempRetryVariant=r.variant;
-      return;
-    }
-  }
-
-  if(temperatureLooksSuspicious(d.temperature)){
-    d.temperature=null;
-    d.tempConfidence=null;
-    d.tempRejected=true;
-  }
-}
-async function retryStatusCell(apiKey,d,W,H,usedRef){
-  if(!d?.rowY||usedRef.used>=MAX_RETRY_CELLS)return;
-  if(d.status!==null)return;
-
-  const top=d.rowTop??Math.round(d.rowY-H*0.009);
-  const bottom=d.rowBottom??Math.round(d.rowY+H*0.009);
-
-  /*
-    V7.4 핵심:
-    상태열 좌/우 세로선 사이의 "실제 셀 내부"를 먼저 자른다.
-
-    기존 broad:
-      x 0.780 ~ 0.848
-      -> 왼쪽 세로선/제품명 일부 포함 + 오른쪽 글자 일부 절단 가능
-
-    새 interior:
-      x 0.792 ~ 0.858
-      -> 상태 셀 안쪽만 포함
-      -> 승온의 두 번째 글자까지 잘리지 않게 오른쪽 여백 확보
-
-    y도 행의 위/아래 가로선을 3px씩 피한다.
-  */
-  const boxes=[
-    {
-      name:"interior",
-      x:W*0.792,
-      y:top+3,
-      w:W*0.066,
-      h:Math.max(20,bottom-top-6)
-    },
-    /*
-      V7.3에서 TG3 "스오"를 성공적으로 읽은 crop.
-      회귀 방지를 위해 fallback으로 그대로 둔다.
-    */
-    {
-      name:"broad",
-      x:W*0.780,
-      y:top+1,
-      w:W*0.068,
-      h:Math.max(22,bottom-top-2)
-    },
-    {
-      name:"tight",
-      x:W*0.790,
-      y:d.rowY-H*0.013,
-      w:W*0.056,
-      h:H*0.028
-    }
-  ];
-
-  d.statusRetryRaw="";
-
-  for(const box of boxes){
-    /*
-      셀 내부는 원본 획 보존이 가장 중요하므로 plain → soft.
-      hard는 마지막 fallback에서만 사용.
-    */
-    const variants=
-      box.name==="interior"
-        ? ["plain","soft"]
-        : ["plain","soft","hard"];
-
-    for(const variant of variants){
-      if(usedRef.used>=MAX_RETRY_CELLS)break;
-
-      const r=await cropAndOcr(
-        apiKey,
-        state.patrolCanvas,
-        box,
-        "status",
-        variant
-      );
-
-      usedRef.used++;
-
-      d.statusRetryRaw+=
-        `${d.statusRetryRaw?" | ":""}${box.name}/${variant}:${r?.raw||""}`;
-
-      if(r?.value){
-        d.status=r.value;
-        d.statusConfidence=r.confidence;
-        d.statusRetryVariant=`${box.name}/${variant}`;
-        return;
-      }
-    }
-
-    if(usedRef.used>=MAX_RETRY_CELLS)break;
-  }
-}
-async function retrySpecialTemperature(apiKey,d,W,H,usedRef){
-  if(!d?.rowY||usedRef.used>=MAX_RETRY_CELLS)return;
-
-  const suspicious=d.value===null||d.value<10||d.value>999||(d.confidence!=null&&d.confidence<80);
-  if(!suspicious)return;
-
-  const boxes=[
-    {name:"inner",x:W*0.507,y:d.rowY-H*0.0075,w:W*0.050,h:H*0.016},
-    {name:"normal",x:W*0.500,y:d.rowY-H*0.010,w:W*0.061,h:H*0.021}
-  ];
-
-  const candidates=[];
-  d.retryRaw="";
-
-  for(const box of boxes){
-    for(const variant of ["plain","soft","lineclean"]){
-      if(usedRef.used>=MAX_RETRY_CELLS)break;
-
-      const r=await cropAndOcr(apiKey,state.patrolCanvas,box,"temp",variant);
-      usedRef.used++;
-
-      d.retryRaw+=`${d.retryRaw?" | ":""}${box.name}/${variant}:${r?.raw||""}`;
-
-      if(r?.value!==null&&r.value>=10&&r.value<=999){
-        candidates.push(r);
-      }
-    }
-    if(usedRef.used>=MAX_RETRY_CELLS)break;
-  }
-
-  if(candidates.length){
-    const groups=new Map();
-
-    candidates.forEach(c=>{
-      const k=String(c.value);
-      if(!groups.has(k))groups.set(k,[]);
-      groups.get(k).push(c);
-    });
-
-    const ranked=[...groups.entries()]
-      .map(([value,list])=>({
-        value:Number(value),
-        count:list.length,
-        best:list.sort((a,b)=>(b.confidence||0)-(a.confidence||0))[0]
-      }))
-      .sort((a,b)=>b.count-a.count||(b.best.confidence||0)-(a.best.confidence||0));
-
-    const winner=ranked[0];
-
-    d.value=winner.value;
-    d.confidence=winner.best.confidence;
-    d.retryVariant=winner.best.variant;
-    d.retryConsensus=winner.count;
-  }else if(d.value!==null&&(d.value<10||d.value>999)){
-    d.value=null;
-    d.confidence=null;
-    d.rejected=true;
-  }
-}
-async function retryWeakCells(apiKey){
-  if(!state.patrolCanvas)return;
-
-  const W=state.patrol.image.width;
-  const H=state.patrol.image.height;
-  const usedRef={used:0};
-
-  const numbered=REPORT_ORDER.filter(
-    eq=>
-      eq!=="TG1"&&
-      !!state.equipmentNumbers[eq]&&
-      state.patrolData[eq]?.rowY
-  );
-
-  /*
-    1순위: 온도는 이미 100도 이상인데 상태만 비어있는 장비.
-    TG3 같은 케이스를 먼저 해결.
-  */
-  for(const eq of numbered){
-    if(usedRef.used>=MAX_RETRY_CELLS)break;
-
-    const d=state.patrolData[eq];
-
-    if(
-      d.temperature!==null&&
-      d.temperature>=100&&
-      d.status===null
-    ){
-      await retryStatusCell(apiKey,d,W,H,usedRef);
-    }
-  }
-
-  /*
-    2순위: V7.1 특수온도 로직 그대로.
-    V7.2의 cell-interior 방식은 사용하지 않는다.
-  */
-  for(const key of ["inc3","inc1","oldDry"]){
-    if(usedRef.used>=MAX_RETRY_CELLS)break;
-
-    await retrySpecialTemperature(
-      apiKey,
-      state.special[key],
-      W,
-      H,
-      usedRef
-    );
-  }
-
-  /*
-    3순위: 미검출/저신뢰 온도 복구.
-    복구 후 100도 이상이면 즉시 같은 행 상태를 재OCR.
-  */
-  for(const eq of numbered){
-    if(usedRef.used>=MAX_RETRY_CELLS)break;
-
-    const d=state.patrolData[eq];
-
-    if(
-      d.temperature===null||
-      temperatureLooksSuspicious(d.temperature)||
-      (d.tempConfidence!=null&&d.tempConfidence<80)
-    ){
-      await retryTempCell(apiKey,d,W,H,usedRef);
-
-      if(
-        usedRef.used<MAX_RETRY_CELLS&&
-        d.temperature!==null&&
-        d.temperature>=100&&
-        d.status===null
-      ){
-        await retryStatusCell(apiKey,d,W,H,usedRef);
-      }
-    }
-  }
-
-  /*
-    4순위: 10~99도는 승온중일 때만 보고 대상.
-  */
-  for(const eq of numbered){
-    if(usedRef.used>=MAX_RETRY_CELLS)break;
-
-    const d=state.patrolData[eq];
-
-    if(
-      d.temperature!==null&&
-      d.temperature>=10&&
-      d.temperature<100&&
-      d.status===null
-    ){
-      await retryStatusCell(apiKey,d,W,H,usedRef);
-    }
-  }
-}
-function renderResults(){
-  ["resultSection","equipmentSection","specialSection","extraSection","reportSection","debugSection"].forEach(id=>$(id).style.display="block");const d=state.parsedDate;$("dateStat").textContent=d?pad2(d.month)+"/"+pad2(d.day):"미검출";$("equipmentStat").textContent=Object.values(state.equipmentNumbers).filter(Boolean).length;$("autoStat").textContent=calculateAutoFillRate()+"%";$("retryStat").textContent=state.retryCount;$("workerName").value=state.workerNameCandidate||"";$("nameHint").textContent=state.workerNameCandidate?`점검자 영역 OCR: ${state.workerNameCandidate}`:"점검자 이름 미검출 — 직접 입력";$("shiftRawText").value=state.shift?.fullText||"";$("patrolRawText").value=state.patrol?.fullText||"";renderEquipmentTable();renderSpecial();updateReport();}
-function renderEquipmentTable(){const tbody=$("equipmentBody");tbody.innerHTML="";rowRefs.clear();for(const eq of REPORT_ORDER){const num=state.equipmentNumbers[eq],pd=state.patrolData[eq]||{},tr=document.createElement("tr"),tdEq=document.createElement("td");tdEq.textContent=eq;const tdN=document.createElement("td"),numberInput=document.createElement("input");numberInput.className="miniInput numberInput";numberInput.value=num||"";numberInput.placeholder="#26-";tdN.appendChild(numberInput);const tdND=document.createElement("td");tdND.textContent=num?"검출":"미검출";tdND.className=num?"detected":"notDetected";const tdT=document.createElement("td"),tempInput=document.createElement("input");tempInput.className="miniInput tempInput";tempInput.type="number";tempInput.inputMode="numeric";tempInput.placeholder=eq==="TG1"?"수동":"℃";tempInput.value=pd.temperature??"";tdT.appendChild(tempInput);const tdS=document.createElement("td"),statusSelect=document.createElement("select");statusSelect.className="miniSelect";["","승온중","유지중","냉각중"].forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v||"선택";statusSelect.appendChild(o);});statusSelect.value=pd.status||"";tdS.appendChild(statusSelect);const tdQ=document.createElement("td");if(eq==="TG1"){tdQ.textContent="수동";tdQ.className="manual";}else if(pd.temperature!==null&&pd.status){tdQ.textContent="자동";tdQ.className="detected";}else{tdQ.textContent="확인";tdQ.className="review";}const tdR=document.createElement("td");tdR.textContent="제외";tdR.className="reportNo";[tdEq,tdN,tdND,tdT,tdS,tdQ,tdR].forEach(td=>tr.appendChild(td));tbody.appendChild(tr);rowRefs.set(eq,{numberInput,tempInput,statusSelect,qualityCell:tdQ,reportCell:tdR,source:pd});const handler=()=>{updateSingleRow(eq);updateReport();buildCombinedJson();};numberInput.addEventListener("input",handler);tempInput.addEventListener("input",handler);statusSelect.addEventListener("change",handler);updateSingleRow(eq);}}
-function renderSpecial(){const map=[["incinerator1","inc1","inc1Hint"],["incinerator3","inc3","inc3Hint"],["oldDryChamber","oldDry","dryHint"]];for(const [id,key,hid] of map){const d=state.special[key];$(id).value=d?.value??"";$(hid).textContent=d?`OCR ${d.confidence??"-"}%${d.retryRaw?" · 재OCR":""}`:"미검출";}}
-function calculateAutoFillRate(){let total=0,filled=0;for(const eq of REPORT_ORDER){if(eq==="TG1")continue;total+=3;if(state.equipmentNumbers[eq])filled++;const p=state.patrolData[eq];if(p?.temperature!==null)filled++;if(p?.status)filled++;}return total?Math.round(filled/total*100):0;}
-function updateSingleRow(eq){const r=rowRefs.get(eq);if(!r)return;const n=normalizeReportNumber(r.numberInput.value),t=cleanTemperature(r.tempInput.value),s=r.statusSelect.value,inc=!!n&&shouldIncludeEquipment(t,s);r.reportCell.textContent=inc?"포함":"제외";r.reportCell.className=inc?"reportYes":"reportNo";}
-function shouldIncludeEquipment(t,s){if(t===null||!s)return false;if(t>=100)return true;if(t>=10&&t<100&&s==="승온중")return true;return false;}
-
-["workShift","workerRank","workerName","incinerator1","incinerator3","oldDryChamber","equipmentNote","patrolResult","outsideResult","lpgResult","nightWorkers"].forEach(id=>{["input","change"].forEach(ev=>$(id).addEventListener(ev,()=>{updateReport();buildCombinedJson();}));});
-function updateReport(){if($("reportSection").style.display==="none")return;const lines=[],d=state.parsedDate;if(d)lines.push(`${pad2(d.month)}월 ${pad2(d.day)}일 (${getWeekdayKo(d)}) ${$("workShift").value}근무자`);else lines.push(`00월 00일 (요일) ${$("workShift").value}근무자`);lines.push(`${$("workerName").value.trim()||"000"} ${$("workerRank").value.trim()||"사원"} 입니다.`);lines.push("",`\"장비가동현황\"`);
-  for(const eq of REPORT_ORDER){const r=rowRefs.get(eq);if(!r)continue;const n=normalizeReportNumber(r.numberInput.value),t=cleanTemperature(r.tempInput.value),s=r.statusSelect.value;if(!n||!shouldIncludeEquipment(t,s))continue;lines.push(`${n} ${eq} ${t}도 / ${s}`);}
-  const i1=cleanTemperature($("incinerator1").value),i3=cleanTemperature($("incinerator3").value);if(i1!==null||i3!==null){lines.push("","-TG소각기-");if(i1!==null)lines.push(`1동 ${i1}도`);if(i3!==null)lines.push(`3동 ${i3}도`);}const dry=cleanTemperature($("oldDryChamber").value);if(dry!==null)lines.push("",`구형드라이챔버 ${dry}도`);lines.push("",`\"장비특이사항\"`);const note=$("equipmentNote").value.trim();if(note)lines.push(note);lines.push("",`\"순찰시 점검결과\"`,$("patrolResult").value.trim()||"이상없음","",`\"외곽순찰 특이사항\"`,$("outsideResult").value.trim()||"없음","",`LPG기화기 ${$("lpgResult").value.trim()||"이상없음"}`);const nw=$("nightWorkers").value.trim();if(nw)lines.push("",`“금일 야간근무자”`,nw);lines.push("","이상입니다.");$("reportText").value=lines.join("\n");}
-function normalizeReportNumber(v){const raw=String(v||"").trim().replace(/[‐-‒–—−]/g,"-").replace(/\s+/g,"");if(!raw)return"";if(raw.startsWith("#"))return raw;if(/^26-?\d{1,3}$/.test(raw))return"#26-"+raw.replace(/^26-?/,"");return raw;}
-function cleanTemperature(v){if(v===""||v==null)return null;const n=Number(v);return Number.isFinite(n)?n:null;}
-
-function buildCombinedJson(){const equipment={};rowRefs.forEach((r,name)=>{const t=cleanTemperature(r.tempInput.value),s=r.statusSelect.value;equipment[name]={ocrDetectedNumber:state.equipmentNumbers[name]||null,number:r.numberInput.value.trim()||null,temperature:t,status:s||null,tempConfidence:r.source?.tempConfidence??null,statusConfidence:r.source?.statusConfidence??null,manual:name==="TG1",includedInReport:!!normalizeReportNumber(r.numberInput.value)&&shouldIncludeEquipment(t,s)};});state.combinedJson={version:VERSION,createdAt:new Date().toISOString(),parsed:{date:state.parsedDate,weekday:state.parsedDate?getWeekdayKo(state.parsedDate):null,workShift:$("workShift").value,workerNameCandidate:state.workerNameCandidate||null,workerName:$("workerName").value.trim()||null,workerRank:$("workerRank").value.trim()||null,autoFillRate:calculateAutoFillRate(),retryCount:state.retryCount,equipment,specialTemperature:{incinerator1:cleanTemperature($("incinerator1").value),incinerator3:cleanTemperature($("incinerator3").value),oldDryChamber:cleanTemperature($("oldDryChamber").value)},generatedReport:$("reportText").value||""},shiftWorkLog:state.shift?{image:state.shift.image,fullText:state.shift.fullText,wordCount:state.shift.wordCount,words:state.shift.words,rawVision:state.shift.rawVision}:null,patrolLog:state.patrol?{image:state.patrol.image,fullText:state.patrol.fullText,wordCount:state.patrol.wordCount,words:state.patrol.words,parsedRows:state.patrolData,special:state.special,rawVision:state.patrol.rawVision}:null};}
-
-$("downloadJsonTxtBtn").addEventListener("click",()=>{buildCombinedJson();if(!state.combinedJson)return showError("먼저 OCR 분석을 해주세요.");const ds=state.parsedDate?`${state.parsedDate.year}${pad2(state.parsedDate.month)}${pad2(state.parsedDate.day)}`:"UNKNOWN";downloadTextFile(`DACC_OCR_V7_${ds}.txt`,JSON.stringify(state.combinedJson,null,2));});
 $("copyJsonBtn").addEventListener("click",()=>{
   buildCombinedJson();
 
   if(!state.combinedJson){
-    showError("먼저 OCR 분석을 해주세요.");
+    showError("먼저 GPT 분석을 해주세요.");
     return;
   }
 
   const value=JSON.stringify(state.combinedJson,null,2);
 
   copyTextIOS(value,null)
-    .then(()=>showSuccess("JSON 전체를 복사했습니다."))
+    .then(()=>showSuccess("GPT JSON 전체를 복사했습니다."))
     .catch(error=>{
       console.error("JSON copy failed",error);
       showError(error?.message||"JSON 복사에 실패했습니다.");
@@ -1289,7 +1398,6 @@ $("copyReportBtn").addEventListener("click",()=>{
   }
 
   const original=btn.textContent;
-
   btn.textContent="복사 중...";
   btn.disabled=true;
 
@@ -1355,17 +1463,13 @@ $("downloadReportBtn").addEventListener("click",()=>{
     :"UNKNOWN";
 
   downloadTextFile(
-    `DACC_REPORT_${ds}.txt`,
+    `DACC_GPT_REPORT_${ds}.txt`,
     $("reportText").value
   );
 });
 
 function downloadTextFile(filename,text){
-  const blob=new Blob(
-    [text],
-    {type:"text/plain;charset=utf-8"}
-  );
-
+  const blob=new Blob([text],{type:"text/plain;charset=utf-8"});
   const url=URL.createObjectURL(blob);
   const a=document.createElement("a");
 
@@ -1381,7 +1485,6 @@ function downloadTextFile(filename,text){
 
 function legacyHiddenCopy(text){
   const t=document.createElement("textarea");
-
   t.value=text;
   t.setAttribute("readonly","");
   t.style.position="fixed";
@@ -1406,7 +1509,6 @@ function legacyHiddenCopy(text){
   }catch{}
 
   t.remove();
-
   return ok;
 }
 
@@ -1414,9 +1516,7 @@ function copyTextIOS(text,visibleTextarea=null){
   const value=String(text??"");
 
   if(!value){
-    return Promise.reject(
-      new Error("복사할 내용이 없습니다.")
-    );
+    return Promise.reject(new Error("복사할 내용이 없습니다."));
   }
 
   if(
@@ -1429,22 +1529,14 @@ function copyTextIOS(text,visibleTextarea=null){
       .catch(error=>{
         console.warn("navigator.clipboard failed",error);
 
-        if(legacyHiddenCopy(value)){
-          return true;
-        }
+        if(legacyHiddenCopy(value))return true;
 
         if(visibleTextarea){
           try{
             visibleTextarea.focus({preventScroll:true});
             visibleTextarea.select();
-            visibleTextarea.setSelectionRange(
-              0,
-              visibleTextarea.value.length
-            );
-
-            if(document.execCommand("copy")===true){
-              return true;
-            }
+            visibleTextarea.setSelectionRange(0,visibleTextarea.value.length);
+            if(document.execCommand("copy")===true)return true;
           }catch{}
         }
 
@@ -1460,10 +1552,7 @@ function copyTextIOS(text,visibleTextarea=null){
     try{
       visibleTextarea.focus({preventScroll:true});
       visibleTextarea.select();
-      visibleTextarea.setSelectionRange(
-        0,
-        visibleTextarea.value.length
-      );
+      visibleTextarea.setSelectionRange(0,visibleTextarea.value.length);
 
       if(document.execCommand("copy")===true){
         return Promise.resolve(true);
@@ -1476,11 +1565,43 @@ function copyTextIOS(text,visibleTextarea=null){
   );
 }
 
-function setProgress(m){const e=$("progress");if(!m){e.style.display="none";e.textContent="";return;}e.textContent=m;e.style.display="block";}
-function showError(m){$("errorBox").textContent=m;$("errorBox").style.display="block";$("successBox").style.display="none";}
-function showSuccess(m){$("successBox").textContent=m;$("successBox").style.display="block";$("errorBox").style.display="none";}
-function hideMessages(){$("errorBox").style.display="none";$("successBox").style.display="none";}
-function pad2(v){return String(v).padStart(2,"0");}
+function setProgress(m){
+  const e=$("progress");
+  if(!m){
+    e.style.display="none";
+    e.textContent="";
+    return;
+  }
+  e.textContent=m;
+  e.style.display="block";
+}
+
+function showError(m){
+  $("errorBox").textContent=m;
+  $("errorBox").style.display="block";
+  $("successBox").style.display="none";
+}
+
+function showSuccess(m){
+  $("successBox").textContent=m;
+  $("successBox").style.display="block";
+  $("errorBox").style.display="none";
+}
+
+function hideMessages(){
+  $("errorBox").style.display="none";
+  $("successBox").style.display="none";
+}
+
+function pad2(v){
+  return String(v).padStart(2,"0");
+}
+
+restoreTestCache().catch(error=>{
+  console.warn("초기 캐시 복원 실패",error);
+  updateCacheStatus();
+});
+
 </script>
 </body>
 </html>
