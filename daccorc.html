@@ -127,7 +127,7 @@
 </main>
 
 <script>
-const VERSION="DACC OCR TEST V7.6.3";
+const VERSION="DACC OCR TEST V7.6.4";
 const MAX_IMAGE_SIDE=2800;
 const JPEG_QUALITY=0.94;
 const MAX_RETRY_CELLS=24;
@@ -1294,10 +1294,20 @@ async function cropAndOcr(apiKey,canvas,box,mode,variant="soft"){
 }
 
 function equipmentTemperatureMax(eq){
-  if(eq==="TG7")return 1100;
-  if(/^GF\d+$/.test(String(eq||"")))return 2200;
-  if(/^CF[1-6]$/.test(String(eq||"")))return 1000;
-  if(eq==="SMI")return 1600;
+  const name=String(eq||"");
+
+  if(/^TG[1-5]$/.test(name))return 950;
+  if(name==="TG6")return 980;
+  if(name==="TG7")return 1100;
+
+  if(name==="GF1"||name==="GF4")return 2400;
+  if(/^GF\d+$/.test(name))return 2200;
+
+  if(name==="CF1"||name==="CF2")return 320;
+  if(/^CF[3-6]$/.test(name))return 1000;
+  if(name==="CFë¶ìê¸°ë¡")return 900;
+
+  if(name==="SMI")return 1550;
   return 2500;
 }
 
@@ -1543,7 +1553,8 @@ async function retryWeakCells(apiKey){
   const numbered=allRows.filter(eq=>!!state.equipmentNumbers[eq]);
 
   // 1) ë¬¼ë¦¬ ìí ì´ê³¼ ë± ë¹ì ì ì¨ëë ì¥ë¹ë²í¸ê° ìì´ë ì¬ê²ì¦íë¤.
-  //    TG7 1100 / GF 2200 / CF 1000 / SMI 1600 ì´ê³¼ê°ì ìë íì  ê¸ì§.
+  //    ì¥ë¹ë³ ìí: TG1~5 950 / TG6 980 / TG7 1100 / GF1Â·GF4 2400 / ê¸°í GF 2200
+  //    CF1Â·2 320 / CF3~6 1000 / SMI 1550 / CFë¶ìê¸°ë¡ 900.
   for(const eq of allRows){
     if(usedRef.used>=MAX_RETRY_CELLS)break;
     const d=state.patrolData[eq];
