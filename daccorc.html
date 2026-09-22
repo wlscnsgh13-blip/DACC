@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#05070d" />
-  <title>DACC OCR TEST V7.6.9</title>
+  <title>DACC OCR TEST V7.6.10</title>
   <style>
     *{box-sizing:border-box}html,body{margin:0;padding:0;background:#05070d;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}body{min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{width:100%;max-width:760px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) 14px calc(40px + env(safe-area-inset-bottom))}.header{margin-bottom:18px}.brand{color:#a78bfa;font-size:13px;font-weight:800;letter-spacing:1.5px;margin-bottom:6px}h1{margin:0;font-size:27px;line-height:1.25}.subtitle{color:#94a3b8;font-size:14px;line-height:1.6;margin-top:7px}.card{background:#0d1223;border:1px solid #1e293b;border-radius:18px;padding:15px;margin-bottom:14px}.cardTitle{font-size:16px;font-weight:800;margin-bottom:12px}.label{display:block;color:#94a3b8;font-size:12px;font-weight:700;margin-bottom:6px}.input,.select,.textarea{width:100%;border:1px solid #334155;background:#080c17;color:#fff;border-radius:12px;outline:none}.input,.select{height:46px;padding:0 12px}.textarea{min-height:140px;padding:12px;resize:vertical;line-height:1.55}.input:focus,.select:focus,.textarea:focus{border-color:#a78bfa}.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}.grow{flex:1}.btn{border:0;min-height:46px;padding:0 15px;border-radius:12px;font-weight:800;color:#fff;background:#1e293b}.btnPrimary{background:#7c3aed}.btnGreen{background:#15803d}.btnDanger{background:#7f1d1d}.btnFull{width:100%}.hint{color:#64748b;font-size:12px;line-height:1.55;margin-top:8px}.uploadBox{border:1px dashed #475569;border-radius:14px;padding:12px;margin-top:10px}.uploadBox input[type=file]{width:100%;color:#cbd5e1}.sourceButtons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sourceBtn{display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;font-weight:800;color:#fff;background:#1e293b;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}.sourceBtnPrimary{background:#7c3aed}.hiddenFile{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;overflow:hidden!important}.selectedFileName{margin-top:9px;color:#94a3b8;font-size:12px;min-height:18px;word-break:break-all}.cacheStatus{margin-top:10px;padding:10px 12px;border:1px solid #1e293b;border-radius:12px;background:#080c17;color:#94a3b8;font-size:12px;line-height:1.5}.cacheStatus strong{color:#c4b5fd}.preview{width:100%;max-height:340px;object-fit:contain;border-radius:12px;background:#020617;margin-top:12px;display:none}.progress,.error,.success{display:none;margin-top:12px;border-radius:12px;padding:12px;font-size:13px;line-height:1.5}.progress{background:#111827;color:#c4b5fd;font-weight:700}.error{background:rgba(127,29,29,.28);border:1px solid #7f1d1d;color:#fecaca}.success{background:rgba(21,128,61,.18);border:1px solid #166534;color:#bbf7d0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.stat{background:#080c17;border:1px solid #1e293b;border-radius:12px;padding:10px;text-align:center}.statValue{font-size:18px;font-weight:900}.statLabel{color:#64748b;font-size:11px;margin-top:4px}.tableWrap{width:100%;overflow-x:auto;border:1px solid #1e293b;border-radius:14px}table{width:100%;min-width:760px;border-collapse:collapse;background:#080c17}th,td{padding:9px 7px;border-bottom:1px solid #1e293b;text-align:center;font-size:12px}th{position:sticky;top:0;background:#111827;color:#94a3b8;font-weight:800}td:first-child{font-weight:900;white-space:nowrap}.miniInput,.miniSelect{height:36px;border:1px solid #334155;border-radius:9px;background:#05070d;color:#fff;padding:0 8px;outline:none}.numberInput{width:105px}.tempInput{width:76px;text-align:center}.miniSelect{width:100px}.detected{color:#86efac;font-weight:800}.notDetected{color:#fca5a5;font-weight:800}.review{color:#fde68a;font-weight:800}.reportYes{color:#86efac;font-weight:900}.reportNo{color:#64748b;font-weight:800}.manual{color:#c4b5fd;font-weight:800}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.sectionDivider{height:1px;background:#1e293b;margin:15px 0}.rawText{min-height:220px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}details{margin-top:10px}summary{cursor:pointer;color:#c4b5fd;font-size:13px;font-weight:800}.downloadRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.badge{display:inline-flex;align-items:center;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:800;background:#111827;color:#cbd5e1}.badgeOk{color:#86efac}.badgeWarn{color:#fde68a}.badgeBad{color:#fca5a5}.small{font-size:11px;color:#94a3b8;line-height:1.35}@media(max-width:520px){.grid2,.grid3{grid-template-columns:1fr}.downloadRow{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
   </style>
@@ -12,21 +12,10 @@
 <body>
 <main class="app">
   <header class="header">
-    <div class="brand">DACC OCR TEST V7.6.9</div>
+    <div class="brand">DACC OCR TEST V7.6.10</div>
     <h1>Google Vision OCR</h1>
-    <div class="subtitle">교대업무일지 → 장비 가동번호<br>순찰일지 → 온도 · 승온/유지/냉각 정밀 자동판독<br>V7.6.9: V7.5 동적 매핑 유지 · 오답 억제 · 표선 제거 재OCR · 애매한 손글씨는 확인필요</div>
+    <div class="subtitle">교대업무일지 → 장비 가동번호<br>순찰일지 → 온도 · 승온/유지/냉각 정밀 자동판독<br>V7.6.10: V7.5 동적 매핑 유지 · 오답 억제 · 표선 제거 재OCR · 애매한 손글씨는 확인필요</div>
   </header>
-
-  <section class="card">
-    <div class="cardTitle">Google Vision API</div>
-    <label class="label" for="apiKey">API KEY</label>
-    <div class="row">
-      <input id="apiKey" class="input grow" type="password" placeholder="Google Vision API Key" autocomplete="off" />
-      <button id="saveApiKeyBtn" class="btn btnPrimary">저장</button>
-    </div>
-    <button id="deleteApiKeyBtn" class="btn btnDanger btnFull" style="margin-top:8px;">저장된 API KEY 삭제</button>
-    <div class="hint">API KEY는 GitHub 코드가 아니라 이 기기의 localStorage에만 저장됩니다.</div>
-  </section>
 
   <section class="card">
     <div class="cardTitle">1. 교대업무일지</div>
@@ -127,7 +116,7 @@
 </main>
 
 <script>
-const VERSION="DACC OCR TEST V7.6.9";
+const VERSION="DACC OCR TEST V7.6.10";
 const MAX_IMAGE_SIDE=2800;
 const JPEG_QUALITY=0.94;
 const MAX_RETRY_CELLS=24;
@@ -138,11 +127,7 @@ const PATROL_ROW_ORDER=["TG2","TG3","TG4","TG5","TG6","TG7","GF1","GF3","GF4","G
 const state={shift:null,patrol:null,parsedDate:null,workerNameCandidate:"",equipmentNumbers:{},patrolData:{},special:{},patrolGeometry:null,combinedJson:null,retryCount:0,shiftCanvas:null,patrolCanvas:null};
 const rowRefs=new Map();
 const $=id=>document.getElementById(id);
-const apiKeyInput=$("apiKey");
-apiKeyInput.value=localStorage.getItem("dacc_google_vision_api_key")||"";
-
-$("saveApiKeyBtn").addEventListener("click",()=>{const v=apiKeyInput.value.trim();if(!v)return showError("API KEY를 입력해주세요.");localStorage.setItem("dacc_google_vision_api_key",v);showSuccess("API KEY를 현재 기기에 저장했습니다.");});
-$("deleteApiKeyBtn").addEventListener("click",()=>{localStorage.removeItem("dacc_google_vision_api_key");apiKeyInput.value="";showSuccess("저장된 API KEY를 삭제했습니다.");});
+const DACC_OCR_WORKER_URL="https://daccocr.chun-ho.workers.dev/ocr";
 
 let shiftPreviewUrl=null,patrolPreviewUrl=null;
 const selectedFiles={shift:null,patrol:null};
@@ -481,10 +466,6 @@ async function parseCurrentOcr(apiKey,{allowRetry=true}={}){
     "전체 OCR 다시 실행"을 사용한다.
   */
   if(allowRetry){
-    if(!apiKey){
-      throw new Error("재OCR을 위해 Google Vision API KEY가 필요합니다.");
-    }
-
     setProgress("애매한 셀 재OCR 중...");
     await retryWeakCells(apiKey);
   }
@@ -501,11 +482,10 @@ async function parseCurrentOcr(apiKey,{allowRetry=true}={}){
 $("analyzeBtn").addEventListener("click",async()=>{
   hideMessages();
 
-  const apiKey=apiKeyInput.value.trim();
+  const apiKey="worker-proxy";
   const shiftFile=selectedFiles.shift;
   const patrolFile=selectedFiles.patrol;
 
-  if(!apiKey)return showError("Google Vision API KEY가 없습니다.");
   if(!patrolFile)return showError("순찰일지 사진을 선택해주세요.");
 
   $("analyzeBtn").disabled=true;
@@ -663,8 +643,14 @@ async function prepareImage(file){
 async function loadImageSource(file){try{if("createImageBitmap"in window){const b=await createImageBitmap(file);return{source:b,width:b.width,height:b.height,cleanup(){b.close?.();}};}}catch(e){console.warn(e);}return await new Promise((resolve,reject)=>{const url=URL.createObjectURL(file),img=new Image();img.onload=()=>resolve({source:img,width:img.naturalWidth,height:img.naturalHeight,cleanup(){URL.revokeObjectURL(url);}});img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("이미지를 불러오지 못했습니다."));};img.src=url;});}
 
 async function requestVision(apiKey,imageBase64){
-  const res=await fetch("https://vision.googleapis.com/v1/images:annotate?key="+encodeURIComponent(apiKey),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({requests:[{image:{content:imageBase64},features:[{type:"DOCUMENT_TEXT_DETECTION",maxResults:1}],imageContext:{languageHints:["ko","en"]}}]})});
-  const json=await res.json();if(!res.ok)throw new Error(json?.error?.message||"Google Vision API 요청 실패");if(json?.responses?.[0]?.error)throw new Error(json.responses[0].error.message||"Vision OCR 오류");return json;
+  const res=await fetch(DACC_OCR_WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({requests:[{image:{content:imageBase64},features:[{type:"DOCUMENT_TEXT_DETECTION",maxResults:1}],imageContext:{languageHints:["ko","en"]}}]})});
+  const json=await res.json();
+  if(!res.ok){
+    const msg=json?.error?.message||json?.message||(typeof json?.error==="string"?json.error:null)||"DACC OCR Worker 요청 실패";
+    throw new Error(msg);
+  }
+  if(json?.responses?.[0]?.error)throw new Error(json.responses[0].error.message||"Vision OCR 오류");
+  return json;
 }
 function buildOcrResult(visionJson,image){const response=visionJson?.responses?.[0]||{},full=response.fullTextAnnotation||{},words=extractWords(full);return{image:{width:image.width,height:image.height},fullText:full.text||"",wordCount:words.length,words,rawVision:visionJson};}
 function extractWords(full){const out=[];(full?.pages||[]).forEach((p,pi)=>(p.blocks||[]).forEach((b,bi)=>(b.paragraphs||[]).forEach((pa,pai)=>(pa.words||[]).forEach((w,wi)=>{const text=(w.symbols||[]).map(s=>s.text||"").join("");const vertices=(w.boundingBox?.vertices||[]).map(v=>({x:Number(v.x)||0,y:Number(v.y)||0}));while(vertices.length<4)vertices.push({x:0,y:0});const xs=vertices.map(v=>v.x),ys=vertices.map(v=>v.y),left=Math.min(...xs),top=Math.min(...ys),right=Math.max(...xs),bottom=Math.max(...ys);out.push({seq:out.length,text,confidence:w.confidence!=null?Number((w.confidence*100).toFixed(1)):null,left,top,right,bottom,centerX:Math.round((left+right)/2),centerY:Math.round((top+bottom)/2),width:right-left,height:bottom-top,vertices,page:pi,block:bi,paragraph:pai,word:wi});}))));return out;}
@@ -937,7 +923,7 @@ function buildTemperatureSequence(words,W,H,anchors){
     }
   }
 
-  // V7.6.9: 온도 후보는 읽기순서가 아니라 실제 Y좌표의 "행 소유권"으로 최종 배정한다.
+  // V7.6.10: 온도 후보는 읽기순서가 아니라 실제 Y좌표의 "행 소유권"으로 최종 배정한다.
   // 사진 기울기/원근 때문에 중간 행 숫자가 비면 뒤 숫자를 앞 장비에 당겨 붙이던 문제를 차단한다.
   // 예: 9/18의 CF6 330은 CF6 행으로, 구형드라이 120은 일반 장비에 배정하지 않는다.
   const owned=Array(rows.length).fill(null);
@@ -1226,7 +1212,7 @@ function detectSpecialTemperatures(words,W,H){
   const tempSeq=geom?.tempSeq;
   if(!tempSeq)return{oldDry:null,inc1:null,inc3:null};
 
-  // V7.6.9: 특수온도도 고정 targetY 한 점이 아니라 실제 고정행의 "소유 구간"으로 판정한다.
+  // V7.6.10: 특수온도도 고정 targetY 한 점이 아니라 실제 고정행의 "소유 구간"으로 판정한다.
   // 행번호 자체가 사진 원근에 따라 휘어지므로 18~29행의 실제 행번호 Y를 우선 사용하고,
   // 행번호를 못 읽은 곳만 일반 장비 행 기울기에서 외삽한다.
   const centers={};
@@ -1701,7 +1687,7 @@ async function retrySpecialTemperature(apiKey,d,W,H,usedRef){
   const cy=Number.isFinite(d.targetY)?d.targetY:(d.rowY||H*0.5);
   const rh=Math.max(24,d.rowHeight||state.patrolGeometry?.tempSeq?.step||H*0.02);
 
-  // V7.6.9: 가능한 경우 고정 행의 위/아래 경계 전체를 crop한다.
+  // V7.6.10: 가능한 경우 고정 행의 위/아래 경계 전체를 crop한다.
   // 중심점이 반 행씩 흔들리는 사진에서도 자기 행 안 숫자는 살리고, HIP/인접 행 숫자는 차단한다.
   const bandTop=Number.isFinite(d.rowTop)?d.rowTop:(cy-rh*0.38);
   const bandBottom=Number.isFinite(d.rowBottom)?d.rowBottom:(cy+rh*0.38);
@@ -1956,7 +1942,7 @@ function buildCombinedJson(){
   };
 }
 
-$("downloadJsonTxtBtn").addEventListener("click",()=>{buildCombinedJson();if(!state.combinedJson)return showError("먼저 OCR 분석을 해주세요.");const ds=state.parsedDate?`${state.parsedDate.year}${pad2(state.parsedDate.month)}${pad2(state.parsedDate.day)}`:"UNKNOWN";downloadTextFile(`DACC_OCR_V7_6_9_${ds}.txt`,JSON.stringify(state.combinedJson,null,2));});
+$("downloadJsonTxtBtn").addEventListener("click",()=>{buildCombinedJson();if(!state.combinedJson)return showError("먼저 OCR 분석을 해주세요.");const ds=state.parsedDate?`${state.parsedDate.year}${pad2(state.parsedDate.month)}${pad2(state.parsedDate.day)}`:"UNKNOWN";downloadTextFile(`DACC_OCR_V7_6_10_${ds}.txt`,JSON.stringify(state.combinedJson,null,2));});
 $("copyJsonBtn").addEventListener("click",()=>{
   buildCombinedJson();
 
