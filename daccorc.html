@@ -1,122 +1,119 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#05070d" />
-  <title>DACC OCR TEST V7.6.10</title>
-  <style>
-    *{box-sizing:border-box}html,body{margin:0;padding:0;background:#05070d;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}body{min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{width:100%;max-width:760px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) 14px calc(40px + env(safe-area-inset-bottom))}.header{margin-bottom:18px}.brand{color:#a78bfa;font-size:13px;font-weight:800;letter-spacing:1.5px;margin-bottom:6px}h1{margin:0;font-size:27px;line-height:1.25}.subtitle{color:#94a3b8;font-size:14px;line-height:1.6;margin-top:7px}.card{background:#0d1223;border:1px solid #1e293b;border-radius:18px;padding:15px;margin-bottom:14px}.cardTitle{font-size:16px;font-weight:800;margin-bottom:12px}.label{display:block;color:#94a3b8;font-size:12px;font-weight:700;margin-bottom:6px}.input,.select,.textarea{width:100%;border:1px solid #334155;background:#080c17;color:#fff;border-radius:12px;outline:none}.input,.select{height:46px;padding:0 12px}.textarea{min-height:140px;padding:12px;resize:vertical;line-height:1.55}.input:focus,.select:focus,.textarea:focus{border-color:#a78bfa}.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}.grow{flex:1}.btn{border:0;min-height:46px;padding:0 15px;border-radius:12px;font-weight:800;color:#fff;background:#1e293b}.btnPrimary{background:#7c3aed}.btnGreen{background:#15803d}.btnDanger{background:#7f1d1d}.btnFull{width:100%}.hint{color:#64748b;font-size:12px;line-height:1.55;margin-top:8px}.uploadBox{border:1px dashed #475569;border-radius:14px;padding:12px;margin-top:10px}.uploadBox input[type=file]{width:100%;color:#cbd5e1}.sourceButtons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sourceBtn{display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;font-weight:800;color:#fff;background:#1e293b;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}.sourceBtnPrimary{background:#7c3aed}.hiddenFile{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;overflow:hidden!important}.selectedFileName{margin-top:9px;color:#94a3b8;font-size:12px;min-height:18px;word-break:break-all}.cacheStatus{margin-top:10px;padding:10px 12px;border:1px solid #1e293b;border-radius:12px;background:#080c17;color:#94a3b8;font-size:12px;line-height:1.5}.cacheStatus strong{color:#c4b5fd}.preview{width:100%;max-height:340px;object-fit:contain;border-radius:12px;background:#020617;margin-top:12px;display:none}.progress,.error,.success{display:none;margin-top:12px;border-radius:12px;padding:12px;font-size:13px;line-height:1.5}.progress{background:#111827;color:#c4b5fd;font-weight:700}.error{background:rgba(127,29,29,.28);border:1px solid #7f1d1d;color:#fecaca}.success{background:rgba(21,128,61,.18);border:1px solid #166534;color:#bbf7d0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.stat{background:#080c17;border:1px solid #1e293b;border-radius:12px;padding:10px;text-align:center}.statValue{font-size:18px;font-weight:900}.statLabel{color:#64748b;font-size:11px;margin-top:4px}.tableWrap{width:100%;overflow-x:auto;border:1px solid #1e293b;border-radius:14px}table{width:100%;min-width:760px;border-collapse:collapse;background:#080c17}th,td{padding:9px 7px;border-bottom:1px solid #1e293b;text-align:center;font-size:12px}th{position:sticky;top:0;background:#111827;color:#94a3b8;font-weight:800}td:first-child{font-weight:900;white-space:nowrap}.miniInput,.miniSelect{height:36px;border:1px solid #334155;border-radius:9px;background:#05070d;color:#fff;padding:0 8px;outline:none}.numberInput{width:105px}.tempInput{width:76px;text-align:center}.miniSelect{width:100px}.detected{color:#86efac;font-weight:800}.notDetected{color:#fca5a5;font-weight:800}.review{color:#fde68a;font-weight:800}.reportYes{color:#86efac;font-weight:900}.reportNo{color:#64748b;font-weight:800}.manual{color:#c4b5fd;font-weight:800}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.sectionDivider{height:1px;background:#1e293b;margin:15px 0}.rawText{min-height:220px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}details{margin-top:10px}summary{cursor:pointer;color:#c4b5fd;font-size:13px;font-weight:800}.downloadRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.badge{display:inline-flex;align-items:center;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:800;background:#111827;color:#cbd5e1}.badgeOk{color:#86efac}.badgeWarn{color:#fde68a}.badgeBad{color:#fca5a5}.small{font-size:11px;color:#94a3b8;line-height:1.35}@media(max-width:520px){.grid2,.grid3{grid-template-columns:1fr}.downloadRow{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f6fa">
+<title>DACC V7.6.11</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:#f4f6fa;color:#172033;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+body{min-height:100vh}button,input,textarea,select{font:inherit}button{-webkit-appearance:none;appearance:none;cursor:pointer}
+.app{max-width:520px;margin:auto;min-height:100vh;padding:20px 16px calc(50px + env(safe-area-inset-bottom))}
+.header{margin-bottom:18px}.brand{font-size:12px;font-weight:900;color:#4f6fe8;letter-spacing:1.5px}.title{font-size:24px;font-weight:900;margin:4px 0}.sub{font-size:13px;color:#8c96a9;margin-bottom:18px;line-height:1.5}
+.card{background:#fff;border:1px solid #e5e9f2;border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 5px 20px rgba(26,39,70,.04)}
+.cardTitle{font-size:15px;font-weight:900}.headrow{display:flex;align-items:center;justify-content:space-between;gap:10px}.fieldLabel,.label{display:block;font-size:12px;font-weight:900;color:#69758a;margin-bottom:7px}
+.select,.input,.textarea{width:100%;border:1px solid #dfe4ee;background:#fff;border-radius:11px;color:#172033;font-weight:800;outline:none}.select,.input{height:44px;padding:0 12px}.textarea{padding:12px;line-height:1.65;resize:vertical}.select:focus,.input:focus,.textarea:focus{border-color:#7189ef}
+.formGrid,.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.uploadBox{margin-top:12px}.upload{border:1px dashed #a9b9f6;background:#f8faff;border-radius:16px;padding:18px 12px;text-align:center;display:block}.plus{width:42px;height:42px;margin:0 auto 8px;border-radius:50%;background:#edf1ff;color:#4f6fe8;display:grid;place-items:center;font-size:27px;font-weight:500}.upload b{font-size:15px}.upload small{display:block;color:#9aa3b4;margin-top:4px;line-height:1.5}
+.sourceButtons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.sourceBtn{min-height:42px;border:1px solid #dfe4ee;border-radius:11px;background:#fff;color:#536075;font-weight:900;display:flex;align-items:center;justify-content:center}.sourceBtnPrimary{background:#4f6fe8;color:#fff;border-color:#4f6fe8}.hiddenFile{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;overflow:hidden!important}
+.selectedFileName{margin-top:9px;color:#8b95a7;font-size:12px;min-height:18px;word-break:break-all}.preview{margin-top:10px;width:100%;max-height:220px;object-fit:contain;border-radius:14px;background:#eef1f6;display:none}
+.primary,.btnPrimary{width:100%;min-height:50px;border:0;border-radius:14px;background:#4f6fe8;color:#fff;font-size:15px;font-weight:900;padding:12px}.btn{border:1px solid #dfe4ee;min-height:44px;padding:0 14px;border-radius:11px;font-weight:900;color:#536075;background:#fff}.btnGreen{background:#4f6fe8;color:#fff;border-color:#4f6fe8}.btnDanger{background:#fff4f4;color:#c35050;border-color:#f1d4d4}.btnFull{width:100%}
+.actionCard .primaryAction{width:100%;min-height:52px;border:0;border-radius:14px;background:#4f6fe8;color:#fff;font-size:15px;font-weight:900}.secondaryActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.cacheStatus{margin-top:10px;padding:10px 12px;border-radius:10px;background:#f7f9fc;color:#69758a;font-size:11px;line-height:1.5}.cacheStatus strong{color:#4f6fe8}
+.progress,.error,.success{display:none;margin:12px 0;border-radius:12px;padding:12px;font-size:12px;line-height:1.5}.progress{background:#eef2ff;color:#4f6fe8}.error{background:#fff2f2;border:1px solid #f1caca;color:#b74747}.success{background:#effaf4;border:1px solid #ccebd9;color:#268457}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.stat{background:#f7f9fc;border:1px solid #e8ecf3;border-radius:11px;padding:9px;text-align:center}.statValue{font-size:15px;font-weight:900}.statLabel{color:#8993a5;font-size:10px;margin-top:4px}.sectionDivider{height:1px;background:#eef1f5;margin:14px 0}
+.hint,.small{font-size:11px;color:#8c96a9;line-height:1.5;margin-top:7px}.tableWrap{width:100%;overflow-x:auto;border:1px solid #e5e9f2;border-radius:12px;margin-top:12px}table{width:100%;min-width:700px;border-collapse:collapse;background:#fff}th,td{padding:9px 7px;border-bottom:1px solid #eef1f5;text-align:center;font-size:12px}th{background:#f7f9fc;color:#7d8799;font-weight:900}td:first-child{font-weight:900;white-space:nowrap}.miniInput,.miniSelect{height:34px;border:1px solid #dfe4ee;border-radius:8px;background:#fff;color:#172033;padding:0 7px;outline:none}.numberInput{width:100px}.tempInput{width:72px;text-align:center}.miniSelect{width:95px}
+.detected,.reportYes{color:#20a764;font-weight:900}.notDetected{color:#d06262;font-weight:900}.review{color:#b67b17;font-weight:900}.reportNo{color:#9aa3b4;font-weight:800}.manual{color:#4f6fe8;font-weight:900}.badge{display:inline-flex;align-items:center;padding:4px 7px;border-radius:999px;font-size:10px;font-weight:900;background:#edf1ff;color:#4f6fe8}.badgeOk{background:#e7f8ef;color:#20a764}.badgeWarn{background:#fff4dd;color:#b67b17}.badgeBad{background:#ffeded;color:#d06262}
+.report{min-height:390px;background:#fbfcfe}.downloadRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.rawText{min-height:220px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px}.debugCard{opacity:.92}details{margin-top:10px}summary{cursor:pointer;color:#4f6fe8;font-size:12px;font-weight:900}
+#extraSection .textarea{min-height:80px!important}
+.versionNote{margin-left:6px;color:#a2aabd;font-size:10px;letter-spacing:0;font-weight:800}
+@media(max-width:520px){.grid3{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.downloadRow{grid-template-columns:1fr}.secondaryActions{grid-template-columns:1fr 1fr}}
+</style>
 </head>
 <body>
 <main class="app">
   <header class="header">
-    <div class="brand">DACC OCR TEST V7.6.10</div>
-    <h1>Google Vision OCR</h1>
-    <div class="subtitle">교대업무일지 → 장비 가동번호<br>순찰일지 → 온도 · 승온/유지/냉각 정밀 자동판독<br>V7.6.10: V7.5 동적 매핑 유지 · 오답 억제 · 표선 제거 재OCR · 애매한 손글씨는 확인필요</div>
+    <div class="brand">DACC <span class="versionNote">V7.6.11</span></div>
+    <div class="title">문자보고 작성 생산전용</div>
+    <div class="sub">순찰일지와 교대 업무일지를 촬영해 장비 가동현황을 확인합니다.</div>
   </header>
 
   <section class="card">
-    <div class="cardTitle">1. 교대업무일지</div>
-    <div class="hint">날짜와 장비별 26-XX 가동번호를 읽습니다. 같은 행의 번호 셀 안에 있는 값만 인정합니다.</div>
+    <div class="cardTitle">근무 정보</div>
+    <div class="formGrid" style="margin-top:12px">
+      <div><label class="fieldLabel" for="workShift">근무</label><select class="select" id="workShift"><option value="주간">주간</option><option value="야간">야간</option></select></div>
+      <div><label class="fieldLabel" for="workerRank">직급</label><select class="select" id="workerRank"><option value="대리">대리</option><option value="주임">주임</option><option value="사원" selected>사원</option></select></div>
+    </div>
+    <div style="margin-top:10px"><label class="fieldLabel" for="workerName">근무자 이름</label><input class="input" id="workerName" placeholder="이름 입력"></div>
+    <div id="nameHint" class="hint">근무자 이름은 직접 입력합니다.</div>
+  </section>
+
+  <section class="card">
+    <div class="cardTitle">사진 1 · 순찰일지</div>
     <div class="uploadBox">
-      <div class="sourceButtons">
-        <label class="sourceBtn sourceBtnPrimary" for="shiftCamera">사진 촬영</label>
-        <label class="sourceBtn" for="shiftFile">사진 선택</label>
-      </div>
-      <input id="shiftCamera" class="hiddenFile" type="file" accept="image/*" capture="environment" />
-      <input id="shiftFile" class="hiddenFile" type="file" accept="image/jpeg,image/png,image/heic,image/heif,image/webp" />
-      <div id="shiftFileName" class="selectedFileName">선택된 사진 없음</div>
-      <img id="shiftPreview" class="preview" alt="교대업무일지 미리보기" />
+      <div class="upload"><div class="plus">+</div><b>순찰일지 사진 추가</b><small>장비명부터 비고까지 표 전체가 보이게 촬영</small></div>
+      <div class="sourceButtons"><label class="sourceBtn sourceBtnPrimary" for="patrolCamera">사진 촬영</label><label class="sourceBtn" for="patrolFile">사진 선택</label></div>
+      <input id="patrolCamera" class="hiddenFile" type="file" accept="image/*" capture="environment"><input id="patrolFile" class="hiddenFile" type="file" accept="image/jpeg,image/png,image/heic,image/heif,image/webp">
+      <div id="patrolFileName" class="selectedFileName">선택된 사진 없음</div><img id="patrolPreview" class="preview" alt="순찰일지 미리보기">
     </div>
   </section>
 
   <section class="card">
-    <div class="cardTitle">2. 순찰일지</div>
-    <div class="hint">고정 행을 기준으로 온도와 승온/유지/냉각을 자동판독합니다. 애매한 셀은 자동으로 확대 재OCR합니다.</div>
+    <div class="cardTitle">사진 2 · 교대 업무일지</div>
     <div class="uploadBox">
-      <div class="sourceButtons">
-        <label class="sourceBtn sourceBtnPrimary" for="patrolCamera">사진 촬영</label>
-        <label class="sourceBtn" for="patrolFile">사진 선택</label>
-      </div>
-      <input id="patrolCamera" class="hiddenFile" type="file" accept="image/*" capture="environment" />
-      <input id="patrolFile" class="hiddenFile" type="file" accept="image/jpeg,image/png,image/heic,image/heif,image/webp" />
-      <div id="patrolFileName" class="selectedFileName">선택된 사진 없음</div>
-      <img id="patrolPreview" class="preview" alt="순찰일지 미리보기" />
+      <div class="upload"><div class="plus">+</div><b>교대 업무일지 사진 추가</b><small>장비명과 가동번호가 모두 보이게 촬영</small></div>
+      <div class="sourceButtons"><label class="sourceBtn sourceBtnPrimary" for="shiftCamera">사진 촬영</label><label class="sourceBtn" for="shiftFile">사진 선택</label></div>
+      <input id="shiftCamera" class="hiddenFile" type="file" accept="image/*" capture="environment"><input id="shiftFile" class="hiddenFile" type="file" accept="image/jpeg,image/png,image/heic,image/heif,image/webp">
+      <div id="shiftFileName" class="selectedFileName">선택된 사진 없음</div><img id="shiftPreview" class="preview" alt="교대업무일지 미리보기">
     </div>
   </section>
 
-  <section class="card">
-    <div class="cardTitle">개발 테스트</div>
-    <div class="hint">사진 두 장은 이 iPhone에 저장됩니다. 이후에는 다시 고를 필요 없이 파서만 재분석하거나, 같은 사진으로 전체 OCR만 다시 실행할 수 있습니다.</div>
-    <button id="analyzeBtn" class="btn btnPrimary btnFull" style="min-height:54px;font-size:16px;margin-top:12px;">전체 OCR 실행 / 다시 실행</button>
-    <button id="reparseBtn" class="btn btnFull" style="margin-top:8px;" disabled>파서만 다시 분석</button>
-    <button id="replacePhotosBtn" class="btn btnDanger btnFull" style="margin-top:8px;">테스트 사진 교체</button>
+  <section class="card actionCard">
+    <button id="analyzeBtn" class="primaryAction">두 사진 분석하기</button>
+    <div class="secondaryActions"><button id="reparseBtn" class="btn" disabled>저장 결과 재분석</button><button id="replacePhotosBtn" class="btn btnDanger">사진 초기화</button></div>
     <div id="cacheStatus" class="cacheStatus">저장된 테스트 데이터 확인 중...</div>
   </section>
-  <div id="progress" class="progress"></div>
-  <div id="errorBox" class="error"></div>
-  <div id="successBox" class="success"></div>
+  <div id="progress" class="progress"></div><div id="errorBox" class="error"></div><div id="successBox" class="success"></div>
 
-  <section id="resultSection" class="card" style="display:none;">
-    <div class="cardTitle">OCR 분석 결과</div>
-    <div class="stats">
-      <div class="stat"><div id="dateStat" class="statValue">-</div><div class="statLabel">날짜</div></div>
-      <div class="stat"><div id="equipmentStat" class="statValue">0</div><div class="statLabel">번호 검출</div></div>
-      <div class="stat"><div id="autoStat" class="statValue">0%</div><div class="statLabel">자동검출률</div></div>
-      <div class="stat"><div id="retryStat" class="statValue">0</div><div class="statLabel">재OCR</div></div>
-    </div>
-    <div class="sectionDivider"></div>
-    <div class="grid2">
-      <div><label class="label">근무구분</label><select id="workShift" class="select"><option value="주간">주간</option><option value="야간">야간</option></select></div>
-      <div><label class="label">직급</label><input id="workerRank" class="input" value="사원" /></div>
-    </div>
-    <div style="margin-top:10px;"><label class="label">근무자 이름</label><input id="workerName" class="input" placeholder="OCR 후 수정 가능" /></div>
-    <div id="nameHint" class="hint"></div>
+  <section id="resultSection" class="card" style="display:none">
+    <div class="headrow"><div class="cardTitle">분석 결과</div><div class="brand" id="count"></div></div>
+    <div class="stats"><div class="stat"><div id="dateStat" class="statValue">-</div><div class="statLabel">날짜</div></div><div class="stat"><div id="equipmentStat" class="statValue">0</div><div class="statLabel">번호 검출</div></div><div class="stat"><div id="autoStat" class="statValue">0%</div><div class="statLabel">자동검출률</div></div><div class="stat"><div id="retryStat" class="statValue">0</div><div class="statLabel">재OCR</div></div></div>
   </section>
 
-  <section id="equipmentSection" class="card" style="display:none;">
-    <div class="cardTitle">장비 데이터</div>
-    <div class="hint" style="margin-bottom:12px;">장비번호 · 온도 · 상태를 자동입력합니다. TG1만 온도/상태 수동입니다.<br>100도 이상 → 승온/유지/냉각 보고<br>10~99도 → 승온중만 보고<br>10도 미만 → 제외<br><b>자동검출률은 정확도가 아니라 값이 채워진 비율입니다.</b></div>
+  <section id="equipmentSection" class="card" style="display:none">
+    <div class="cardTitle">장비 가동현황</div><div class="hint">OCR 결과를 확인하고 필요한 값만 수정하면 됩니다.</div>
     <div class="tableWrap"><table><thead><tr><th>장비</th><th>가동번호</th><th>번호</th><th>온도</th><th>상태</th><th>판독</th><th>보고</th></tr></thead><tbody id="equipmentBody"></tbody></table></div>
   </section>
 
-  <section id="specialSection" class="card" style="display:none;">
-    <div class="cardTitle">추가 온도</div>
-    <div class="grid3">
-      <div><label class="label">TG소각기 1동</label><input id="incinerator1" class="input" type="number" inputmode="numeric" placeholder="자동/수정" /><div id="inc1Hint" class="small"></div></div>
-      <div><label class="label">TG소각기 3동</label><input id="incinerator3" class="input" type="number" inputmode="numeric" placeholder="자동/수정" /><div id="inc3Hint" class="small"></div></div>
-      <div><label class="label">구형 드라이챔버</label><input id="oldDryChamber" class="input" type="number" inputmode="numeric" placeholder="자동/수정" /><div id="dryHint" class="small"></div></div>
+  <section id="specialSection" class="card" style="display:none">
+    <div class="cardTitle">추가 온도</div><div class="grid3" style="margin-top:12px">
+      <div><label class="label">TG소각기 1동</label><input id="incinerator1" class="input" type="number" inputmode="numeric" placeholder="자동/수정"><div id="inc1Hint" class="small"></div></div>
+      <div><label class="label">TG소각기 3동</label><input id="incinerator3" class="input" type="number" inputmode="numeric" placeholder="자동/수정"><div id="inc3Hint" class="small"></div></div>
+      <div><label class="label">구형 드라이챔버</label><input id="oldDryChamber" class="input" type="number" inputmode="numeric" placeholder="자동/수정"><div id="dryHint" class="small"></div></div>
     </div>
   </section>
 
-  <section id="extraSection" class="card" style="display:none;">
+  <section id="extraSection" class="card" style="display:none">
     <div class="cardTitle">문자보고 추가내용</div>
-    <label class="label">장비특이사항</label><textarea id="equipmentNote" class="textarea" style="min-height:80px;" placeholder="없으면 비워두기"></textarea>
-    <div style="margin-top:10px;"><label class="label">순찰시 점검결과</label><input id="patrolResult" class="input" value="이상없음" /></div>
-    <div style="margin-top:10px;"><label class="label">외곽순찰 특이사항</label><input id="outsideResult" class="input" value="없음" /></div>
-    <div style="margin-top:10px;"><label class="label">LPG기화기</label><input id="lpgResult" class="input" value="이상없음" /></div>
-    <div style="margin-top:10px;"><label class="label">금일 야간근무자 - 선택</label><textarea id="nightWorkers" class="textarea" style="min-height:80px;" placeholder="예:&#10;안경섭 대리&#10;진춘호 사원"></textarea></div>
+    <div style="margin-top:12px"><label class="label">장비특이사항</label><textarea id="equipmentNote" class="textarea" placeholder="없으면 비워두기"></textarea></div>
+    <div style="margin-top:10px"><label class="label">순찰시 점검결과</label><input id="patrolResult" class="input" value="이상없음"></div>
+    <div style="margin-top:10px"><label class="label">외곽순찰 특이사항</label><input id="outsideResult" class="input" value="없음"></div>
+    <div style="margin-top:10px"><label class="label">LPG기화기</label><input id="lpgResult" class="input" value="이상없음"></div>
+    <div style="margin-top:10px"><label class="label">금일 야간근무자 - 선택</label><textarea id="nightWorkers" class="textarea" placeholder="예:\n안경섭 대리\n진춘호 사원"></textarea></div>
   </section>
 
-  <section id="reportSection" class="card" style="display:none;">
-    <div class="cardTitle">자동 문자보고</div>
-    <textarea id="reportText" class="textarea" style="min-height:500px;"></textarea>
-    <div class="downloadRow"><button id="copyReportBtn" class="btn btnGreen">문자보고 복사</button><button id="downloadReportBtn" class="btn">문자보고 TXT 저장</button></div>
+  <section id="reportSection" class="card" style="display:none">
+    <div class="cardTitle" style="margin-bottom:12px">문자보고</div><textarea id="reportText" class="textarea report" spellcheck="false"></textarea>
+    <div class="downloadRow"><button id="copyReportBtn" class="btn btnGreen">전체 복사</button><button id="downloadReportBtn" class="btn">TXT 저장</button></div>
+    <div class="hint">분석 결과를 확인한 뒤 전체 복사를 눌러 문자에 붙여넣으면 됩니다.</div>
   </section>
 
-  <section id="debugSection" class="card" style="display:none;">
-    <div class="cardTitle">OCR 원본 데이터</div>
-    <div class="downloadRow"><button id="downloadJsonTxtBtn" class="btn btnPrimary">OCR JSON → TXT 다운로드</button><button id="copyJsonBtn" class="btn">JSON 전체 복사</button></div>
-    <div class="hint">결과가 너무 길면 TXT 파일 그대로 ChatGPT에 올리면 됩니다.</div>
-    <details><summary>교대업무일지 OCR 원문</summary><textarea id="shiftRawText" class="textarea rawText" readonly></textarea></details>
-    <details><summary>순찰일지 OCR 원문</summary><textarea id="patrolRawText" class="textarea rawText" readonly></textarea></details>
+  <section id="debugSection" class="card debugCard" style="display:none">
+    <details><summary>개발용 OCR 데이터</summary><div class="downloadRow"><button id="downloadJsonTxtBtn" class="btn btnPrimary">OCR JSON → TXT</button><button id="copyJsonBtn" class="btn">JSON 복사</button></div><details><summary>교대업무일지 OCR 원문</summary><textarea id="shiftRawText" class="textarea rawText" readonly></textarea></details><details><summary>순찰일지 OCR 원문</summary><textarea id="patrolRawText" class="textarea rawText" readonly></textarea></details></details>
   </section>
 </main>
-
 <script>
-const VERSION="DACC OCR TEST V7.6.10";
+const VERSION="DACC OCR TEST V7.6.11";
 const MAX_IMAGE_SIDE=2800;
 const JPEG_QUALITY=0.94;
 const MAX_RETRY_CELLS=24;
@@ -923,7 +920,7 @@ function buildTemperatureSequence(words,W,H,anchors){
     }
   }
 
-  // V7.6.10: 온도 후보는 읽기순서가 아니라 실제 Y좌표의 "행 소유권"으로 최종 배정한다.
+  // V7.6.11: 온도 후보는 읽기순서가 아니라 실제 Y좌표의 "행 소유권"으로 최종 배정한다.
   // 사진 기울기/원근 때문에 중간 행 숫자가 비면 뒤 숫자를 앞 장비에 당겨 붙이던 문제를 차단한다.
   // 예: 9/18의 CF6 330은 CF6 행으로, 구형드라이 120은 일반 장비에 배정하지 않는다.
   const owned=Array(rows.length).fill(null);
@@ -1212,7 +1209,7 @@ function detectSpecialTemperatures(words,W,H){
   const tempSeq=geom?.tempSeq;
   if(!tempSeq)return{oldDry:null,inc1:null,inc3:null};
 
-  // V7.6.10: 특수온도도 고정 targetY 한 점이 아니라 실제 고정행의 "소유 구간"으로 판정한다.
+  // V7.6.11: 특수온도도 고정 targetY 한 점이 아니라 실제 고정행의 "소유 구간"으로 판정한다.
   // 행번호 자체가 사진 원근에 따라 휘어지므로 18~29행의 실제 행번호 Y를 우선 사용하고,
   // 행번호를 못 읽은 곳만 일반 장비 행 기울기에서 외삽한다.
   const centers={};
@@ -1687,7 +1684,7 @@ async function retrySpecialTemperature(apiKey,d,W,H,usedRef){
   const cy=Number.isFinite(d.targetY)?d.targetY:(d.rowY||H*0.5);
   const rh=Math.max(24,d.rowHeight||state.patrolGeometry?.tempSeq?.step||H*0.02);
 
-  // V7.6.10: 가능한 경우 고정 행의 위/아래 경계 전체를 crop한다.
+  // V7.6.11: 가능한 경우 고정 행의 위/아래 경계 전체를 crop한다.
   // 중심점이 반 행씩 흔들리는 사진에서도 자기 행 안 숫자는 살리고, HIP/인접 행 숫자는 차단한다.
   const bandTop=Number.isFinite(d.rowTop)?d.rowTop:(cy-rh*0.38);
   const bandBottom=Number.isFinite(d.rowBottom)?d.rowBottom:(cy+rh*0.38);
@@ -1942,7 +1939,7 @@ function buildCombinedJson(){
   };
 }
 
-$("downloadJsonTxtBtn").addEventListener("click",()=>{buildCombinedJson();if(!state.combinedJson)return showError("먼저 OCR 분석을 해주세요.");const ds=state.parsedDate?`${state.parsedDate.year}${pad2(state.parsedDate.month)}${pad2(state.parsedDate.day)}`:"UNKNOWN";downloadTextFile(`DACC_OCR_V7_6_10_${ds}.txt`,JSON.stringify(state.combinedJson,null,2));});
+$("downloadJsonTxtBtn").addEventListener("click",()=>{buildCombinedJson();if(!state.combinedJson)return showError("먼저 OCR 분석을 해주세요.");const ds=state.parsedDate?`${state.parsedDate.year}${pad2(state.parsedDate.month)}${pad2(state.parsedDate.day)}`:"UNKNOWN";downloadTextFile(`DACC_OCR_V7_6_11_${ds}.txt`,JSON.stringify(state.combinedJson,null,2));});
 $("copyJsonBtn").addEventListener("click",()=>{
   buildCombinedJson();
 
