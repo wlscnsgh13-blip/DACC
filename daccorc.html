@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f4f6fa">
-<title>DACC V7.6.11</title>
+<title>문자보고</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0;background:#f4f6fa;color:#172033;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
@@ -26,16 +26,45 @@ body{min-height:100vh}button,input,textarea,select{font:inherit}button{-webkit-a
 .detected,.reportYes{color:#20a764;font-weight:900}.notDetected{color:#d06262;font-weight:900}.review{color:#b67b17;font-weight:900}.reportNo{color:#9aa3b4;font-weight:800}.manual{color:#4f6fe8;font-weight:900}.badge{display:inline-flex;align-items:center;padding:4px 7px;border-radius:999px;font-size:10px;font-weight:900;background:#edf1ff;color:#4f6fe8}.badgeOk{background:#e7f8ef;color:#20a764}.badgeWarn{background:#fff4dd;color:#b67b17}.badgeBad{background:#ffeded;color:#d06262}
 .report{min-height:390px;background:#fbfcfe}.downloadRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.rawText{min-height:220px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px}.debugCard{opacity:.92}details{margin-top:10px}summary{cursor:pointer;color:#4f6fe8;font-size:12px;font-weight:900}
 #extraSection .textarea{min-height:80px!important}
-.versionNote{margin-left:6px;color:#a2aabd;font-size:10px;letter-spacing:0;font-weight:800}
-@media(max-width:520px){.grid3{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.downloadRow{grid-template-columns:1fr}.secondaryActions{grid-template-columns:1fr 1fr}}
+.header{text-align:center;margin-bottom:18px}.header .title{margin:2px 0 0;letter-spacing:.34em;text-indent:.34em;font-size:25px}
+.upload{position:relative;min-height:210px;padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.uploadEmpty{padding:18px 12px;width:100%}
+.uploadPreview{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#eef1f6;display:none}
+.upload.hasImage .uploadEmpty{display:none}
+.upload.hasImage .uploadPreview{display:block}
+.uploadFileBadge{position:absolute;left:10px;bottom:10px;max-width:calc(100% - 62px);padding:6px 9px;border-radius:8px;background:rgba(17,24,39,.72);color:#fff;font-size:11px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:none}
+.upload.hasImage .uploadFileBadge{display:block}
+.photoRemove{position:absolute;right:10px;top:10px;width:34px;height:34px;border:0;border-radius:50%;background:rgba(17,24,39,.72);color:#fff;font-size:22px;line-height:1;display:none;align-items:center;justify-content:center}
+.upload.hasImage .photoRemove{display:flex}
+.sourceBtn{cursor:pointer;border:1px solid #dfe4ee}
+#debugSection{display:none!important}
+.hiddenUi{display:none!important}
+.cameraModal{position:fixed;inset:0;z-index:9999;background:#000;display:none;flex-direction:column;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+.cameraModal.show{display:flex}
+.cameraViewport{position:relative;flex:1;min-height:0;overflow:hidden;background:#000}
+.cameraVideo{width:100%;height:100%;object-fit:cover;display:block}
+.cameraShade{position:absolute;inset:0;background:rgba(0,0,0,.08);pointer-events:none}
+.cameraGuide{position:absolute;left:8%;right:8%;top:12%;bottom:17%;pointer-events:none}
+.cameraCorner{position:absolute;width:48px;height:48px;border-color:#ffd500;border-style:solid}
+.cameraCorner.tl{left:0;top:0;border-width:5px 0 0 5px;border-radius:12px 0 0 0}
+.cameraCorner.tr{right:0;top:0;border-width:5px 5px 0 0;border-radius:0 12px 0 0}
+.cameraCorner.bl{left:0;bottom:0;border-width:0 0 5px 5px;border-radius:0 0 0 12px}
+.cameraCorner.br{right:0;bottom:0;border-width:0 5px 5px 0;border-radius:0 0 12px 0}
+.cameraGuideText{position:absolute;left:50%;bottom:5.5%;transform:translateX(-50%);width:max-content;max-width:86%;padding:9px 13px;border-radius:999px;background:rgba(0,0,0,.56);color:#fff;font-size:13px;font-weight:800;text-align:center;pointer-events:none}
+.cameraTopBar{position:absolute;left:0;right:0;top:0;padding:calc(10px + env(safe-area-inset-top)) 14px 12px;display:flex;justify-content:flex-end;z-index:2;background:linear-gradient(to bottom,rgba(0,0,0,.55),transparent)}
+.cameraClose{width:42px;height:42px;border:0;border-radius:50%;background:rgba(0,0,0,.52);color:#fff;font-size:26px}
+.cameraControls{height:116px;display:flex;align-items:center;justify-content:center;gap:30px;background:#090909}
+.cameraCapture{width:72px;height:72px;border-radius:50%;border:5px solid #fff;background:transparent;position:relative}
+.cameraCapture:after{content:"";position:absolute;inset:6px;border-radius:50%;background:#fff}
+.cameraCancel{position:absolute;left:20px;border:0;background:transparent;color:#fff;font-weight:800;font-size:15px}
+.cameraHint{position:absolute;right:18px;color:#bfc4ce;font-size:12px}
+@media(max-width:520px){.grid3{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.downloadRow{grid-template-columns:1fr}.secondaryActions{grid-template-columns:1fr}.upload{min-height:200px}}
 </style>
 </head>
 <body>
 <main class="app">
   <header class="header">
-    <div class="brand">DACC <span class="versionNote">V7.6.11</span></div>
-    <div class="title">문자보고 작성 생산전용</div>
-    <div class="sub">순찰일지와 교대 업무일지를 촬영해 장비 가동현황을 확인합니다.</div>
+    <div class="title">문 자 보 고</div>
   </header>
 
   <section class="card">
@@ -51,27 +80,36 @@ body{min-height:100vh}button,input,textarea,select{font:inherit}button{-webkit-a
   <section class="card">
     <div class="cardTitle">사진 1 · 순찰일지</div>
     <div class="uploadBox">
-      <div class="upload"><div class="plus">+</div><b>순찰일지 사진 추가</b><small>장비명부터 비고까지 표 전체가 보이게 촬영</small></div>
-      <div class="sourceButtons"><label class="sourceBtn sourceBtnPrimary" for="patrolCamera">사진 촬영</label><label class="sourceBtn" for="patrolFile">사진 선택</label></div>
-      <input id="patrolCamera" class="hiddenFile" type="file" accept="image/*" capture="environment"><input id="patrolFile" class="hiddenFile" type="file" accept="image/jpeg,image/png,image/heic,image/heif,image/webp">
-      <div id="patrolFileName" class="selectedFileName">선택된 사진 없음</div><img id="patrolPreview" class="preview" alt="순찰일지 미리보기">
+      <div id="patrolUpload" class="upload">
+        <div id="patrolUploadEmpty" class="uploadEmpty"><div class="plus">+</div><b>순찰일지 사진 추가</b><small>장비명부터 비고까지 표 전체가 보이게 촬영</small></div>
+        <img id="patrolPreview" class="uploadPreview" alt="순찰일지 미리보기">
+        <div id="patrolFileName" class="uploadFileBadge">선택된 사진 없음</div>
+        <button id="removePatrolPhoto" type="button" class="photoRemove" aria-label="순찰일지 사진 삭제">×</button>
+      </div>
+      <div class="sourceButtons"><button id="patrolCaptureBtn" type="button" class="sourceBtn sourceBtnPrimary">사진 촬영</button><button id="patrolSelectBtn" type="button" class="sourceBtn">사진 선택</button></div>
+      <input id="patrolCamera" class="hiddenFile" type="file" accept="image/*" capture="environment"><input id="patrolFile" class="hiddenFile" type="file" accept="image/*">
     </div>
   </section>
 
   <section class="card">
     <div class="cardTitle">사진 2 · 교대 업무일지</div>
     <div class="uploadBox">
-      <div class="upload"><div class="plus">+</div><b>교대 업무일지 사진 추가</b><small>장비명과 가동번호가 모두 보이게 촬영</small></div>
-      <div class="sourceButtons"><label class="sourceBtn sourceBtnPrimary" for="shiftCamera">사진 촬영</label><label class="sourceBtn" for="shiftFile">사진 선택</label></div>
-      <input id="shiftCamera" class="hiddenFile" type="file" accept="image/*" capture="environment"><input id="shiftFile" class="hiddenFile" type="file" accept="image/jpeg,image/png,image/heic,image/heif,image/webp">
-      <div id="shiftFileName" class="selectedFileName">선택된 사진 없음</div><img id="shiftPreview" class="preview" alt="교대업무일지 미리보기">
+      <div id="shiftUpload" class="upload">
+        <div id="shiftUploadEmpty" class="uploadEmpty"><div class="plus">+</div><b>교대 업무일지 사진 추가</b><small>장비명과 가동번호가 모두 보이게 촬영</small></div>
+        <img id="shiftPreview" class="uploadPreview" alt="교대업무일지 미리보기">
+        <div id="shiftFileName" class="uploadFileBadge">선택된 사진 없음</div>
+        <button id="removeShiftPhoto" type="button" class="photoRemove" aria-label="교대업무일지 사진 삭제">×</button>
+      </div>
+      <div class="sourceButtons"><button id="shiftCaptureBtn" type="button" class="sourceBtn sourceBtnPrimary">사진 촬영</button><button id="shiftSelectBtn" type="button" class="sourceBtn">사진 선택</button></div>
+      <input id="shiftCamera" class="hiddenFile" type="file" accept="image/*" capture="environment"><input id="shiftFile" class="hiddenFile" type="file" accept="image/*">
     </div>
   </section>
 
   <section class="card actionCard">
     <button id="analyzeBtn" class="primaryAction">두 사진 분석하기</button>
-    <div class="secondaryActions"><button id="reparseBtn" class="btn" disabled>저장 결과 재분석</button><button id="replacePhotosBtn" class="btn btnDanger">사진 초기화</button></div>
-    <div id="cacheStatus" class="cacheStatus">저장된 테스트 데이터 확인 중...</div>
+    <div class="secondaryActions"><button id="replacePhotosBtn" class="btn btnDanger btnFull">사진 초기화</button></div>
+    <button id="reparseBtn" class="hiddenUi" type="button" disabled></button>
+    <div id="cacheStatus" class="hiddenUi"></div>
   </section>
   <div id="progress" class="progress"></div><div id="errorBox" class="error"></div><div id="successBox" class="success"></div>
 
@@ -112,8 +150,25 @@ body{min-height:100vh}button,input,textarea,select{font:inherit}button{-webkit-a
     <details><summary>개발용 OCR 데이터</summary><div class="downloadRow"><button id="downloadJsonTxtBtn" class="btn btnPrimary">OCR JSON → TXT</button><button id="copyJsonBtn" class="btn">JSON 복사</button></div><details><summary>교대업무일지 OCR 원문</summary><textarea id="shiftRawText" class="textarea rawText" readonly></textarea></details><details><summary>순찰일지 OCR 원문</summary><textarea id="patrolRawText" class="textarea rawText" readonly></textarea></details></details>
   </section>
 </main>
+
+<div id="cameraModal" class="cameraModal" aria-hidden="true">
+  <div class="cameraViewport">
+    <video id="cameraVideo" class="cameraVideo" autoplay playsinline muted></video>
+    <div class="cameraShade"></div>
+    <div class="cameraTopBar"><button id="cameraClose" class="cameraClose" type="button" aria-label="카메라 닫기">×</button></div>
+    <div class="cameraGuide">
+      <span class="cameraCorner tl"></span><span class="cameraCorner tr"></span><span class="cameraCorner bl"></span><span class="cameraCorner br"></span>
+    </div>
+    <div class="cameraGuideText">문서가 노란 가이드 안에 들어오게 촬영</div>
+  </div>
+  <div class="cameraControls">
+    <button id="cameraCancel" class="cameraCancel" type="button">취소</button>
+    <button id="cameraCapture" class="cameraCapture" type="button" aria-label="사진 촬영"></button>
+    <div class="cameraHint">후면 카메라</div>
+  </div>
+</div>
 <script>
-const VERSION="DACC OCR TEST V7.6.11";
+const VERSION="DACC OCR TEST V7.6.12";
 const MAX_IMAGE_SIDE=2800;
 const JPEG_QUALITY=0.94;
 const MAX_RETRY_CELLS=24;
@@ -341,82 +396,173 @@ function invalidateParsedResults(){
   state.shiftCanvas=null;
   state.patrolCanvas=null;
   resetDerivedState();
-  ["resultSection","equipmentSection","specialSection","extraSection","reportSection","debugSection"].forEach(id=>$(id).style.display="none");
-}
-
-function clearSelectedPeer(type){
-  const isShift=type==="shift";
-  selectedFiles[type]=null;
-  freshSelection[type]=false;
-  if(isShift){
-    $("shiftCamera").value="";
-    $("shiftFile").value="";
-    if(shiftPreviewUrl){URL.revokeObjectURL(shiftPreviewUrl);shiftPreviewUrl=null;}
-    $("shiftPreview").removeAttribute("src");
-    $("shiftPreview").style.display="none";
-    $("shiftFileName").textContent="선택된 사진 없음";
-  }else{
-    $("patrolCamera").value="";
-    $("patrolFile").value="";
-    if(patrolPreviewUrl){URL.revokeObjectURL(patrolPreviewUrl);patrolPreviewUrl=null;}
-    $("patrolPreview").removeAttribute("src");
-    $("patrolPreview").style.display="none";
-    $("patrolFileName").textContent="선택된 사진 없음";
-  }
+  ["resultSection","equipmentSection","specialSection","extraSection","reportSection"].forEach(id=>$(id).style.display="none");
 }
 
 function sameWorkDay(a,b){
   return !!a&&!!b&&a.year===b.year&&a.day===b.day;
 }
 
-function applySelectedImage(file,imgId,type,fileNameId,persist=true){
-  if(persist&&file){
-    const peer=type==="shift"?"patrol":"shift";
-    // 새 테스트 사진을 고르면 이전 세션에서 복원된 반대쪽 사진은 자동 폐기.
-    // 같은 세션에서 방금 직접 고른 반대쪽 사진은 유지한다.
-    if(selectedFiles[peer]&&!freshSelection[peer])clearSelectedPeer(peer);
-    invalidateParsedResults();
-  }
+function updateUploadVisual(type,file){
+  const upload=$(type+"Upload");
+  const img=$(type+"Preview");
+  const name=$(type+"FileName");
 
-  if(type==="shift"&&shiftPreviewUrl){URL.revokeObjectURL(shiftPreviewUrl);shiftPreviewUrl=null;}
-  if(type==="patrol"&&patrolPreviewUrl){URL.revokeObjectURL(patrolPreviewUrl);patrolPreviewUrl=null;}
-
-  selectedFiles[type]=file||null;
-  if(persist&&file)freshSelection[type]=true;
+  if(!upload||!img||!name)return;
 
   if(!file){
-    $(imgId).style.display="none";
-    $(fileNameId).textContent="선택된 사진 없음";
+    upload.classList.remove("hasImage");
+    img.removeAttribute("src");
+    name.textContent="선택된 사진 없음";
     return;
   }
 
   const url=URL.createObjectURL(file);
 
-  if(type==="shift")shiftPreviewUrl=url;
-  else patrolPreviewUrl=url;
-
-  $(imgId).src=url;
-  $(imgId).style.display="block";
-  $(fileNameId).textContent=file.name||"촬영한 사진";
-
-  if(persist){
-    saveSelectedPhotoToCache(type,file).catch(error=>{
-      console.warn("사진 캐시 저장 실패",error);
-    });
+  if(type==="shift"){
+    if(shiftPreviewUrl)URL.revokeObjectURL(shiftPreviewUrl);
+    shiftPreviewUrl=url;
+  }else{
+    if(patrolPreviewUrl)URL.revokeObjectURL(patrolPreviewUrl);
+    patrolPreviewUrl=url;
   }
+
+  img.src=url;
+  upload.classList.add("hasImage");
+  name.textContent=file.name||"촬영한 사진";
 }
 
-function bindImageSource(inputId,imgId,type,fileNameId){
+function applySelectedImage(file,type){
+  invalidateParsedResults();
+  selectedFiles[type]=file||null;
+  freshSelection[type]=!!file;
+  updateUploadVisual(type,file);
+}
+
+function clearSelectedPhoto(type){
+  selectedFiles[type]=null;
+  freshSelection[type]=false;
+
+  const nativeCamera=$(type+"Camera");
+  const album=$(type+"File");
+  if(nativeCamera)nativeCamera.value="";
+  if(album)album.value="";
+
+  if(type==="shift"&&shiftPreviewUrl){URL.revokeObjectURL(shiftPreviewUrl);shiftPreviewUrl=null;}
+  if(type==="patrol"&&patrolPreviewUrl){URL.revokeObjectURL(patrolPreviewUrl);patrolPreviewUrl=null;}
+
+  updateUploadVisual(type,null);
+  invalidateParsedResults();
+}
+
+function bindImageSource(inputId,type){
   $(inputId).addEventListener("change",()=>{
     const file=$(inputId).files?.[0]||null;
-    if(file)applySelectedImage(file,imgId,type,fileNameId);
+    if(file)applySelectedImage(file,type);
   });
 }
 
-bindImageSource("shiftCamera","shiftPreview","shift","shiftFileName");
-bindImageSource("shiftFile","shiftPreview","shift","shiftFileName");
-bindImageSource("patrolCamera","patrolPreview","patrol","patrolFileName");
-bindImageSource("patrolFile","patrolPreview","patrol","patrolFileName");
+// 사진 선택은 별도 input으로 열어 앨범 선택 흐름과 촬영 흐름을 분리한다.
+function openAlbumPicker(type){
+  const input=$(type+"File");
+  if(!input)return;
+  input.value="";
+  try{
+    if(typeof input.showPicker==="function")input.showPicker();
+    else input.click();
+  }catch(_){
+    input.click();
+  }
+}
+
+let cameraStream=null;
+let cameraTarget=null;
+
+function stopCamera(){
+  if(cameraStream){
+    for(const track of cameraStream.getTracks())track.stop();
+    cameraStream=null;
+  }
+  const video=$("cameraVideo");
+  if(video)video.srcObject=null;
+  $("cameraModal").classList.remove("show");
+  $("cameraModal").setAttribute("aria-hidden","true");
+  document.body.style.overflow="";
+  cameraTarget=null;
+}
+
+async function openCamera(type){
+  hideMessages();
+  cameraTarget=type;
+
+  if(!navigator.mediaDevices?.getUserMedia){
+    // 구형/제한 브라우저에서는 기존 capture input으로 안전하게 fallback.
+    const fallback=$(type+"Camera");
+    fallback.value="";
+    fallback.click();
+    return;
+  }
+
+  try{
+    cameraStream=await navigator.mediaDevices.getUserMedia({
+      audio:false,
+      video:{
+        facingMode:{ideal:"environment"},
+        width:{ideal:1920},
+        height:{ideal:2560}
+      }
+    });
+
+    const video=$("cameraVideo");
+    video.srcObject=cameraStream;
+    $("cameraModal").classList.add("show");
+    $("cameraModal").setAttribute("aria-hidden","false");
+    document.body.style.overflow="hidden";
+    await video.play();
+  }catch(error){
+    console.error("camera open failed",error);
+    stopCamera();
+    const fallback=$(type+"Camera");
+    fallback.value="";
+    fallback.click();
+  }
+}
+
+async function captureCameraPhoto(){
+  const type=cameraTarget;
+  const video=$("cameraVideo");
+  if(!type||!video?.videoWidth||!video?.videoHeight)return;
+
+  const canvas=document.createElement("canvas");
+  canvas.width=video.videoWidth;
+  canvas.height=video.videoHeight;
+  const ctx=canvas.getContext("2d",{alpha:false});
+  ctx.drawImage(video,0,0,canvas.width,canvas.height);
+
+  const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/jpeg",0.94));
+  if(!blob)return showError("촬영한 사진을 만들지 못했습니다.");
+
+  const stamp=new Date().toISOString().replace(/[:.]/g,"-");
+  const file=new File([blob],`DACC_${type}_${stamp}.jpg`,{type:"image/jpeg",lastModified:Date.now()});
+  stopCamera();
+  applySelectedImage(file,type);
+}
+
+bindImageSource("shiftCamera","shift");
+bindImageSource("shiftFile","shift");
+bindImageSource("patrolCamera","patrol");
+bindImageSource("patrolFile","patrol");
+
+$("patrolCaptureBtn").addEventListener("click",()=>openCamera("patrol"));
+$("shiftCaptureBtn").addEventListener("click",()=>openCamera("shift"));
+$("patrolSelectBtn").addEventListener("click",()=>openAlbumPicker("patrol"));
+$("shiftSelectBtn").addEventListener("click",()=>openAlbumPicker("shift"));
+$("removePatrolPhoto").addEventListener("click",event=>{event.stopPropagation();clearSelectedPhoto("patrol");});
+$("removeShiftPhoto").addEventListener("click",event=>{event.stopPropagation();clearSelectedPhoto("shift");});
+$("cameraClose").addEventListener("click",stopCamera);
+$("cameraCancel").addEventListener("click",stopCamera);
+$("cameraCapture").addEventListener("click",captureCameraPhoto);
+window.addEventListener("pagehide",stopCamera);
 
 async function parseCurrentOcr(apiKey,{allowRetry=true}={}){
   if(!state.patrol){
@@ -489,7 +635,7 @@ $("analyzeBtn").addEventListener("click",async()=>{
   $("reparseBtn").disabled=true;
 
   try{
-    setProgress("저장된 테스트 사진 준비 중...");
+    setProgress("사진 준비 중...");
 
     const [shiftImage,patrolImage]=await Promise.all([
       shiftFile?prepareImage(shiftFile):Promise.resolve(null),
@@ -509,20 +655,6 @@ $("analyzeBtn").addEventListener("click",async()=>{
     state.shift=shiftVision?buildOcrResult(shiftVision,shiftImage):null;
     state.patrol=buildOcrResult(patrolVision,patrolImage);
 
-    /*
-      전체 이미지 OCR 결과를 저장.
-      다음 버전/새로고침에서는 사진 재선택 없이
-      이 JSON으로 파서만 바로 재실행 가능.
-    */
-    await saveRawOcrCache(
-      shiftFile,
-      patrolFile,
-      shiftVision,
-      patrolVision,
-      shiftImage,
-      patrolImage
-    );
-
     await parseCurrentOcr(apiKey,{allowRetry:true});
     freshSelection.shift=false;
     freshSelection.patrol=false;
@@ -532,83 +664,15 @@ $("analyzeBtn").addEventListener("click",async()=>{
     showError(error?.message||"OCR 분석 중 오류가 발생했습니다.");
   }finally{
     $("analyzeBtn").disabled=false;
-    updateCacheStatus(await cacheGet());
   }
 });
 
-$("reparseBtn").addEventListener("click",async()=>{
+$("reparseBtn").addEventListener("click",()=>{});
+
+$("replacePhotosBtn").addEventListener("click",()=>{
   hideMessages();
-
-  $("reparseBtn").disabled=true;
-  $("analyzeBtn").disabled=true;
-
-  try{
-    const cache=await cacheGet();
-
-    if(!cache?.patrolVision||!cache?.patrolImageMeta){
-      throw new Error("저장된 순찰일지 원본 OCR JSON이 없습니다. 전체 OCR을 먼저 실행해주세요.");
-    }
-
-    setProgress("저장된 원본 OCR JSON 불러오는 중...");
-
-    state.shift=(cache.shiftVision&&cache.shiftImageMeta)?buildOcrResult(
-      cache.shiftVision,
-      cache.shiftImageMeta
-    ):null;
-
-    state.patrol=buildOcrResult(
-      cache.patrolVision,
-      cache.patrolImageMeta
-    );
-
-    /*
-      파서 재분석은 API 호출 0회.
-      최신 파싱/매핑 로직만 즉시 검증한다.
-    */
-    await parseCurrentOcr("",{allowRetry:false});
-  }catch(error){
-    console.error(error);
-    setProgress("");
-    showError(error?.message||"파서 재분석 중 오류가 발생했습니다.");
-  }finally{
-    $("analyzeBtn").disabled=false;
-    updateCacheStatus(await cacheGet());
-  }
-});
-
-$("replacePhotosBtn").addEventListener("click",async()=>{
-  hideMessages();
-
-  await cacheClear();
-
-  cachedRawOcrReady=false;
-  selectedFiles.shift=null;
-  selectedFiles.patrol=null;
-  freshSelection.shift=false;
-  freshSelection.patrol=false;
-
-  $("shiftCamera").value="";
-  $("shiftFile").value="";
-  $("patrolCamera").value="";
-  $("patrolFile").value="";
-
-  if(shiftPreviewUrl){
-    URL.revokeObjectURL(shiftPreviewUrl);
-    shiftPreviewUrl=null;
-  }
-
-  if(patrolPreviewUrl){
-    URL.revokeObjectURL(patrolPreviewUrl);
-    patrolPreviewUrl=null;
-  }
-
-  $("shiftPreview").removeAttribute("src");
-  $("shiftPreview").style.display="none";
-  $("patrolPreview").removeAttribute("src");
-  $("patrolPreview").style.display="none";
-
-  $("shiftFileName").textContent="선택된 사진 없음";
-  $("patrolFileName").textContent="선택된 사진 없음";
+  clearSelectedPhoto("shift");
+  clearSelectedPhoto("patrol");
 
   state.shift=null;
   state.patrol=null;
@@ -616,20 +680,8 @@ $("replacePhotosBtn").addEventListener("click",async()=>{
   state.patrolCanvas=null;
   state.combinedJson=null;
 
-  $("resultSection").style.display="none";
-  $("equipmentSection").style.display="none";
-  $("specialSection").style.display="none";
-  $("extraSection").style.display="none";
-  $("reportSection").style.display="none";
-  $("debugSection").style.display="none";
-
-  updateCacheStatus();
-  showSuccess("저장된 테스트 사진과 OCR 캐시를 삭제했습니다. 새 사진을 선택해주세요.");
-});
-
-restoreTestCache().catch(error=>{
-  console.warn("테스트 캐시 복원 실패",error);
-  updateCacheStatus();
+  ["resultSection","equipmentSection","specialSection","extraSection","reportSection"].forEach(id=>$(id).style.display="none");
+  showSuccess("사진을 초기화했습니다.");
 });
 
 async function prepareImage(file){
@@ -1794,7 +1846,7 @@ async function retryWeakCells(apiKey){
 }
 
 function renderResults(){
-  ["resultSection","equipmentSection","specialSection","extraSection","reportSection","debugSection"].forEach(id=>$(id).style.display="block");const d=state.parsedDate;$("dateStat").textContent=d?pad2(d.month)+"/"+pad2(d.day):"미검출";$("equipmentStat").textContent=Object.values(state.equipmentNumbers).filter(Boolean).length;$("autoStat").textContent=calculateAutoFillRate()+"%";$("retryStat").textContent=state.retryCount;$("nameHint").textContent="근무자 이름은 수동 입력";$("shiftRawText").value=state.shift?.fullText||"";$("patrolRawText").value=state.patrol?.fullText||"";renderEquipmentTable();renderSpecial();updateReport();}
+  ["resultSection","equipmentSection","specialSection","extraSection","reportSection"].forEach(id=>$(id).style.display="block");$("debugSection").style.display="none";const d=state.parsedDate;$("dateStat").textContent=d?pad2(d.month)+"/"+pad2(d.day):"미검출";$("equipmentStat").textContent=Object.values(state.equipmentNumbers).filter(Boolean).length;$("autoStat").textContent=calculateAutoFillRate()+"%";$("retryStat").textContent=state.retryCount;$("nameHint").textContent="근무자 이름은 수동 입력";$("shiftRawText").value=state.shift?.fullText||"";$("patrolRawText").value=state.patrol?.fullText||"";renderEquipmentTable();renderSpecial();updateReport();}
 function renderEquipmentTable(){const tbody=$("equipmentBody");tbody.innerHTML="";rowRefs.clear();for(const eq of REPORT_ORDER){const num=state.equipmentNumbers[eq],pd=state.patrolData[eq]||{},tr=document.createElement("tr"),tdEq=document.createElement("td");tdEq.textContent=eq;const tdN=document.createElement("td"),numberInput=document.createElement("input");numberInput.className="miniInput numberInput";numberInput.value=num||"";numberInput.placeholder="#26-";tdN.appendChild(numberInput);const tdND=document.createElement("td");tdND.textContent=num?"검출":"미검출";tdND.className=num?"detected":"notDetected";const tdT=document.createElement("td"),tempInput=document.createElement("input");tempInput.className="miniInput tempInput";tempInput.type="number";tempInput.inputMode="numeric";tempInput.placeholder=eq==="TG1"?"수동":(pd.tempReview?"온도확인":"℃");tempInput.value=pd.temperature??"";tdT.appendChild(tempInput);const tdS=document.createElement("td"),statusSelect=document.createElement("select");statusSelect.className="miniSelect";["","승온중","유지중","냉각중"].forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v||"선택";statusSelect.appendChild(o);});statusSelect.value=pd.status||"";tdS.appendChild(statusSelect);const tdQ=document.createElement("td");if(eq==="TG1"){tdQ.textContent="수동";tdQ.className="manual";}else if(pd.tempReview||pd.statusReview){tdQ.textContent="확인필요";tdQ.className="review";}else if(pd.temperature!==null&&pd.status){tdQ.textContent="자동";tdQ.className="detected";}else{tdQ.textContent="확인";tdQ.className="review";}const tdR=document.createElement("td");tdR.textContent="제외";tdR.className="reportNo";[tdEq,tdN,tdND,tdT,tdS,tdQ,tdR].forEach(td=>tr.appendChild(td));tbody.appendChild(tr);rowRefs.set(eq,{numberInput,tempInput,statusSelect,qualityCell:tdQ,reportCell:tdR,source:pd});const handler=()=>{updateSingleRow(eq);updateReport();buildCombinedJson();};numberInput.addEventListener("input",handler);tempInput.addEventListener("input",handler);statusSelect.addEventListener("change",handler);updateSingleRow(eq);}}
 function renderSpecial(){const map=[["incinerator1","inc1","inc1Hint"],["incinerator3","inc3","inc3Hint"],["oldDryChamber","oldDry","dryHint"]];for(const [id,key,hid] of map){const d=state.special[key];$(id).value=d?.value??"";if(!d){$(hid).textContent="미검출";continue;}$(hid).textContent=d.tempReview?"확인필요":`OCR ${d.confidence??"-"}%${d.retryRaw?" · 재OCR":""}`;}}
 function calculateAutoFillRate(){let total=0,filled=0;for(const eq of REPORT_ORDER){if(eq==="TG1")continue;total+=3;if(state.equipmentNumbers[eq])filled++;const p=state.patrolData[eq];if(p?.temperature!==null)filled++;if(p?.status)filled++;}return total?Math.round(filled/total*100):0;}
@@ -1939,7 +1991,7 @@ function buildCombinedJson(){
   };
 }
 
-$("downloadJsonTxtBtn").addEventListener("click",()=>{buildCombinedJson();if(!state.combinedJson)return showError("먼저 OCR 분석을 해주세요.");const ds=state.parsedDate?`${state.parsedDate.year}${pad2(state.parsedDate.month)}${pad2(state.parsedDate.day)}`:"UNKNOWN";downloadTextFile(`DACC_OCR_V7_6_11_${ds}.txt`,JSON.stringify(state.combinedJson,null,2));});
+$("downloadJsonTxtBtn").addEventListener("click",()=>{buildCombinedJson();if(!state.combinedJson)return showError("먼저 OCR 분석을 해주세요.");const ds=state.parsedDate?`${state.parsedDate.year}${pad2(state.parsedDate.month)}${pad2(state.parsedDate.day)}`:"UNKNOWN";downloadTextFile(`DACC_OCR_V7_6_12_${ds}.txt`,JSON.stringify(state.combinedJson,null,2));});
 $("copyJsonBtn").addEventListener("click",()=>{
   buildCombinedJson();
 
