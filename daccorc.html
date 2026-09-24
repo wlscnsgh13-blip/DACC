@@ -16,7 +16,7 @@ body{min-height:100vh}button,input,textarea,select{font:inherit}button{-webkit-a
 .select,.input,.textarea{width:100%;border:1px solid #dfe4ee;background:#fff;border-radius:11px;color:#172033;font-weight:800;outline:none}.select,.input{height:44px;padding:0 12px}.textarea{padding:12px;line-height:1.65;resize:vertical}.select:focus,.input:focus,.textarea:focus{border-color:#7189ef}
 .formGrid,.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .uploadBox{margin-top:12px}.upload{border:1px dashed #a9b9f6;background:#f8faff;border-radius:16px;padding:18px 12px;text-align:center;display:block}.plus{width:42px;height:42px;margin:0 auto 8px;border-radius:50%;background:#edf1ff;color:#4f6fe8;display:grid;place-items:center;font-size:27px;font-weight:500}.upload b{font-size:15px}.upload small{display:block;color:#9aa3b4;margin-top:4px;line-height:1.5}
-.sourceButtons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.sourceBtn{min-height:42px;border:1px solid #dfe4ee;border-radius:11px;background:#fff;color:#536075;font-weight:900;display:flex;align-items:center;justify-content:center}.sourceBtnPrimary{background:#4f6fe8;color:#fff;border-color:#4f6fe8}.hiddenFile{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;overflow:hidden!important}
+.sourceButtons{display:flex;justify-content:center;margin-top:10px}.sourceBtn{min-height:42px;border:1px solid #dfe4ee;border-radius:11px;background:#fff;color:#536075;font-weight:900;display:flex;align-items:center;justify-content:center}.sourceBtnSolo{width:min(220px,72%)}.hiddenFile{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;overflow:hidden!important}
 .selectedFileName{margin-top:9px;color:#8b95a7;font-size:12px;min-height:18px;word-break:break-all}.preview{margin-top:10px;width:100%;max-height:220px;object-fit:contain;border-radius:14px;background:#eef1f6;display:none}
 .primary,.btnPrimary{width:100%;min-height:50px;border:0;border-radius:14px;background:#4f6fe8;color:#fff;font-size:15px;font-weight:900;padding:12px}.btn{border:1px solid #dfe4ee;min-height:44px;padding:0 14px;border-radius:11px;font-weight:900;color:#536075;background:#fff}.btnGreen{background:#4f6fe8;color:#fff;border-color:#4f6fe8}.btnDanger{background:#fff4f4;color:#c35050;border-color:#f1d4d4}.btnFull{width:100%}
 .actionCard .primaryAction{width:100%;min-height:52px;border:0;border-radius:14px;background:#4f6fe8;color:#fff;font-size:15px;font-weight:900}.secondaryActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.cacheStatus{margin-top:10px;padding:10px 12px;border-radius:10px;background:#f7f9fc;color:#69758a;font-size:11px;line-height:1.5}.cacheStatus strong{color:#4f6fe8}
@@ -39,26 +39,6 @@ body{min-height:100vh}button,input,textarea,select{font:inherit}button{-webkit-a
 .sourceBtn{cursor:pointer;border:1px solid #dfe4ee}
 #debugSection{display:none!important}
 .hiddenUi{display:none!important}
-.cameraModal{position:fixed;inset:0;z-index:9999;background:#000;display:none;flex-direction:column;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
-.cameraModal.show{display:flex}
-.cameraViewport{position:relative;flex:1;min-height:0;overflow:hidden;background:#000}
-.cameraVideo{width:100%;height:100%;object-fit:cover;display:block}
-.cameraShade{position:absolute;inset:0;background:rgba(0,0,0,.08);pointer-events:none}
-.cameraGuide{position:absolute;left:8%;right:8%;top:12%;bottom:17%;pointer-events:none}
-.cameraCorner{position:absolute;width:48px;height:48px;border-color:#ffd500;border-style:solid}
-.cameraCorner.tl{left:0;top:0;border-width:5px 0 0 5px;border-radius:12px 0 0 0}
-.cameraCorner.tr{right:0;top:0;border-width:5px 5px 0 0;border-radius:0 12px 0 0}
-.cameraCorner.bl{left:0;bottom:0;border-width:0 0 5px 5px;border-radius:0 0 0 12px}
-.cameraCorner.br{right:0;bottom:0;border-width:0 5px 5px 0;border-radius:0 0 12px 0}
-.cameraGuideText{position:absolute;left:50%;bottom:5.5%;transform:translateX(-50%);width:max-content;max-width:86%;padding:9px 13px;border-radius:999px;background:rgba(0,0,0,.56);color:#fff;font-size:13px;font-weight:800;text-align:center;pointer-events:none}
-.cameraTopBar{position:absolute;left:0;right:0;top:0;padding:calc(10px + env(safe-area-inset-top)) 14px 12px;display:flex;justify-content:flex-end;z-index:2;background:linear-gradient(to bottom,rgba(0,0,0,.55),transparent)}
-.cameraClose{width:42px;height:42px;border:0;border-radius:50%;background:rgba(0,0,0,.52);color:#fff;font-size:26px}
-.cameraControls{height:116px;display:flex;align-items:center;justify-content:center;gap:30px;background:#090909}
-.cameraCapture{width:72px;height:72px;border-radius:50%;border:5px solid #fff;background:transparent;position:relative}
-.cameraCapture:after{content:"";position:absolute;inset:6px;border-radius:50%;background:#fff}
-.cameraCancel{position:absolute;left:20px;border:0;background:transparent;color:#fff;font-weight:800;font-size:15px}
-.cameraHint{position:absolute;right:18px;color:#bfc4ce;font-size:12px}
-
 .helpLink{border:0;background:transparent;color:#4f6fe8;font-size:13px;font-weight:900;padding:4px 0;display:inline-flex;align-items:center;gap:3px}
 .helpLink:after{content:"›";font-size:20px;line-height:1;margin-top:-1px}
 .analysisProgress{display:none;margin-top:14px;padding:0 2px 2px}
@@ -130,8 +110,8 @@ body.helpOpen{overflow:hidden}
         <div id="patrolFileName" class="uploadFileBadge">선택된 사진 없음</div>
         <button id="removePatrolPhoto" type="button" class="photoRemove" aria-label="순찰일지 사진 삭제">×</button>
       </div>
-      <div class="sourceButtons"><button id="patrolCaptureBtn" type="button" class="sourceBtn sourceBtnPrimary">사진 촬영</button><button id="patrolSelectBtn" type="button" class="sourceBtn">사진 선택</button></div>
-      <input id="patrolCamera" class="hiddenFile" type="file" accept="image/*" capture="environment"><input id="patrolFile" class="hiddenFile" type="file" accept="image/*">
+      <div class="sourceButtons"><button id="patrolSelectBtn" type="button" class="sourceBtn sourceBtnSolo">사진 선택</button></div>
+      <input id="patrolFile" class="hiddenFile" type="file" accept="image/*">
     </div>
   </section>
 
@@ -144,8 +124,8 @@ body.helpOpen{overflow:hidden}
         <div id="shiftFileName" class="uploadFileBadge">선택된 사진 없음</div>
         <button id="removeShiftPhoto" type="button" class="photoRemove" aria-label="교대업무일지 사진 삭제">×</button>
       </div>
-      <div class="sourceButtons"><button id="shiftCaptureBtn" type="button" class="sourceBtn sourceBtnPrimary">사진 촬영</button><button id="shiftSelectBtn" type="button" class="sourceBtn">사진 선택</button></div>
-      <input id="shiftCamera" class="hiddenFile" type="file" accept="image/*" capture="environment"><input id="shiftFile" class="hiddenFile" type="file" accept="image/*">
+      <div class="sourceButtons"><button id="shiftSelectBtn" type="button" class="sourceBtn sourceBtnSolo">사진 선택</button></div>
+      <input id="shiftFile" class="hiddenFile" type="file" accept="image/*">
     </div>
   </section>
 
@@ -250,24 +230,8 @@ body.helpOpen{overflow:hidden}
   </section>
 </div>
 
-<div id="cameraModal" class="cameraModal" aria-hidden="true">
-  <div class="cameraViewport">
-    <video id="cameraVideo" class="cameraVideo" autoplay playsinline muted></video>
-    <div class="cameraShade"></div>
-    <div class="cameraTopBar"><button id="cameraClose" class="cameraClose" type="button" aria-label="카메라 닫기">×</button></div>
-    <div class="cameraGuide">
-      <span class="cameraCorner tl"></span><span class="cameraCorner tr"></span><span class="cameraCorner bl"></span><span class="cameraCorner br"></span>
-    </div>
-    <div class="cameraGuideText">문서가 노란 가이드 안에 들어오게 촬영</div>
-  </div>
-  <div class="cameraControls">
-    <button id="cameraCancel" class="cameraCancel" type="button">취소</button>
-    <button id="cameraCapture" class="cameraCapture" type="button" aria-label="사진 촬영"></button>
-    <div class="cameraHint">후면 카메라</div>
-  </div>
-</div>
 <script>
-const VERSION="DACC OCR TEST V7.6.13";
+const VERSION="DACC OCR TEST V7.6.14";
 const MAX_IMAGE_SIDE=2800;
 const JPEG_QUALITY=0.94;
 const MAX_RETRY_CELLS=24;
@@ -422,10 +386,8 @@ function clearSelectedPhoto(type){
   selectedFiles[type]=null;
   freshSelection[type]=false;
 
-  const nativeCamera=$(type+"Camera");
-  const album=$(type+"File");
-  if(nativeCamera)nativeCamera.value="";
-  if(album)album.value="";
+  const picker=$(type+"File");
+  if(picker)picker.value="";
 
   if(type==="shift"&&shiftPreviewUrl){URL.revokeObjectURL(shiftPreviewUrl);shiftPreviewUrl=null;}
   if(type==="patrol"&&patrolPreviewUrl){URL.revokeObjectURL(patrolPreviewUrl);patrolPreviewUrl=null;}
@@ -441,7 +403,7 @@ function bindImageSource(inputId,type){
   });
 }
 
-// 사진 선택은 별도 input으로 열어 앨범 선택 흐름과 촬영 흐름을 분리한다.
+// 기기 기본 이미지 선택창을 연다. iOS/Android가 카메라·사진 보관함 등의 항목을 제공한다.
 function openAlbumPicker(type){
   const input=$(type+"File");
   if(!input)return;
@@ -452,79 +414,6 @@ function openAlbumPicker(type){
   }catch(_){
     input.click();
   }
-}
-
-let cameraStream=null;
-let cameraTarget=null;
-
-function stopCamera(){
-  if(cameraStream){
-    for(const track of cameraStream.getTracks())track.stop();
-    cameraStream=null;
-  }
-  const video=$("cameraVideo");
-  if(video)video.srcObject=null;
-  $("cameraModal").classList.remove("show");
-  $("cameraModal").setAttribute("aria-hidden","true");
-  document.body.style.overflow="";
-  cameraTarget=null;
-}
-
-async function openCamera(type){
-  hideMessages();
-  cameraTarget=type;
-
-  if(!navigator.mediaDevices?.getUserMedia){
-    // 구형/제한 브라우저에서는 기존 capture input으로 안전하게 fallback.
-    const fallback=$(type+"Camera");
-    fallback.value="";
-    fallback.click();
-    return;
-  }
-
-  try{
-    cameraStream=await navigator.mediaDevices.getUserMedia({
-      audio:false,
-      video:{
-        facingMode:{ideal:"environment"},
-        width:{ideal:1920},
-        height:{ideal:2560}
-      }
-    });
-
-    const video=$("cameraVideo");
-    video.srcObject=cameraStream;
-    $("cameraModal").classList.add("show");
-    $("cameraModal").setAttribute("aria-hidden","false");
-    document.body.style.overflow="hidden";
-    await video.play();
-  }catch(error){
-    console.error("camera open failed",error);
-    stopCamera();
-    const fallback=$(type+"Camera");
-    fallback.value="";
-    fallback.click();
-  }
-}
-
-async function captureCameraPhoto(){
-  const type=cameraTarget;
-  const video=$("cameraVideo");
-  if(!type||!video?.videoWidth||!video?.videoHeight)return;
-
-  const canvas=document.createElement("canvas");
-  canvas.width=video.videoWidth;
-  canvas.height=video.videoHeight;
-  const ctx=canvas.getContext("2d",{alpha:false});
-  ctx.drawImage(video,0,0,canvas.width,canvas.height);
-
-  const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/jpeg",0.94));
-  if(!blob)return showError("촬영한 사진을 만들지 못했습니다.");
-
-  const stamp=new Date().toISOString().replace(/[:.]/g,"-");
-  const file=new File([blob],`DACC_${type}_${stamp}.jpg`,{type:"image/jpeg",lastModified:Date.now()});
-  stopCamera();
-  applySelectedImage(file,type);
 }
 
 function openHelp(){
@@ -547,21 +436,13 @@ $("helpBtn").addEventListener("click",openHelp);
 $("helpClose").addEventListener("click",closeHelp);
 $("helpBackdrop").addEventListener("click",event=>{if(event.target===$("helpBackdrop"))closeHelp();});
 
-bindImageSource("shiftCamera","shift");
 bindImageSource("shiftFile","shift");
-bindImageSource("patrolCamera","patrol");
 bindImageSource("patrolFile","patrol");
 
-$("patrolCaptureBtn").addEventListener("click",()=>openCamera("patrol"));
-$("shiftCaptureBtn").addEventListener("click",()=>openCamera("shift"));
 $("patrolSelectBtn").addEventListener("click",()=>openAlbumPicker("patrol"));
 $("shiftSelectBtn").addEventListener("click",()=>openAlbumPicker("shift"));
 $("removePatrolPhoto").addEventListener("click",event=>{event.stopPropagation();clearSelectedPhoto("patrol");});
 $("removeShiftPhoto").addEventListener("click",event=>{event.stopPropagation();clearSelectedPhoto("shift");});
-$("cameraClose").addEventListener("click",stopCamera);
-$("cameraCancel").addEventListener("click",stopCamera);
-$("cameraCapture").addEventListener("click",captureCameraPhoto);
-window.addEventListener("pagehide",stopCamera);
 
 async function parseCurrentOcr(apiKey,{allowRetry=true}={}){
   if(!state.patrol){
